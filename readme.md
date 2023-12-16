@@ -12,3 +12,10 @@
    npm i
    npm run dev
    ```
+
+## Generating ts from openapi spec
+
+```
+npx openapi-typescript https://api.weather.gov/openapi.json -o ./src/generated/schema.d.ts
+
+```
