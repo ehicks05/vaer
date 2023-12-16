@@ -2,10 +2,7 @@ import { Disclosure } from "@headlessui/react";
 import { HiOutlineBell, HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 import { Link, NavLink, useLocation } from "react-router-dom";
 
-const NAV_LINKS = [
-  { name: "Clock", href: "/" },
-  { name: "Timer", href: "/timer" },
-  { name: "Stopwatch", href: "/stopwatch" },
+const NAV_LINKS: { name: string;  href: string}[] = [
 ];
 
 const MobileMenuButton = ({ open }: { open: boolean }) => (
