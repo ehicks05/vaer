@@ -1,2 +1,1 @@
-export const BASE = "https://secure.geonames.org";
-export const SHARED_PARAMS = { username: 'ehicks05' };
+export const BASE = "https://api.weather.gov";
