@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  height: -webkit-fill-available;
+}
+body {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  color: #111;
+  background-color: #fefefe;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    color: #eee;
+    background-color: #111;
+  }
+}
+#root {
+  min-height: 100vh;
+}
+
+/* SCROLLBAR */
+body {
+  overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #555;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #777;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
