@@ -1,83 +1,49 @@
-import React from "react";
-import { Card } from "@/components";
-import { WiDayCloudy, WiDayRain, WiDaySnow, WiDaySunny, WiNightClear, WiNightCloudy, WiNightPartlyCloudy, WiNightRain } from "react-icons/wi";
-import { useGeolocation } from "@uidotdev/usehooks";
-import { useGetHourlyForecast, useGetPoint } from "@/services/weather";
-import { format, isAfter } from "date-fns";
-import { GrStatusPlaceholder } from "react-icons/gr";
+import React from 'react';
+import { shortSummaryToIcon } from './utils';
+import { useWeather } from './hooks';
+import { PreferredTempToggle, Temp } from './PreferredTemperature';
+import HourlyForecast from './HourlyForecast';
+import DailyForecast from './DailyForecast';
 
-const useWeather = () => {
-  const geolocation = useGeolocation();
-  const { latitude: lat, longitude: long } = geolocation;
+const CurrentConditions = () => {
+	const { pointQuery, stationLatestObservationQuery } = useWeather();
+	const currentConditions = stationLatestObservationQuery.data?.properties || {};
+	const { temperature, textDescription, icon } = currentConditions;
+	const { city, state } =
+		pointQuery.data?.properties.relativeLocation.properties || {};
+	const friendlyLocation = city && location ? `${city}, ${state}` : '';
 
-  const pointQuery = useGetPoint({
-    lat, long
-  });
+	const temp = Object.fromEntries(
+		Object.entries(currentConditions).filter(([k, v]) => v.value !== null),
+	);
 
-  const hourlyForecastQuery = useGetHourlyForecast({
-    url: pointQuery.data?.properties.forecastHourly
-  });
+	const Icon = shortSummaryToIcon({
+		shortForecast: textDescription || '',
+		isDay: !!icon?.includes('/day'),
+	});
 
-  return { geolocation, pointQuery, hourlyForecastQuery };
-}
-
-const getIcon = ({ shortForecast, isDay }: { shortForecast: string; isDay: boolean }) => {
-  if (shortForecast.includes('Sunny') || shortForecast.includes('Clear')) {
-    return isDay ? WiDaySunny : WiNightClear ;
-  }
-
-  if (shortForecast.includes('Cloud')) {
-    return isDay ? WiDayCloudy : WiNightCloudy;
-  }
-  if (shortForecast.includes('Rain') || shortForecast.includes('Drizzle')) {
-    return isDay ? WiDayRain : WiNightRain;
-  }
-
-  return GrStatusPlaceholder;
-}
-
-const HourlyForecast = () => {
-  const { hourlyForecastQuery } = useWeather();
-  const { periods } = hourlyForecastQuery.data?.properties || {};
-  return <div>
-    Hourly Forecast
-    <Card>
-      <div className="flex gap-4 max-w-screen-sm overflow-auto">
-
-        {periods?.filter(p => isAfter(new Date(p.endTime), new Date()))?.slice(0, 24).map(period =>
-        {
-          const Icon = getIcon({shortForecast: period.shortForecast, isDay: period.isDaytime});
-          return <div className="flex flex-col items-center text-center gap-1" key={period.startTime}>
-            <div>
-              {period.temperature || ''}&deg;
-            </div>
-            <div className="flex flex-col gap-1 items-center">
-              {Icon && <Icon size={24} />}
-            </div>
-            <div>
-              {format(new Date(period.startTime), 'h a')}
-            </div>
-            <div>
-              {period.shortForecast}
-            </div>
-          </div>}
-        )}
-      </div>
-    </Card>
-  </div>
-}
+	return (
+		<div className="flex flex-col items-center">
+			{friendlyLocation}
+			<div className="text-6xl">
+				<Temp temp={temperature?.value || 0} />
+				<PreferredTempToggle />
+				{/* <pre className="text-xs">{JSON.stringify({ temp }, null, 2)}</pre> */}
+			</div>
+			<Icon className="inline" size={64} />
+		</div>
+	);
+};
 
 export const Home = () => {
-  const {pointQuery } = useWeather();
-  const { city, state } = pointQuery.data?.properties.relativeLocation.properties || {};
-
-  return (
-    <div className="flex flex-col flex-grow items-center justify-center gap-4">
-      <div className="flex flex-col items-center">
-        {city}, {state}
-        <WiDaySnow size={32} />
-      </div>
-      <HourlyForecast />
-    </div>
-  );
-}
+	return (
+		<div className="flex flex-col flex-grow items-center justify-center gap-4">
+			<CurrentConditions />
+			<HourlyForecast />
+			<DailyForecast />
+			{/* <pre className="p-2 bg-neutral-700 whitespace-pre-wrap text-white text-xs">
+				{JSON.stringify(gridpointQuery.data?.properties.temperature, null, 2)}
+			</pre> */}
+		</div>
+	);
+};
