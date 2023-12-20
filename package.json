@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
+    "@tanstack/query-sync-storage-persister": "^5.14.2",
     "@tanstack/react-query": "^5.12.2",
+    "@tanstack/react-query-persist-client": "^5.14.2",
     "@uidotdev/usehooks": "^2.4.1",
     "clsx": "^2.0.0",
     "date-fns": "^2.30.0",
