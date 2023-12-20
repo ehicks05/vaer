@@ -28,5 +28,6 @@ export const useGetForecast = ({ url }: Params) => {
 		queryFn: async () => getForecast({ url }),
 		enabled: url !== null && url !== undefined,
 		staleTime: 1000 * 60 * 5,
+		refetchInterval: 1000 * 60 * 5,
 	});
 };
