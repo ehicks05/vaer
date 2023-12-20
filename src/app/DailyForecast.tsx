@@ -2,7 +2,7 @@ import React from 'react';
 import { Card } from '@/components';
 import { format, isToday } from 'date-fns';
 import { shortSummaryToIcon } from './utils';
-import { useWeather } from './hooks';
+import { useWeather } from './useWeatherApi';
 import { groupBy } from 'lodash';
 import { Temp } from './PreferredTemperature';
 

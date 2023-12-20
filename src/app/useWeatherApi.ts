@@ -6,11 +6,11 @@ import {
 	useGetStations,
 	useGetStationLatestObservation,
 } from '@/services/weather';
-import { useGeolocation } from '@uidotdev/usehooks';
+import { useCachedGeolocation } from './useCachedGeolocation';
 
 export const useWeather = () => {
-	const geolocation = useGeolocation();
-	const { latitude: lat, longitude: long } = geolocation;
+	const geolocation = useCachedGeolocation();
+	const { latitude: lat, longitude: long } = geolocation || {};
 
 	const pointQuery = useGetPoint({
 		lat,
