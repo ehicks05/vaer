@@ -1,6 +1,6 @@
 import React from 'react';
 import { shortSummaryToIcon } from './utils';
-import { useWeather } from './useWeatherApi';
+import { useWeather } from '@/hooks/useWeather';
 import { PreferredTempToggle, Temp } from './PreferredTemperature';
 import HourlyForecast from './HourlyForecast';
 import DailyForecast from './DailyForecast';

@@ -2,7 +2,7 @@ import React from 'react';
 import { Card } from '@/components';
 import { format, isAfter } from 'date-fns';
 import { shortSummaryToIcon } from './utils';
-import { useWeather } from './useWeatherApi';
+import { useWeather } from '@/hooks/useWeather';
 import { Temp } from './PreferredTemperature';
 
 interface OneHourSummaryProps {
