@@ -36,6 +36,9 @@ const OneHourSummary = ({
 	);
 };
 
+const scrollbarClasses =
+	'scrollbar-thin scrollbar-track-transparent scrollbar-thumb-transparent group-hover:scrollbar-thumb-slate-800 scrollbar-track-rounded-lg scrollbar-thumb-rounded-lg';
+
 const HourlyForecast = () => {
 	const { hourlyForecastQuery } = useWeather();
 	const { periods } = hourlyForecastQuery.data?.properties || {};
@@ -45,10 +48,12 @@ const HourlyForecast = () => {
 			?.slice(0, 24) || [];
 
 	return (
-		<div>
+		<div className="group">
 			Hourly Forecast
 			<Card>
-				<div className="flex gap-6 max-w-xs sm:max-w-lg md:max-w-screen-sm overflow-auto -m-4 p-4 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-800 scrollbar-corner-rounded-lg scrollbar-track-rounded-lg scrollbar-thumb-rounded-lg">
+				<div
+					className={`flex gap-6 max-w-xs sm:max-w-lg md:max-w-2xl overflow-auto p-4 pb-2 ${scrollbarClasses}`}
+				>
 					{filtered.map((period) => (
 						<OneHourSummary
 							key={period.startTime}

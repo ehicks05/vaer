@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card } from '@/components';
-import { format } from 'date-fns';
+import { format, isToday } from 'date-fns';
 import { shortSummaryToIcon } from './utils';
 import { useWeather } from './hooks';
 import { groupBy } from 'lodash';
@@ -22,16 +22,32 @@ const OneDaySummary = ({
 	const Icon = shortSummaryToIcon({ shortForecast: shortForecast, isDay: true });
 	const minTemperature = Math.min(t1, t2);
 	const maxTemperature = Math.max(t1, t2);
+
+	const day = isToday(new Date(startTime))
+		? 'Today'
+		: format(new Date(startTime), 'eee');
+
 	return (
-		<div className="flex flex-col items-center text-center gap-1" key={startTime}>
-			<div className="whitespace-nowrap">
-				<Temp temp={minTemperature} /> / <Temp temp={maxTemperature} />
+		<div>
+			<div className="flex items-center justify-between gap-1" key={startTime}>
+				<div className="flex gap-4 items-center">
+					<div className="flex flex-col gap-1 items-center">
+						<Icon size={32} />
+					</div>
+					<div className="whitespace-nowrap">
+						{day}
+						<div className="text-xs opacity-75">{shortForecast}</div>
+					</div>
+				</div>
+				<div className="whitespace-nowrap flex flex-col">
+					<span>
+						<Temp temp={maxTemperature} />
+					</span>
+					<span className="opacity-75">
+						<Temp temp={minTemperature} />
+					</span>
+				</div>
 			</div>
-			<div className="flex flex-col gap-1 items-center">
-				<Icon size={32} />
-			</div>
-			<div className="whitespace-nowrap">{format(new Date(startTime), 'eee')}</div>
-			<div className="text-xs">{shortForecast}</div>
 		</div>
 	);
 };
@@ -44,10 +60,10 @@ const DailyForecast = () => {
 	);
 
 	return (
-		<div>
+		<div className="max-w-xs sm:max-w-lg md:max-w-2xl w-full">
 			Daily Forecast
 			<Card>
-				<div className="flex gap-4 max-w-xs sm:max-w-lg md:max-w-screen-sm overflow-auto -m-4 p-4">
+				<div className="flex flex-col gap-4 w-full p-4">
 					{days.map((period) => {
 						const t1 = period[0].temperature;
 						const t2 =

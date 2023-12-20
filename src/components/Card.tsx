@@ -1,16 +1,14 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
 interface Props {
-  children: ReactNode | ReactNode[];
-  className?: string;
+	children: ReactNode | ReactNode[];
+	className?: string;
 }
 
+const gradient = 'bg-gradient-to-br from-violet-800 to-indigo-900';
+
 const Card = ({ children, className }: Props) => (
-  <div
-    className={`flex flex-col gap-4 items-center p-4 m-4 max-w-screen-md w-full mx-auto rounded-lg bg-gradient-to-br from-violet-800 to-indigo-900 ${className}`}
-  >
-    {children}
-  </div>
+	<div className={`rounded-lg ${gradient} ${className}`}>{children}</div>
 );
 
 export default Card;
