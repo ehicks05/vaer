@@ -5,27 +5,25 @@ interface Params {
 	url?: string | null;
 }
 
-const getHourlyForecast = async ({ url }: Params) => {
+const getGridpoint = async ({ url }: Params) => {
 	if (url === null || url === undefined) {
 		throw new Error('Missing url');
 	}
 
-	const response = await fetch(url, {
-		headers: { 'Feature-Flags': 'forecast_temperature_qv' },
-	});
+	const response = await fetch(url);
 	if (!response.ok) {
 		throw new Error('Network response was not ok');
 	}
 
-	const result: operations['gridpoint_forecast_hourly']['responses']['200']['content']['application/geo+json'] =
+	const result: operations['gridpoint']['responses']['200']['content']['application/geo+json'] =
 		await response.json();
 	return result;
 };
 
-export const useGetHourlyForecast = ({ url }: Params) => {
+export const useGetGridpoint = ({ url }: Params) => {
 	return useQuery({
-		queryKey: ['hourlyForecast', url],
-		queryFn: async () => getHourlyForecast({ url }),
+		queryKey: ['gridpoint', url],
+		queryFn: async () => getGridpoint({ url }),
 		enabled: url !== null && url !== undefined,
 		staleTime: 1000 * 60 * 5,
 	});
