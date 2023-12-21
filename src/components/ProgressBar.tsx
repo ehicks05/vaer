@@ -16,31 +16,33 @@ interface Props {
 }
 
 const ProgressBar = (props: Props) => {
-	let {
+	const {
 		size = 150,
 		progress = 0,
 		trackWidth = 10,
-		trackColor = `#ddd`,
+		trackColor = '#ddd',
 		indicatorWidth = 10,
-		indicatorColor = `#07c`,
-		indicatorCap = `round`,
-		label = `Loading...`,
-		labelColor = `#eee`,
+		indicatorColor = '#07c',
+		indicatorCap = 'round',
+		label = 'Loading...',
+		labelColor = '#eee',
 		spinnerMode = false,
 		spinnerSpeed = 1,
 	} = props;
 
-	const center = size / 2,
-		radius = center - (trackWidth > indicatorWidth ? trackWidth : indicatorWidth),
-		dashArray = 2 * Math.PI * radius,
-		dashOffset = dashArray * ((100 - progress) / 100);
+	const center = size / 2;
+	const radius =
+		center - (trackWidth > indicatorWidth ? trackWidth : indicatorWidth);
+	const dashArray = 2 * Math.PI * radius;
+	const dashOffset = dashArray * ((100 - progress) / 100);
 
-	let hideLabel = size < 100 || !label.length || spinnerMode ? true : false;
+	const hideLabel = size < 100 || !label.length || spinnerMode ? true : false;
 
 	return (
 		<>
 			<div className="svg-pi-wrapper" style={{ width: size, height: size }}>
 				<svg className="svg-pi" style={{ width: size, height: size }}>
+					<title>progress bar</title>
 					<circle
 						className="svg-pi-track"
 						cx={center}
@@ -54,7 +56,7 @@ const ProgressBar = (props: Props) => {
 						className={`svg-pi-indicator ${
 							spinnerMode ? 'svg-pi-indicator--spinner' : ''
 						}`}
-						style={{ animationDuration: spinnerSpeed * 1000 }}
+						style={{ animationDuration: `${spinnerSpeed * 1000}ms` }}
 						cx={center}
 						cy={center}
 						fill="transparent"

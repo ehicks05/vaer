@@ -10,6 +10,7 @@ interface Props {
 
 const Button = ({ className, disabled, onClick, children }: Props) => (
 	<button
+		type="button"
 		disabled={disabled}
 		onClick={onClick}
 		className={clsx(
