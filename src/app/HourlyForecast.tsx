@@ -2,36 +2,29 @@ import React from 'react';
 import { Card } from '@/components';
 import { format, isAfter } from 'date-fns';
 import { shortSummaryToIcon } from './utils';
-import { useWeather } from '@/hooks/useWeather';
 import { Temp } from './PreferredTemperature';
+import { useOpenWeatherMap } from '@/hooks';
+import { WeatherCondition } from '@/services/openweathermap/types';
+import { getWeatherIcon } from './weather_icons';
 
 interface OneHourSummaryProps {
-	shortForecast?: string;
-	isDaytime?: boolean;
-	startTime?: string;
-	temperature?: number;
+	weather: WeatherCondition;
+	dt: number;
+	temp: number;
 }
 
-const OneHourSummary = ({
-	shortForecast = '',
-	isDaytime = true,
-	startTime = '',
-	temperature = 0,
-}: OneHourSummaryProps) => {
-	const Icon = shortSummaryToIcon({
-		shortForecast: shortForecast,
-		isDay: isDaytime,
-	});
+const OneHourSummary = ({ weather, dt, temp }: OneHourSummaryProps) => {
+	const Icon = getWeatherIcon(weather.id, weather.icon);
 	return (
-		<div className="flex flex-col items-center text-center gap-1" key={startTime}>
+		<div className="flex flex-col items-center text-center gap-1" key={dt}>
 			<div>
-				<Temp temp={temperature} />
+				<Temp temp={temp} />
 			</div>
 			<div className="flex flex-col gap-1 items-center">
 				<Icon size={32} />
 			</div>
-			<div className="whitespace-nowrap">{format(new Date(startTime), 'h a')}</div>
-			<div className="text-xs">{shortForecast}</div>
+			<div className="whitespace-nowrap">{format(new Date(dt), 'h a')}</div>
+			<div className="text-xs">{weather.description}</div>
 		</div>
 	);
 };
@@ -40,12 +33,15 @@ const scrollbarClasses =
 	'scrollbar-thin scrollbar-track-transparent scrollbar-thumb-transparent group-hover:scrollbar-thumb-slate-800 scrollbar-track-rounded-lg scrollbar-thumb-rounded-lg';
 
 const HourlyForecast = () => {
-	const { hourlyForecastQuery } = useWeather();
-	const { periods } = hourlyForecastQuery.data?.properties || {};
-	const filtered =
-		periods
-			?.filter((p) => isAfter(new Date(p?.endTime || 0), new Date()))
-			?.slice(0, 24) || [];
+	const { oneCallQuery } = useOpenWeatherMap();
+	if (!oneCallQuery.data) {
+		return <div>loading</div>;
+	}
+	const hourlyForecasts =
+		oneCallQuery.data.hourly
+			.map((o) => ({ ...o, dt: o.dt * 1000 }))
+			.filter((o) => isAfter(new Date(o.dt), new Date()))
+			.slice(0, 24) || [];
 
 	return (
 		<div className="group">
@@ -54,17 +50,12 @@ const HourlyForecast = () => {
 				<div
 					className={`flex gap-6 max-w-xs sm:max-w-lg md:max-w-2xl overflow-auto p-4 pb-2 ${scrollbarClasses}`}
 				>
-					{filtered.map((period) => (
+					{hourlyForecasts.map((hourly) => (
 						<OneHourSummary
-							key={period.startTime}
-							shortForecast={period.shortForecast}
-							isDaytime={period.isDaytime}
-							startTime={period.startTime}
-							temperature={
-								typeof period.temperature === 'number'
-									? period.temperature
-									: period.temperature?.value || undefined
-							}
+							key={hourly.dt}
+							weather={hourly.weather[0]}
+							dt={hourly.dt}
+							temp={hourly.temp}
 						/>
 					))}
 				</div>
