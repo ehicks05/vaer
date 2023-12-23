@@ -5,7 +5,7 @@ import {
 	useGetGridpoint,
 	useGetStations,
 	useGetStationLatestObservation,
-} from '@/services/weather';
+} from '@/services/weathergov';
 import { useCachedGeolocation } from './useCachedGeolocation';
 
 export const useWeather = () => {
