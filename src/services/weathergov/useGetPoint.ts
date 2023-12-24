@@ -31,6 +31,6 @@ export const useGetPoint = ({ lat, long }: Params) => {
 		queryFn: async () => getPoint({ lat, long }),
 		enabled:
 			lat !== null && lat !== undefined && long !== null && long !== undefined,
-		staleTime: 1000 * 60 * 60,
+		staleTime: 1000 * 60 * 60 * 24,
 	});
 };

@@ -22,14 +22,7 @@ npx openapi-typescript https://api.weather.gov/openapi.json -o ./src/generated/s
 
 ## todo
 
-figure out best way to use generated types, or stick with manually written types
+* what format do owm's icons come in? svg? can we customize colors? do they look ok with our color scheme?
+* what does daily summary look like vs weather[0].description?
 
 ## sample weather.gov endpoints
-
-https://api.weather.gov/gridpoints/PHI/66,106
-
-https://api.weather.gov/gridpoints/PHI/66,106/forecast/hourly
-
-https://api.weather.gov/gridpoints/PHI/66,106
-
-https://api.weather.gov/gridpoints/PHI/66,106/forecast
