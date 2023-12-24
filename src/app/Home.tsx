@@ -1,10 +1,11 @@
 import React from 'react';
-import { shortSummaryToIcon } from './utils';
 import { PreferredTempToggle, Temp } from './PreferredTemperature';
 import HourlyForecast from './HourlyForecast';
 import DailyForecast from './DailyForecast';
 import { useOpenWeatherMap, useWeatherGov } from '@/hooks';
 import { getWeatherIcon } from './weather_icons';
+import { Card } from '@/components';
+import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
 const CurrentConditions = () => {
 	const { oneCallQuery } = useOpenWeatherMap();
@@ -42,6 +43,10 @@ const CurrentConditions = () => {
 export const Home = () => {
 	return (
 		<div className="flex flex-col flex-grow items-center justify-center gap-4">
+			<Card className="p-4 w-full flex gap-4 items-center">
+				<HiOutlineExclamationCircle />
+				Down for maintenance
+			</Card>
 			<CurrentConditions />
 			<HourlyForecast />
 			<DailyForecast />
