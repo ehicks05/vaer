@@ -7,14 +7,19 @@ import {
 	useGetStationLatestObservation,
 } from '@/services/weathergov';
 import { useCachedGeolocation } from './useCachedGeolocation';
+import { round } from 'lodash';
 
 export const useWeatherGov = () => {
 	const geolocation = useCachedGeolocation();
-	const { latitude: lat, longitude: long } = geolocation || {};
+	const { latitude, longitude } = geolocation || {};
 
 	const pointQuery = useGetPoint({
-		lat,
-		long,
+		lat:
+			latitude !== null && latitude !== undefined ? round(latitude, 4) : undefined,
+		long:
+			longitude !== null && longitude !== undefined
+				? round(longitude, 4)
+				: undefined,
 	});
 
 	// const forecastQuery = useGetForecast({
