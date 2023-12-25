@@ -6,7 +6,7 @@ export const theme = {
 		sans: ['Fredoka', ...fontFamily.sans],
 		mono: fontFamily.mono,
 	},
-  darkMode: 'class',	extend: {
+  extend: {
 		colors: {
 			'caribbean-green': {
 				50: '#f3fefa',
