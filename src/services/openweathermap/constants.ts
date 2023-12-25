@@ -1,2 +1,2 @@
-export const BASE = 'https://api.openweathermap.org/data';
+export const BASE = 'https://vaer-api.vercel.app';
 export const APP_KEY = '';

@@ -20,7 +20,7 @@ const getOneCall = async ({ lat, long }: Params) => {
 		lon: String(round(long, 4)),
 	});
 
-	const url = `${BASE}/3.0/onecall?${params}`;
+	const url = `${BASE}/api/data/3.0/onecall?${params}`;
 
 	const response = await fetch(url);
 	if (!response.ok) {
