@@ -47,9 +47,7 @@ const HourlyForecast = () => {
 		<div className="group">
 			Hourly Forecast
 			<Card>
-				<div
-					className={`flex gap-6 max-w-xs sm:max-w-lg md:max-w-2xl overflow-auto p-4 pb-2 ${scrollbarClasses}`}
-				>
+				<div className={`flex gap-6 overflow-auto p-4 pb-2 ${scrollbarClasses}`}>
 					{hourlyForecasts.map((hourly) => (
 						<OneHourSummary
 							key={hourly.dt}

@@ -52,7 +52,7 @@ const DailyForecast = () => {
 	const { daily: dailies } = oneCallQuery.data;
 
 	return (
-		<div className="max-w-xs sm:max-w-lg md:max-w-2xl w-full">
+		<div className="w-full">
 			Daily Forecast
 			<Card>
 				<div className="flex flex-col gap-4 w-full p-4">

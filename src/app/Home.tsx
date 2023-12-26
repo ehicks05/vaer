@@ -5,7 +5,7 @@ import DailyForecast from './DailyForecast';
 import { useOpenWeatherMap, useWeatherGov } from '@/hooks';
 import { getWeatherIcon } from './weather_icons';
 import { Card } from '@/components';
-import { WiDirectionUp, WiSunrise, WiSunset } from 'react-icons/wi';
+import { WiDirectionUp, WiHumidity, WiSunrise, WiSunset } from 'react-icons/wi';
 import { format } from 'date-fns';
 
 const CurrentConditions = () => {
@@ -29,25 +29,25 @@ const CurrentConditions = () => {
 	const Icon = getWeatherIcon(id, icon);
 
 	return (
-		<div className="flex flex-col items-center">
+		<div className="flex flex-col items-center p-4 bg-slate-800 rounded-lg">
 			{friendlyLocation}
-			<div className="text-6xl text-center">
+			<div className="flex gap-2 items-center text-6xl text-center">
+				<div>
+					<Icon className="inline" size={64} title={description} />
+				</div>
 				<Temp temp={temp} />
 				<PreferredTempToggle />
-				<pre className="mt-2 text-sm">
-					Feels like <Temp temp={feels_like} />
-				</pre>
 			</div>
-			<Icon className="inline" size={64} title={description} />
+			Feels like <Temp temp={feels_like} />
 		</div>
 	);
 };
 
 const degreeToDirection = (degree: number) => {
 	const DIRECTIONS = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
-	const index = Math.round(degree / 45) % DIRECTIONS.length; 
+	const index = Math.round(degree / 45) % DIRECTIONS.length;
 	return DIRECTIONS[index];
-}
+};
 
 const Wind = () => {
 	const { oneCallQuery } = useOpenWeatherMap();
@@ -62,57 +62,105 @@ const Wind = () => {
 	} = oneCallQuery.data;
 
 	return (
-    <div className="max-w-xs sm:max-w-lg md:max-w-2xl w-full">
-      Wind
-      <Card>
-        <div className="flex flex-col gap-4 w-full p-4">
-          <WiDirectionUp size={32} style={{ transform: `rotate(${wind_deg}deg)` }} />
-          <div>
-            {wind_speed} mph {degreeToDirection(wind_deg)}
-          </div>
-        </div>
-      </Card>
-    </div>
-  );
+		<div>
+			Wind
+			<Card>
+				<div className="flex items-center gap-2 w-full p-4">
+					<WiDirectionUp
+						size={32}
+						title={`${wind_deg}\u00B0`}
+						style={{ transform: `rotate(${wind_deg}deg)` }}
+					/>
+					<div>
+						{Math.round(wind_speed)} mph {degreeToDirection(wind_deg)}
+					</div>
+				</div>
+			</Card>
+		</div>
+	);
+};
+
+const Humidity = () => {
+	const { oneCallQuery } = useOpenWeatherMap();
+	const { data } = oneCallQuery;
+
+	if (!data) {
+		return <div>loading</div>;
+	}
+
+	const {
+		current: { humidity },
+	} = oneCallQuery.data;
+
+	return (
+		<div>
+			Humidity
+			<Card>
+				<div className="flex items-center gap-2 w-full p-4">
+					<WiHumidity size={32} />
+					<div>{Math.round(humidity)}</div>
+				</div>
+			</Card>
+		</div>
+	);
 };
 
 const SunriseSunset = () => {
-  const { oneCallQuery } = useOpenWeatherMap();
-  const { data } = oneCallQuery;
+	const { oneCallQuery } = useOpenWeatherMap();
+	const { data } = oneCallQuery;
 
-  if (!data) {
-    return <div>loading</div>;
-  }
+	if (!data) {
+		return <div>loading</div>;
+	}
 
-  const {
-   sunrise, sunset,
-  } = oneCallQuery.data.daily[0];
+	const { sunrise, sunset } = oneCallQuery.data.daily[0];
 
-  return (
-    <div className="max-w-xs sm:max-w-lg md:max-w-2xl w-full">
-      Sunrise(set)
-      <Card>
-        <div className="flex flex-col gap-4 w-full p-4">
-          <WiSunrise size={32}/>
-          <div>{format(sunrise * 1000, "h:mm a")}</div>
-        </div>
-        <div className="flex flex-col gap-4 w-full p-4">
-          <WiSunset size={32}/>
-          <div>{format(sunset * 1000, "h:mm a")}</div>
-        </div>
-      </Card>
-    </div>
-  );
+	return (
+		<div className="">
+			Sunrise / Sunset
+			<Card>
+				<div className="flex flex-col gap-2 p-4">
+					<div className="flex items-center gap-2 w-full">
+						<WiSunrise size={32} />
+						<div>{format(sunrise * 1000, 'h:mm a')}</div>
+					</div>
+					<div className="flex items-center gap-2 w-full">
+						<WiSunset size={32} />
+						<div>{format(sunset * 1000, 'h:mm a')}</div>
+					</div>
+				</div>
+			</Card>
+		</div>
+	);
 };
 
 export const Home = () => {
 	return (
-		<div className="flex flex-col flex-grow items-center justify-center gap-4">
-			<CurrentConditions />
-			<HourlyForecast />
-			<DailyForecast />
-			<Wind />
-			<SunriseSunset />
+		<div className="p-2 max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-start justify-center gap-4">
+			{/* <div className="col-span-full h-full">
+				<CurrentConditions />
+			</div> */}
+			<div className="h-full">
+				<DailyForecast />
+			</div>
+			<div className="grid grid-cols-2 gap-4">
+				<div className="col-span-2">
+					Currently
+					<CurrentConditions />
+				</div>
+				<div className="col-span-2">
+					<HourlyForecast />
+				</div>
+				<div className="col-span-1 h-full">
+					<Wind />
+				</div>
+				<div className="col-span-1 h-full">
+					<SunriseSunset />
+				</div>
+				<div className="col-span-1 h-full">
+					<Humidity />
+				</div>
+			</div>
 		</div>
 	);
 };
