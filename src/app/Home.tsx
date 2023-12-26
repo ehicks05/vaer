@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { PreferredTempToggle, Temp } from './PreferredTemperature';
 import HourlyForecast from './HourlyForecast';
 import DailyForecast from './DailyForecast';
@@ -135,13 +135,15 @@ const SunriseSunset = () => {
 };
 
 export const Home = () => {
+	const [selectedDate, setSelectedDate] = useState<number | undefined>();
+
 	return (
 		<div className="p-2 max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-start justify-center gap-4">
-			{/* <div className="col-span-full h-full">
-				<CurrentConditions />
-			</div> */}
 			<div className="h-full">
-				<DailyForecast />
+				<DailyForecast
+					selectedDate={selectedDate}
+					setSelectedDate={(dt: number) => setSelectedDate(dt)}
+				/>
 			</div>
 			<div className="grid grid-cols-2 gap-4">
 				<div className="col-span-2">

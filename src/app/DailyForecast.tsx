@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card } from '@/components';
 import { format, isToday } from 'date-fns';
 import { Temp } from './PreferredTemperature';
@@ -11,15 +11,30 @@ interface OneDaySummaryProps {
 	dt: number;
 	min: number;
 	max: number;
+	onClick: () => void;
+	isSelected: boolean;
 }
 
-const OneDaySummary = ({ weather, dt, min, max }: OneDaySummaryProps) => {
+const OneDaySummary = ({
+	weather,
+	dt,
+	min,
+	max,
+	onClick,
+	isSelected,
+}: OneDaySummaryProps) => {
 	const Icon = getWeatherIcon(weather.id, weather.icon);
 
 	const day = isToday(new Date(dt)) ? 'Today' : format(new Date(dt), 'eee');
 
 	return (
-		<div>
+		<div
+			onClick={onClick}
+			onKeyUp={onClick}
+			className={`px-4 py-2 first:pt-4 last:pb-4 cursor-pointer rounded-lg ${
+				isSelected ? 'bg-slate-800' : 'hover:brightness-110'
+			}`}
+		>
 			<div className="flex items-center justify-between gap-1">
 				<div className="flex gap-4 items-center">
 					<div className="flex flex-col gap-1 items-center">
@@ -43,7 +58,10 @@ const OneDaySummary = ({ weather, dt, min, max }: OneDaySummaryProps) => {
 	);
 };
 
-const DailyForecast = () => {
+const DailyForecast = ({
+	selectedDate,
+	setSelectedDate,
+}: { selectedDate?: number; setSelectedDate: (dt: number) => void }) => {
 	const { oneCallQuery } = useOpenWeatherMap();
 	if (!oneCallQuery.data) {
 		return <div>loading</div>;
@@ -54,7 +72,7 @@ const DailyForecast = () => {
 		<div className="w-full">
 			Daily Forecast
 			<Card>
-				<div className="flex flex-col gap-4 w-full p-4">
+				<div className="flex flex-col w-full">
 					{dailies
 						.map((o) => ({ ...o, dt: o.dt * 1000 }))
 						.map((daily) => {
@@ -67,6 +85,8 @@ const DailyForecast = () => {
 									dt={daily.dt}
 									min={min}
 									max={max}
+									onClick={() => setSelectedDate(daily.dt)}
+									isSelected={daily.dt === selectedDate}
 								/>
 							);
 						})}

@@ -25,8 +25,8 @@ export interface Current {
 	wind_speed: number;
 	wind_deg: number;
 	wind_gust?: number;
-	rain?: { '1h': number };
-	snow?: { '1h': number };
+	rain?: Magnitude;
+	snow?: Magnitude;
 	weather: WeatherCondition[];
 }
 
@@ -56,9 +56,13 @@ export interface Hourly {
 	wind_deg: number;
 	wind_gust?: number;
 	pop: number;
-	rain?: { '1h': number };
-	snow?: { '1h': number };
+	rain?: Magnitude;
+	snow?: Magnitude;
 	weather: WeatherCondition[];
+}
+
+export interface Magnitude {
+	'1h': number;
 }
 
 export interface Daily {
