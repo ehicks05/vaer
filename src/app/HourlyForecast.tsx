@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card } from '@/components';
 import { format, isAfter } from 'date-fns';
-import { shortSummaryToIcon } from './utils';
 import { Temp } from './PreferredTemperature';
 import { useOpenWeatherMap } from '@/hooks';
 import { WeatherCondition } from '@/services/openweathermap/types';
