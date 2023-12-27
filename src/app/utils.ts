@@ -3,3 +3,5 @@ export const degreeToDirection = (degree: number) => {
 	const index = Math.round(degree / 45) % DIRECTIONS.length;
 	return DIRECTIONS[index];
 };
+
+export const hPaToInHg = (hpa: number) => 0.02952998057228486 * hpa;

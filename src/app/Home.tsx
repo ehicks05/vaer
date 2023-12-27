@@ -14,7 +14,7 @@ import {
 } from 'react-icons/wi';
 import { MdOutlineVisibility } from 'react-icons/md';
 import { format } from 'date-fns';
-import { degreeToDirection } from './utils';
+import { degreeToDirection, hPaToInHg } from './utils';
 import { round } from 'lodash';
 
 const CurrentConditions = () => {
@@ -109,8 +109,6 @@ const Humidity = () => {
 	);
 };
 
-const hPaToInchesOfMercury = (hpa: number) => 0.02952998057228486 * hpa;
-
 const getPressureDescription = (inHg: number) => {
 	if (inHg < 29.8) return 'Low';
 	if (inHg > 30.2) return 'High';
@@ -128,7 +126,7 @@ const Pressure = () => {
 	const {
 		current: { pressure },
 	} = oneCallQuery.data;
-	const inHg = hPaToInchesOfMercury(pressure);
+	const inHg = hPaToInHg(pressure);
 	const description = getPressureDescription(inHg);
 
 	return (

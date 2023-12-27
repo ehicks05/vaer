@@ -6,7 +6,7 @@ import { useOpenWeatherMap } from '@/hooks';
 import { WeatherCondition } from '@/services/openweathermap/types/oneCall';
 import { getWeatherIcon } from './weather_icons';
 import { WiDirectionUp } from 'react-icons/wi';
-import { degreeToDirection } from './utils';
+import { degreeToDirection, hPaToInHg } from './utils';
 import { round } from 'lodash';
 
 interface OneHourSummaryProps {
@@ -83,10 +83,24 @@ const OneHourHumidity = ({ dt, amount }: OneHourHumidityProps) => {
 	);
 };
 
+interface OneHourPressureProps {
+	dt: number;
+	inHg: number;
+}
+
+const OneHourPressure = ({ dt, inHg }: OneHourPressureProps) => {
+	return (
+		<div className="flex flex-col items-center text-center gap-1" key={dt}>
+			<div className="whitespace-nowrap">{`${round(inHg, 2)}`}</div>
+			<div className="whitespace-nowrap">{format(new Date(dt), 'h a')}</div>
+		</div>
+	);
+};
+
 const scrollbarClasses =
 	'scrollbar-thin scrollbar-track-transparent scrollbar-thumb-transparent group-hover:scrollbar-thumb-slate-800 scrollbar-track-rounded-lg scrollbar-thumb-rounded-lg';
 
-const MORE_INFO_OPTIONS = ['precipitation', 'humidity', 'wind'] as const;
+const MORE_INFO_OPTIONS = ['precipitation', 'humidity', 'wind', 'pressure'] as const;
 type MoreInfo = (typeof MORE_INFO_OPTIONS)[number];
 
 const toTitleCase = (input: string) => input[0].toLocaleUpperCase() + input.slice(1);
@@ -161,6 +175,13 @@ const HourlyForecast = () => {
 										dt={hourly.dt}
 										wind_deg={hourly.wind_deg}
 										wind_speed={hourly.wind_speed}
+									/>
+								)}
+								{selectedAdditionalInfo === 'pressure' && (
+									<OneHourPressure
+										key={hourly.dt}
+										dt={hourly.dt}
+										inHg={hPaToInHg(hourly.pressure)}
 									/>
 								)}
 							</>
