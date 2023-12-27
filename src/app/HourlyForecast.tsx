@@ -3,7 +3,7 @@ import { Card } from '@/components';
 import { format, isAfter } from 'date-fns';
 import { Temp } from './PreferredTemperature';
 import { useOpenWeatherMap } from '@/hooks';
-import { WeatherCondition } from '@/services/openweathermap/types';
+import { WeatherCondition } from '@/services/openweathermap/types/oneCall';
 import { getWeatherIcon } from './weather_icons';
 import { WiDirectionUp } from 'react-icons/wi';
 import { degreeToDirection } from './utils';

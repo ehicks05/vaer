@@ -12,6 +12,7 @@ import {
 	WiSunrise,
 	WiSunset,
 } from 'react-icons/wi';
+import { MdOutlineVisibility } from 'react-icons/md';
 import { format } from 'date-fns';
 import { degreeToDirection } from './utils';
 
@@ -132,6 +133,66 @@ const Pressure = () => {
 	);
 };
 
+const Visibility = () => {
+	const { oneCallQuery } = useOpenWeatherMap();
+	const { data } = oneCallQuery;
+
+	if (!data) {
+		return <div>loading</div>;
+	}
+
+	const {
+		current: { visibility },
+	} = oneCallQuery.data;
+
+	return (
+		<div>
+			Visibility
+			<Card>
+				<div className="flex items-center gap-2 w-full p-4">
+					<MdOutlineVisibility size={24} />
+					<div>{Math.round(visibility)} meters</div>
+				</div>
+			</Card>
+		</div>
+	);
+};
+
+const AQI_DISPLAY_NAMES: Record<number, string> = {
+	1: 'Good',
+	2: 'Fair',
+	3: 'Moderate',
+	4: 'Poor',
+	5: 'Very Poor',
+};
+
+const AirPollution = () => {
+	const { airPollutionQuery } = useOpenWeatherMap();
+	const { data } = airPollutionQuery;
+
+	if (!data) {
+		return <div>loading</div>;
+	}
+
+	const {
+		current: { list },
+	} = airPollutionQuery.data;
+	const { aqi } = list[0].main;
+
+	return (
+		<div>
+			Air Quality
+			<Card>
+				<div className="flex items-center gap-2 w-full p-4">
+					<div>
+						{aqi}: {AQI_DISPLAY_NAMES[aqi]}
+					</div>
+				</div>
+			</Card>
+		</div>
+	);
+};
+
 const SunriseSunset = () => {
 	const { oneCallQuery } = useOpenWeatherMap();
 	const { data } = oneCallQuery;
@@ -199,6 +260,12 @@ export const Home = () => {
 				</div>
 				<div className="col-span-1 h-full">
 					<Pressure />
+				</div>
+				<div className="col-span-1 h-full">
+					<Visibility />
+				</div>
+				<div className="col-span-1 h-full">
+					<AirPollution />
 				</div>
 			</div>
 		</div>
