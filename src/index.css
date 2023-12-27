@@ -10,14 +10,7 @@ body {
   min-height: 100vh;
   min-height: -webkit-fill-available;
   color: #eee;
-  background-color: #fefefe;
-}
-
-@media (prefers-color-scheme: dark) {
-  body {
-    color: #eee;
-    background-color: #111;
-  }
+  background-color: #111;
 }
 
 #root {

@@ -4,7 +4,7 @@ import HourlyForecast from './HourlyForecast';
 import DailyForecast from './DailyForecast';
 import { useOpenWeatherMap, useWeatherGov } from '@/hooks';
 import { getWeatherIcon } from './weather_icons';
-import { Card } from '@/components';
+import { Card, Dialog } from '@/components';
 import {
 	WiBarometer,
 	WiDirectionUp,
@@ -235,6 +235,32 @@ const SunriseSunset = () => {
 	);
 };
 
+const SearchButton = () => {
+	const [isOpen, setIsOpen] = useState(false);
+
+	return (
+		<button
+			type="button"
+			onClick={() => setIsOpen(true)}
+			className="px-0.5 py-0.5 rounded-lg border border-neutral-800 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 transition-all"
+		>
+			<div className="flex gap-16 items-baseline">
+				<div className="ml-2">Location...</div>
+				<div className="flex items-center gap-0.5 bg-neutral-800 px-2 m-0.5 rounded text-xs">
+					<span className="text-base">⌘</span>
+					<span>K</span>
+				</div>
+			</div>
+			<Dialog isOpen={isOpen} onClose={() => setIsOpen(false)}>
+				<div>coming soon:</div>
+				<div>1. search for location by name or zipcode.</div>
+				<div>2. select a location and view its weather. store in localstorage.</div>
+				<div>3. maintain a list of 'saved locations' to easily toggle between.</div>
+			</Dialog>
+		</button>
+	);
+};
+
 export const Home = () => {
 	const [selectedDate, setSelectedDate] = useState<number | undefined>();
 
@@ -247,6 +273,9 @@ export const Home = () => {
 
 	return (
 		<div className="p-2 max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-start justify-center gap-4">
+			<div className="col-span-full">
+				<SearchButton />
+			</div>
 			<div className="md:hidden">{currentConditions}</div>
 			<div className="h-full">
 				<DailyForecast

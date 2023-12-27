@@ -125,7 +125,7 @@ const HourlyForecast = () => {
 			<div className="group">
 				Hourly Details
 				<Card>
-					<div className="flex gap-2">
+					<div className="flex gap-2 p-2">
 						{MORE_INFO_OPTIONS.map((option) => (
 							<button
 								type="button"
