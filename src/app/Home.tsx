@@ -5,7 +5,13 @@ import DailyForecast from './DailyForecast';
 import { useOpenWeatherMap, useWeatherGov } from '@/hooks';
 import { getWeatherIcon } from './weather_icons';
 import { Card } from '@/components';
-import { WiDirectionUp, WiHumidity, WiSunrise, WiSunset } from 'react-icons/wi';
+import {
+	WiBarometer,
+	WiDirectionUp,
+	WiHumidity,
+	WiSunrise,
+	WiSunset,
+} from 'react-icons/wi';
 import { format } from 'date-fns';
 import { degreeToDirection } from './utils';
 
@@ -66,8 +72,9 @@ const Wind = () => {
 						title={`${wind_deg}\u00B0`}
 						style={{ transform: `rotate(${wind_deg}deg)` }}
 					/>
-					<div>
-						{Math.round(wind_speed)} mph {degreeToDirection(wind_deg)}
+					<div className="flex flex-col">
+						<div>{Math.round(wind_speed)} mph</div>
+						<div>{degreeToDirection(wind_deg)}</div>
 					</div>
 				</div>
 			</Card>
@@ -94,6 +101,31 @@ const Humidity = () => {
 				<div className="flex items-center gap-2 w-full p-4">
 					<WiHumidity size={32} />
 					<div>{Math.round(humidity)}</div>
+				</div>
+			</Card>
+		</div>
+	);
+};
+
+const Pressure = () => {
+	const { oneCallQuery } = useOpenWeatherMap();
+	const { data } = oneCallQuery;
+
+	if (!data) {
+		return <div>loading</div>;
+	}
+
+	const {
+		current: { pressure },
+	} = oneCallQuery.data;
+
+	return (
+		<div>
+			Pressure
+			<Card>
+				<div className="flex items-center gap-2 w-full p-4">
+					<WiBarometer size={32} />
+					<div>{Math.round(pressure)} hPa</div>
 				</div>
 			</Card>
 		</div>
@@ -132,8 +164,16 @@ const SunriseSunset = () => {
 export const Home = () => {
 	const [selectedDate, setSelectedDate] = useState<number | undefined>();
 
+	const currentConditions = (
+		<div className="col-span-2">
+			Currently
+			<CurrentConditions />
+		</div>
+	);
+
 	return (
 		<div className="p-2 max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-start justify-center gap-4">
+			<div className="md:hidden">{currentConditions}</div>
 			<div className="h-full">
 				<DailyForecast
 					selectedDate={selectedDate}
@@ -141,7 +181,7 @@ export const Home = () => {
 				/>
 			</div>
 			<div className="grid grid-cols-2 gap-4 xl:col-span-2">
-				<div className="col-span-2">
+				<div className="col-span-2 hidden md:block">
 					Currently
 					<CurrentConditions />
 				</div>
@@ -156,6 +196,9 @@ export const Home = () => {
 				</div>
 				<div className="col-span-1 h-full">
 					<Humidity />
+				</div>
+				<div className="col-span-1 h-full">
+					<Pressure />
 				</div>
 			</div>
 		</div>

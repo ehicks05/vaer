@@ -31,7 +31,7 @@ const OneDaySummary = ({
 		<div
 			onClick={onClick}
 			onKeyUp={onClick}
-			className={`p-4 first:rounded-t-lg last:pb-4 last:rounded-b-lg cursor-pointer ${
+			className={`py-2 sm:py-4 px-4 first:rounded-t-lg last:pb-4 last:rounded-b-lg cursor-pointer ${
 				isSelected ? 'bg-slate-800' : 'hover:brightness-110'
 			}`}
 		>
