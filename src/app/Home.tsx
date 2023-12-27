@@ -15,6 +15,7 @@ import {
 import { MdOutlineVisibility } from 'react-icons/md';
 import { format } from 'date-fns';
 import { degreeToDirection } from './utils';
+import { round } from 'lodash';
 
 const CurrentConditions = () => {
 	const { oneCallQuery } = useOpenWeatherMap();
@@ -108,6 +109,14 @@ const Humidity = () => {
 	);
 };
 
+const hPaToInchesOfMercury = (hpa: number) => 0.02952998057228486 * hpa;
+
+const getPressureDescription = (inHg: number) => {
+	if (inHg < 29.8) return 'Low';
+	if (inHg > 30.2) return 'High';
+	return 'Normal';
+};
+
 const Pressure = () => {
 	const { oneCallQuery } = useOpenWeatherMap();
 	const { data } = oneCallQuery;
@@ -119,6 +128,8 @@ const Pressure = () => {
 	const {
 		current: { pressure },
 	} = oneCallQuery.data;
+	const inHg = hPaToInchesOfMercury(pressure);
+	const description = getPressureDescription(inHg);
 
 	return (
 		<div>
@@ -126,7 +137,9 @@ const Pressure = () => {
 			<Card>
 				<div className="flex items-center gap-2 w-full p-4">
 					<WiBarometer size={32} />
-					<div>{Math.round(pressure)} hPa</div>
+					<div>
+						{round(inHg, 2)}: {description}
+					</div>
 				</div>
 			</Card>
 		</div>
