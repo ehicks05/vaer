@@ -7,6 +7,7 @@ import { getWeatherIcon } from './weather_icons';
 import { Card } from '@/components';
 import { WiDirectionUp, WiHumidity, WiSunrise, WiSunset } from 'react-icons/wi';
 import { format } from 'date-fns';
+import { degreeToDirection } from './utils';
 
 const CurrentConditions = () => {
 	const { oneCallQuery } = useOpenWeatherMap();
@@ -41,12 +42,6 @@ const CurrentConditions = () => {
 			Feels like <Temp temp={feels_like} />
 		</div>
 	);
-};
-
-const degreeToDirection = (degree: number) => {
-	const DIRECTIONS = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
-	const index = Math.round(degree / 45) % DIRECTIONS.length;
-	return DIRECTIONS[index];
 };
 
 const Wind = () => {

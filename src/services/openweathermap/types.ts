@@ -25,8 +25,8 @@ export interface Current {
 	wind_speed: number;
 	wind_deg: number;
 	wind_gust?: number;
-	rain?: Magnitude;
-	snow?: Magnitude;
+	rain?: PrecipitationAmount;
+	snow?: PrecipitationAmount;
 	weather: WeatherCondition[];
 }
 
@@ -56,12 +56,12 @@ export interface Hourly {
 	wind_deg: number;
 	wind_gust?: number;
 	pop: number;
-	rain?: Magnitude;
-	snow?: Magnitude;
+	rain?: PrecipitationAmount;
+	snow?: PrecipitationAmount;
 	weather: WeatherCondition[];
 }
 
-export interface Magnitude {
+export interface PrecipitationAmount {
 	'1h': number;
 }
 

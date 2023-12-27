@@ -3,9 +3,11 @@ import { Card } from '@/components';
 import { format, isAfter } from 'date-fns';
 import { Temp } from './PreferredTemperature';
 import { useOpenWeatherMap } from '@/hooks';
-import { Magnitude, WeatherCondition } from '@/services/openweathermap/types';
+import { WeatherCondition } from '@/services/openweathermap/types';
 import { getWeatherIcon } from './weather_icons';
-import { WiRain, WiRaindrop } from 'react-icons/wi';
+import { WiDirectionUp } from 'react-icons/wi';
+import { degreeToDirection } from './utils';
+import { round } from 'lodash';
 
 interface OneHourSummaryProps {
 	weather: WeatherCondition;
@@ -28,18 +30,54 @@ const OneHourSummary = ({ weather, dt, temp }: OneHourSummaryProps) => {
 		</div>
 	);
 };
-interface OneHourPrecipitationProps {
+
+interface OneHourWindProps {
 	dt: number;
-	rain?: Magnitude;
+	wind_deg: number;
+	wind_speed: number;
 }
 
-const OneHourPrecipitation = ({ dt, rain }: OneHourPrecipitationProps) => {
+const OneHourWind = ({ dt, wind_deg, wind_speed }: OneHourWindProps) => {
 	return (
 		<div className="flex flex-col items-center text-center gap-1" key={dt}>
-			<div className="whitespace-nowrap">{rain?.['1h'] || 0} mm</div>
-			<div className="flex flex-col gap-1 items-center">
-				<WiRaindrop size={32} />
+			<WiDirectionUp
+				size={32}
+				title={`${wind_deg}\u00B0`}
+				style={{ transform: `rotate(${wind_deg}deg)` }}
+			/>
+			<div className="whitespace-nowrap">
+				{Math.round(wind_speed)} mph {degreeToDirection(wind_deg)}
 			</div>
+			<div className="whitespace-nowrap">{format(new Date(dt), 'h a')}</div>
+		</div>
+	);
+};
+
+interface OneHourPrecipitationProps {
+	dt: number;
+	amount: number;
+}
+
+const OneHourPrecipitation = ({ dt, amount }: OneHourPrecipitationProps) => {
+	return (
+		<div className="flex flex-col items-center text-center gap-1" key={dt}>
+			<div className="whitespace-nowrap">
+				{amount ? `${round(amount, 1)} mm` : '--'}
+			</div>
+			<div className="whitespace-nowrap">{format(new Date(dt), 'h a')}</div>
+		</div>
+	);
+};
+
+interface OneHourHumidityProps {
+	dt: number;
+	amount: number;
+}
+
+const OneHourHumidity = ({ dt, amount }: OneHourHumidityProps) => {
+	return (
+		<div className="flex flex-col items-center text-center gap-1" key={dt}>
+			<div className="whitespace-nowrap">{`${amount}%`}</div>
 			<div className="whitespace-nowrap">{format(new Date(dt), 'h a')}</div>
 		</div>
 	);
@@ -85,7 +123,38 @@ const HourlyForecast = () => {
 							<OneHourPrecipitation
 								key={hourly.dt}
 								dt={hourly.dt}
-								rain={hourly.rain}
+								amount={hourly.rain?.['1h'] || 0}
+							/>
+						))}
+					</div>
+				</Card>
+			</div>
+
+			<div>
+				Humidity
+				<Card>
+					<div className={`flex gap-6 overflow-auto p-4 pb-2 ${scrollbarClasses}`}>
+						{hourlyForecasts.map((hourly) => (
+							<OneHourHumidity
+								key={hourly.dt}
+								dt={hourly.dt}
+								amount={hourly.humidity}
+							/>
+						))}
+					</div>
+				</Card>
+			</div>
+
+			<div>
+				Wind
+				<Card>
+					<div className={`flex gap-6 overflow-auto p-4 pb-2 ${scrollbarClasses}`}>
+						{hourlyForecasts.map((hourly) => (
+							<OneHourWind
+								key={hourly.dt}
+								dt={hourly.dt}
+								wind_deg={hourly.wind_deg}
+								wind_speed={hourly.wind_speed}
 							/>
 						))}
 					</div>
