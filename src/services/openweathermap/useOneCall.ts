@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { APP_KEY, BASE } from './constants';
 import { round } from 'lodash';
-import { OneCallResponse } from './types';
+import { OneCallResponse } from './types/oneCall';
 
 interface Params {
 	lat?: number | null;
