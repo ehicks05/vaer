@@ -146,6 +146,12 @@ const Pressure = () => {
 	);
 };
 
+const fmt = Intl.NumberFormat('en-US', {
+	unit: 'meter',
+	notation: 'compact',
+	maximumSignificantDigits: 2,
+});
+
 const Visibility = () => {
 	const { oneCallQuery } = useOpenWeatherMap();
 	const { data } = oneCallQuery;
@@ -164,7 +170,7 @@ const Visibility = () => {
 			<Card>
 				<div className="flex items-center gap-2 w-full p-4">
 					<MdOutlineVisibility size={24} />
-					<div>{Math.round(visibility)} meters</div>
+					<div>{fmt.format(visibility)}m</div>
 				</div>
 			</Card>
 		</div>
