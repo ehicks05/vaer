@@ -123,7 +123,7 @@ const HourlyForecast = () => {
 			</div>
 
 			<div className="group">
-				More Info
+				Hourly Details
 				<Card>
 					<div className="flex gap-2">
 						{MORE_INFO_OPTIONS.map((option) => (

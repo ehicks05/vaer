@@ -140,7 +140,7 @@ export const Home = () => {
 					setSelectedDate={(dt: number) => setSelectedDate(dt)}
 				/>
 			</div>
-			<div className="grid grid-cols-2 gap-4">
+			<div className="grid grid-cols-2 gap-4 xl:col-span-2">
 				<div className="col-span-2">
 					Currently
 					<CurrentConditions />
