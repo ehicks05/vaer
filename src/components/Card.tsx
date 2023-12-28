@@ -3,12 +3,13 @@ import { ReactNode } from 'react';
 interface Props {
 	children: ReactNode | ReactNode[];
 	className?: string;
+	gradient?: boolean;
 }
 
-const gradient = 'bg-gradient-to-br from-violet-800 to-indigo-900';
+const gradientStyles = 'bg-gradient-to-br from-violet-800 to-indigo-900';
 
-const Card = ({ children, className }: Props) => (
-	<div className={`rounded-lg ${gradient} ${className}`}>{children}</div>
+const Card = ({ children, className, gradient = true }: Props) => (
+	<div className={`rounded-lg ${gradient ? gradientStyles : ''} ${className}`}>{children}</div>
 );
 
 export default Card;

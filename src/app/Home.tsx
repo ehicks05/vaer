@@ -16,6 +16,7 @@ import { MdOutlineVisibility } from 'react-icons/md';
 import { format } from 'date-fns';
 import { degreeToDirection, hPaToInHg } from './utils';
 import { round } from 'lodash';
+import { SearchButton } from './LocationModal';
 
 const CurrentConditions = () => {
 	const { oneCallQuery } = useOpenWeatherMap();
@@ -236,32 +237,6 @@ const SunriseSunset = () => {
 				</div>
 			</Card>
 		</div>
-	);
-};
-
-const SearchButton = () => {
-	const [isOpen, setIsOpen] = useState(false);
-
-	return (
-		<button
-			type="button"
-			onClick={() => setIsOpen(true)}
-			className="px-0.5 py-0.5 rounded-lg border border-neutral-800 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 transition-all"
-		>
-			<div className="flex gap-16 items-baseline">
-				<div className="ml-2">Location...</div>
-				<div className="flex items-center gap-0.5 bg-neutral-800 px-2 m-0.5 rounded text-xs">
-					<span className="text-base">⌘</span>
-					<span>K</span>
-				</div>
-			</div>
-			<Dialog isOpen={isOpen} onClose={() => setIsOpen(false)}>
-				<div>coming soon:</div>
-				<div>1. search for location by name or zipcode.</div>
-				<div>2. select a location and view its weather. store in localstorage.</div>
-				<div>3. maintain a list of 'saved locations' to easily toggle between.</div>
-			</Dialog>
-		</button>
 	);
 };
 
