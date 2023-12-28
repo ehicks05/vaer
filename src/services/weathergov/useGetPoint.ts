@@ -1,11 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { BASE } from './constants';
-import { round } from 'lodash';
 import { NOAACordinate } from './types';
 
 interface Params {
-	lat?: number | null;
-	long?: number | null;
+	lat?: string | null;
+	long?: string | null;
 }
 
 const getPoint = async ({ lat, long }: Params) => {
@@ -13,7 +12,7 @@ const getPoint = async ({ lat, long }: Params) => {
 		throw new Error('Missing coordinates');
 	}
 
-	const coordinates = `${round(lat, 4)},${round(long, 4)}`;
+	const coordinates = `${lat},${long}`;
 
 	const url = `${BASE}/points/${coordinates}`;
 	const response = await fetch(url);
