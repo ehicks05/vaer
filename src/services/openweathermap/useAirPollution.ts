@@ -1,11 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { APP_KEY, BASE } from './constants';
-import { round } from 'lodash';
 import { AirPollutionResponse } from './types/airPollution';
 
 interface Params {
-	lat?: number | null;
-	long?: number | null;
+	lat?: string | null;
+	long?: string | null;
 }
 
 const getAirPollution = async ({ lat, long }: Params) => {
@@ -15,8 +14,8 @@ const getAirPollution = async ({ lat, long }: Params) => {
 
 	const params = new URLSearchParams({
 		appid: APP_KEY,
-		lat: String(round(lat, 4)),
-		lon: String(round(long, 4)),
+		lat,
+		lon: long,
 	});
 
 	const path = '/api/data/2.5/air_pollution';

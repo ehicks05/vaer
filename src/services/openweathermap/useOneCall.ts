@@ -1,11 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { APP_KEY, BASE } from './constants';
-import { round } from 'lodash';
 import { OneCallResponse } from './types/oneCall';
 
 interface Params {
-	lat?: number | null;
-	long?: number | null;
+	lat?: string | null;
+	long?: string | null;
 }
 
 const getOneCall = async ({ lat, long }: Params) => {
@@ -16,8 +15,8 @@ const getOneCall = async ({ lat, long }: Params) => {
 	const params = new URLSearchParams({
 		appid: APP_KEY,
 		units: 'imperial',
-		lat: String(round(lat, 4)),
-		lon: String(round(long, 4)),
+		lat,
+		lon: long,
 	});
 
 	const url = `${BASE}/api/data/3.0/onecall?${params}`;

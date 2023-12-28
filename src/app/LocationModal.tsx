@@ -1,14 +1,14 @@
 import { Button, Card, Dialog } from '@/components';
 import { SearchResultGeoname } from '@/services/geonames/types';
-import { useLocalStorage } from '@uidotdev/usehooks';
 import { useState } from 'react';
 import { HiOutlineCheckCircle, HiOutlineXCircle } from 'react-icons/hi';
-import { HiMagnifyingGlass } from 'react-icons/hi2';
+import { HiExclamationTriangle, HiMagnifyingGlass } from 'react-icons/hi2';
 import { CgSpinnerAlt } from 'react-icons/cg';
 import { useSearch } from '@/services/geonames/geonames';
+import { useActiveLocation, useSavedLocations } from '@/hooks';
 
 interface CityOptionProps {
-	city: SearchResultGeoname;
+	city: Partial<SearchResultGeoname>;
 	isSaved: boolean;
 	isActive: boolean;
 	onClick?: () => void;
@@ -28,7 +28,8 @@ const CityOption = ({
 		<Button onClick={onClick}>
 			<div className="w-full flex justify-between items-center gap-4 sm:gap-8 p-2 sm:p-4">
 				<div>
-					{city.name}, {city.adminCode1}, {city.countryCode}
+					{city.name}
+					{city.adminCode1 ? `, ${city.adminCode1}` : ''} {city.countryCode}
 				</div>
 				<div className="flex items-center gap-2">
 					{isSaved && (
@@ -41,7 +42,7 @@ const CityOption = ({
 							<HiOutlineXCircle
 								onClick={onDelete}
 								size={24}
-								className={'text-red-500'}
+								className={onDelete ? 'text-red-500' : 'text-neutral-500'}
 							/>
 						</>
 					)}
@@ -52,21 +53,21 @@ const CityOption = ({
 };
 
 const LocationModal = () => {
-	const [savedCities, setSavedCities] = useLocalStorage<SearchResultGeoname[]>(
-		'vaer-saved-cities',
-		[],
-	);
-	const [activeCity, setActiveCity] = useLocalStorage<
-		SearchResultGeoname | undefined
-	>('vaer-active-city', undefined);
+	const [savedLocations, setSavedLocations] = useSavedLocations();
+	const [activeLocation, setActiveLocation] = useActiveLocation();
 
 	const [queryString, setQueryString] = useState('');
 
 	const query = useSearch({ query: queryString });
-	const selectedIds = savedCities.map((o) => o.geonameId);
-	const cities = (query?.data?.geonames || []).filter(
+	const selectedIds = savedLocations.map((o) => o.geonameId);
+	const locations = (query?.data?.geonames || []).filter(
 		(geoname) => !selectedIds.includes(geoname.geonameId),
 	);
+
+	const currentLocation = {
+		geonameId: -1,
+		name: 'Current Location',
+	};
 
 	return (
 		<div className="flex gap-4">
@@ -83,58 +84,30 @@ const LocationModal = () => {
 						<CgSpinnerAlt size={32} className="animate-spin" />
 						// </div>
 					)}
-					{cities.map((city) => {
-						const isSaved = savedCities.some((c) => c.geonameId === city.geonameId);
+					{locations.map((location) => {
+						const isSaved = savedLocations.some(
+							(c) => c.geonameId === location.geonameId,
+						);
 						const onClick = isSaved
 							? () =>
-									setSavedCities(
-										savedCities.filter((c) => c.geonameId !== city.geonameId),
+									setSavedLocations(
+										savedLocations.filter((c) => c.geonameId !== location.geonameId),
 									)
-							: () => setSavedCities([...savedCities, city]);
+							: () => {
+									setSavedLocations([...savedLocations, location]);
+									setActiveLocation(location);
+							  };
 						return (
 							<CityOption
-								key={city.geonameId}
-								city={city}
+								key={location.geonameId}
+								city={location}
 								isSaved={isSaved}
 								isActive={false}
 								onClick={onClick}
 							/>
 						);
 					})}
-					{/* {cities.length === 0 && (
-						<Card className="bg-neutral-800" gradient={false}>
-							<div className="flex flex-col gap-4 items-center text-neutral-500">
-								<HiMagnifyingGlass size={96} />
-								Search for a city
-							</div>
-						</Card>
-					)} */}
-				</div>
-			</div>
-
-			<div className="flex flex-col gap-4">
-				<div className="p-2 rounded-lg">Saved Cities</div>
-				<div className="grid grid-cols-1 gap-2 w-full">
-					{savedCities.map((city) => {
-						const isSaved = savedCities.some((c) => c.geonameId === city.geonameId);
-						const onClick = isSaved
-							? () =>
-									setSavedCities(
-										savedCities.filter((c) => c.geonameId !== city.geonameId),
-									)
-							: () => setSavedCities([...savedCities, city]);
-						return (
-							<CityOption
-								key={city.geonameId}
-								city={city}
-								isSaved={isSaved}
-								isActive={activeCity?.geonameId === city.geonameId}
-								onActivate={() => setActiveCity(city)}
-								onDelete={onClick}
-							/>
-						);
-					})}
-					{savedCities.length === 0 && (
+					{!query.error && !query.isLoading && locations.length === 0 && (
 						<Card className="bg-neutral-800" gradient={false}>
 							<div className="flex flex-col gap-4 items-center text-neutral-500">
 								<HiMagnifyingGlass size={64} />
@@ -142,6 +115,48 @@ const LocationModal = () => {
 							</div>
 						</Card>
 					)}
+					{query.error && !query.isLoading && locations.length === 0 && (
+						<Card className="bg-neutral-800" gradient={false}>
+							<div className="flex flex-col gap-4 items-center text-neutral-500">
+								<HiExclamationTriangle size={64} className="text-red-700" />
+								Something went wrong. Try again later.
+							</div>
+						</Card>
+					)}
+				</div>
+			</div>
+
+			<div className="flex flex-col gap-4">
+				<div className="p-2 rounded-lg">Saved Cities</div>
+				<div className="grid grid-cols-1 gap-2 w-full">
+					<CityOption
+						key={'currentLocation'}
+						city={currentLocation}
+						isSaved={true}
+						isActive={activeLocation === undefined}
+						onActivate={() => setActiveLocation(undefined)}
+					/>
+
+					{savedLocations.map((location) => {
+						const onClick = () => {
+							setSavedLocations(
+								savedLocations.filter((c) => c.geonameId !== location.geonameId),
+							);
+							if (location.geonameId === activeLocation?.geonameId) {
+								setActiveLocation(undefined);
+							}
+						};
+						return (
+							<CityOption
+								key={location.geonameId}
+								city={location}
+								isSaved={true}
+								isActive={activeLocation?.geonameId === location.geonameId}
+								onActivate={() => setActiveLocation(location)}
+								onDelete={onClick}
+							/>
+						);
+					})}
 				</div>
 			</div>
 		</div>

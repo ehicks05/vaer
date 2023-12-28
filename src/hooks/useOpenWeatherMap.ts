@@ -1,15 +1,19 @@
 import { useAirPollution, useOneCall } from '@/services/openweathermap';
 import { useCachedGeolocation } from './useCachedGeolocation';
-import { round } from 'lodash';
+import { useActiveLocation } from './useActiveLocation';
 
+/**
+ *
+ * @returns Various OWM queries, with lat and long set to activeLocation if present,
+ * otherwise current geolocation.
+ */
 export const useOpenWeatherMap = () => {
 	const geolocation = useCachedGeolocation();
-	const { latitude, longitude } = geolocation || {};
+	const [activeLocation] = useActiveLocation();
 
-	const lat =
-		latitude !== null && latitude !== undefined ? round(latitude, 4) : undefined;
-	const long =
-		longitude !== null && longitude !== undefined ? round(longitude, 4) : undefined;
+	const { lat, long } = activeLocation
+		? { lat: activeLocation.lat, long: activeLocation.lng }
+		: { lat: String(geolocation.latitude), long: String(geolocation.longitude) };
 
 	const oneCallQuery = useOneCall({ lat, long });
 	const airPollutionQuery = useAirPollution({ lat, long });
