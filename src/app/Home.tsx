@@ -66,9 +66,9 @@ const Wind = () => {
 	} = oneCallQuery.data;
 
 	return (
-		<div>
+		<div className="h-full flex flex-col">
 			Wind
-			<Card>
+			<Card className="h-full">
 				<div className="flex items-center gap-2 w-full p-4">
 					<WiDirectionUp
 						size={32}
