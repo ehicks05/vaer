@@ -16,7 +16,7 @@ const Dialog = ({ isOpen, onClose, children }: DialogProps) => (
 		<HUIDialog.Overlay className="fixed inset-0 bg-black opacity-50" />
 		<div className="fixed inset-0 flex items-center justify-center p-4">
 			<HUIDialog.Panel className="bg-neutral-100 dark:bg-neutral-800 rounded-t-lg">
-				<div className="py-8 px-4 sm:px-6 lg:px-8">{children}</div>
+				<div className="py-8 px-4 sm:px-6 lg:px-8 overflow-auto">{children}</div>
 
 				<div className="bg-neutral-200 dark:bg-neutral-700 sm:flex sm:flex-row-reverse rounded-b-lg">
 					<button type="button" className="px-4 sm:px-6 py-3" onClick={onClose}>

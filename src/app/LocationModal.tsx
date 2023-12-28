@@ -26,7 +26,7 @@ const CityOption = ({
 }: CityOptionProps) => {
 	return (
 		<Button onClick={onClick}>
-			<div className="w-full flex justify-between items-center gap-4 sm:gap-8 p-2 sm:p-4">
+			<div className="w-full flex justify-between items-center gap-4 sm:gap-8 p-2 text-sm sm:text-base">
 				<div>
 					{city.name}
 					{city.adminCode1 ? `, ${city.adminCode1}` : ''} {city.countryCode}
@@ -70,7 +70,7 @@ const LocationModal = () => {
 	};
 
 	return (
-		<div className="flex gap-4">
+		<div className="flex flex-col sm:flex-row gap-4 h-60">
 			<div className="flex flex-col gap-4">
 				<input
 					className="p-2 rounded-lg"
@@ -80,9 +80,9 @@ const LocationModal = () => {
 				/>
 				<div className="grid grid-cols-1 gap-2 w-full">
 					{query.isLoading && (
-						// <div className="">
-						<CgSpinnerAlt size={32} className="animate-spin" />
-						// </div>
+						<div className="flex justify-center">
+							<CgSpinnerAlt size={64} className="animate-spin text-neutral-500" />
+						</div>
 					)}
 					{locations.map((location) => {
 						const isSaved = savedLocations.some(
