@@ -142,6 +142,7 @@ const HourlyForecast = () => {
 					<div className="flex gap-2 p-2">
 						{MORE_INFO_OPTIONS.map((option) => (
 							<button
+								key={option}
 								type="button"
 								className={`p-2 rounded-lg ${
 									option === selectedAdditionalInfo ? 'bg-slate-800' : ''
