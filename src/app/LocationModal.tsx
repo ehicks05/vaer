@@ -10,6 +10,7 @@ import {
 import { CgSpinnerAlt } from 'react-icons/cg';
 import { useSearch } from '@/services/geonames/geonames';
 import { useActiveLocation, useSavedLocations } from '@/hooks';
+import { NAV_BAR_BUTTON_STYLES } from './classes';
 
 interface CityOptionProps {
 	city: Partial<SearchResultGeoname>;
@@ -189,7 +190,7 @@ export const SearchButton = () => {
 		<button
 			type="button"
 			onClick={() => setIsOpen(true)}
-			className="px-0.5 py-0.5 rounded-lg border border-neutral-800 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 transition-all"
+			className={NAV_BAR_BUTTON_STYLES}
 		>
 			<div className="flex gap-16 items-baseline">
 				<div className="ml-2">Location...</div>

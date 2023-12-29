@@ -1,3 +1,4 @@
+import { NAV_BAR_BUTTON_STYLES } from '../classes';
 import { usePreferredTempUnit } from './usePreferredTempUnit';
 
 const PreferredTempToggle = () => {
@@ -6,10 +7,10 @@ const PreferredTempToggle = () => {
 	return (
 		<button
 			type="button"
-			className="text-neutral-400 text-xl"
+			className={NAV_BAR_BUTTON_STYLES}
 			onClick={togglePreferredTempUnit}
 		>
-			{preferredTempUnit}
+			<div className="px-2">{preferredTempUnit}</div>
 		</button>
 	);
 };

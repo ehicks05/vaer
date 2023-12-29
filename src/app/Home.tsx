@@ -135,7 +135,7 @@ const Pressure = () => {
 				<div className="flex items-center gap-2 w-full p-4">
 					<WiBarometer size={32} />
 					<div>
-						{round(inHg, 2)}: {description}
+						{round(inHg, 1)}: {description}
 					</div>
 				</div>
 			</Card>

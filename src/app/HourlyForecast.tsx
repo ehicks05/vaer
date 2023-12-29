@@ -91,7 +91,7 @@ interface OneHourPressureProps {
 const OneHourPressure = ({ dt, inHg }: OneHourPressureProps) => {
 	return (
 		<div className="flex flex-col items-center text-center gap-1" key={dt}>
-			<div className="whitespace-nowrap">{`${round(inHg, 2)}`}</div>
+			<div className="whitespace-nowrap">{`${round(inHg, 1)}`}</div>
 			<div className="whitespace-nowrap">{format(new Date(dt), 'h a')}</div>
 		</div>
 	);
