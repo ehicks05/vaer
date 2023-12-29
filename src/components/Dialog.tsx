@@ -16,10 +16,7 @@ const Dialog = ({ isOpen, onClose, children }: DialogProps) => (
 		<HUIDialog.Overlay className="fixed inset-0 bg-black opacity-50" />
 		<div className="fixed inset-0 flex items-center justify-center p-4">
 			<HUIDialog.Panel className="bg-neutral-100 dark:bg-neutral-800 rounded-t-lg">
-				<div
-					className="py-8 px-4 sm:px-6 lg:px-8 overflow-auto"
-					style={{ maxHeight: '90vh' }}
-				>
+				<div className="py-8 px-4 sm:px-6 lg:px-8 max-h-[90vh] overflow-auto">
 					{children}
 				</div>
 
