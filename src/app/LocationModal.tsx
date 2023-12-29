@@ -1,8 +1,12 @@
-import { Button, Card, Dialog } from '@/components';
+import { Card, Dialog } from '@/components';
 import { SearchResultGeoname } from '@/services/geonames/types';
 import { useState } from 'react';
 import { HiOutlineCheckCircle, HiOutlineXCircle } from 'react-icons/hi';
-import { HiExclamationTriangle, HiMagnifyingGlass } from 'react-icons/hi2';
+import {
+	HiExclamationTriangle,
+	HiMagnifyingGlass,
+	HiOutlinePlusCircle,
+} from 'react-icons/hi2';
 import { CgSpinnerAlt } from 'react-icons/cg';
 import { useSearch } from '@/services/geonames/geonames';
 import { useActiveLocation, useSavedLocations } from '@/hooks';
@@ -25,30 +29,45 @@ const CityOption = ({
 	onDelete,
 }: CityOptionProps) => {
 	return (
-		<Button onClick={onClick}>
-			<div className="w-full flex justify-between items-center gap-4 sm:gap-8 p-2 text-sm sm:text-base">
+		<div>
+			<div className="w-full flex justify-between items-center gap-4 sm:gap-8 p-2 text-sm sm:text-base bg-neutral-700 rounded-lg">
 				<div>
 					{city.name}
 					{city.adminCode1 ? `, ${city.adminCode1}` : ''} {city.countryCode}
 				</div>
 				<div className="flex items-center gap-2">
+					{!isSaved && (
+						<HiOutlinePlusCircle
+							onClick={onClick}
+							size={28}
+							className={'text-green-500 hover:text-green-400'}
+						/>
+					)}
 					{isSaved && (
 						<>
 							<HiOutlineCheckCircle
-								size={24}
+								size={28}
 								onClick={onActivate}
-								className={isActive ? 'text-green-500' : 'text-neutral-500'}
+								className={
+									isActive
+										? 'text-green-500 hover:text-green-400'
+										: 'text-neutral-500 hover:text-neutral-400'
+								}
 							/>
 							<HiOutlineXCircle
 								onClick={onDelete}
-								size={24}
-								className={onDelete ? 'text-red-500' : 'text-neutral-500'}
+								size={28}
+								className={
+									onDelete
+										? 'text-red-500 hover:text-red-400'
+										: 'text-neutral-500 opacity-0'
+								}
 							/>
 						</>
 					)}
 				</div>
 			</div>
-		</Button>
+		</div>
 	);
 };
 

@@ -1,5 +1,7 @@
+import { SearchButton } from '@/app/LocationModal';
+import { PreferredTempToggle } from '@/app/PreferredTemperature';
 import { Disclosure } from '@headlessui/react';
-import { HiOutlineBell, HiOutlineMenu, HiOutlineX } from 'react-icons/hi';
+import { HiOutlineMenu, HiOutlineX } from 'react-icons/hi';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 
 const NAV_LINKS: { name: string; href: string }[] = [];
@@ -52,22 +54,21 @@ export default function Header() {
 		<Disclosure as="nav" className="">
 			{({ open }) => (
 				<>
-					<div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+					<div className="max-w-7xl mx-auto px-2">
 						<div className="relative flex items-center justify-between h-16">
 							<div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
 								<MobileMenuButton open={open} />
 							</div>
-							<div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
+							<div className="flex-1 pl-12 sm:pl-0 flex items-center justify-between sm:items-stretch">
 								<Logo />
+								<div className="flex items-center gap-4">
+									<PreferredTempToggle />
+									<SearchButton />
+								</div>
 							</div>
-							<div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 gap-2">
+							{/* <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 gap-2">
 								<NonMobileLinks />
-
-								{/* <button className="dark:bg-neutral-800 p-1 rounded-full text-neutral-400 hover:text-black dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-                  <span className="sr-only">View notifications</span>
-                  <HiOutlineBell className="h-6 w-6" aria-hidden="true" />
-                </button> */}
-							</div>
+							</div> */}
 						</div>
 					</div>
 

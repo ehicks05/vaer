@@ -6,7 +6,7 @@ const PreferredTempToggle = () => {
 	return (
 		<button
 			type="button"
-			className="underline underline-offset-4 decoration-4"
+			className="text-neutral-400 text-xl"
 			onClick={togglePreferredTempUnit}
 		>
 			{preferredTempUnit}

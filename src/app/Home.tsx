@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { PreferredTempToggle, Temp } from './PreferredTemperature';
+import { Temp } from './PreferredTemperature';
 import HourlyForecast from './HourlyForecast';
 import DailyForecast from './DailyForecast';
 import { useOpenWeatherMap, useWeatherGov } from '@/hooks';
 import { getWeatherIcon } from './weather_icons';
-import { Card, Dialog } from '@/components';
+import { Card } from '@/components';
 import {
 	WiBarometer,
 	WiDirectionUp,
@@ -16,7 +16,6 @@ import { MdOutlineVisibility } from 'react-icons/md';
 import { format } from 'date-fns';
 import { degreeToDirection, hPaToInHg } from './utils';
 import { round } from 'lodash';
-import { SearchButton } from './LocationModal';
 
 const CurrentConditions = () => {
 	const { oneCallQuery } = useOpenWeatherMap();
@@ -46,9 +45,8 @@ const CurrentConditions = () => {
 					<Icon className="inline" size={64} title={description} />
 				</div>
 				<Temp temp={temp} />
-				<PreferredTempToggle />
 			</div>
-			Feels like <Temp temp={feels_like} />
+			{description} &middot; feels like <Temp temp={feels_like} />
 		</div>
 	);
 };
@@ -252,9 +250,6 @@ export const Home = () => {
 
 	return (
 		<div className="p-2 max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-start justify-center gap-4">
-			<div className="col-span-full">
-				<SearchButton />
-			</div>
 			<div className="md:hidden">{currentConditions}</div>
 			<div className="h-full">
 				<DailyForecast
