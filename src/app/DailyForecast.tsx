@@ -73,23 +73,21 @@ const DailyForecast = ({
 			Daily Forecast
 			<Card>
 				<div className="flex flex-col w-full">
-					{dailies
-						.map((o) => ({ ...o, dt: o.dt * 1000 }))
-						.map((daily) => {
-							const { min, max } = daily.temp;
+					{dailies.map((daily) => {
+						const { min, max } = daily.temp;
 
-							return (
-								<OneDaySummary
-									key={daily.dt}
-									weather={daily.weather[0]}
-									dt={daily.dt}
-									min={min}
-									max={max}
-									onClick={() => setSelectedDate(daily.dt)}
-									isSelected={daily.dt === selectedDate}
-								/>
-							);
-						})}
+						return (
+							<OneDaySummary
+								key={daily.dt}
+								weather={daily.weather[0]}
+								dt={daily.dt}
+								min={min}
+								max={max}
+								onClick={() => setSelectedDate(daily.dt)}
+								isSelected={daily.dt === selectedDate}
+							/>
+						);
+					})}
 				</div>
 			</Card>
 		</div>

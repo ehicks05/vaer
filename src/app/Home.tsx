@@ -73,9 +73,8 @@ const Wind = () => {
 						title={`${wind_deg}\u00B0`}
 						style={{ transform: `rotate(${wind_deg}deg)` }}
 					/>
-					<div className="flex flex-col">
-						<div>{Math.round(wind_speed)} mph</div>
-						<div>{degreeToDirection(wind_deg)}</div>
+					<div>
+						{Math.round(wind_speed)} mph {degreeToDirection(wind_deg)}
 					</div>
 				</div>
 			</Card>
@@ -226,11 +225,11 @@ const SunriseSunset = () => {
 				<div className="flex flex-col gap-2 p-4">
 					<div className="flex items-center gap-2 w-full">
 						<WiSunrise size={32} />
-						<div>{format(sunrise * 1000, 'h:mm a')}</div>
+						<div>{format(sunrise, 'h:mm a')}</div>
 					</div>
 					<div className="flex items-center gap-2 w-full">
 						<WiSunset size={32} />
-						<div>{format(sunset * 1000, 'h:mm a')}</div>
+						<div>{format(sunset, 'h:mm a')}</div>
 					</div>
 				</div>
 			</Card>

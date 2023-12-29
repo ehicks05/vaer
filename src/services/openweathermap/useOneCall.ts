@@ -27,7 +27,22 @@ const getOneCall = async ({ lat, long }: Params) => {
 	}
 
 	const result: OneCallResponse = await response.json();
-	return result;
+	return {
+		...result,
+		current: {
+			...result.current,
+			dt: result.current.dt * 1000,
+			sunrise: result.current.sunrise * 1000,
+			sunset: result.current.sunset * 1000,
+		},
+		daily: result.daily.map((o) => ({
+			...o,
+			dt: o.dt * 1000,
+			sunrise: o.sunrise * 1000,
+			sunset: o.sunset * 1000,
+		})),
+		hourly: result.hourly.map((o) => ({ ...o, dt: o.dt * 1000 })),
+	};
 };
 
 export const useOneCall = ({ lat, long }: Params) => {

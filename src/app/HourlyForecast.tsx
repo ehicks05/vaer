@@ -105,18 +105,79 @@ type MoreInfo = (typeof MORE_INFO_OPTIONS)[number];
 
 const toTitleCase = (input: string) => input[0].toLocaleUpperCase() + input.slice(1);
 
-const HourlyForecast = () => {
+const HourlyDetails = () => {
 	const [selectedAdditionalInfo, setSelectedAdditionalInfo] =
 		useState<MoreInfo>('precipitation');
 	const { oneCallQuery } = useOpenWeatherMap();
 	if (!oneCallQuery.data) {
 		return <div>loading</div>;
 	}
-	const hourlyForecasts =
-		oneCallQuery.data.hourly
-			.map((o) => ({ ...o, dt: o.dt * 1000 }))
-			.filter((o) => isAfter(new Date(o.dt), new Date()))
-			.slice(0, 24) || [];
+	const hourlyForecasts = oneCallQuery.data.hourly.slice(0, 24) || [];
+
+	return (
+		<div className="group">
+			Hourly Details
+			<Card>
+				<div className="flex gap-2 p-2">
+					{MORE_INFO_OPTIONS.map((option) => (
+						<button
+							key={option}
+							type="button"
+							className={`p-2 rounded-lg ${
+								option === selectedAdditionalInfo ? 'bg-slate-800' : ''
+							}`}
+							onClick={() => setSelectedAdditionalInfo(option)}
+						>
+							{toTitleCase(option)}
+						</button>
+					))}
+				</div>
+				<div className={`flex gap-6 overflow-auto p-4 pb-2 ${scrollbarClasses}`}>
+					{hourlyForecasts.map((hourly) => (
+						<>
+							{selectedAdditionalInfo === 'precipitation' && (
+								<OneHourPrecipitation
+									key={hourly.dt}
+									dt={hourly.dt}
+									amount={hourly.rain?.['1h'] || 0}
+								/>
+							)}
+							{selectedAdditionalInfo === 'humidity' && (
+								<OneHourHumidity
+									key={hourly.dt}
+									dt={hourly.dt}
+									amount={hourly.humidity}
+								/>
+							)}
+							{selectedAdditionalInfo === 'wind' && (
+								<OneHourWind
+									key={hourly.dt}
+									dt={hourly.dt}
+									wind_deg={hourly.wind_deg}
+									wind_speed={hourly.wind_speed}
+								/>
+							)}
+							{selectedAdditionalInfo === 'pressure' && (
+								<OneHourPressure
+									key={hourly.dt}
+									dt={hourly.dt}
+									inHg={hPaToInHg(hourly.pressure)}
+								/>
+							)}
+						</>
+					))}
+				</div>
+			</Card>
+		</div>
+	);
+};
+
+const HourlyForecast = () => {
+	const { oneCallQuery } = useOpenWeatherMap();
+	if (!oneCallQuery.data) {
+		return <div>loading</div>;
+	}
+	const hourlyForecasts = oneCallQuery.data.hourly.slice(0, 24) || [];
 
 	return (
 		<div className="flex flex-col gap-4">
@@ -136,60 +197,7 @@ const HourlyForecast = () => {
 				</Card>
 			</div>
 
-			<div className="group">
-				Hourly Details
-				<Card>
-					<div className="flex gap-2 p-2">
-						{MORE_INFO_OPTIONS.map((option) => (
-							<button
-								key={option}
-								type="button"
-								className={`p-2 rounded-lg ${
-									option === selectedAdditionalInfo ? 'bg-slate-800' : ''
-								}`}
-								onClick={() => setSelectedAdditionalInfo(option)}
-							>
-								{toTitleCase(option)}
-							</button>
-						))}
-					</div>
-					<div className={`flex gap-6 overflow-auto p-4 pb-2 ${scrollbarClasses}`}>
-						{hourlyForecasts.map((hourly) => (
-							<>
-								{selectedAdditionalInfo === 'precipitation' && (
-									<OneHourPrecipitation
-										key={hourly.dt}
-										dt={hourly.dt}
-										amount={hourly.rain?.['1h'] || 0}
-									/>
-								)}
-								{selectedAdditionalInfo === 'humidity' && (
-									<OneHourHumidity
-										key={hourly.dt}
-										dt={hourly.dt}
-										amount={hourly.humidity}
-									/>
-								)}
-								{selectedAdditionalInfo === 'wind' && (
-									<OneHourWind
-										key={hourly.dt}
-										dt={hourly.dt}
-										wind_deg={hourly.wind_deg}
-										wind_speed={hourly.wind_speed}
-									/>
-								)}
-								{selectedAdditionalInfo === 'pressure' && (
-									<OneHourPressure
-										key={hourly.dt}
-										dt={hourly.dt}
-										inHg={hPaToInHg(hourly.pressure)}
-									/>
-								)}
-							</>
-						))}
-					</div>
-				</Card>
-			</div>
+			<HourlyDetails />
 		</div>
 	);
 };
