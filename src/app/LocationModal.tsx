@@ -40,7 +40,7 @@ const CityOption = ({
 						<HiOutlinePlusCircle
 							onClick={onClick}
 							size={28}
-							className={'text-green-500 hover:text-green-400'}
+							className={'cursor-pointer text-green-500 hover:text-green-400'}
 						/>
 					)}
 					{isSaved && (
@@ -50,8 +50,8 @@ const CityOption = ({
 								onClick={onActivate}
 								className={
 									isActive
-										? 'text-green-500 hover:text-green-400'
-										: 'text-neutral-500 hover:text-neutral-400'
+										? 'cursor-pointer text-green-500 hover:text-green-400'
+										: 'cursor-pointer text-neutral-500 hover:text-neutral-400'
 								}
 							/>
 							<HiOutlineXCircle
@@ -59,7 +59,7 @@ const CityOption = ({
 								size={28}
 								className={
 									onDelete
-										? 'text-red-500 hover:text-red-400'
+										? 'cursor-pointer text-red-500 hover:text-red-400'
 										: 'text-neutral-500 opacity-0'
 								}
 							/>
@@ -89,7 +89,7 @@ const LocationModal = () => {
 	};
 
 	return (
-		<div className="flex flex-col sm:flex-row gap-4 h-60">
+		<div className="flex flex-col sm:flex-row gap-4">
 			<div className="flex flex-col gap-4">
 				<input
 					className="p-2 rounded-lg"
