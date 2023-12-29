@@ -122,9 +122,9 @@ const _co = (concentration: number) => {
 	return aqi(Math.floor(concentration * 10) / 10, co_breakpoints);
 };
 
-const _o3_1hr = (concentration: number) => {
-	return aqi(Math.floor(concentration), o3_1hr_breakpoints);
-};
+// const _o3_1hr = (concentration: number) => {
+// 	return aqi(Math.floor(concentration), o3_1hr_breakpoints);
+// };
 
 const _o3_8hr = (concentration: number) => {
 	return aqi(Math.floor(concentration), o3_8hr_breakpoints);
