@@ -29,6 +29,11 @@ const getOneCall = async ({ lat, long }: Params) => {
 	const result: OneCallResponse = await response.json();
 	return {
 		...result,
+		alerts: result.alerts.map((o) => ({
+			...o,
+			start: o.start * 1000,
+			end: o.end * 1000,
+		})),
 		current: {
 			...result.current,
 			dt: result.current.dt * 1000,

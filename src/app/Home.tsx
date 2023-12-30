@@ -237,6 +237,34 @@ const SunriseSunset = () => {
 	);
 };
 
+const Alert = () => {
+	const { oneCallQuery } = useOpenWeatherMap();
+	const { data } = oneCallQuery;
+
+	if (!data) {
+		return <div>loading</div>;
+	}
+
+	const alert = data.alerts?.[0];
+	if (!alert) {
+		return null;
+	}
+	const fmt = 'MMM dd h:mma';
+
+	return (
+		<Card gradient={false} className="col-span-full p-4 bg-red-600">
+			<div className="flex flex-col gap-2">
+				<div className="text-sm">{alert.sender_name}</div>
+				<div className="text-2xl">{alert.event}</div>
+				<div className="text-sm -mt-3">
+					{format(alert.start, fmt)} to {format(alert.end, fmt)}
+				</div>
+				<div className="text-sm">{alert.description}</div>
+			</div>
+		</Card>
+	);
+};
+
 export const Home = () => {
 	const [selectedDate, setSelectedDate] = useState<number | undefined>();
 
@@ -249,6 +277,7 @@ export const Home = () => {
 
 	return (
 		<div className="p-2 max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-start justify-center gap-4">
+			<Alert />
 			<div className="md:hidden">{currentConditions}</div>
 			<div className="h-full">
 				<DailyForecast
