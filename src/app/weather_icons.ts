@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import { IconType } from 'react-icons';
 import { GrStatusPlaceholder } from 'react-icons/gr';
 import {
@@ -34,7 +33,6 @@ import {
 	WiDaySleet,
 	WiDaySnow,
 	WiDayStormShowers,
-	WiDayCloudyGusts,
 	WiDayFog,
 	WiDayHail,
 	WiDaySunnyOvercast,
@@ -48,7 +46,6 @@ import {
 	WiNightAltSnow,
 	WiNightAltStormShowers,
 	WiNightAltCloudy,
-	WiNightAltCloudyGusts,
 	WiNightAltHail,
 	WiNightClear,
 	WiNightFog,
