@@ -16,10 +16,7 @@ import { MdOutlineVisibility } from 'react-icons/md';
 import { format } from 'date-fns';
 import { degreeToDirection, hPaToInHg } from './utils';
 import { round } from 'lodash';
-import {
-	HiExclamationTriangle,
-	HiOutlineExclamationTriangle,
-} from 'react-icons/hi2';
+import { HiOutlineExclamationTriangle } from 'react-icons/hi2';
 
 const CurrentConditions = () => {
 	const { oneCallQuery } = useOpenWeatherMap();
@@ -53,12 +50,12 @@ const CurrentConditions = () => {
 		<div className="flex flex-col items-center p-4 bg-slate-800 rounded-lg">
 			{friendlyLocation}
 			<div className="flex gap-2 items-center text-6xl text-center">
+				<Temp temp={temp} />
 				<div>
 					<Icon className="inline" size={64} title={description} />
 				</div>
-				<Temp temp={temp} />
 			</div>
-			{description} &middot; feels like <Temp temp={feels_like} />
+			feels like <Temp temp={feels_like} /> &middot; {description}
 		</div>
 	);
 };
