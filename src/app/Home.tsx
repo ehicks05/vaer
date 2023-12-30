@@ -4,7 +4,7 @@ import HourlyForecast from './HourlyForecast';
 import DailyForecast from './DailyForecast';
 import { useActiveLocation, useOpenWeatherMap, useWeatherGov } from '@/hooks';
 import { getWeatherIcon } from './weather_icons';
-import { Card } from '@/components';
+import { Button, Card } from '@/components';
 import {
 	WiBarometer,
 	WiDirectionUp,
@@ -16,6 +16,10 @@ import { MdOutlineVisibility } from 'react-icons/md';
 import { format } from 'date-fns';
 import { degreeToDirection, hPaToInHg } from './utils';
 import { round } from 'lodash';
+import {
+	HiExclamationTriangle,
+	HiOutlineExclamationTriangle,
+} from 'react-icons/hi2';
 
 const CurrentConditions = () => {
 	const { oneCallQuery } = useOpenWeatherMap();
@@ -246,6 +250,7 @@ const SunriseSunset = () => {
 };
 
 const Alert = () => {
+	const [showDescription, setShowDescription] = useState(false);
 	const { oneCallQuery } = useOpenWeatherMap();
 	const { data } = oneCallQuery;
 
@@ -260,14 +265,26 @@ const Alert = () => {
 	const fmt = 'MMM dd h:mma';
 
 	return (
-		<Card gradient={false} className="col-span-full p-4 bg-red-900">
+		<Card gradient={false} className="col-span-full p-4 bg-slate-800">
 			<div className="flex flex-col gap-2">
-				<div className="text-sm">{alert.sender_name}</div>
-				<div className="text-2xl">{alert.event}</div>
-				<div className="text-sm -mt-3">
-					{format(alert.start, fmt)} to {format(alert.end, fmt)}
+				<div className="flex items-center gap-2 text-2xl">
+					<HiOutlineExclamationTriangle className="text-red-500" />
+					{alert.event}
 				</div>
-				<div className="text-sm">{alert.description}</div>
+				<Button
+					onClick={() => setShowDescription((showDescription) => !showDescription)}
+				>
+					{showDescription ? 'Hide' : 'Show'} details
+				</Button>
+				{showDescription && (
+					<>
+						<div className="text-sm">
+							{format(alert.start, fmt)} to {format(alert.end, fmt)}
+						</div>
+						<div className="text-sm">{alert.sender_name}</div>
+						<div className="text-sm">{alert.description}</div>
+					</>
+				)}
 			</div>
 		</Card>
 	);
