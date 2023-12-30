@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Temp } from './PreferredTemperature';
 import HourlyForecast from './HourlyForecast';
 import DailyForecast from './DailyForecast';
-import { useOpenWeatherMap, useWeatherGov } from '@/hooks';
+import { useActiveLocation, useOpenWeatherMap, useWeatherGov } from '@/hooks';
 import { getWeatherIcon } from './weather_icons';
 import { Card } from '@/components';
 import {
@@ -22,6 +22,8 @@ const CurrentConditions = () => {
 	const { pointQuery } = useWeatherGov();
 	const { data } = oneCallQuery;
 
+	const [activeLocation] = useActiveLocation();
+
 	if (!data) {
 		return <div>loading</div>;
 	}
@@ -33,7 +35,13 @@ const CurrentConditions = () => {
 
 	const { city, state } =
 		pointQuery.data?.properties.relativeLocation.properties || {};
-	const friendlyLocation = city && location ? `${city}, ${state}` : '';
+	const friendlyLocation = activeLocation
+		? `${activeLocation.name}${
+				activeLocation.adminCode1 ? `, ${activeLocation.adminCode1}` : ''
+		  }`
+		: city && location
+		  ? `${city}, ${state}`
+		  : '';
 
 	const Icon = getWeatherIcon(id, icon);
 
@@ -252,7 +260,7 @@ const Alert = () => {
 	const fmt = 'MMM dd h:mma';
 
 	return (
-		<Card gradient={false} className="col-span-full p-4 bg-red-600">
+		<Card gradient={false} className="col-span-full p-4 bg-red-900">
 			<div className="flex flex-col gap-2">
 				<div className="text-sm">{alert.sender_name}</div>
 				<div className="text-2xl">{alert.event}</div>
