@@ -304,7 +304,7 @@ export const Home = () => {
 			<div className="h-full">
 				<DailyForecast
 					selectedDate={selectedDate}
-					setSelectedDate={(dt: number) => setSelectedDate(dt)}
+					setSelectedDate={setSelectedDate}
 				/>
 			</div>
 			<div className="grid grid-cols-2 gap-4 xl:col-span-2">

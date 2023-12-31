@@ -61,7 +61,7 @@ const OneDaySummary = ({
 const DailyForecast = ({
 	selectedDate,
 	setSelectedDate,
-}: { selectedDate?: number; setSelectedDate: (dt: number) => void }) => {
+}: { selectedDate?: number; setSelectedDate: (dt: number | undefined) => void }) => {
 	const { oneCallQuery } = useOpenWeatherMap();
 	if (!oneCallQuery.data) {
 		return <div>loading</div>;
@@ -83,7 +83,9 @@ const DailyForecast = ({
 								dt={daily.dt}
 								min={min}
 								max={max}
-								onClick={() => setSelectedDate(daily.dt)}
+								onClick={() =>
+									setSelectedDate(daily.dt === selectedDate ? undefined : daily.dt)
+								}
 								isSelected={daily.dt === selectedDate}
 							/>
 						);
