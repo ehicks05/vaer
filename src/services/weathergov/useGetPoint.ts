@@ -31,5 +31,6 @@ export const useGetPoint = ({ lat, long }: Params) => {
 		enabled:
 			lat !== null && lat !== undefined && long !== null && long !== undefined,
 		staleTime: 1000 * 60 * 60 * 24,
+		gcTime: 1000 * 60 * 60 * 24,
 	});
 };

@@ -149,7 +149,7 @@ const HourlyDetails = () => {
 		<div className="group">
 			Hourly Details
 			<Card>
-				<div className="flex gap-2 p-2">
+				<div className="flex gap-2 p-2 pb-0">
 					{HOURLY_DETAIL_OPTIONS.map((option) => (
 						<button
 							key={option}
