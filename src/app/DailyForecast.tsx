@@ -2,7 +2,7 @@ import React from 'react';
 import { Card } from '@/components';
 import { format, isToday } from 'date-fns';
 import { Temp } from './PreferredTemperature';
-import { useOpenWeatherMap } from '@/hooks';
+import { useDayIndex, useOpenWeatherMap } from '@/hooks';
 import { getWeatherIcon } from '../constants/weather_icons';
 import { WeatherCondition } from '@/services/openweathermap/types/oneCall';
 
@@ -58,10 +58,9 @@ const OneDaySummary = ({
 	);
 };
 
-const DailyForecast = ({
-	selectedDate,
-	setSelectedDate,
-}: { selectedDate?: number; setSelectedDate: (dt: number | undefined) => void }) => {
+const DailyForecast = () => {
+	const [dayIndex, setDayIndex] = useDayIndex();
+
 	const { oneCallQuery } = useOpenWeatherMap();
 	if (!oneCallQuery.data) {
 		return <div>loading</div>;
@@ -73,7 +72,7 @@ const DailyForecast = ({
 			Daily Forecast
 			<Card>
 				<div className="flex flex-col w-full">
-					{dailies.map((daily) => {
+					{dailies.map((daily, id) => {
 						const { min, max } = daily.temp;
 
 						return (
@@ -83,10 +82,8 @@ const DailyForecast = ({
 								dt={daily.dt}
 								min={min}
 								max={max}
-								onClick={() =>
-									setSelectedDate(daily.dt === selectedDate ? undefined : daily.dt)
-								}
-								isSelected={daily.dt === selectedDate}
+								onClick={() => setDayIndex(id === dayIndex ? undefined : id)}
+								isSelected={id === dayIndex}
 							/>
 						);
 					})}

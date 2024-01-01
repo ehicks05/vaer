@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import { Header, Footer } from './layout';
+import { Header, Footer } from './components/layout';
 import { Home } from '@/app';
 import { useIsRestoring } from '@tanstack/react-query';
 

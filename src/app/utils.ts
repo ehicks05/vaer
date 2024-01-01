@@ -8,6 +8,12 @@ export const degreeToDirection = (degree: number) => {
 
 export const hPaToInHg = (hpa: number) => 0.02952998057228486 * hpa;
 
+export const getPressureDescription = (inHg: number) => {
+	if (inHg < 29.8) return 'Low';
+	if (inHg > 30.2) return 'High';
+	return 'Normal';
+};
+
 export const getTimeParts = (
 	date: Date,
 	tz = Intl.DateTimeFormat().resolvedOptions().timeZone,
