@@ -19,7 +19,7 @@ import { AQI_DISPLAY_NAMES } from '@/constants/aqi';
 import { Summary } from './Summary';
 import { meterFmt } from '@/constants/fmt';
 
-const AirPollution = () => {
+const AirQuality = () => {
 	const { airPollutionQuery } = useOpenWeatherMap();
 	const { data } = airPollutionQuery;
 
@@ -157,7 +157,7 @@ export const Home = () => {
 					<HourlyForecast />
 				</div>
 				<DayStats />
-				<AirPollution />
+				<AirQuality />
 			</div>
 		</div>
 	);

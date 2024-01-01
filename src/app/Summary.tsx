@@ -22,7 +22,7 @@ export const Summary = () => {
 
 	const { city, state } =
 		pointQuery.data?.properties.relativeLocation.properties || {};
-	const friendlyLocation = activeLocation
+	const locationLabel = activeLocation
 		? `${activeLocation.name}${
 				activeLocation.adminCode1 ? `, ${activeLocation.adminCode1}` : ''
 		  }`
@@ -34,7 +34,7 @@ export const Summary = () => {
 
 	return (
 		<div className="flex flex-col items-center p-4 bg-slate-800 rounded-lg">
-			{friendlyLocation}
+			{locationLabel}
 			<div className="flex gap-2 items-center text-6xl text-center">
 				<Temp temp={temp} />
 				<div>
