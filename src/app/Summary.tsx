@@ -1,10 +1,17 @@
 import React from 'react';
 import { Temp } from './PreferredTemperature';
-import { useActiveLocation, useOpenWeatherMap, useWeatherGov } from '@/hooks';
+import {
+	useActiveLocation,
+	useDayIndex,
+	useOpenWeatherMap,
+	useWeatherGov,
+} from '@/hooks';
 import { getWeatherIcon } from '../constants/weather_icons';
 import { Card } from '@/components';
+import { format } from 'date-fns';
 
 export const Summary = () => {
+	const [dayIndex] = useDayIndex();
 	const { oneCallQuery } = useOpenWeatherMap();
 	const { pointQuery } = useWeatherGov();
 	const { data } = oneCallQuery;
@@ -15,10 +22,12 @@ export const Summary = () => {
 		return <div>loading</div>;
 	}
 
-	const {
-		current: { temp, feels_like, weather },
-	} = oneCallQuery.data;
+	const dataSource = dayIndex
+		? oneCallQuery.data.daily[dayIndex]
+		: oneCallQuery.data.current;
+	const { dt, feels_like, weather } = dataSource;
 	const { id, icon, description } = weather[0];
+	const dayLabel = dayIndex ? format(dt, 'EEEE') : 'Currently';
 
 	const { city, state } =
 		pointQuery.data?.properties.relativeLocation.properties || {};
@@ -31,19 +40,33 @@ export const Summary = () => {
 		  : '';
 
 	const Icon = getWeatherIcon(id, icon);
+	const feelsLike =
+		typeof feels_like === 'object' ? null : (
+			<>
+				feels like <Temp temp={feels_like} /> &middot;
+			</>
+		);
 
 	return (
 		<div className="col-span-2">
-			Currently
+			{dayLabel}
 			<div className="flex flex-col items-center p-4 bg-slate-800 rounded-lg">
 				{locationLabel}
 				<div className="flex gap-2 items-center text-6xl text-center">
-					<Temp temp={temp} />
+					{typeof dataSource.temp === 'object' && (
+						<>
+							<Temp temp={dataSource.temp.max} />/
+							<span className="text-neutral-400">
+								<Temp temp={dataSource.temp.min} />
+							</span>
+						</>
+					)}
+					{typeof dataSource.temp === 'number' && <Temp temp={dataSource.temp} />}
 					<div>
 						<Icon className="inline" size={64} title={description} />
 					</div>
 				</div>
-				feels like <Temp temp={feels_like} /> &middot; {description}
+				{feelsLike} {description}
 			</div>
 		</div>
 	);
