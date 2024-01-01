@@ -134,23 +134,17 @@ export const DayStats = () => {
 };
 
 export const Home = () => {
-	const currentConditions = (
-		<div className="col-span-2">
-			Currently
-			<Summary />
-		</div>
-	);
-
 	return (
 		<div className="p-2 max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-start justify-center gap-4">
 			<Alert />
-			<div className="md:hidden">{currentConditions}</div>
+			<div className="md:hidden">
+				<Summary />
+			</div>
 			<div className="h-full">
 				<DailyForecast />
 			</div>
 			<div className="grid grid-cols-2 gap-4 xl:col-span-2">
 				<div className="col-span-2 hidden md:block">
-					Currently
 					<Summary />
 				</div>
 				<div className="col-span-2">

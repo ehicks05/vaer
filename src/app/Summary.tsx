@@ -33,15 +33,18 @@ export const Summary = () => {
 	const Icon = getWeatherIcon(id, icon);
 
 	return (
-		<div className="flex flex-col items-center p-4 bg-slate-800 rounded-lg">
-			{locationLabel}
-			<div className="flex gap-2 items-center text-6xl text-center">
-				<Temp temp={temp} />
-				<div>
-					<Icon className="inline" size={64} title={description} />
+		<div className="col-span-2">
+			Currently
+			<div className="flex flex-col items-center p-4 bg-slate-800 rounded-lg">
+				{locationLabel}
+				<div className="flex gap-2 items-center text-6xl text-center">
+					<Temp temp={temp} />
+					<div>
+						<Icon className="inline" size={64} title={description} />
+					</div>
 				</div>
+				feels like <Temp temp={feels_like} /> &middot; {description}
 			</div>
-			feels like <Temp temp={feels_like} /> &middot; {description}
 		</div>
 	);
 };
