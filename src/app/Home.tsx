@@ -13,19 +13,22 @@ import {
 import { MdOutlineVisibility } from 'react-icons/md';
 import { format } from 'date-fns';
 import { degreeToDirection, getPressureDescription, hPaToInHg } from './utils';
-import { max, round } from 'lodash';
+import { max, mean, round } from 'lodash';
 import { Alert } from './Alert';
 import { AQI_DISPLAY_NAMES } from '@/constants/aqi';
 import { Summary } from './Summary';
 import { meterFmt } from '@/constants/fmt';
+import { useOpenWeatherMapFiveDay } from '@/hooks/useOpenWeatherMap';
 
 export const DayStats = () => {
 	const [dayIndex] = useDayIndex();
 	const { oneCallQuery, airPollutionQuery } = useOpenWeatherMap();
+	const { fiveDayQuery } = useOpenWeatherMapFiveDay();
 	const { data } = oneCallQuery;
 	const { data: airPollutionData } = airPollutionQuery;
+	const { data: fiveDayData } = fiveDayQuery;
 
-	if (!data || !airPollutionData) {
+	if (!data || !airPollutionData || !fiveDayData) {
 		return <div>loading</div>;
 	}
 
@@ -34,13 +37,20 @@ export const DayStats = () => {
 		: oneCallQuery.data.current;
 	const { humidity, pressure, sunrise, sunset, wind_speed, wind_deg } = dataSource;
 
-	const visibility = 'visibility' in dataSource ? dataSource.visibility : undefined;
-
 	const inHg = hPaToInHg(pressure);
 	const description = getPressureDescription(inHg);
 
 	const dt = dayIndex ? oneCallQuery.data.daily[dayIndex].dt : undefined;
 	const date = dt ? format(dt, 'dd') : undefined;
+
+	const visibility =
+		'visibility' in dataSource
+			? dataSource.visibility
+			: mean(
+					fiveDayData.list
+						.filter((o) => format(o.dt, 'dd') === date)
+						.map((o) => o.visibility),
+			  );
 
 	const aqi = dayIndex
 		? max(
@@ -49,8 +59,6 @@ export const DayStats = () => {
 					.map((o) => o.main.aqi),
 		  )
 		: airPollutionData.forecast.list[0].main.aqi;
-
-	console.log(airPollutionData.forecast.list);
 
 	return (
 		<>
@@ -114,7 +122,7 @@ export const DayStats = () => {
 					<div className="flex items-center gap-2 w-full p-4">
 						<MdOutlineVisibility size={24} />
 						<div>
-							{visibility !== undefined
+							{visibility !== undefined && !Number.isNaN(visibility)
 								? `${meterFmt.format(visibility)}m`
 								: 'No data'}
 						</div>
