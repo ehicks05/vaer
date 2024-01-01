@@ -7,17 +7,16 @@ import {
 	WiBarometer,
 	WiDirectionUp,
 	WiHumidity,
+	WiSmoke,
 	WiSunrise,
 	WiSunset,
 } from 'react-icons/wi';
-import { MdOutlineVisibility } from 'react-icons/md';
 import { format } from 'date-fns';
 import { degreeToDirection, getPressureDescription, hPaToInHg } from './utils';
-import { max, mean, round } from 'lodash';
+import { max, round } from 'lodash';
 import { Alert } from './Alert';
 import { AQI_DISPLAY_NAMES } from '@/constants/aqi';
 import { Summary } from './Summary';
-import { meterFmt } from '@/constants/fmt';
 import { useOpenWeatherMapFiveDay } from '@/hooks/useOpenWeatherMap';
 
 export const DayStats = () => {
@@ -43,15 +42,6 @@ export const DayStats = () => {
 	const dt = dayIndex ? oneCallQuery.data.daily[dayIndex].dt : undefined;
 	const date = dt ? format(dt, 'dd') : undefined;
 
-	const visibility =
-		'visibility' in dataSource
-			? dataSource.visibility
-			: mean(
-					fiveDayData.list
-						.filter((o) => format(o.dt, 'dd') === date)
-						.map((o) => o.visibility),
-			  );
-
 	const aqi = dayIndex
 		? max(
 				airPollutionData.forecast.list
@@ -62,6 +52,16 @@ export const DayStats = () => {
 
 	return (
 		<>
+			<div className="col-span-1 h-full">
+				Humidity
+				<Card>
+					<div className="flex items-center gap-2 w-full p-4">
+						<WiHumidity size={32} />
+						<div>{Math.round(humidity)}</div>
+					</div>
+				</Card>
+			</div>
+
 			<div className="col-span-1 h-full flex flex-col">
 				Wind
 				<Card className="h-full">
@@ -78,28 +78,18 @@ export const DayStats = () => {
 				</Card>
 			</div>
 
-			<div className="col-span-1 h-full">
+			<div className="col-span-2 h-full">
 				Sunrise / Sunset
 				<Card>
-					<div className="flex flex-col gap-2 p-4">
+					<div className="flex gap-2 p-4">
 						<div className="flex items-center gap-2 w-full">
 							<WiSunrise size={32} />
 							<div>{format(sunrise, 'h:mm a')}</div>
 						</div>
-						<div className="flex items-center gap-2 w-full">
+						<div className="flex items-center gap-2 ml-10 w-full">
 							<WiSunset size={32} />
 							<div>{format(sunset, 'h:mm a')}</div>
 						</div>
-					</div>
-				</Card>
-			</div>
-
-			<div className="col-span-1 h-full">
-				Humidity
-				<Card>
-					<div className="flex items-center gap-2 w-full p-4">
-						<WiHumidity size={32} />
-						<div>{Math.round(humidity)}</div>
 					</div>
 				</Card>
 			</div>
@@ -117,23 +107,10 @@ export const DayStats = () => {
 			</div>
 
 			<div className="col-span-1 h-full">
-				Visibility
-				<Card>
-					<div className="flex items-center gap-2 w-full p-4">
-						<MdOutlineVisibility size={24} />
-						<div>
-							{visibility !== undefined && !Number.isNaN(visibility)
-								? `${meterFmt.format(visibility)}m`
-								: 'No data'}
-						</div>
-					</div>
-				</Card>
-			</div>
-
-			<div className="col-span-1 h-full">
 				Air Quality
 				<Card>
 					<div className="flex items-center gap-2 w-full p-4">
+						<WiSmoke size={32} />
 						<div>{aqi ? `${aqi}: ${AQI_DISPLAY_NAMES[aqi]}` : 'No data'}</div>
 					</div>
 				</Card>
