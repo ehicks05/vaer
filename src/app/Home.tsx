@@ -13,56 +13,44 @@ import {
 import { MdOutlineVisibility } from 'react-icons/md';
 import { format } from 'date-fns';
 import { degreeToDirection, getPressureDescription, hPaToInHg } from './utils';
-import { round } from 'lodash';
+import { max, round } from 'lodash';
 import { Alert } from './Alert';
 import { AQI_DISPLAY_NAMES } from '@/constants/aqi';
 import { Summary } from './Summary';
 import { meterFmt } from '@/constants/fmt';
 
-const AirQuality = () => {
-	const { airPollutionQuery } = useOpenWeatherMap();
-	const { data } = airPollutionQuery;
-
-	if (!data) {
-		return <div>loading</div>;
-	}
-
-	const {
-		current: { list },
-	} = airPollutionQuery.data;
-	const { aqi } = list[0].main;
-
-	return (
-		<div className="col-span-1 h-full">
-			Air Quality
-			<Card>
-				<div className="flex items-center gap-2 w-full p-4">
-					<div>
-						{aqi}: {AQI_DISPLAY_NAMES[aqi]}
-					</div>
-				</div>
-			</Card>
-		</div>
-	);
-};
-
 export const DayStats = () => {
 	const [dayIndex] = useDayIndex();
-	const { oneCallQuery } = useOpenWeatherMap();
+	const { oneCallQuery, airPollutionQuery } = useOpenWeatherMap();
 	const { data } = oneCallQuery;
+	const { data: airPollutionData } = airPollutionQuery;
 
-	if (!data) {
+	if (!data || !airPollutionData) {
 		return <div>loading</div>;
 	}
 
 	const dataSource = dayIndex
 		? oneCallQuery.data.daily[dayIndex]
 		: oneCallQuery.data.current;
-	const { humidity, pressure, sunrise, sunset, visibility, wind_speed, wind_deg } =
-		dataSource;
+	const { humidity, pressure, sunrise, sunset, wind_speed, wind_deg } = dataSource;
+
+	const visibility = 'visibility' in dataSource ? dataSource.visibility : undefined;
 
 	const inHg = hPaToInHg(pressure);
 	const description = getPressureDescription(inHg);
+
+	const dt = dayIndex ? oneCallQuery.data.daily[dayIndex].dt : undefined;
+	const date = dt ? format(dt, 'dd') : undefined;
+
+	const aqi = dayIndex
+		? max(
+				airPollutionData.forecast.list
+					.filter((o) => format(o.dt, 'dd') === date)
+					.map((o) => o.main.aqi),
+		  )
+		: airPollutionData.forecast.list[0].main.aqi;
+
+	console.log(airPollutionData.forecast.list);
 
 	return (
 		<>
@@ -125,7 +113,20 @@ export const DayStats = () => {
 				<Card>
 					<div className="flex items-center gap-2 w-full p-4">
 						<MdOutlineVisibility size={24} />
-						<div>{meterFmt.format(visibility)}m</div>
+						<div>
+							{visibility !== undefined
+								? `${meterFmt.format(visibility)}m`
+								: 'No data'}
+						</div>
+					</div>
+				</Card>
+			</div>
+
+			<div className="col-span-1 h-full">
+				Air Quality
+				<Card>
+					<div className="flex items-center gap-2 w-full p-4">
+						<div>{aqi ? `${aqi}: ${AQI_DISPLAY_NAMES[aqi]}` : 'No data'}</div>
 					</div>
 				</Card>
 			</div>
@@ -151,7 +152,6 @@ export const Home = () => {
 					<HourlyForecast />
 				</div>
 				<DayStats />
-				<AirQuality />
 			</div>
 		</div>
 	);
