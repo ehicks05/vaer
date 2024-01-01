@@ -34,7 +34,16 @@ const getAirPollution = async ({ lat, long }: Params) => {
 		currentResponse.json(),
 		forecastResponse.json(),
 	]);
-	return { current, forecast };
+	return {
+		current: {
+			...current,
+			list: current.list.map((o) => ({ ...o, dt: o.dt * 1000 })),
+		},
+		forecast: {
+			...forecast,
+			list: forecast.list.map((o) => ({ ...o, dt: o.dt * 1000 })),
+		},
+	};
 };
 
 export const useAirPollution = ({ lat, long }: Params) => {
