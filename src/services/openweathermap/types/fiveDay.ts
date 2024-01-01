@@ -2,11 +2,11 @@ export interface FiveDayResponse {
 	cod: string;
 	message: number;
 	cnt: number;
-	list: List[];
+	list: ThreeHourForecast[];
 	city: City;
 }
 
-export interface List {
+export interface ThreeHourForecast {
 	dt: number;
 	main: Main;
 	weather: Weather[];
@@ -14,7 +14,8 @@ export interface List {
 	wind: Wind;
 	visibility: number;
 	pop: number;
-	rain?: Rain;
+	rain?: PrecipitationAmount;
+	snow?: PrecipitationAmount;
 	sys: Sys;
 	dt_txt: string;
 }
@@ -48,7 +49,7 @@ export interface Wind {
 	gust: number;
 }
 
-export interface Rain {
+export interface PrecipitationAmount {
 	'3h': number;
 }
 
