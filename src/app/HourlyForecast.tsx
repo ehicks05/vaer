@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 import { Temp } from './PreferredTemperature';
 import { useOpenWeatherMap } from '@/hooks';
 import { Hourly, WeatherCondition } from '@/services/openweathermap/types/oneCall';
-import { getWeatherIcon } from './weather_icons';
+import { getWeatherIcon } from '../constants/weather_icons';
 import { WiDirectionUp } from 'react-icons/wi';
 import { degreeToDirection, hPaToInHg } from './utils';
 import { round } from 'lodash';

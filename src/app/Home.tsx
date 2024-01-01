@@ -3,7 +3,7 @@ import { Temp } from './PreferredTemperature';
 import HourlyForecast from './HourlyForecast';
 import DailyForecast from './DailyForecast';
 import { useActiveLocation, useOpenWeatherMap, useWeatherGov } from '@/hooks';
-import { getWeatherIcon } from './weather_icons';
+import { getWeatherIcon } from '../constants/weather_icons';
 import { Button, Card } from '@/components';
 import {
 	WiBarometer,

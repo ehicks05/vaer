@@ -10,7 +10,7 @@ import {
 import { CgSpinnerAlt } from 'react-icons/cg';
 import { useSearch } from '@/services/geonames/geonames';
 import { useActiveLocation, useSavedLocations } from '@/hooks';
-import { NAV_BAR_BUTTON_STYLES } from './classes';
+import { NAV_BAR_BUTTON_STYLES } from '../constants/classes';
 
 interface CityOptionProps {
 	city: Partial<SearchResultGeoname>;

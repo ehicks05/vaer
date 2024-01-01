@@ -3,7 +3,7 @@ import { Card } from '@/components';
 import { format, isToday } from 'date-fns';
 import { Temp } from './PreferredTemperature';
 import { useOpenWeatherMap } from '@/hooks';
-import { getWeatherIcon } from './weather_icons';
+import { getWeatherIcon } from '../constants/weather_icons';
 import { WeatherCondition } from '@/services/openweathermap/types/oneCall';
 
 interface OneDaySummaryProps {

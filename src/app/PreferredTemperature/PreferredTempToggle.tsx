@@ -1,4 +1,4 @@
-import { NAV_BAR_BUTTON_STYLES } from '../classes';
+import { NAV_BAR_BUTTON_STYLES } from '../../constants/classes';
 import { usePreferredTempUnit } from './usePreferredTempUnit';
 
 const PreferredTempToggle = () => {
