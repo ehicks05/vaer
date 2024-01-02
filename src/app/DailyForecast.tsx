@@ -44,7 +44,7 @@ const OneDaySummary = ({
 						<div className="text-xs opacity-75">{weather.description}</div>
 					</div>
 				</div>
-				<div className="whitespace-nowrap flex flex-col">
+				<div className="whitespace-nowrap flex flex-col text-right">
 					<span>
 						<Temp temp={max} />
 					</span>
