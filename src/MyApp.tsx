@@ -1,6 +1,4 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-
 import { Header, Footer } from './components/layout';
 import { Home } from '@/app';
 import { useIsRestoring } from '@tanstack/react-query';
@@ -12,11 +10,11 @@ function MyApp() {
 
 	return (
 		<div className="flex flex-col min-h-screen bg-gradient-to-r from-stone-900 to-neutral-950">
-			<Header />
+			<div className="sm:px-4">
+				<Header />
+			</div>
 			<div className="flex-grow flex flex-col h-full sm:px-4">
-				<Routes>
-					<Route path="/" element={<Home />} />
-				</Routes>
+				<Home />
 			</div>
 			<Footer />
 		</div>

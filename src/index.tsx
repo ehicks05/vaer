@@ -1,7 +1,6 @@
 import './index.css';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
 import { ModalProvider } from 'react-modal-hook';
 import { QueryClient } from '@tanstack/react-query';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
@@ -19,14 +18,9 @@ const persister = createSyncStoragePersister({
 const container = document.getElementById('root');
 const root = createRoot(container as Element);
 root.render(
-	<BrowserRouter>
-		<ModalProvider>
-			<PersistQueryClientProvider
-				client={queryClient}
-				persistOptions={{ persister }}
-			>
-				<App />
-			</PersistQueryClientProvider>
-		</ModalProvider>
-	</BrowserRouter>,
+	<ModalProvider>
+		<PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
+			<App />
+		</PersistQueryClientProvider>
+	</ModalProvider>,
 );

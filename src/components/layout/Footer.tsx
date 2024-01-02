@@ -5,22 +5,9 @@ const siteUrl = 'https://ehicks.net';
 
 const Footer = () => (
 	<footer className="flex items-center justify-end p-4 gap-4">
+		<Link href={'https://openweathermap.org'}>owm</Link>
 		<Link href={repoUrl}>github</Link>
 		<Link href={siteUrl}>ehicks</Link>
-		{/* <Link href={'https://openweathermap.org'}>
-			<img
-				className="h-8"
-				alt="Openweathermap logo"
-				src="https://openweathermap.org/themes/openweathermap/assets/img/logo_white_cropped.png"
-			/>
-		</Link> */}
-		{/* <Link href={'https://openweathermap.org'}>
-			<img
-				className="h-8 text-white"
-				alt="Openweathermap logo"
-				src="/openweather.svg"
-			/>
-		</Link> */}
 	</footer>
 );
 
