@@ -1,10 +1,11 @@
 import React from 'react';
 import { Card } from '@/components';
-import { format, isToday } from 'date-fns';
 import { Temp } from './PreferredTemperature';
 import { useDayIndex, useOpenWeatherMap } from '@/hooks';
 import { getWeatherIcon } from '../constants/weather_icons';
 import { WeatherCondition } from '@/services/openweathermap/types/oneCall';
+import { weekdayShort } from '@/constants/fmt';
+import { isToday } from './utils';
 
 interface OneDaySummaryProps {
 	weather: WeatherCondition;
@@ -25,7 +26,7 @@ const OneDaySummary = ({
 }: OneDaySummaryProps) => {
 	const Icon = getWeatherIcon(weather.id, weather.icon);
 
-	const day = isToday(new Date(dt)) ? 'Today' : format(new Date(dt), 'eee');
+	const day = isToday(new Date(dt)) ? 'Today' : weekdayShort.format(dt);
 
 	return (
 		<div

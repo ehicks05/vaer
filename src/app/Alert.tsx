@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useOpenWeatherMap } from '@/hooks';
 import { Button, Card } from '@/components';
-import { format } from 'date-fns';
 import { HiOutlineExclamationTriangle } from 'react-icons/hi2';
+import { alertFmt } from '@/constants/fmt';
 
 export const Alert = () => {
 	const [showDescription, setShowDescription] = useState(false);
@@ -34,7 +34,7 @@ export const Alert = () => {
 				{showDescription && (
 					<>
 						<div className="text-sm">
-							{format(alert.start, fmt)} to {format(alert.end, fmt)}
+							{alertFmt.format(alert.start)} to {alertFmt.format(alert.end)}
 						</div>
 						<div className="text-sm">{alert.sender_name}</div>
 						<div className="text-sm">{alert.description}</div>

@@ -7,8 +7,7 @@ import {
 	useWeatherGov,
 } from '@/hooks';
 import { getWeatherIcon } from '../constants/weather_icons';
-import { Card } from '@/components';
-import { format } from 'date-fns';
+import { weekdayLong } from '@/constants/fmt';
 
 export const Summary = () => {
 	const [dayIndex] = useDayIndex();
@@ -27,7 +26,7 @@ export const Summary = () => {
 		: oneCallQuery.data.current;
 	const { dt, feels_like, weather } = dataSource;
 	const { id, icon, description } = weather[0];
-	const dayLabel = dayIndex ? format(dt, 'EEEE') : 'Currently';
+	const dayLabel = dayIndex ? weekdayLong.format(dt) : 'Currently';
 
 	const { city, state } =
 		pointQuery.data?.properties.relativeLocation.properties || {};

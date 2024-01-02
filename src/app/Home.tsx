@@ -11,13 +11,13 @@ import {
 	WiSunrise,
 	WiSunset,
 } from 'react-icons/wi';
-import { format } from 'date-fns';
 import { degreeToDirection, getPressureDescription, hPaToInHg } from './utils';
 import { max, round } from 'lodash';
 import { Alert } from './Alert';
 import { AQI_DISPLAY_NAMES } from '@/constants/aqi';
 import { Summary } from './Summary';
 import { useOpenWeatherMapFiveDay } from '@/hooks/useOpenWeatherMap';
+import { dateShort, timeShort } from '@/constants/fmt';
 
 export const DayStats = () => {
 	const [dayIndex] = useDayIndex();
@@ -40,12 +40,12 @@ export const DayStats = () => {
 	const description = getPressureDescription(inHg);
 
 	const dt = dayIndex ? oneCallQuery.data.daily[dayIndex].dt : undefined;
-	const date = dt ? format(dt, 'dd') : undefined;
+	const date = dt ? dateShort.format(dt) : undefined;
 
 	const aqi = dayIndex
 		? max(
 				airPollutionData.forecast.list
-					.filter((o) => format(o.dt, 'dd') === date)
+					.filter((o) => dateShort.format(o.dt) === date)
 					.map((o) => o.main.aqi),
 		  )
 		: airPollutionData.forecast.list[0].main.aqi;
@@ -84,11 +84,11 @@ export const DayStats = () => {
 					<div className="flex gap-2 p-4">
 						<div className="flex items-center gap-2 w-full">
 							<WiSunrise size={32} />
-							<div>{format(sunrise, 'h:mm a')}</div>
+							<div>{timeShort.format(sunrise)}</div>
 						</div>
 						<div className="flex items-center gap-2 ml-10 w-full">
 							<WiSunset size={32} />
-							<div>{format(sunset, 'h:mm a')}</div>
+							<div>{timeShort.format(sunset)}</div>
 						</div>
 					</div>
 				</Card>

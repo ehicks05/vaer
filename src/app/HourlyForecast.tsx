@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Card } from '@/components';
-import { format } from 'date-fns';
 import { Temp } from './PreferredTemperature';
 import { useDayIndex, useOpenWeatherMap } from '@/hooks';
 import { Hourly, WeatherCondition } from '@/services/openweathermap/types/oneCall';
@@ -10,6 +9,7 @@ import { degreeToDirection } from './utils';
 import { round } from 'lodash';
 import { useOpenWeatherMapFiveDay } from '@/hooks/useOpenWeatherMap';
 import { ThreeHourForecast } from '@/services/openweathermap/types/fiveDay';
+import { dateShort, hour } from '@/constants/fmt';
 
 interface OneHourSummaryProps {
 	weather: WeatherCondition;
@@ -27,7 +27,7 @@ const OneHourSummary = ({ weather, dt, temp }: OneHourSummaryProps) => {
 			<div className="flex flex-col gap-1 items-center">
 				<Icon size={32} />
 			</div>
-			<div className="whitespace-nowrap">{format(new Date(dt), 'h a')}</div>
+			<div className="whitespace-nowrap">{hour.format(new Date(dt))}</div>
 			<div className="text-xs">{weather.description}</div>
 		</div>
 	);
@@ -50,7 +50,7 @@ const OneHourWind = ({ dt, wind_deg, wind_speed }: OneHourWindProps) => {
 			<div className="whitespace-nowrap">
 				{Math.round(wind_speed)} mph {degreeToDirection(wind_deg)}
 			</div>
-			<div className="whitespace-nowrap">{format(new Date(dt), 'h a')}</div>
+			<div className="whitespace-nowrap">{hour.format(new Date(dt))}</div>
 		</div>
 	);
 };
@@ -66,7 +66,7 @@ const OneHourPrecipitation = ({ dt, amount }: OneHourPrecipitationProps) => {
 			<div className="whitespace-nowrap">
 				{amount ? `${round(amount, 1)} mm` : '--'}
 			</div>
-			<div className="whitespace-nowrap">{format(new Date(dt), 'h a')}</div>
+			<div className="whitespace-nowrap">{hour.format(new Date(dt))}</div>
 		</div>
 	);
 };
@@ -80,7 +80,7 @@ const OneHourHumidity = ({ dt, amount }: OneHourHumidityProps) => {
 	return (
 		<div className="flex flex-col items-center text-center gap-1" key={dt}>
 			<div className="whitespace-nowrap">{`${amount}%`}</div>
-			<div className="whitespace-nowrap">{format(new Date(dt), 'h a')}</div>
+			<div className="whitespace-nowrap">{hour.format(new Date(dt))}</div>
 		</div>
 	);
 };
@@ -132,15 +132,15 @@ const HourlyDetails = () => {
 	}
 
 	const dt = dayIndex ? oneCallQuery.data.daily[dayIndex].dt : undefined;
-	const date = dt ? format(dt, 'dd') : undefined;
+	const date = dt ? dateShort.format(dt) : undefined;
 
 	const hourlyForecasts = !dayIndex
 		? oneCallQuery.data.hourly.slice(0, 24) || []
 		: dayIndex === 1
 		  ? oneCallQuery.data.hourly
-					.filter((h) => format(h.dt, 'dd') === date)
+					.filter((h) => dateShort.format(h.dt) === date)
 					.slice(7) || []
-		  : fiveDayQuery.data?.list.filter((h) => format(h.dt, 'dd') === date) || [];
+		  : fiveDayQuery.data?.list.filter((h) => dateShort.format(h.dt) === date) || [];
 
 	return (
 		<div className="group">
@@ -184,15 +184,15 @@ const HourlyForecast = () => {
 	}
 
 	const dt = dayIndex ? oneCallQuery.data.daily[dayIndex].dt : undefined;
-	const date = dt ? format(dt, 'dd') : undefined;
+	const date = dt ? dateShort.format(dt) : undefined;
 
 	const hourlyForecasts = !dayIndex
 		? oneCallQuery.data.hourly.slice(0, 24) || []
 		: dayIndex === 1
 		  ? oneCallQuery.data.hourly
-					.filter((h) => format(h.dt, 'dd') === date)
+					.filter((h) => dateShort.format(h.dt) === date)
 					.slice(7) || []
-		  : fiveDayQuery.data?.list.filter((h) => format(h.dt, 'dd') === date) || [];
+		  : fiveDayQuery.data?.list.filter((h) => dateShort.format(h.dt) === date) || [];
 
 	return (
 		<div className="flex flex-col gap-4">
