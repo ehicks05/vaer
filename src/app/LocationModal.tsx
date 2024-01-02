@@ -11,6 +11,7 @@ import { CgSpinnerAlt } from 'react-icons/cg';
 import { useSearch } from '@/services/geonames/geonames';
 import { useActiveLocation, useSavedLocations } from '@/hooks';
 import { NAV_BAR_BUTTON_STYLES } from '../constants/classes';
+import { geonameToLabel } from './utils';
 
 const currentLocation = {
 	geonameId: -1,
@@ -35,14 +36,10 @@ const CityOption = ({
 	onActivate,
 	onDelete,
 }: CityOptionProps) => {
-	const label = `${city.name}${
-		city.countryCode === 'US' && city.adminCode1 ? `, ${city.adminCode1}` : ''
-	} ${city.countryCode !== 'US' ? city.countryName : ''}`;
-
 	return (
 		<div>
 			<div className="w-full flex justify-between items-center gap-4 sm:gap-8 p-2 text-sm sm:text-base bg-neutral-700 rounded-lg">
-				<div>{label}</div>
+				<div>{geonameToLabel(city)}</div>
 				<div className="flex items-center gap-2">
 					{!isSaved && (
 						<HiOutlinePlusCircle

@@ -8,6 +8,7 @@ import {
 } from '@/hooks';
 import { getWeatherIcon } from '../constants/weather_icons';
 import { weekdayLong } from '@/constants/fmt';
+import { geonameToLabel } from './utils';
 
 export const Summary = () => {
 	const [dayIndex] = useDayIndex();
@@ -31,9 +32,7 @@ export const Summary = () => {
 	const { city, state } =
 		pointQuery.data?.properties.relativeLocation.properties || {};
 	const locationLabel = activeLocation
-		? `${activeLocation.name}${
-				activeLocation.adminCode1 ? `, ${activeLocation.adminCode1}` : ''
-		  }`
+		? geonameToLabel(activeLocation)
 		: city && location
 		  ? `${city}, ${state}`
 		  : '';

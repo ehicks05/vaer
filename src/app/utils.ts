@@ -1,4 +1,10 @@
 import { dateShort } from '@/constants/fmt';
+import { SearchResultGeoname } from '@/services/geonames/types';
+
+export const geonameToLabel = (city: Partial<SearchResultGeoname>) =>
+	`${city.name}${
+		city.countryCode === 'US' && city.adminCode1 ? `, ${city.adminCode1}` : ''
+	}${city.countryCode !== 'US' ? `, ${city.countryName}` : ''}`;
 
 export const degreeToDirection = (degree: number) => {
 	const DIRECTIONS = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
