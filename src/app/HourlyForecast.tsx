@@ -9,39 +9,39 @@ import { degreeToDirection } from './utils';
 import { round } from 'lodash';
 import { useOpenWeatherMapFiveDay } from '@/hooks/useOpenWeatherMap';
 import { ThreeHourForecast } from '@/services/openweathermap/types/fiveDay';
-import { dateShort, hour } from '@/constants/fmt';
+import { formatInTimeZone } from 'date-fns-tz';
 
 interface OneHourSummaryProps {
 	weather: WeatherCondition;
-	dt: number;
 	temp: number;
+	time: string;
 }
 
-const OneHourSummary = ({ weather, dt, temp }: OneHourSummaryProps) => {
+const OneHourSummary = ({ weather, temp, time }: OneHourSummaryProps) => {
 	const Icon = getWeatherIcon(weather.id, weather.icon);
 	return (
-		<div className="flex flex-col items-center text-center gap-1" key={dt}>
+		<div className="flex flex-col items-center text-center gap-1">
 			<div>
 				<Temp temp={temp} />
 			</div>
 			<div className="flex flex-col gap-1 items-center">
 				<Icon size={32} />
 			</div>
-			<div className="whitespace-nowrap">{hour.format(new Date(dt))}</div>
+			<div className="whitespace-nowrap">{time}</div>
 			<div className="text-xs">{weather.description}</div>
 		</div>
 	);
 };
 
 interface OneHourWindProps {
-	dt: number;
+	time: string;
 	wind_deg: number;
 	wind_speed: number;
 }
 
-const OneHourWind = ({ dt, wind_deg, wind_speed }: OneHourWindProps) => {
+const OneHourWind = ({ time, wind_deg, wind_speed }: OneHourWindProps) => {
 	return (
-		<div className="flex flex-col items-center text-center gap-1" key={dt}>
+		<div className="flex flex-col items-center text-center gap-1">
 			<WiDirectionUp
 				size={32}
 				title={`${wind_deg}\u00B0`}
@@ -50,37 +50,37 @@ const OneHourWind = ({ dt, wind_deg, wind_speed }: OneHourWindProps) => {
 			<div className="whitespace-nowrap">
 				{Math.round(wind_speed)} mph {degreeToDirection(wind_deg)}
 			</div>
-			<div className="whitespace-nowrap">{hour.format(new Date(dt))}</div>
+			<div className="whitespace-nowrap">{time}</div>
 		</div>
 	);
 };
 
 interface OneHourPrecipitationProps {
-	dt: number;
+	time: string;
 	amount: number;
 }
 
-const OneHourPrecipitation = ({ dt, amount }: OneHourPrecipitationProps) => {
+const OneHourPrecipitation = ({ time, amount }: OneHourPrecipitationProps) => {
 	return (
-		<div className="flex flex-col items-center text-center gap-1" key={dt}>
+		<div className="flex flex-col items-center text-center gap-1">
 			<div className="whitespace-nowrap">
 				{amount ? `${round(amount, 1)} mm` : '--'}
 			</div>
-			<div className="whitespace-nowrap">{hour.format(new Date(dt))}</div>
+			<div className="whitespace-nowrap">{time}</div>
 		</div>
 	);
 };
 
 interface OneHourHumidityProps {
-	dt: number;
+	time: string;
 	amount: number;
 }
 
-const OneHourHumidity = ({ dt, amount }: OneHourHumidityProps) => {
+const OneHourHumidity = ({ time, amount }: OneHourHumidityProps) => {
 	return (
-		<div className="flex flex-col items-center text-center gap-1" key={dt}>
+		<div className="flex flex-col items-center text-center gap-1">
 			<div className="whitespace-nowrap">{`${amount}%`}</div>
-			<div className="whitespace-nowrap">{hour.format(new Date(dt))}</div>
+			<div className="whitespace-nowrap">{time}</div>
 		</div>
 	);
 };
@@ -96,8 +96,13 @@ const toTitleCase = (input: string) => input[0].toLocaleUpperCase() + input.slic
 const HourlyDetail = ({
 	option,
 	hourly,
-}: { option: HourlyDetailOption; hourly: Hourly | ThreeHourForecast }) => {
-	const { dt, rain, snow } = hourly;
+	time,
+}: {
+	option: HourlyDetailOption;
+	hourly: Hourly | ThreeHourForecast;
+	time: string;
+}) => {
+	const { rain, snow } = hourly;
 	const rainAmount =
 		rain && '1h' in rain ? rain['1h'] : rain && '3h' in rain ? rain['3h'] : 0;
 	const snowAmount =
@@ -111,11 +116,11 @@ const HourlyDetail = ({
 	return (
 		<>
 			{option === 'precipitation' && (
-				<OneHourPrecipitation dt={dt} amount={rainAmount + snowAmount} />
+				<OneHourPrecipitation time={time} amount={rainAmount + snowAmount} />
 			)}
-			{option === 'humidity' && <OneHourHumidity dt={hourly.dt} amount={humidity} />}
+			{option === 'humidity' && <OneHourHumidity time={time} amount={humidity} />}
 			{option === 'wind' && (
-				<OneHourWind dt={dt} wind_deg={wind_deg} wind_speed={wind_speed} />
+				<OneHourWind time={time} wind_deg={wind_deg} wind_speed={wind_speed} />
 			)}
 		</>
 	);
@@ -132,15 +137,18 @@ const HourlyDetails = () => {
 	}
 
 	const dt = dayIndex ? oneCallQuery.data.daily[dayIndex].dt : undefined;
-	const date = dt ? dateShort.format(dt) : undefined;
+	const tz = oneCallQuery.data.timezone;
+	const date = dt ? formatInTimeZone(dt, tz, 'MM-dd') : undefined;
 
 	const hourlyForecasts = !dayIndex
 		? oneCallQuery.data.hourly.slice(0, 24) || []
 		: dayIndex === 1
 		  ? oneCallQuery.data.hourly
-					.filter((h) => dateShort.format(h.dt) === date)
+					.filter((h) => formatInTimeZone(h.dt, tz, 'MM-dd') === date)
 					.slice(7) || []
-		  : fiveDayQuery.data?.list.filter((h) => dateShort.format(h.dt) === date) || [];
+		  : fiveDayQuery.data?.list.filter(
+					(h) => formatInTimeZone(h.dt, tz, 'MM-dd') === date,
+			  ) || [];
 
 	return (
 		<div className="group">
@@ -166,7 +174,16 @@ const HourlyDetails = () => {
 					} ${scrollbarClasses}`}
 				>
 					{hourlyForecasts.map((hourly) => (
-						<HourlyDetail key={hourly.dt} option={selectedOption} hourly={hourly} />
+						<HourlyDetail
+							key={hourly.dt}
+							option={selectedOption}
+							hourly={hourly}
+							time={formatInTimeZone(
+								new Date(hourly.dt),
+								oneCallQuery.data.timezone,
+								'h a',
+							)}
+						/>
 					))}
 					{hourlyForecasts.length === 0 && 'No available data'}
 				</div>
@@ -184,15 +201,18 @@ const HourlyForecast = () => {
 	}
 
 	const dt = dayIndex ? oneCallQuery.data.daily[dayIndex].dt : undefined;
-	const date = dt ? dateShort.format(dt) : undefined;
+	const tz = oneCallQuery.data.timezone;
+	const date = dt ? formatInTimeZone(dt, tz, 'MM-dd') : undefined;
 
 	const hourlyForecasts = !dayIndex
 		? oneCallQuery.data.hourly.slice(0, 24) || []
 		: dayIndex === 1
 		  ? oneCallQuery.data.hourly
-					.filter((h) => dateShort.format(h.dt) === date)
+					.filter((h) => formatInTimeZone(h.dt, tz, 'MM-dd') === date)
 					.slice(7) || []
-		  : fiveDayQuery.data?.list.filter((h) => dateShort.format(h.dt) === date) || [];
+		  : fiveDayQuery.data?.list.filter(
+					(h) => formatInTimeZone(h.dt, tz, 'MM-dd') === date,
+			  ) || [];
 
 	return (
 		<div className="flex flex-col gap-4">
@@ -208,8 +228,12 @@ const HourlyForecast = () => {
 							<OneHourSummary
 								key={hourly.dt}
 								weather={hourly.weather[0]}
-								dt={hourly.dt}
 								temp={'main' in hourly ? hourly.main.temp : hourly.temp}
+								time={formatInTimeZone(
+									new Date(hourly.dt),
+									oneCallQuery.data.timezone,
+									'h a',
+								)}
 							/>
 						))}
 						{hourlyForecasts.length === 0 && 'No available data'}

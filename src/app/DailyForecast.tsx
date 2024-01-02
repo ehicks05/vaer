@@ -6,10 +6,11 @@ import { getWeatherIcon } from '../constants/weather_icons';
 import { WeatherCondition } from '@/services/openweathermap/types/oneCall';
 import { weekdayShort } from '@/constants/fmt';
 import { isToday } from './utils';
+import { formatInTimeZone } from 'date-fns-tz';
 
 interface OneDaySummaryProps {
 	weather: WeatherCondition;
-	dt: number;
+	day: string;
 	min: number;
 	max: number;
 	onClick: () => void;
@@ -18,15 +19,13 @@ interface OneDaySummaryProps {
 
 const OneDaySummary = ({
 	weather,
-	dt,
+	day,
 	min,
 	max,
 	onClick,
 	isSelected,
 }: OneDaySummaryProps) => {
 	const Icon = getWeatherIcon(weather.id, weather.icon);
-
-	const day = isToday(new Date(dt)) ? 'Today' : weekdayShort.format(dt);
 
 	return (
 		<div
@@ -66,7 +65,7 @@ const DailyForecast = () => {
 	if (!oneCallQuery.data) {
 		return <div>loading</div>;
 	}
-	const { daily: dailies } = oneCallQuery.data;
+	const { daily: dailies, timezone } = oneCallQuery.data;
 
 	return (
 		<div className="w-full">
@@ -75,12 +74,15 @@ const DailyForecast = () => {
 				<div className="flex flex-col w-full">
 					{dailies.map((daily, id) => {
 						const { min, max } = daily.temp;
+						const day = isToday(new Date(daily.dt), timezone)
+							? 'Today'
+							: formatInTimeZone(daily.dt, timezone, 'EEE');
 
 						return (
 							<OneDaySummary
 								key={daily.dt}
 								weather={daily.weather[0]}
-								dt={daily.dt}
+								day={day}
 								min={min}
 								max={max}
 								onClick={() => setDayIndex(id === dayIndex ? undefined : id)}

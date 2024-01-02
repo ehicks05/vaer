@@ -17,7 +17,8 @@ import { Alert } from './Alert';
 import { AQI_DISPLAY_NAMES } from '@/constants/aqi';
 import { Summary } from './Summary';
 import { useOpenWeatherMapFiveDay } from '@/hooks/useOpenWeatherMap';
-import { dateShort, timeShort } from '@/constants/fmt';
+import { dateShort } from '@/constants/fmt';
+import { formatInTimeZone } from 'date-fns-tz';
 
 export const DayStats = () => {
 	const [dayIndex] = useDayIndex();
@@ -84,11 +85,11 @@ export const DayStats = () => {
 					<div className="flex gap-2 p-4">
 						<div className="flex items-center gap-2 w-full">
 							<WiSunrise size={32} />
-							<div>{timeShort.format(sunrise)}</div>
+							<div>{formatInTimeZone(sunrise, data.timezone, 'h:mm a')}</div>
 						</div>
 						<div className="flex items-center gap-2 ml-10 w-full">
 							<WiSunset size={32} />
-							<div>{timeShort.format(sunset)}</div>
+							<div>{formatInTimeZone(sunset, data.timezone, 'h:mm a')}</div>
 						</div>
 					</div>
 				</Card>
