@@ -4,7 +4,6 @@ import { Temp } from './PreferredTemperature';
 import { useDayIndex, useOpenWeatherMap } from '@/hooks';
 import { getWeatherIcon } from '../constants/weather_icons';
 import { WeatherCondition } from '@/services/openweathermap/types/oneCall';
-import { weekdayShort } from '@/constants/fmt';
 import { isToday } from './utils';
 import { formatInTimeZone } from 'date-fns-tz';
 
@@ -74,7 +73,7 @@ const DailyForecast = () => {
 				<div className="flex flex-col w-full">
 					{dailies.map((daily, id) => {
 						const { min, max } = daily.temp;
-						const day = isToday(new Date(daily.dt), timezone)
+						const day = isToday(new Date(daily.dt))
 							? 'Today'
 							: formatInTimeZone(daily.dt, timezone, 'EEE');
 
