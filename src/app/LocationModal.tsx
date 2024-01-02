@@ -12,6 +12,12 @@ import { useSearch } from '@/services/geonames/geonames';
 import { useActiveLocation, useSavedLocations } from '@/hooks';
 import { NAV_BAR_BUTTON_STYLES } from '../constants/classes';
 
+const currentLocation = {
+	geonameId: -1,
+	countryCode: 'US',
+	name: 'Current Location',
+};
+
 interface CityOptionProps {
 	city: Partial<SearchResultGeoname>;
 	isSaved: boolean;
@@ -29,13 +35,14 @@ const CityOption = ({
 	onActivate,
 	onDelete,
 }: CityOptionProps) => {
+	const label = `${city.name}${
+		city.countryCode === 'US' && city.adminCode1 ? `, ${city.adminCode1}` : ''
+	} ${city.countryCode !== 'US' ? city.countryName : ''}`;
+
 	return (
 		<div>
 			<div className="w-full flex justify-between items-center gap-4 sm:gap-8 p-2 text-sm sm:text-base bg-neutral-700 rounded-lg">
-				<div>
-					{city.name}
-					{city.adminCode1 ? `, ${city.adminCode1}` : ''} {city.countryCode}
-				</div>
+				<div>{label}</div>
 				<div className="flex items-center gap-2">
 					{!isSaved && (
 						<HiOutlinePlusCircle
@@ -83,11 +90,6 @@ const LocationModal = () => {
 	const locations = (query?.data?.geonames || []).filter(
 		(geoname) => !selectedIds.includes(geoname.geonameId),
 	);
-
-	const currentLocation = {
-		geonameId: -1,
-		name: 'Current Location',
-	};
 
 	return (
 		<div className="flex flex-col sm:flex-row gap-4">
