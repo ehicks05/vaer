@@ -1,6 +1,5 @@
 import { useAirPollution, useFiveDay, useOneCall } from '@/services/openweathermap';
-import { useCachedGeolocation } from './useCachedGeolocation';
-import { useActiveLocation } from './useActiveLocation';
+import { useComputedActiveLocation } from './useComputedActiveLocation';
 
 /**
  *
@@ -8,13 +7,7 @@ import { useActiveLocation } from './useActiveLocation';
  * otherwise current geolocation.
  */
 export const useOpenWeatherMap = () => {
-	// TODO: consider a new hook that wraps these two:
-	const geolocation = useCachedGeolocation();
-	const [activeLocation] = useActiveLocation();
-
-	const { lat, long } = activeLocation
-		? { lat: activeLocation.lat, long: activeLocation.lng }
-		: { lat: String(geolocation.latitude), long: String(geolocation.longitude) };
+	const { lat, long } = useComputedActiveLocation();
 
 	const oneCallQuery = useOneCall({ lat, long });
 	const airPollutionQuery = useAirPollution({ lat, long });
@@ -28,12 +21,7 @@ export const useOpenWeatherMap = () => {
  * run on page-load
  */
 export const useOpenWeatherMapFiveDay = () => {
-	const geolocation = useCachedGeolocation();
-	const [activeLocation] = useActiveLocation();
-
-	const { lat, long } = activeLocation
-		? { lat: activeLocation.lat, long: activeLocation.lng }
-		: { lat: String(geolocation.latitude), long: String(geolocation.longitude) };
+	const { lat, long } = useComputedActiveLocation();
 
 	const fiveDayQuery = useFiveDay({ lat, long });
 

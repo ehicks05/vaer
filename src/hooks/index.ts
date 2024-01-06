@@ -3,6 +3,7 @@ import { useOpenWeatherMap } from './useOpenWeatherMap';
 import { useSavedLocations } from './useSavedLocations';
 import { useActiveLocation } from './useActiveLocation';
 import { useDayIndex } from './useDayIndex';
+import { useComputedActiveLocation } from './useComputedActiveLocation';
 
 export {
 	useWeatherGov,
@@ -10,4 +11,5 @@ export {
 	useActiveLocation,
 	useSavedLocations,
 	useDayIndex,
+	useComputedActiveLocation,
 };
