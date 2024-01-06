@@ -79,18 +79,22 @@ export const DayStats = () => {
 				</Card>
 			</div>
 
-			<div className="col-span-2 h-full">
-				Sunrise / Sunset
+			<div className="col-span-1 h-full">
+				Sunrise
 				<Card>
-					<div className="flex gap-2 p-4">
-						<div className="flex items-center gap-2 w-full">
-							<WiSunrise size={32} />
-							<div>{formatInTimeZone(sunrise, data.timezone, 'h:mm a')}</div>
-						</div>
-						<div className="flex items-center gap-2 ml-10 w-full">
-							<WiSunset size={32} />
-							<div>{formatInTimeZone(sunset, data.timezone, 'h:mm a')}</div>
-						</div>
+					<div className="flex items-center gap-2 w-full p-4">
+						<WiSunrise size={32} />
+						<div>{formatInTimeZone(sunrise, data.timezone, 'h:mm a')}</div>
+					</div>
+				</Card>
+			</div>
+
+			<div className="col-span-1 h-full">
+				Sunset
+				<Card>
+					<div className="flex items-center gap-2 w-full p-4">
+						<WiSunset size={32} />
+						<div>{formatInTimeZone(sunset, data.timezone, 'h:mm a')}</div>
 					</div>
 				</Card>
 			</div>
