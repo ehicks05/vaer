@@ -1,14 +1,12 @@
 import React from 'react';
 import HourlyForecast from './HourlyForecast';
 import DailyForecast from './DailyForecast';
-import { useDayIndex, useOpenWeatherMap } from '@/hooks';
+import { useComputedActiveLocation, useDayIndex, useOpenWeatherMap } from '@/hooks';
 import { Card } from '@/components';
 import {
 	WiBarometer,
 	WiDirectionUp,
 	WiHumidity,
-	WiMoonAltWaningCrescent1,
-	WiMoonWaningCrescent1,
 	WiMoonrise,
 	WiMoonset,
 	WiSmoke,
@@ -163,6 +161,41 @@ export const DayStats = () => {
 	);
 };
 
+const WindyMap = () => {
+	const { lat, long } = useComputedActiveLocation();
+
+	const params = new URLSearchParams({
+		lat: lat,
+		lon: long,
+		detailLat: lat,
+		detailLon: long,
+		zoom: '6',
+		level: 'surface',
+		overlay: 'radar',
+		product: 'radar',
+		menu: '',
+		message: 'true',
+		marker: '',
+		calendar: 'now',
+		pressure: '',
+		type: 'map',
+		location: 'coordinates',
+		detail: '',
+		metricWind: 'default',
+		metricTemp: 'default',
+		radarRange: '-1',
+	});
+
+	return (
+		<iframe
+			height="400"
+			className="block w-full rounded-lg"
+			src={`https://embed.windy.com/embed2.html?${params}`}
+			title="weather map"
+		/>
+	);
+};
+
 export const Home = () => {
 	return (
 		<div className="p-2 max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-start justify-center gap-4">
@@ -170,8 +203,9 @@ export const Home = () => {
 			<div className="md:hidden">
 				<Summary />
 			</div>
-			<div className="h-full">
+			<div className="flex flex-col gap-4 h-full">
 				<DailyForecast />
+				<WindyMap />
 			</div>
 			<div className="grid grid-cols-2 gap-4 xl:col-span-2">
 				<div className="col-span-2 hidden md:block">
