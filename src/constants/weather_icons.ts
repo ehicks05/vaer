@@ -51,6 +51,34 @@ import {
 	WiNightFog,
 	WiDayCloudy,
 	WiNightAltPartlyCloudy,
+	WiMoonWaxingCrescent1,
+	WiMoonNew,
+	WiMoonWaxingCrescent2,
+	WiMoonWaxingCrescent3,
+	WiMoonWaxingCrescent4,
+	WiMoonWaxingCrescent5,
+	WiMoonWaxing6,
+	WiMoonWaxingGibbous1,
+	WiMoonWaxingGibbous3,
+	WiMoonWaxingGibbous2,
+	WiMoonWaxingGibbous4,
+	WiMoonWaxingGibbous5,
+	WiMoonWaxingGibbous6,
+	WiMoonWaningCrescent1,
+	WiMoonWaningCrescent2,
+	WiMoonWaningCrescent3,
+	WiMoonWaningCrescent4,
+	WiMoonWaningCrescent5,
+	WiMoonWaningGibbous1,
+	WiMoonWaningGibbous2,
+	WiMoonWaningGibbous3,
+	WiMoonWaningGibbous4,
+	WiMoonWaningGibbous5,
+	WiMoonWaningGibbous6,
+	WiMoonFull,
+	WiMoonFirstQuarter,
+	WiMoonThirdQuarter,
+	WiMoonWaningCrescent6,
 } from 'react-icons/wi';
 
 export const OWM_TO_ICON: Record<string, IconType> = {
@@ -237,4 +265,40 @@ export const getWeatherIcon = (weatherCode: number, icon: string) => {
 	const mode = icon.endsWith('d') ? '-day' : icon.endsWith('n') ? '-night' : '';
 	const key = `wi-owm${mode}-${weatherCode}`;
 	return OWM_TO_ICON[key] || GrStatusPlaceholder;
+};
+
+const MOON_PHASES = [
+	{ Icon: WiMoonNew, label: 'New' },
+	{ Icon: WiMoonWaxingCrescent1, label: 'Waxing Crescent' },
+	{ Icon: WiMoonWaxingCrescent2, label: 'Waxing Crescent' },
+	{ Icon: WiMoonWaxingCrescent3, label: 'Waxing Crescent' },
+	{ Icon: WiMoonWaxingCrescent4, label: 'Waxing Crescent' },
+	{ Icon: WiMoonWaxingCrescent5, label: 'Waxing Crescent' },
+	{ Icon: WiMoonWaxing6, label: 'Waxing Crescent' },
+	{ Icon: WiMoonFirstQuarter, label: 'First Quarter' },
+	{ Icon: WiMoonWaxingGibbous1, label: 'Waxing Gibbous' },
+	{ Icon: WiMoonWaxingGibbous2, label: 'Waxing Gibbous' },
+	{ Icon: WiMoonWaxingGibbous3, label: 'Waxing Gibbous' },
+	{ Icon: WiMoonWaxingGibbous4, label: 'Waxing Gibbous' },
+	{ Icon: WiMoonWaxingGibbous5, label: 'Waxing Gibbous' },
+	{ Icon: WiMoonWaxingGibbous6, label: 'Waxing Gibbous' },
+	{ Icon: WiMoonFull, label: 'Full' },
+	{ Icon: WiMoonWaningGibbous1, label: 'Waning Gibbous' },
+	{ Icon: WiMoonWaningGibbous2, label: 'Waning Gibbous' },
+	{ Icon: WiMoonWaningGibbous3, label: 'Waning Gibbous' },
+	{ Icon: WiMoonWaningGibbous4, label: 'Waning Gibbous' },
+	{ Icon: WiMoonWaningGibbous5, label: 'Waning Gibbous' },
+	{ Icon: WiMoonWaningGibbous6, label: 'Waning Gibbous' },
+	{ Icon: WiMoonThirdQuarter, label: 'Third Quarter' },
+	{ Icon: WiMoonWaningCrescent1, label: 'Waning Crescent' },
+	{ Icon: WiMoonWaningCrescent2, label: 'Waning Crescent' },
+	{ Icon: WiMoonWaningCrescent3, label: 'Waning Crescent' },
+	{ Icon: WiMoonWaningCrescent4, label: 'Waning Crescent' },
+	{ Icon: WiMoonWaningCrescent5, label: 'Waning Crescent' },
+	{ Icon: WiMoonWaningCrescent6, label: 'Waning Crescent' },
+];
+
+export const getMoonPhaseIcon = (moon_phase: number) => {
+	const index = Math.round(moon_phase * (MOON_PHASES.length - 1));
+	return MOON_PHASES[index];
 };

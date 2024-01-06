@@ -7,6 +7,10 @@ import {
 	WiBarometer,
 	WiDirectionUp,
 	WiHumidity,
+	WiMoonAltWaningCrescent1,
+	WiMoonWaningCrescent1,
+	WiMoonrise,
+	WiMoonset,
 	WiSmoke,
 	WiSunrise,
 	WiSunset,
@@ -19,6 +23,7 @@ import { Summary } from './Summary';
 import { useOpenWeatherMapFiveDay } from '@/hooks/useOpenWeatherMap';
 import { dateShort } from '@/constants/fmt';
 import { formatInTimeZone } from 'date-fns-tz';
+import { getMoonPhaseIcon } from '@/constants/weather_icons';
 
 export const DayStats = () => {
 	const [dayIndex] = useDayIndex();
@@ -39,6 +44,10 @@ export const DayStats = () => {
 
 	const inHg = hPaToInHg(pressure);
 	const description = getPressureDescription(inHg);
+
+	const { moonrise, moonset, moon_phase } = oneCallQuery.data.daily[dayIndex || 0];
+	const { Icon: MoonPhaseIcon, label: moonPhaseLabel } =
+		getMoonPhaseIcon(moon_phase);
 
 	const dt = dayIndex ? oneCallQuery.data.daily[dayIndex].dt : undefined;
 	const date = dt ? dateShort.format(dt) : undefined;
@@ -95,6 +104,36 @@ export const DayStats = () => {
 					<div className="flex items-center gap-2 w-full p-4">
 						<WiSunset size={32} />
 						<div>{formatInTimeZone(sunset, data.timezone, 'h:mm a')}</div>
+					</div>
+				</Card>
+			</div>
+
+			<div className="col-span-1 h-full">
+				Moonrise
+				<Card>
+					<div className="flex items-center gap-2 w-full p-4">
+						<WiMoonrise size={32} />
+						<div>{formatInTimeZone(moonrise, data.timezone, 'h:mm a')}</div>
+					</div>
+				</Card>
+			</div>
+
+			<div className="col-span-1 h-full">
+				Moonset
+				<Card>
+					<div className="flex items-center gap-2 w-full p-4">
+						<WiMoonset size={32} />
+						<div>{formatInTimeZone(moonset, data.timezone, 'h:mm a')}</div>
+					</div>
+				</Card>
+			</div>
+
+			<div className="col-span-1 h-full">
+				Moon Phase
+				<Card>
+					<div className="flex items-center gap-2 w-full p-4">
+						<MoonPhaseIcon size={32} />
+						<div>{moonPhaseLabel}</div>
 					</div>
 				</Card>
 			</div>

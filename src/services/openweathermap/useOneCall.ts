@@ -43,6 +43,8 @@ const getOneCall = async ({ lat, long }: Params) => {
 		daily: result.daily.map((o) => ({
 			...o,
 			dt: o.dt * 1000,
+			moonrise: o.moonrise * 1000,
+			moonset: o.moonset * 1000,
 			sunrise: o.sunrise * 1000,
 			sunset: o.sunset * 1000,
 		})),
