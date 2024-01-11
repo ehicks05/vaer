@@ -6,7 +6,7 @@ import { Hourly, WeatherCondition } from '@/services/openweathermap/types/oneCal
 import { getWeatherIcon } from '../constants/weather_icons';
 import { WiDirectionUp } from 'react-icons/wi';
 import { degreeToDirection } from './utils';
-import { round } from 'lodash';
+import { round, sum } from 'lodash';
 import { useOpenWeatherMapFiveDay } from '@/hooks/useOpenWeatherMap';
 import { ThreeHourForecast } from '@/services/openweathermap/types/fiveDay';
 import { formatInTimeZone } from 'date-fns-tz';
@@ -64,7 +64,7 @@ const OneHourPrecipitation = ({ time, amount }: OneHourPrecipitationProps) => {
 	return (
 		<div className="flex flex-col items-center text-center gap-1">
 			<div className="whitespace-nowrap">
-				{amount ? `${round(amount, 1)} mm` : '--'}
+				{amount ? `${round(amount, 2)} in` : '--'}
 			</div>
 			<div className="whitespace-nowrap">{time}</div>
 		</div>
@@ -93,6 +93,16 @@ type HourlyDetailOption = (typeof HOURLY_DETAIL_OPTIONS)[number];
 
 const toTitleCase = (input: string) => input[0].toLocaleUpperCase() + input.slice(1);
 
+const parsePrecipAmount = (forecast: Hourly | ThreeHourForecast) => {
+	const { rain, snow } = forecast;
+	const rainAmount =
+		rain && '1h' in rain ? rain['1h'] : rain && '3h' in rain ? rain['3h'] : 0;
+	const snowAmount =
+		snow && '1h' in snow ? snow['1h'] : snow && '3h' in snow ? snow['3h'] : 0;
+
+	return { rainAmount, snowAmount, totalAmount: rainAmount + snowAmount };
+};
+
 const HourlyDetail = ({
 	option,
 	hourly,
@@ -102,11 +112,7 @@ const HourlyDetail = ({
 	hourly: Hourly | ThreeHourForecast;
 	time: string;
 }) => {
-	const { rain, snow } = hourly;
-	const rainAmount =
-		rain && '1h' in rain ? rain['1h'] : rain && '3h' in rain ? rain['3h'] : 0;
-	const snowAmount =
-		snow && '1h' in snow ? snow['1h'] : snow && '3h' in snow ? snow['3h'] : 0;
+	const { totalAmount } = parsePrecipAmount(hourly);
 	const { humidity } = 'main' in hourly ? hourly.main : hourly;
 	const { wind_deg, wind_speed } =
 		'wind' in hourly
@@ -116,7 +122,7 @@ const HourlyDetail = ({
 	return (
 		<>
 			{option === 'precipitation' && (
-				<OneHourPrecipitation time={time} amount={rainAmount + snowAmount} />
+				<OneHourPrecipitation time={time} amount={totalAmount} />
 			)}
 			{option === 'humidity' && <OneHourHumidity time={time} amount={humidity} />}
 			{option === 'wind' && (
@@ -168,6 +174,18 @@ const HourlyDetails = () => {
 						</button>
 					))}
 				</div>
+
+				{selectedOption === 'precipitation' && (
+					<div className="p-4 pb-0">
+						Daily amount:{' '}
+						{round(
+							sum(hourlyForecasts.map((h) => parsePrecipAmount(h).totalAmount)),
+							2,
+						)}{' '}
+						in
+					</div>
+				)}
+
 				<div
 					className={`flex gap-6 overflow-auto p-4 ${
 						hourlyForecasts.length === 0 ? 'pb-4' : 'pb-2'

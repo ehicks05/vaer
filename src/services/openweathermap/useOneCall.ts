@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { APP_KEY, BASE } from './constants';
 import { OneCallResponse } from './types/oneCall';
+import { mmToInch } from '@/app/utils';
 
 interface Params {
 	lat?: string | null;
@@ -39,6 +40,8 @@ const getOneCall = async ({ lat, long }: Params) => {
 			dt: result.current.dt * 1000,
 			sunrise: result.current.sunrise * 1000,
 			sunset: result.current.sunset * 1000,
+			rain: { '1h': mmToInch(result.current.rain?.['1h']) },
+			snow: { '1h': mmToInch(result.current.snow?.['1h']) },
 		},
 		daily: result.daily.map((o) => ({
 			...o,
@@ -47,8 +50,15 @@ const getOneCall = async ({ lat, long }: Params) => {
 			moonset: o.moonset * 1000,
 			sunrise: o.sunrise * 1000,
 			sunset: o.sunset * 1000,
+			rain: mmToInch(o.rain),
+			snow: mmToInch(o.snow),
 		})),
-		hourly: result.hourly.map((o) => ({ ...o, dt: o.dt * 1000 })),
+		hourly: result.hourly.map((o) => ({
+			...o,
+			dt: o.dt * 1000,
+			rain: { '1h': mmToInch(o.rain?.['1h']) },
+			snow: { '1h': mmToInch(o.snow?.['1h']) },
+		})),
 	};
 };
 

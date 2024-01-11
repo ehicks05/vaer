@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { APP_KEY, BASE } from './constants';
 import { FiveDayResponse } from './types/fiveDay';
+import { mmToInch } from '@/app/utils';
 
 interface Params {
 	lat?: string | null;
@@ -32,6 +33,8 @@ const getFiveDay = async ({ lat, long }: Params) => {
 		list: (result.list || []).map((o) => ({
 			...o,
 			dt: o.dt * 1000,
+			rain: { '3h': mmToInch(o.rain?.['3h']) },
+			snow: { '3h': mmToInch(o.snow?.['3h']) },
 		})),
 		city: {
 			...result.city,
