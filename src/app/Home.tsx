@@ -78,7 +78,7 @@ export const DayStats = () => {
 						<WiDirectionUp
 							size={32}
 							title={`${wind_deg}\u00B0`}
-							style={{ transform: `rotate(${wind_deg}deg)` }}
+							style={{ transform: `rotate(${180 + wind_deg}deg)` }}
 						/>
 						<div>
 							{Math.round(wind_speed)} mph {degreeToDirection(wind_deg)}

@@ -45,7 +45,7 @@ const OneHourWind = ({ time, wind_deg, wind_speed }: OneHourWindProps) => {
 			<WiDirectionUp
 				size={32}
 				title={`${wind_deg}\u00B0`}
-				style={{ transform: `rotate(${wind_deg}deg)` }}
+				style={{ transform: `rotate(${180 + wind_deg}deg)` }}
 			/>
 			<div className="whitespace-nowrap">
 				{Math.round(wind_speed)} mph {degreeToDirection(wind_deg)}
