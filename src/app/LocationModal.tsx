@@ -1,6 +1,6 @@
 import { Card, Dialog } from '@/components';
 import { SearchResultGeoname } from '@/services/geonames/types';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { HiOutlineCheckCircle, HiOutlineXCircle } from 'react-icons/hi';
 import {
 	HiExclamationTriangle,
@@ -184,6 +184,21 @@ const LocationModal = () => {
 
 export const SearchButton = () => {
 	const [isOpen, setIsOpen] = useState(false);
+
+	const handleKeyPress = useCallback((event: KeyboardEvent) => {
+		event.preventDefault();
+		if (event.ctrlKey && event.key === 'k') {
+			setIsOpen(true);
+		}
+	}, []);
+
+	useEffect(() => {
+		document.addEventListener('keydown', handleKeyPress);
+
+		return () => {
+			document.removeEventListener('keydown', handleKeyPress);
+		};
+	}, [handleKeyPress]);
 
 	return (
 		<button

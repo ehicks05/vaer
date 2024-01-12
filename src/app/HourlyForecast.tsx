@@ -179,7 +179,8 @@ const HourlyDetails = () => {
 					<div className="p-4 pb-0">
 						Daily amount:{' '}
 						{round(
-							sum(hourlyForecasts.map((h) => parsePrecipAmount(h).totalAmount)),
+							oneCallQuery.data.daily[dayIndex || 0].rain +
+								oneCallQuery.data.daily[dayIndex || 0].snow,
 							2,
 						)}{' '}
 						in
