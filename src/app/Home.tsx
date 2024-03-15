@@ -169,6 +169,9 @@ export const Home = () => {
 			<div className="md:hidden">
 				<Summary />
 			</div>
+			<div className="md:hidden">
+				<HourlyForecast />
+			</div>
 			<div className="flex flex-col gap-4 h-full">
 				<DailyForecast />
 				<WindyMap />
@@ -177,7 +180,7 @@ export const Home = () => {
 				<div className="col-span-2 hidden md:block">
 					<Summary />
 				</div>
-				<div className="col-span-2">
+				<div className="col-span-2 hidden md:block">
 					<HourlyForecast />
 				</div>
 				<DayStats />
