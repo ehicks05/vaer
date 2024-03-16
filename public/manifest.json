@@ -1,0 +1,16 @@
+{
+	"name": "Vær",
+	"description": "A weather app",
+	"short_name": "Vær",
+	"start_url": "/",
+	"lang": "en-US",
+	"theme_color": "#5b21b6",
+	"display": "standalone",
+	"background_color": "#171717",
+	"icons": [
+		{
+			"src": "icon.svg",
+			"type": "image/svg"
+		}
+	]
+}
