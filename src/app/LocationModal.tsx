@@ -186,8 +186,8 @@ export const SearchButton = () => {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const handleKeyPress = useCallback((event: KeyboardEvent) => {
-		event.preventDefault();
 		if (event.ctrlKey && event.key === 'k') {
+			event.preventDefault();
 			setIsOpen(true);
 		}
 	}, []);
