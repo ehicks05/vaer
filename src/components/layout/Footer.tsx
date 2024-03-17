@@ -5,7 +5,7 @@ const repoUrl = 'https://www.github.com/ehicks05/vaer/';
 const siteUrl = 'https://ehicks.net';
 
 const Footer = () => {
-	const { latitude, longitude, altitude } = useCachedGeolocation();
+	const { latitude, longitude } = useCachedGeolocation();
 	return (
 		<footer className="flex items-center justify-end p-4 gap-4">
 			<span className="text-sm text-neutral-500">{`${longitude}, ${latitude}`}</span>
