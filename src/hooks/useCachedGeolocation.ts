@@ -6,6 +6,8 @@ import {
 import { round } from 'lodash';
 import { useEffect } from 'react';
 
+const PRECISION = 3;
+
 /**
  *
  * @returns GeolocationState, with lat and long rounded to 4 places.
@@ -19,9 +21,13 @@ export const useCachedGeolocation = () => {
 		if (!geolocation.loading) {
 			const { latitude, longitude } = geolocation;
 			const lat =
-				latitude !== null && latitude !== undefined ? round(latitude, 4) : null;
+				latitude !== null && latitude !== undefined
+					? round(latitude, PRECISION)
+					: null;
 			const long =
-				longitude !== null && longitude !== undefined ? round(longitude, 4) : null;
+				longitude !== null && longitude !== undefined
+					? round(longitude, PRECISION)
+					: null;
 
 			setCachedGeolocation({ ...geolocation, latitude: lat, longitude: long });
 		}
