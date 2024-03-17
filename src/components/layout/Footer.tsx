@@ -1,15 +1,20 @@
+import { useGeolocation } from '@uidotdev/usehooks';
 import React from 'react';
 
 const repoUrl = 'https://www.github.com/ehicks05/vaer/';
 const siteUrl = 'https://ehicks.net';
 
-const Footer = () => (
-	<footer className="flex items-center justify-end p-4 gap-4">
-		<Link href={'https://openweathermap.org'}>owm</Link>
-		<Link href={repoUrl}>github</Link>
-		<Link href={siteUrl}>ehicks</Link>
-	</footer>
-);
+const Footer = () => {
+	const { latitude, longitude } = useGeolocation();
+	return (
+		<footer className="flex items-center justify-end p-4 gap-4">
+			<span className="text-sm text-neutral-500">{`${longitude}, ${latitude}`}</span>
+			<Link href={'https://openweathermap.org'}>owm</Link>
+			<Link href={repoUrl}>github</Link>
+			<Link href={siteUrl}>ehicks</Link>
+		</footer>
+	);
+};
 
 interface LinkProps {
 	href: string;
