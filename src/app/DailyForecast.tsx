@@ -1,19 +1,19 @@
-import React from 'react';
 import { Card } from '@/components';
-import { Temp } from './PreferredTemperature';
 import { useDayIndex, useOpenWeatherMap } from '@/hooks';
-import { getWeatherIcon } from '../constants/weather_icons';
 import { WeatherCondition } from '@/services/openweathermap/types/oneCall';
-import { isToday } from './utils';
 import { formatInTimeZone } from 'date-fns-tz';
+import React from 'react';
+import { getWeatherIcon } from '../constants/weather_icons';
+import { Temp } from './PreferredTemperature';
+import { isToday } from './utils';
 
 interface OneDaySummaryProps {
-	weather: WeatherCondition;
+	weather: Omit<WeatherCondition, 'main'>;
 	day: string;
 	min: number;
 	max: number;
-	onClick: () => void;
-	isSelected: boolean;
+	onClick?: () => void;
+	isSelected?: boolean;
 }
 
 const OneDaySummary = ({
@@ -61,21 +61,28 @@ const DailyForecast = () => {
 	const [dayIndex, setDayIndex] = useDayIndex();
 
 	const { oneCallQuery } = useOpenWeatherMap();
-	if (!oneCallQuery.data) {
-		return <div>loading</div>;
-	}
-	const { daily: dailies, timezone } = oneCallQuery.data;
+	const { daily: dailies, timezone } = oneCallQuery.data || {};
 
 	return (
 		<div className="w-full">
 			Daily Forecast
 			<Card>
 				<div className="flex flex-col w-full">
-					{dailies.map((daily, id) => {
+					{!oneCallQuery.data && (
+						<OneDaySummary
+							key={'loading'}
+							weather={{ id: 0, description: 'loading', icon: 'loading' }}
+							day={'loading'}
+							min={0}
+							max={0}
+						/>
+					)}
+
+					{dailies?.map((daily, id) => {
 						const { min, max } = daily.temp;
 						const day = isToday(new Date(daily.dt))
 							? 'Today'
-							: formatInTimeZone(daily.dt, timezone, 'EEE');
+							: formatInTimeZone(daily.dt, timezone || '', 'EEE');
 
 						return (
 							<OneDaySummary
