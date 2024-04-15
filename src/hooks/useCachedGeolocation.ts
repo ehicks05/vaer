@@ -10,7 +10,7 @@ const PRECISION = 3;
 
 /**
  *
- * @returns GeolocationState, with lat and long rounded to 4 places.
+ * @returns GeolocationState, with lat and long rounded to `PRECISION` places.
  */
 export const useCachedGeolocation = () => {
 	const geolocation = useGeolocation();

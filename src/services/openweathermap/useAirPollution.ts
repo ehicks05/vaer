@@ -1,4 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { HALF_HOUR, ONE_DAY } from '../../constants/datetime';
 import { APP_KEY, BASE } from './constants';
 import { AirPollutionResponse } from './types/airPollution';
 
@@ -52,7 +53,8 @@ export const useAirPollution = ({ lat, long }: Params) => {
 		queryFn: async () => getAirPollution({ lat, long }),
 		enabled:
 			lat !== null && lat !== undefined && long !== null && long !== undefined,
-		staleTime: 1000 * 60 * 30,
-		gcTime: 1000 * 60 * 60 * 24,
+		staleTime: HALF_HOUR,
+		gcTime: ONE_DAY,
+		placeholderData: keepPreviousData,
 	});
 };

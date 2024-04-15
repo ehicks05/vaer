@@ -1,7 +1,8 @@
-import { useQuery } from '@tanstack/react-query';
+import { mmToInch } from '@/app/utils';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { HALF_HOUR, ONE_DAY } from '../../constants/datetime';
 import { APP_KEY, BASE } from './constants';
 import { OneCallResponse } from './types/oneCall';
-import { mmToInch } from '@/app/utils';
 
 interface Params {
 	lat?: string | null;
@@ -68,7 +69,8 @@ export const useOneCall = ({ lat, long }: Params) => {
 		queryFn: async () => getOneCall({ lat, long }),
 		enabled:
 			lat !== null && lat !== undefined && long !== null && long !== undefined,
-		staleTime: 1000 * 60 * 30,
-		gcTime: 1000 * 60 * 60 * 24,
+		staleTime: HALF_HOUR,
+		gcTime: ONE_DAY,
+		placeholderData: keepPreviousData,
 	});
 };

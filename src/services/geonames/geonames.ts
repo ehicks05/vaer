@@ -1,7 +1,8 @@
-import { useQuery } from '@tanstack/react-query';
-import { SHARED_PARAMS, BASE } from './constants';
-import { SearchResult } from './types';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { useDebounce } from '@uidotdev/usehooks';
+import { HALF_HOUR, ONE_DAY } from '../../constants/datetime';
+import { BASE, SHARED_PARAMS } from './constants';
+import { SearchResult } from './types';
 
 interface Params {
 	query: string;
@@ -33,7 +34,8 @@ export const useSearch = ({ query: _query }: Params) => {
 		queryKey: ['searchGeonames', query],
 		queryFn: async () => search({ query }),
 		enabled: query.length >= 3,
-		staleTime: 1000 * 60 * 30,
-		gcTime: 1000 * 60 * 60 * 24,
+		staleTime: HALF_HOUR,
+		gcTime: ONE_DAY,
+		placeholderData: keepPreviousData,
 	});
 };

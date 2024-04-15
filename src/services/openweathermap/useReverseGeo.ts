@@ -1,4 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { ONE_DAY } from '../../constants/datetime';
 import { APP_KEY, BASE } from './constants';
 import { ReverseGeoResponse } from './types/reverseGeo';
 
@@ -35,7 +36,8 @@ export const useReverseGeo = ({ lat, long }: Params) => {
 		queryFn: async () => getReverseGeo({ lat, long }),
 		enabled:
 			lat !== null && lat !== undefined && long !== null && long !== undefined,
-		staleTime: 1000 * 60 * 60 * 24,
-		gcTime: 1000 * 60 * 60 * 24,
+		staleTime: ONE_DAY,
+		gcTime: ONE_DAY,
+		placeholderData: keepPreviousData,
 	});
 };
