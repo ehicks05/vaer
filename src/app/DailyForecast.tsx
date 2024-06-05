@@ -1,6 +1,7 @@
 import { Card } from '@/components';
 import { useDayIndex, useOpenWeatherMap } from '@/hooks';
 import { WeatherCondition } from '@/services/openweathermap/types/oneCall';
+import { addDays } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 import React from 'react';
 import { getWeatherIcon } from '../constants/weather_icons';
@@ -57,27 +58,27 @@ const OneDaySummary = ({
 	);
 };
 
+const getPlaceholderData = () => ({
+	daily: [...new Array(8)].map((_, i) => ({
+		dt: addDays(new Date(), i).toISOString(),
+		timezone: '',
+		temp: { min: 0, max: 0 },
+		weather: [{ id: 800, description: 'loading', icon: 'd' }],
+	})),
+	timezone: '',
+});
+
 const DailyForecast = () => {
 	const [dayIndex, setDayIndex] = useDayIndex();
 
 	const { oneCallQuery } = useOpenWeatherMap();
-	const { daily: dailies, timezone } = oneCallQuery.data || {};
+	const { daily: dailies, timezone } = oneCallQuery.data || getPlaceholderData();
 
 	return (
 		<div className="w-full">
 			Daily Forecast
 			<Card>
 				<div className="flex flex-col w-full">
-					{!oneCallQuery.data && (
-						<OneDaySummary
-							key={'loading'}
-							weather={{ id: 0, description: 'loading', icon: 'loading' }}
-							day={'loading'}
-							min={0}
-							max={0}
-						/>
-					)}
-
 					{dailies?.map((daily, id) => {
 						const { min, max } = daily.temp;
 						const day = isToday(new Date(daily.dt))
