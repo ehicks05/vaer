@@ -61,7 +61,6 @@ const OneDaySummary = ({
 const getPlaceholderData = () => ({
 	daily: [...new Array(8)].map((_, i) => ({
 		dt: addDays(new Date(), i).toISOString(),
-		timezone: '',
 		temp: { min: 0, max: 0 },
 		weather: [{ id: 800, description: 'loading', icon: 'd' }],
 	})),

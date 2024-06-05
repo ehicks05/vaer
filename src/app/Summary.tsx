@@ -1,5 +1,4 @@
-import React from 'react';
-import { Temp } from './PreferredTemperature';
+import { weekdayLong } from '@/constants/fmt';
 import {
 	useActiveLocation,
 	useDayIndex,
@@ -7,25 +6,26 @@ import {
 	useWeatherGov,
 } from '@/hooks';
 import { getWeatherIcon } from '../constants/weather_icons';
-import { weekdayLong } from '@/constants/fmt';
+import { Temp } from './PreferredTemperature';
 import { geonameToLabel } from './utils';
+
+const PLACEHOLDER = {
+	dt: new Date(),
+	temp: 0,
+	feels_like: 0,
+	weather: [{ id: 800, icon: '', description: 'loading' }],
+};
 
 export const Summary = () => {
 	const [dayIndex] = useDayIndex();
 	const { oneCallQuery } = useOpenWeatherMap();
 	const { pointQuery } = useWeatherGov();
-	const { data } = oneCallQuery;
-
 	const [activeLocation] = useActiveLocation();
 
-	if (!data) {
-		return <div>loading</div>;
-	}
-
 	const dataSource = dayIndex
-		? oneCallQuery.data.daily[dayIndex]
-		: oneCallQuery.data.current;
-	const { dt, feels_like, weather } = dataSource;
+		? oneCallQuery.data?.daily[dayIndex]
+		: oneCallQuery.data?.current;
+	const { dt, feels_like, weather, temp } = dataSource || PLACEHOLDER;
 	const { id, icon, description } = weather[0];
 	const dayLabel = dayIndex ? weekdayLong.format(dt) : 'Currently';
 
@@ -38,12 +38,6 @@ export const Summary = () => {
 		  : '';
 
 	const Icon = getWeatherIcon(id, icon);
-	const feelsLike =
-		typeof feels_like === 'object' ? null : (
-			<>
-				feels like <Temp temp={feels_like} /> &middot;
-			</>
-		);
 
 	return (
 		<div className="col-span-2">
@@ -51,20 +45,25 @@ export const Summary = () => {
 			<div className="flex flex-col items-center p-4 bg-slate-800 rounded-lg">
 				{locationLabel}
 				<div className="flex gap-2 items-center text-6xl text-center">
-					{typeof dataSource.temp === 'object' && (
-						<>
-							<Temp temp={dataSource.temp.max} />/
+					{typeof temp === 'object' && (
+						<div>
+							<Temp temp={temp.max} />/
 							<span className="text-neutral-400">
-								<Temp temp={dataSource.temp.min} />
+								<Temp temp={temp.min} />
 							</span>
-						</>
+						</div>
 					)}
-					{typeof dataSource.temp === 'number' && <Temp temp={dataSource.temp} />}
+					{typeof temp === 'number' && <Temp temp={temp} />}
 					<div>
 						<Icon className="inline" size={64} title={description} />
 					</div>
 				</div>
-				{feelsLike} {description}
+				{typeof feels_like === 'number' && (
+					<>
+						feels like <Temp temp={feels_like} /> &middot;{' '}
+					</>
+				)}
+				{description}
 			</div>
 		</div>
 	);

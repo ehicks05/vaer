@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
 import { Card } from '@/components';
-import { Temp } from './PreferredTemperature';
 import { useDayIndex, useOpenWeatherMap } from '@/hooks';
-import { Hourly, WeatherCondition } from '@/services/openweathermap/types/oneCall';
-import { getWeatherIcon } from '../constants/weather_icons';
-import { WiDirectionUp } from 'react-icons/wi';
-import { degreeToDirection } from './utils';
-import { round, sum } from 'lodash';
 import { useOpenWeatherMapFiveDay } from '@/hooks/useOpenWeatherMap';
 import { ThreeHourForecast } from '@/services/openweathermap/types/fiveDay';
+import {
+	Hourly as IHourly,
+	WeatherCondition,
+} from '@/services/openweathermap/types/oneCall';
+import { addHours, format } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
+import { round } from 'lodash';
+import React, { useState } from 'react';
+import { WiDirectionUp } from 'react-icons/wi';
+import { getWeatherIcon } from '../constants/weather_icons';
+import { Temp } from './PreferredTemperature';
+import { degreeToDirection } from './utils';
 
 interface OneHourSummaryProps {
 	weather: WeatherCondition;
@@ -93,7 +97,7 @@ type HourlyDetailOption = (typeof HOURLY_DETAIL_OPTIONS)[number];
 
 const toTitleCase = (input: string) => input[0].toLocaleUpperCase() + input.slice(1);
 
-const parsePrecipAmount = (forecast: Hourly | ThreeHourForecast) => {
+const parsePrecipAmount = (forecast: IHourly | ThreeHourForecast) => {
 	const { rain, snow } = forecast;
 	const rainAmount =
 		rain && '1h' in rain ? rain['1h'] : rain && '3h' in rain ? rain['3h'] : 0;
@@ -109,7 +113,7 @@ const HourlyDetail = ({
 	time,
 }: {
 	option: HourlyDetailOption;
-	hourly: Hourly | ThreeHourForecast;
+	hourly: IHourly | ThreeHourForecast;
 	time: string;
 }) => {
 	const { totalAmount } = parsePrecipAmount(hourly);
@@ -132,14 +136,14 @@ const HourlyDetail = ({
 	);
 };
 
-const HourlyDetails = () => {
-	const [selectedOption, setSelectedOption] =
-		useState<HourlyDetailOption>('precipitation');
+const HourlyDetails = ({
+	selectedOption,
+}: { selectedOption: HourlyDetailOption }) => {
 	const [dayIndex] = useDayIndex();
 	const { oneCallQuery } = useOpenWeatherMap();
 	const { fiveDayQuery } = useOpenWeatherMapFiveDay();
 	if (!oneCallQuery.data) {
-		return <div>loading</div>;
+		return <div className="p-4">loading</div>;
 	}
 
 	const dt = dayIndex ? oneCallQuery.data.daily[dayIndex].dt : undefined;
@@ -157,66 +161,68 @@ const HourlyDetails = () => {
 			  ) || [];
 
 	return (
-		<div className="group">
-			Hourly Details
-			<Card>
-				<div className="flex gap-2 p-2 pb-0">
-					{HOURLY_DETAIL_OPTIONS.map((option) => (
-						<button
-							key={option}
-							type="button"
-							className={`p-2 rounded-lg ${
-								option === selectedOption ? 'bg-slate-800' : ''
-							}`}
-							onClick={() => setSelectedOption(option)}
-						>
-							{toTitleCase(option)}
-						</button>
-					))}
+		<>
+			{selectedOption === 'precipitation' && (
+				<div className="p-4 pb-0">
+					Daily amount:{' '}
+					{round(
+						oneCallQuery.data.daily[dayIndex || 0].rain +
+							oneCallQuery.data.daily[dayIndex || 0].snow,
+						2,
+					)}{' '}
+					in
 				</div>
+			)}
 
-				{selectedOption === 'precipitation' && (
-					<div className="p-4 pb-0">
-						Daily amount:{' '}
-						{round(
-							oneCallQuery.data.daily[dayIndex || 0].rain +
-								oneCallQuery.data.daily[dayIndex || 0].snow,
-							2,
-						)}{' '}
-						in
-					</div>
-				)}
-
-				<div
-					className={`flex gap-6 overflow-auto p-4 ${
-						hourlyForecasts.length === 0 ? 'pb-4' : 'pb-2'
-					} ${scrollbarClasses}`}
-				>
-					{hourlyForecasts.map((hourly) => (
-						<HourlyDetail
-							key={hourly.dt}
-							option={selectedOption}
-							hourly={hourly}
-							time={formatInTimeZone(
-								new Date(hourly.dt),
-								oneCallQuery.data.timezone,
-								'h a',
-							)}
-						/>
-					))}
-					{hourlyForecasts.length === 0 && 'No available data'}
-				</div>
-			</Card>
-		</div>
+			<div
+				className={`flex gap-6 overflow-auto p-4 ${
+					hourlyForecasts.length === 0 ? 'pb-4' : 'pb-2'
+				} ${scrollbarClasses}`}
+			>
+				{hourlyForecasts.map((hourly) => (
+					<HourlyDetail
+						key={hourly.dt}
+						option={selectedOption}
+						hourly={hourly}
+						time={formatInTimeZone(
+							new Date(hourly.dt),
+							oneCallQuery.data.timezone,
+							'h a',
+						)}
+					/>
+				))}
+				{hourlyForecasts.length === 0 && 'No available data'}
+			</div>
+		</>
 	);
 };
+
+const getPlaceholderData = () =>
+	[...new Array(25)].map((_, i) => ({
+		dt: addHours(new Date(), i).toISOString(),
+		time: '',
+		temp: 0,
+		weather: [{ id: 800, description: 'loading', icon: 'd', main: '' }],
+	}));
 
 const HourlyForecast = () => {
 	const [dayIndex] = useDayIndex();
 	const { oneCallQuery } = useOpenWeatherMap();
 	const { fiveDayQuery } = useOpenWeatherMapFiveDay();
+
 	if (!oneCallQuery.data) {
-		return <div>loading</div>;
+		return (
+			<div className={`flex gap-6 overflow-auto p-4 ${scrollbarClasses}`}>
+				{getPlaceholderData().map((hourly) => (
+					<OneHourSummary
+						key={hourly.dt}
+						weather={hourly.weather[0]}
+						temp={hourly.temp}
+						time={format(new Date(hourly.dt), 'h a')}
+					/>
+				))}
+			</div>
+		);
 	}
 
 	const dt = dayIndex ? oneCallQuery.data.daily[dayIndex].dt : undefined;
@@ -234,35 +240,70 @@ const HourlyForecast = () => {
 			  ) || [];
 
 	return (
-		<div className="flex flex-col gap-4">
-			<div className="group">
-				Hourly Forecast
-				<Card>
-					<div
-						className={`flex gap-6 overflow-auto p-4 ${
-							hourlyForecasts.length === 0 ? 'pb-4' : 'pb-2'
-						} ${scrollbarClasses}`}
-					>
-						{hourlyForecasts.map((hourly) => (
-							<OneHourSummary
-								key={hourly.dt}
-								weather={hourly.weather[0]}
-								temp={'main' in hourly ? hourly.main.temp : hourly.temp}
-								time={formatInTimeZone(
-									new Date(hourly.dt),
-									oneCallQuery.data.timezone,
-									'h a',
-								)}
-							/>
-						))}
-						{hourlyForecasts.length === 0 && 'No available data'}
-					</div>
-				</Card>
-			</div>
-
-			<HourlyDetails />
+		<div
+			className={`flex gap-6 overflow-auto p-4 ${
+				hourlyForecasts.length === 0 ? 'pb-4' : 'pb-2'
+			} ${scrollbarClasses}`}
+		>
+			{hourlyForecasts.map((hourly) => (
+				<OneHourSummary
+					key={hourly.dt}
+					weather={hourly.weather[0]}
+					temp={'main' in hourly ? hourly.main.temp : hourly.temp}
+					time={formatInTimeZone(
+						new Date(hourly.dt),
+						oneCallQuery.data.timezone,
+						'h a',
+					)}
+				/>
+			))}
+			{hourlyForecasts.length === 0 && 'No available data'}
 		</div>
 	);
 };
 
-export default HourlyForecast;
+const HourlyDetailsWrapper = () => {
+	const [selectedOption, setSelectedOption] =
+		useState<HourlyDetailOption>('precipitation');
+
+	return (
+		<div>
+			<div className="flex gap-2 p-2 pb-0">
+				{HOURLY_DETAIL_OPTIONS.map((option) => (
+					<button
+						key={option}
+						type="button"
+						className={`p-2 rounded-lg ${
+							option === selectedOption ? 'bg-slate-800' : ''
+						}`}
+						onClick={() => setSelectedOption(option)}
+					>
+						{toTitleCase(option)}
+					</button>
+				))}
+			</div>
+
+			<HourlyDetails selectedOption={selectedOption} />
+		</div>
+	);
+};
+
+export const Hourly = () => {
+	return (
+		<div className="flex flex-col gap-4">
+			<div className="group">
+				Hourly Forecast
+				<Card>
+					<HourlyForecast />
+				</Card>
+			</div>
+
+			<div className="group">
+				Hourly Details
+				<Card>
+					<HourlyDetailsWrapper />
+				</Card>
+			</div>
+		</div>
+	);
+};
