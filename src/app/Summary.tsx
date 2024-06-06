@@ -35,7 +35,7 @@ export const Summary = () => {
 		? geonameToLabel(activeLocation)
 		: city && location
 		  ? `${city}, ${state}`
-		  : '';
+		  : 'loading';
 
 	const Icon = getWeatherIcon(id, icon);
 

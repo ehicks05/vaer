@@ -143,7 +143,7 @@ const HourlyDetails = ({
 	const { oneCallQuery } = useOpenWeatherMap();
 	const { fiveDayQuery } = useOpenWeatherMapFiveDay();
 	if (!oneCallQuery.data) {
-		return <div className="p-4">loading</div>;
+		return <div className="p-4 pb-20">loading</div>;
 	}
 
 	const dt = dayIndex ? oneCallQuery.data.daily[dayIndex].dt : undefined;
@@ -202,7 +202,7 @@ const getPlaceholderData = () =>
 		dt: addHours(new Date(), i).toISOString(),
 		time: '',
 		temp: 0,
-		weather: [{ id: 800, description: 'loading', icon: 'd', main: '' }],
+		weather: [{ id: 800, description: 'loading data', icon: 'd', main: '' }],
 	}));
 
 const HourlyForecast = () => {
