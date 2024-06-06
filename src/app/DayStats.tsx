@@ -173,7 +173,11 @@ export const DayStats = () => {
 		},
 	];
 
-	return stats.map((stat) => (
-		<DayStat label={stat.label} value={stat.value} icon={stat.icon} />
+	return stats.map((stat, i) => (
+		<DayStat
+			label={stat.label}
+			value={stat.value}
+			icon={stat.icon || DAY_STATS[i].icon}
+		/>
 	));
 };
