@@ -9,15 +9,10 @@ export const Alert = () => {
 	const { oneCallQuery } = useOpenWeatherMap();
 	const { data } = oneCallQuery;
 
-	if (!data) {
-		return <div>loading</div>;
-	}
-
-	const alert = data.alerts?.[0];
+	const alert = data?.alerts?.[0];
 	if (!alert) {
 		return null;
 	}
-	const fmt = 'MMM dd h:mma';
 
 	return (
 		<Card gradient={false} className="col-span-full p-4 bg-slate-800">
