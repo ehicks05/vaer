@@ -99,7 +99,12 @@ export const DayStats = () => {
 
 	if (!data || !airPollutionData || !fiveDayData) {
 		return DAY_STATS.map((stat) => (
-			<DayStat label={stat.label} value={stat.value} icon={stat.icon} />
+			<DayStat
+				key={stat.label}
+				label={stat.label}
+				value={stat.value}
+				icon={stat.icon}
+			/>
 		));
 	}
 
@@ -175,6 +180,7 @@ export const DayStats = () => {
 
 	return stats.map((stat, i) => (
 		<DayStat
+			key={stat.label}
 			label={stat.label}
 			value={stat.value}
 			icon={stat.icon || DAY_STATS[i].icon}
