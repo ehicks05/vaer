@@ -15,6 +15,8 @@
 
 ## todo
 
-* what does daily summary look like vs weather[0].description?
+* keep an eye on weather.gov 2.0 to get around OWM limitations:
+   * daily query limits
+   * limited hourly data: they provide the first ~48 hours, but after that it drops to every 3rd hour, and then after the ~5th day you get nothing.
 
 ## issues
