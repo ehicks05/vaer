@@ -1,7 +1,11 @@
-import { useComputedActiveLocation } from '@/hooks';
+import { useResolvedLocation } from '@/hooks';
 
 const WindyMap = () => {
-	const { lat, long } = useComputedActiveLocation();
+	const { lat, long } = useResolvedLocation();
+
+	if (lat === undefined || long === undefined) {
+		return null;
+	}
 
 	const params = new URLSearchParams({
 		lat: lat,
@@ -12,14 +16,9 @@ const WindyMap = () => {
 		level: 'surface',
 		overlay: 'radar',
 		product: 'radar',
-		menu: '',
 		message: 'true',
-		marker: '',
-		calendar: 'now',
-		pressure: '',
 		type: 'map',
 		location: 'coordinates',
-		detail: '',
 		metricWind: 'default',
 		metricTemp: 'default',
 		radarRange: '-1',
@@ -29,7 +28,7 @@ const WindyMap = () => {
 		<iframe
 			height="400"
 			className="block w-full rounded-lg"
-			src={`https://embed.windy.com/embed2.html?${params}`}
+			src={`https://embed.windy.com/embed.html?${params}`}
 			title="weather map"
 		/>
 	);

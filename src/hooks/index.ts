@@ -1,9 +1,9 @@
-import { useWeatherGov } from './useWeatherGov';
-import { useOpenWeatherMap } from './useOpenWeatherMap';
-import { useSavedLocations } from './useSavedLocations';
 import { useActiveLocation } from './useActiveLocation';
 import { useDayIndex } from './useDayIndex';
-import { useComputedActiveLocation } from './useComputedActiveLocation';
+import { useOpenWeatherMap } from './useOpenWeatherMap';
+import { useResolvedLocation } from './useResolvedLocation';
+import { useSavedLocations } from './useSavedLocations';
+import { useWeatherGov } from './useWeatherGov';
 
 export {
 	useWeatherGov,
@@ -11,5 +11,5 @@ export {
 	useActiveLocation,
 	useSavedLocations,
 	useDayIndex,
-	useComputedActiveLocation,
+	useResolvedLocation,
 };

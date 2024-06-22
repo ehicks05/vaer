@@ -1,16 +1,12 @@
 import { mmToInch } from '@/app/utils';
+import { PartialLatLong } from '@/hooks/useResolvedLocation';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { HALF_HOUR, ONE_DAY } from '../../constants/datetime';
 import { APP_KEY, BASE } from './constants';
 import { OneCallResponse } from './types/oneCall';
 
-interface Params {
-	lat?: string | null;
-	long?: string | null;
-}
-
-const getOneCall = async ({ lat, long }: Params) => {
-	if (lat === null || lat === undefined || long === null || long === undefined) {
+const getOneCall = async ({ lat, long }: PartialLatLong) => {
+	if (lat === undefined || long === undefined) {
 		throw new Error('Missing coordinates');
 	}
 
@@ -63,12 +59,11 @@ const getOneCall = async ({ lat, long }: Params) => {
 	};
 };
 
-export const useOneCall = ({ lat, long }: Params) => {
+export const useOneCall = ({ lat, long }: PartialLatLong) => {
 	return useQuery({
 		queryKey: ['oneCall', lat, long],
 		queryFn: async () => getOneCall({ lat, long }),
-		enabled:
-			lat !== null && lat !== undefined && long !== null && long !== undefined,
+		enabled: lat !== undefined && long !== undefined,
 		staleTime: HALF_HOUR,
 		gcTime: ONE_DAY,
 		placeholderData: keepPreviousData,

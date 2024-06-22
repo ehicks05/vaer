@@ -19,6 +19,10 @@ export const useCachedGeolocation = () => {
 
 	useEffect(() => {
 		if (!geolocation.loading) {
+			if (geolocation.error) {
+				console.error(geolocation.error);
+			}
+
 			const { latitude, longitude } = geolocation;
 			const lat =
 				latitude !== null && latitude !== undefined

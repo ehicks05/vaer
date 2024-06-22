@@ -1,16 +1,12 @@
 import { mmToInch } from '@/app/utils';
+import { PartialLatLong } from '@/hooks/useResolvedLocation';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { HALF_HOUR, ONE_DAY } from '../../constants/datetime';
 import { APP_KEY, BASE } from './constants';
 import { FiveDayResponse } from './types/fiveDay';
 
-interface Params {
-	lat?: string | null;
-	long?: string | null;
-}
-
-const getFiveDay = async ({ lat, long }: Params) => {
-	if (lat === null || lat === undefined || long === null || long === undefined) {
+const getFiveDay = async ({ lat, long }: PartialLatLong) => {
+	if (lat === undefined || long === undefined) {
 		throw new Error('Missing coordinates');
 	}
 
@@ -45,12 +41,11 @@ const getFiveDay = async ({ lat, long }: Params) => {
 	};
 };
 
-export const useFiveDay = ({ lat, long }: Params) => {
+export const useFiveDay = ({ lat, long }: PartialLatLong) => {
 	return useQuery({
 		queryKey: ['fiveDay', lat, long],
 		queryFn: async () => getFiveDay({ lat, long }),
-		enabled:
-			lat !== null && lat !== undefined && long !== null && long !== undefined,
+		enabled: lat !== undefined && long !== undefined,
 		staleTime: HALF_HOUR,
 		gcTime: ONE_DAY,
 		placeholderData: keepPreviousData,

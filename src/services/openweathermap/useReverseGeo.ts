@@ -1,15 +1,11 @@
+import { PartialLatLong } from '@/hooks/useResolvedLocation';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { ONE_DAY } from '../../constants/datetime';
 import { APP_KEY, BASE } from './constants';
 import { ReverseGeoResponse } from './types/reverseGeo';
 
-interface Params {
-	lat?: string | null;
-	long?: string | null;
-}
-
-const getReverseGeo = async ({ lat, long }: Params) => {
-	if (lat === null || lat === undefined || long === null || long === undefined) {
+const getReverseGeo = async ({ lat, long }: PartialLatLong) => {
+	if (lat === undefined || long === undefined) {
 		throw new Error('Missing coordinates');
 	}
 
@@ -30,12 +26,11 @@ const getReverseGeo = async ({ lat, long }: Params) => {
 	return result;
 };
 
-export const useReverseGeo = ({ lat, long }: Params) => {
+export const useReverseGeo = ({ lat, long }: PartialLatLong) => {
 	return useQuery({
 		queryKey: ['reverseGeo', lat, long],
 		queryFn: async () => getReverseGeo({ lat, long }),
-		enabled:
-			lat !== null && lat !== undefined && long !== null && long !== undefined,
+		enabled: lat !== undefined && long !== undefined,
 		staleTime: ONE_DAY,
 		gcTime: ONE_DAY,
 		placeholderData: keepPreviousData,

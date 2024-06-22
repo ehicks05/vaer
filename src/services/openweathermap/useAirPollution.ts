@@ -1,15 +1,11 @@
+import { PartialLatLong } from '@/hooks/useResolvedLocation';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { HALF_HOUR, ONE_DAY } from '../../constants/datetime';
 import { APP_KEY, BASE } from './constants';
 import { AirPollutionResponse } from './types/airPollution';
 
-interface Params {
-	lat?: string | null;
-	long?: string | null;
-}
-
-const getAirPollution = async ({ lat, long }: Params) => {
-	if (lat === null || lat === undefined || long === null || long === undefined) {
+const getAirPollution = async ({ lat, long }: PartialLatLong) => {
+	if (lat === undefined || long === undefined) {
 		throw new Error('Missing coordinates');
 	}
 
@@ -47,12 +43,11 @@ const getAirPollution = async ({ lat, long }: Params) => {
 	};
 };
 
-export const useAirPollution = ({ lat, long }: Params) => {
+export const useAirPollution = ({ lat, long }: PartialLatLong) => {
 	return useQuery({
 		queryKey: ['airPollution', lat, long],
 		queryFn: async () => getAirPollution({ lat, long }),
-		enabled:
-			lat !== null && lat !== undefined && long !== null && long !== undefined,
+		enabled: lat !== undefined && long !== undefined,
 		staleTime: HALF_HOUR,
 		gcTime: ONE_DAY,
 		placeholderData: keepPreviousData,
