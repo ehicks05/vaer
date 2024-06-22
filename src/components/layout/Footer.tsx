@@ -8,7 +8,7 @@ const Footer = () => {
 	const { latitude, longitude } = useCachedGeolocation();
 	return (
 		<footer className="flex items-center justify-end p-4 gap-4">
-			<span className="text-sm text-neutral-500">{`${latitude}, ${longitude}`}</span>
+			<span className="text-sm text-neutral-500">{`${latitude},${longitude}`}</span>
 			<Link href={'https://openweathermap.org'}>owm</Link>
 			<Link href={repoUrl}>github</Link>
 			<Link href={siteUrl}>ehicks</Link>
