@@ -12,7 +12,6 @@ import { round } from 'lodash';
 import { WiDirectionUp } from 'react-icons/wi';
 import { getWeatherIcon } from '../constants/weather_icons';
 import { Temp } from './PreferredTemperature';
-import { degreeToDirection } from './utils';
 
 interface OneHourSummaryProps {
 	weather: WeatherCondition;
@@ -73,9 +72,7 @@ const HourlyDetail = ({
 					title={`${wind_deg}\u00B0`}
 					style={{ transform: `rotate(${180 + wind_deg}deg)` }}
 				/>
-				<div className="whitespace-nowrap -mt-2">
-					{Math.round(wind_speed)} mph {degreeToDirection(wind_deg)}
-				</div>
+				<div className="whitespace-nowrap -mt-2">{Math.round(wind_speed)} mph</div>
 			</div>
 		</>
 	);

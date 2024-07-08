@@ -6,6 +6,7 @@ export const geonameToLabel = (city: Partial<SearchResultGeoname>) =>
 		city.countryCode === 'US' && city.adminCode1 ? `, ${city.adminCode1}` : ''
 	}${city.countryCode !== 'US' ? `, ${city.countryName}` : ''}`;
 
+// no longer used, remove after a bit
 export const degreeToDirection = (degree: number) => {
 	const DIRECTIONS = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
 	const index = Math.round(degree / 45) % DIRECTIONS.length;
