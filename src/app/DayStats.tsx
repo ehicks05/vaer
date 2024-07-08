@@ -8,16 +8,15 @@ import { max, round } from 'lodash';
 import React, { ReactNode } from 'react';
 import {
 	WiBarometer,
-	WiDirectionUp,
-	WiHumidity,
 	WiMoonNew,
 	WiMoonrise,
 	WiMoonset,
+	WiRaindrop,
 	WiSmoke,
 	WiSunrise,
 	WiSunset,
 } from 'react-icons/wi';
-import { degreeToDirection, getPressureDescription, hPaToInHg } from './utils';
+import { getPressureDescription, hPaToInHg } from './utils';
 
 const DayStat = ({
 	label,
@@ -37,19 +36,8 @@ const DayStat = ({
 
 const DAY_STATS = [
 	{
-		label: 'Humidity',
-		icon: <WiHumidity size={32} />,
-		value: 0,
-	},
-	{
-		label: 'Wind',
-		icon: (
-			<WiDirectionUp
-				size={32}
-				title={`${0}\u00B0`}
-				style={{ transform: `rotate(${180}deg)` }}
-			/>
-		),
+		label: 'Precipitation',
+		icon: <WiRaindrop size={32} />,
 		value: 0,
 	},
 	{
@@ -93,11 +81,11 @@ export const DayStats = () => {
 	const [dayIndex] = useDayIndex();
 	const { oneCallQuery, airPollutionQuery } = useOpenWeatherMap();
 	const { fiveDayQuery } = useOpenWeatherMapFiveDay();
-	const { data } = oneCallQuery;
+	const { data: oneCallData } = oneCallQuery;
 	const { data: airPollutionData } = airPollutionQuery;
 	const { data: fiveDayData } = fiveDayQuery;
 
-	if (!data || !airPollutionData || !fiveDayData) {
+	if (!oneCallData || !airPollutionData || !fiveDayData) {
 		return DAY_STATS.map((stat) => (
 			<DayStat
 				key={stat.label}
@@ -108,19 +96,18 @@ export const DayStats = () => {
 		));
 	}
 
-	const dataSource = dayIndex
-		? oneCallQuery.data.daily[dayIndex]
-		: oneCallQuery.data.current;
-	const { humidity, pressure, sunrise, sunset, wind_speed, wind_deg } = dataSource;
+	const tz = oneCallData.timezone;
+	const { pressure, sunrise, sunset, rain, snow } = oneCallData.daily[dayIndex || 0];
 
+	const dailyPrecip = `${round(rain + snow, 2)} in`;
 	const inHg = hPaToInHg(pressure);
 	const description = getPressureDescription(inHg);
 
-	const { moonrise, moonset, moon_phase } = oneCallQuery.data.daily[dayIndex || 0];
+	const { moonrise, moonset, moon_phase } = oneCallData.daily[dayIndex || 0];
 	const { Icon: MoonPhaseIcon, label: moonPhaseLabel } =
 		getMoonPhaseIcon(moon_phase);
 
-	const dt = dayIndex ? oneCallQuery.data.daily[dayIndex].dt : undefined;
+	const dt = dayIndex ? oneCallData.daily[dayIndex].dt : undefined;
 	const date = dt ? dateShort.format(dt) : undefined;
 
 	const aqi = dayIndex
@@ -133,35 +120,24 @@ export const DayStats = () => {
 
 	const stats = [
 		{
-			label: 'Humidity',
-			value: Math.round(humidity),
-		},
-		{
-			label: 'Wind',
-			value: `${Math.round(wind_speed)} mph ${degreeToDirection(wind_deg)}`,
-			icon: (
-				<WiDirectionUp
-					size={32}
-					title={`${wind_deg}\u00B0`}
-					style={{ transform: `rotate(${180 + wind_deg}deg)` }}
-				/>
-			),
+			label: 'Precipitation',
+			value: dailyPrecip,
 		},
 		{
 			label: 'Sunrise',
-			value: formatInTimeZone(sunrise, data.timezone, 'h:mm a'),
+			value: formatInTimeZone(sunrise, tz, 'h:mm a'),
 		},
 		{
 			label: 'Sunset',
-			value: formatInTimeZone(sunset, data.timezone, 'h:mm a'),
+			value: formatInTimeZone(sunset, tz, 'h:mm a'),
 		},
 		{
 			label: 'Moonrise',
-			value: formatInTimeZone(moonrise, data.timezone, 'h:mm a'),
+			value: formatInTimeZone(moonrise, tz, 'h:mm a'),
 		},
 		{
 			label: 'Moonset',
-			value: formatInTimeZone(moonset, data.timezone, 'h:mm a'),
+			value: formatInTimeZone(moonset, tz, 'h:mm a'),
 		},
 		{
 			label: 'Moon Phase',

@@ -9,7 +9,6 @@ import {
 import { addHours, format } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 import { round } from 'lodash';
-import React, { useState } from 'react';
 import { WiDirectionUp } from 'react-icons/wi';
 import { getWeatherIcon } from '../constants/weather_icons';
 import { Temp } from './PreferredTemperature';
@@ -37,65 +36,8 @@ const OneHourSummary = ({ weather, temp, time }: OneHourSummaryProps) => {
 	);
 };
 
-interface OneHourWindProps {
-	time: string;
-	wind_deg: number;
-	wind_speed: number;
-}
-
-const OneHourWind = ({ time, wind_deg, wind_speed }: OneHourWindProps) => {
-	return (
-		<div className="flex flex-col items-center text-center gap-1">
-			<WiDirectionUp
-				size={32}
-				title={`${wind_deg}\u00B0`}
-				style={{ transform: `rotate(${180 + wind_deg}deg)` }}
-			/>
-			<div className="whitespace-nowrap">
-				{Math.round(wind_speed)} mph {degreeToDirection(wind_deg)}
-			</div>
-			<div className="whitespace-nowrap">{time}</div>
-		</div>
-	);
-};
-
-interface OneHourPrecipitationProps {
-	time: string;
-	amount: number;
-}
-
-const OneHourPrecipitation = ({ time, amount }: OneHourPrecipitationProps) => {
-	return (
-		<div className="flex flex-col items-center text-center gap-1">
-			<div className="whitespace-nowrap">
-				{amount ? `${round(amount, 2)} in` : '--'}
-			</div>
-			<div className="whitespace-nowrap">{time}</div>
-		</div>
-	);
-};
-
-interface OneHourHumidityProps {
-	time: string;
-	amount: number;
-}
-
-const OneHourHumidity = ({ time, amount }: OneHourHumidityProps) => {
-	return (
-		<div className="flex flex-col items-center text-center gap-1">
-			<div className="whitespace-nowrap">{`${amount}%`}</div>
-			<div className="whitespace-nowrap">{time}</div>
-		</div>
-	);
-};
-
 const scrollbarClasses =
 	'scrollbar-thin scrollbar-track-transparent scrollbar-thumb-transparent group-hover:scrollbar-thumb-slate-800 scrollbar-track-rounded-lg scrollbar-thumb-rounded-lg';
-
-const HOURLY_DETAIL_OPTIONS = ['precipitation', 'humidity', 'wind'] as const;
-type HourlyDetailOption = (typeof HOURLY_DETAIL_OPTIONS)[number];
-
-const toTitleCase = (input: string) => input[0].toLocaleUpperCase() + input.slice(1);
 
 const parsePrecipAmount = (forecast: IHourly | ThreeHourForecast) => {
 	const { rain, snow } = forecast;
@@ -108,13 +50,9 @@ const parsePrecipAmount = (forecast: IHourly | ThreeHourForecast) => {
 };
 
 const HourlyDetail = ({
-	option,
 	hourly,
-	time,
 }: {
-	option: HourlyDetailOption;
 	hourly: IHourly | ThreeHourForecast;
-	time: string;
 }) => {
 	const { totalAmount } = parsePrecipAmount(hourly);
 	const { humidity } = 'main' in hourly ? hourly.main : hourly;
@@ -125,20 +63,25 @@ const HourlyDetail = ({
 
 	return (
 		<>
-			{option === 'precipitation' && (
-				<OneHourPrecipitation time={time} amount={totalAmount} />
-			)}
-			{option === 'humidity' && <OneHourHumidity time={time} amount={humidity} />}
-			{option === 'wind' && (
-				<OneHourWind time={time} wind_deg={wind_deg} wind_speed={wind_speed} />
-			)}
+			<div className="whitespace-nowrap">
+				{totalAmount ? `${round(totalAmount, 2)} in` : '--'}
+			</div>
+			<div className="whitespace-nowrap">{`${humidity}%`}</div>
+			<div className="flex flex-col items-center">
+				<WiDirectionUp
+					size={32}
+					title={`${wind_deg}\u00B0`}
+					style={{ transform: `rotate(${180 + wind_deg}deg)` }}
+				/>
+				<div className="whitespace-nowrap -mt-2">
+					{Math.round(wind_speed)} mph {degreeToDirection(wind_deg)}
+				</div>
+			</div>
 		</>
 	);
 };
 
-const HourlyDetails = ({
-	selectedOption,
-}: { selectedOption: HourlyDetailOption }) => {
+const HourlyDetails = () => {
 	const [dayIndex] = useDayIndex();
 	const { oneCallQuery } = useOpenWeatherMap();
 	const { fiveDayQuery } = useOpenWeatherMapFiveDay();
@@ -161,39 +104,25 @@ const HourlyDetails = ({
 			  ) || [];
 
 	return (
-		<>
-			{selectedOption === 'precipitation' && (
-				<div className="p-4 pb-0">
-					Daily amount:{' '}
-					{round(
-						oneCallQuery.data.daily[dayIndex || 0].rain +
-							oneCallQuery.data.daily[dayIndex || 0].snow,
-						2,
-					)}{' '}
-					in
-				</div>
-			)}
-
-			<div
-				className={`flex gap-6 overflow-auto p-4 ${
-					hourlyForecasts.length === 0 ? 'pb-4' : 'pb-2'
-				} ${scrollbarClasses}`}
-			>
-				{hourlyForecasts.map((hourly) => (
-					<HourlyDetail
-						key={hourly.dt}
-						option={selectedOption}
-						hourly={hourly}
-						time={formatInTimeZone(
+		<div
+			className={`flex gap-6 overflow-auto p-4 ${
+				hourlyForecasts.length === 0 ? 'pb-4' : 'pb-2'
+			} ${scrollbarClasses}`}
+		>
+			{hourlyForecasts.map((hourly) => (
+				<div key={hourly.dt} className="flex flex-col items-center gap-4">
+					<HourlyDetail hourly={hourly} />
+					<div className="whitespace-nowrap">
+						{formatInTimeZone(
 							new Date(hourly.dt),
 							oneCallQuery.data.timezone,
 							'h a',
 						)}
-					/>
-				))}
-				{hourlyForecasts.length === 0 && 'No available data'}
-			</div>
-		</>
+					</div>
+				</div>
+			))}
+			{hourlyForecasts.length === 0 && 'No available data'}
+		</div>
 	);
 };
 
@@ -262,32 +191,6 @@ const HourlyForecast = () => {
 	);
 };
 
-const HourlyDetailsWrapper = () => {
-	const [selectedOption, setSelectedOption] =
-		useState<HourlyDetailOption>('precipitation');
-
-	return (
-		<div>
-			<div className="flex gap-2 p-2 pb-0">
-				{HOURLY_DETAIL_OPTIONS.map((option) => (
-					<button
-						key={option}
-						type="button"
-						className={`p-2 rounded-lg ${
-							option === selectedOption ? 'bg-slate-800' : ''
-						}`}
-						onClick={() => setSelectedOption(option)}
-					>
-						{toTitleCase(option)}
-					</button>
-				))}
-			</div>
-
-			<HourlyDetails selectedOption={selectedOption} />
-		</div>
-	);
-};
-
 export const Hourly = () => {
 	return (
 		<div className="flex flex-col gap-4">
@@ -301,7 +204,7 @@ export const Hourly = () => {
 			<div className="group">
 				Hourly Details
 				<Card>
-					<HourlyDetailsWrapper />
+					<HourlyDetails />
 				</Card>
 			</div>
 		</div>
