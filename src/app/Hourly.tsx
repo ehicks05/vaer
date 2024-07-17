@@ -54,6 +54,15 @@ const HourlyDetail = ({
 	hourly: IHourly | ThreeHourForecast;
 }) => {
 	const { totalAmount } = parsePrecipAmount(hourly);
+	const roundedPrecip = round(totalAmount, 2);
+	const precip = roundedPrecip ? (
+		`${roundedPrecip} in`
+	) : !totalAmount ? (
+		'--'
+	) : (
+		<>&lt; .01 in</>
+	);
+
 	const { humidity } = 'main' in hourly ? hourly.main : hourly;
 	const { wind_deg, wind_speed } =
 		'wind' in hourly
@@ -62,9 +71,7 @@ const HourlyDetail = ({
 
 	return (
 		<>
-			<div className="whitespace-nowrap">
-				{totalAmount ? `${round(totalAmount, 2)} in` : '--'}
-			</div>
+			<div className="whitespace-nowrap">{precip}</div>
 			<div className="whitespace-nowrap">{`${humidity}%`}</div>
 			<div className="flex flex-col items-center">
 				<WiDirectionUp
