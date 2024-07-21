@@ -116,7 +116,7 @@ export const DayStats = () => {
 					.filter((o) => dateShort.format(o.dt) === date)
 					.map((o) => o.main.aqi),
 		  )
-		: airPollutionData.forecast.list[0].main.aqi;
+		: airPollutionData.forecast.list[0]?.main.aqi;
 
 	const stats = [
 		{
