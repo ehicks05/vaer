@@ -6,12 +6,12 @@ import type {
 	Hourly as IHourly,
 	WeatherCondition,
 } from '@/services/openweathermap/types/oneCall';
-import { addHours, format } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 import { round } from 'lodash-es';
 import { WiDirectionUp } from 'react-icons/wi';
 import { getWeatherIcon } from '../constants/weather_icons';
 import { Temp } from './PreferredTemperature';
+import { addHours, formatHours } from './utils';
 
 interface OneHourSummaryProps {
 	weather: WeatherCondition;
@@ -151,7 +151,7 @@ const HourlyForecast = () => {
 						key={hourly.dt}
 						weather={hourly.weather[0]}
 						temp={hourly.temp}
-						time={format(new Date(hourly.dt), 'h a')}
+						time={formatHours(new Date(hourly.dt))}
 					/>
 				))}
 			</div>

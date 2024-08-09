@@ -25,3 +25,11 @@ export const isToday = (date: Date) =>
 	dateShort.format(date) === dateShort.format(new Date());
 
 export const mmToInch = (mm?: number) => (mm ? mm / 25.4 : 0);
+
+export const addHours = (date: Date, i: number) => {
+	date.setHours(date.getHours() + i);
+	return date;
+};
+
+export const formatHours = (date: Date) =>
+	Intl.DateTimeFormat('en-US', { hour: 'numeric' }).format(date);
