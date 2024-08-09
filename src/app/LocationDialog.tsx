@@ -5,11 +5,12 @@ import type { SearchResultGeoname } from '@/services/geonames/types';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useCallback, useEffect, useState } from 'react';
 import { CgSpinnerAlt } from 'react-icons/cg';
-import { HiOutlineCheckCircle, HiOutlineXCircle } from 'react-icons/hi';
 import {
 	HiExclamationTriangle,
 	HiMagnifyingGlass,
+	HiOutlineCheckCircle,
 	HiOutlinePlusCircle,
+	HiOutlineXCircle,
 } from 'react-icons/hi2';
 import { NAV_BAR_BUTTON_STYLES } from '../constants/classes';
 import { geonameToLabel } from './utils';
