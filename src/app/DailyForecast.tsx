@@ -1,11 +1,10 @@
 import { Card } from '@/components';
 import { useDayIndex, useOpenWeatherMap } from '@/hooks';
 import type { WeatherCondition } from '@/services/openweathermap/types/oneCall';
-import { addDays } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 import { getWeatherIcon } from '../constants/weather_icons';
 import { Temp } from './PreferredTemperature';
-import { isToday } from './utils';
+import { addDays, isToday } from './utils';
 
 interface OneDaySummaryProps {
 	weather: Omit<WeatherCondition, 'main'>;

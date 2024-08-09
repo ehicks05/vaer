@@ -31,5 +31,10 @@ export const addHours = (date: Date, i: number) => {
 	return date;
 };
 
+export const addDays = (date: Date, i: number) => {
+	date.setDate(date.getDate() + i);
+	return date;
+};
+
 export const formatHours = (date: Date) =>
 	Intl.DateTimeFormat('en-US', { hour: 'numeric' }).format(date);
