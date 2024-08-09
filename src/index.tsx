@@ -3,7 +3,6 @@ import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persist
 import { QueryClient } from '@tanstack/react-query';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { createRoot } from 'react-dom/client';
-import { ModalProvider } from 'react-modal-hook';
 
 import App from './MyApp';
 
@@ -17,9 +16,7 @@ const persister = createSyncStoragePersister({
 const container = document.getElementById('root');
 const root = createRoot(container as Element);
 root.render(
-	<ModalProvider>
-		<PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
-			<App />
-		</PersistQueryClientProvider>
-	</ModalProvider>,
+	<PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
+		<App />
+	</PersistQueryClientProvider>,
 );

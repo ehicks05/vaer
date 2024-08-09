@@ -1,4 +1,4 @@
-import { SearchButton } from '@/app/LocationModal';
+import { LocationDialog } from '@/app/LocationDialog';
 import { PreferredTempToggle } from '@/app/PreferredTemperature';
 
 const Logo = () => (
@@ -16,7 +16,7 @@ export default function Header() {
 			<Logo />
 			<div className="flex items-center gap-4">
 				<PreferredTempToggle />
-				<SearchButton />
+				<LocationDialog />
 			</div>
 		</div>
 	);

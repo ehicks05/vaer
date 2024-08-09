@@ -1,7 +1,8 @@
-import { Card, Dialog } from '@/components';
+import { Card } from '@/components';
 import { useActiveLocation, useSavedLocations } from '@/hooks';
 import { useSearch } from '@/services/geonames/geonames';
 import type { SearchResultGeoname } from '@/services/geonames/types';
+import * as Dialog from '@radix-ui/react-dialog';
 import { useCallback, useEffect, useState } from 'react';
 import { CgSpinnerAlt } from 'react-icons/cg';
 import { HiOutlineCheckCircle, HiOutlineXCircle } from 'react-icons/hi';
@@ -182,40 +183,53 @@ const LocationModal = () => {
 	);
 };
 
-export const SearchButton = () => {
-	const [isOpen, setIsOpen] = useState(false);
+const LocationButton = () => (
+	<div className="flex gap-16 items-baseline">
+		<div className="ml-2">Location...</div>
+		<div className="flex items-center gap-0.5 bg-neutral-800 px-2 m-0.5 rounded text-xs">
+			<span className="text-base">⌘</span>
+			<span>K</span>
+		</div>
+	</div>
+);
 
-	const handleKeyPress = useCallback((event: KeyboardEvent) => {
+export const LocationDialog = () => {
+	const [open, setOpen] = useState(false);
+
+	const handleKeyDown = useCallback((event: KeyboardEvent) => {
 		if (event.ctrlKey && event.key === 'k') {
 			event.preventDefault();
-			setIsOpen(true);
+			setOpen(true);
 		}
 	}, []);
 
 	useEffect(() => {
-		document.addEventListener('keydown', handleKeyPress);
-
-		return () => {
-			document.removeEventListener('keydown', handleKeyPress);
-		};
-	}, [handleKeyPress]);
+		document.addEventListener('keydown', handleKeyDown);
+		return () => document.removeEventListener('keydown', handleKeyDown);
+	}, [handleKeyDown]);
 
 	return (
-		<button
-			type="button"
-			onClick={() => setIsOpen(true)}
-			className={NAV_BAR_BUTTON_STYLES}
-		>
-			<div className="flex gap-16 items-baseline">
-				<div className="ml-2">Location...</div>
-				<div className="flex items-center gap-0.5 bg-neutral-800 px-2 m-0.5 rounded text-xs">
-					<span className="text-base">⌘</span>
-					<span>K</span>
-				</div>
-			</div>
-			<Dialog isOpen={isOpen} onClose={() => setIsOpen(false)}>
-				<LocationModal />
-			</Dialog>
-		</button>
+		<Dialog.Root open={open} onOpenChange={setOpen}>
+			<Dialog.Trigger className={NAV_BAR_BUTTON_STYLES}>
+				<LocationButton />
+			</Dialog.Trigger>
+			<Dialog.Portal>
+				<Dialog.Overlay className="fixed inset-0 bg-black opacity-50" />
+				<Dialog.Content className="fixed inset-0 flex items-center justify-center p-4">
+					<div className="bg-neutral-800 rounded-lg">
+						<div className="py-8 px-4 sm:px-6 lg:px-8 max-h-[90vh] overflow-auto ">
+							<Dialog.Title className="text-xl">Location</Dialog.Title>
+							<Dialog.Description className="text-neutral-400 mb-4">
+								Choose a location
+							</Dialog.Description>
+							<LocationModal />
+						</div>
+						<div className="bg-neutral-700 sm:flex sm:flex-row-reverse rounded-b-lg">
+							<Dialog.Close className="px-4 sm:px-6 py-3">Close</Dialog.Close>
+						</div>
+					</div>
+				</Dialog.Content>
+			</Dialog.Portal>
+		</Dialog.Root>
 	);
 };

@@ -10,7 +10,7 @@
 		"serve": "vite preview"
 	},
 	"dependencies": {
-		"@headlessui/react": "^1.7.17",
+		"@radix-ui/react-dialog": "^1.1.1",
 		"@tanstack/query-sync-storage-persister": "^5.14.2",
 		"@tanstack/react-query": "^5.14.2",
 		"@tanstack/react-query-persist-client": "^5.14.2",
@@ -21,8 +21,7 @@
 		"lodash-es": "^4.17.21",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
-		"react-icons": "^4.12.0",
-		"react-modal-hook": "^3.0.2"
+		"react-icons": "^4.12.0"
 	},
 	"devDependencies": {
 		"@babel/types": "^7.23.6",
