@@ -1,9 +1,8 @@
 import { Card } from '@/components';
 import { useDayIndex, useOpenWeatherMap } from '@/hooks';
-import { WeatherCondition } from '@/services/openweathermap/types/oneCall';
+import type { WeatherCondition } from '@/services/openweathermap/types/oneCall';
 import { addDays } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
-import React from 'react';
 import { getWeatherIcon } from '../constants/weather_icons';
 import { Temp } from './PreferredTemperature';
 import { isToday } from './utils';

@@ -1,8 +1,8 @@
-import { PartialLatLong } from '@/hooks/useResolvedLocation';
+import type { PartialLatLong } from '@/hooks/useResolvedLocation';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { ONE_DAY } from '../../constants/datetime';
 import { BASE } from './constants';
-import { NOAACordinate } from './types';
+import type { NOAACordinate } from './types';
 
 const getPoint = async ({ lat, long }: PartialLatLong) => {
 	if (lat === undefined || long === undefined) {

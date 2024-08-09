@@ -2,7 +2,7 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { useDebounce } from '@uidotdev/usehooks';
 import { HALF_HOUR, ONE_DAY } from '../../constants/datetime';
 import { BASE, SHARED_PARAMS } from './constants';
-import { SearchResult } from './types';
+import type { SearchResult } from './types';
 
 interface Params {
 	query: string;

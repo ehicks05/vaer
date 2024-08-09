@@ -16,7 +16,7 @@ export const useResolvedLocation = (): PartialLatLong => {
 		: {
 				lat: geolocation.latitude ? String(geolocation.latitude) : undefined,
 				long: geolocation.longitude ? String(geolocation.longitude) : undefined,
-		  };
+			};
 
 	return { lat, long };
 };

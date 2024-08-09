@@ -1,8 +1,8 @@
 import { Card } from '@/components';
 import { useDayIndex, useOpenWeatherMap } from '@/hooks';
 import { useOpenWeatherMapFiveDay } from '@/hooks/useOpenWeatherMap';
-import { ThreeHourForecast } from '@/services/openweathermap/types/fiveDay';
-import {
+import type { ThreeHourForecast } from '@/services/openweathermap/types/fiveDay';
+import type {
 	Hourly as IHourly,
 	WeatherCondition,
 } from '@/services/openweathermap/types/oneCall';
@@ -100,12 +100,12 @@ const HourlyDetails = () => {
 	const hourlyForecasts = !dayIndex
 		? oneCallQuery.data.hourly.slice(0, 24) || []
 		: dayIndex === 1
-		  ? oneCallQuery.data.hourly
+			? oneCallQuery.data.hourly
 					.filter((h) => formatInTimeZone(h.dt, tz, 'MM-dd') === date)
 					.slice(7) || []
-		  : fiveDayQuery.data?.list.filter(
+			: fiveDayQuery.data?.list.filter(
 					(h) => formatInTimeZone(h.dt, tz, 'MM-dd') === date,
-			  ) || [];
+				) || [];
 
 	return (
 		<div
@@ -165,12 +165,12 @@ const HourlyForecast = () => {
 	const hourlyForecasts = !dayIndex
 		? oneCallQuery.data.hourly.slice(0, 24) || []
 		: dayIndex === 1
-		  ? oneCallQuery.data.hourly
+			? oneCallQuery.data.hourly
 					.filter((h) => formatInTimeZone(h.dt, tz, 'MM-dd') === date)
 					.slice(7) || []
-		  : fiveDayQuery.data?.list.filter(
+			: fiveDayQuery.data?.list.filter(
 					(h) => formatInTimeZone(h.dt, tz, 'MM-dd') === date,
-			  ) || [];
+				) || [];
 
 	return (
 		<div

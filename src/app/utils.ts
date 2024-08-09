@@ -1,5 +1,5 @@
 import { dateShort } from '@/constants/fmt';
-import { SearchResultGeoname } from '@/services/geonames/types';
+import type { SearchResultGeoname } from '@/services/geonames/types';
 
 export const geonameToLabel = (city: Partial<SearchResultGeoname>) =>
 	`${city.name}${

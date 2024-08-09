@@ -1,6 +1,5 @@
 import { Home } from '@/app';
 import { useIsRestoring } from '@tanstack/react-query';
-import React from 'react';
 import { Footer, Header } from './components/layout';
 
 function MyApp() {

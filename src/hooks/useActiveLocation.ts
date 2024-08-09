@@ -1,4 +1,4 @@
-import { SearchResultGeoname } from '@/services/geonames/types';
+import type { SearchResultGeoname } from '@/services/geonames/types';
 import { useLocalStorage } from '@uidotdev/usehooks';
 
 export type ActiveLocation = SearchResultGeoname | undefined;

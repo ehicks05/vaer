@@ -1,5 +1,5 @@
 import {
-	GeolocationState,
+	type GeolocationState,
 	useGeolocation,
 	useLocalStorage,
 } from '@uidotdev/usehooks';

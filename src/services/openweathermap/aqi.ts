@@ -1,5 +1,5 @@
 // from https://github.com/RiANOl/aqi-us/blob/master/index.js
-import { Components } from './types/airPollution';
+import type { Components } from './types/airPollution';
 
 const aqi_breakpoints = [
 	[0, 50],
@@ -105,7 +105,7 @@ function aqi(concentration: number, breakpoints: Breakpoints) {
 	const index = breakpointIndex(concentration, breakpoints);
 
 	if (-1 === index) {
-		return NaN;
+		return Number.NaN;
 	}
 
 	const i_high = aqi_breakpoints[index][1];

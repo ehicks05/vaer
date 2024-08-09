@@ -1,9 +1,9 @@
 import { mmToInch } from '@/app/utils';
-import { PartialLatLong } from '@/hooks/useResolvedLocation';
+import type { PartialLatLong } from '@/hooks/useResolvedLocation';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { HALF_HOUR, ONE_DAY } from '../../constants/datetime';
 import { APP_KEY, BASE } from './constants';
-import { OneCallResponse } from './types/oneCall';
+import type { OneCallResponse } from './types/oneCall';
 
 const getOneCall = async ({ lat, long }: PartialLatLong) => {
 	if (lat === undefined || long === undefined) {

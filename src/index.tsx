@@ -1,10 +1,9 @@
 import './index.css';
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import { ModalProvider } from 'react-modal-hook';
+import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
 import { QueryClient } from '@tanstack/react-query';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
-import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
+import { createRoot } from 'react-dom/client';
+import { ModalProvider } from 'react-modal-hook';
 
 import App from './MyApp';
 

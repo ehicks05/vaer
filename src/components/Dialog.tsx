@@ -1,5 +1,5 @@
 import { Dialog as HUIDialog } from '@headlessui/react';
-import React, { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 interface DialogProps {
 	isOpen: boolean;

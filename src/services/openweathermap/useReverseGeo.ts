@@ -1,8 +1,8 @@
-import { PartialLatLong } from '@/hooks/useResolvedLocation';
+import type { PartialLatLong } from '@/hooks/useResolvedLocation';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { ONE_DAY } from '../../constants/datetime';
 import { APP_KEY, BASE } from './constants';
-import { ReverseGeoResponse } from './types/reverseGeo';
+import type { ReverseGeoResponse } from './types/reverseGeo';
 
 const getReverseGeo = async ({ lat, long }: PartialLatLong) => {
 	if (lat === undefined || long === undefined) {

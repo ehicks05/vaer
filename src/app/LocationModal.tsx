@@ -1,15 +1,15 @@
 import { Card, Dialog } from '@/components';
-import { SearchResultGeoname } from '@/services/geonames/types';
+import { useActiveLocation, useSavedLocations } from '@/hooks';
+import { useSearch } from '@/services/geonames/geonames';
+import type { SearchResultGeoname } from '@/services/geonames/types';
 import { useCallback, useEffect, useState } from 'react';
+import { CgSpinnerAlt } from 'react-icons/cg';
 import { HiOutlineCheckCircle, HiOutlineXCircle } from 'react-icons/hi';
 import {
 	HiExclamationTriangle,
 	HiMagnifyingGlass,
 	HiOutlinePlusCircle,
 } from 'react-icons/hi2';
-import { CgSpinnerAlt } from 'react-icons/cg';
-import { useSearch } from '@/services/geonames/geonames';
-import { useActiveLocation, useSavedLocations } from '@/hooks';
 import { NAV_BAR_BUTTON_STYLES } from '../constants/classes';
 import { geonameToLabel } from './utils';
 
@@ -115,7 +115,7 @@ const LocationModal = () => {
 							: () => {
 									setSavedLocations([...savedLocations, location]);
 									setActiveLocation(location);
-							  };
+								};
 						return (
 							<CityOption
 								key={location.geonameId}

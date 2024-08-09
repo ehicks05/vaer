@@ -5,7 +5,7 @@ import { useDayIndex, useOpenWeatherMap } from '@/hooks';
 import { useOpenWeatherMapFiveDay } from '@/hooks/useOpenWeatherMap';
 import { formatInTimeZone } from 'date-fns-tz';
 import { max, round } from 'lodash-es';
-import React, { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import {
 	WiBarometer,
 	WiMoonNew,
@@ -115,7 +115,7 @@ export const DayStats = () => {
 				airPollutionData.forecast.list
 					.filter((o) => dateShort.format(o.dt) === date)
 					.map((o) => o.main.aqi),
-		  )
+			)
 		: airPollutionData.current.list[0]?.main.aqi;
 
 	const stats = [

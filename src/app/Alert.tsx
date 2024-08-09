@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { useOpenWeatherMap } from '@/hooks';
 import { Button, Card } from '@/components';
-import { HiOutlineExclamationTriangle } from 'react-icons/hi2';
 import { alertFmt } from '@/constants/fmt';
+import { useOpenWeatherMap } from '@/hooks';
+import { useState } from 'react';
+import { HiOutlineExclamationTriangle } from 'react-icons/hi2';
 
 export const Alert = () => {
 	const [showDescription, setShowDescription] = useState(false);
