@@ -6,12 +6,11 @@ import type {
 	Hourly as IHourly,
 	WeatherCondition,
 } from '@/services/openweathermap/types/oneCall';
-import { formatInTimeZone } from 'date-fns-tz';
 import { round } from 'lodash-es';
 import { WiDirectionUp } from 'react-icons/wi';
 import { getWeatherIcon } from '../constants/weather_icons';
 import { Temp } from './PreferredTemperature';
-import { addHours, formatHours } from './utils';
+import { addHours, formatHours, formatInTimeZone } from './utils';
 
 interface OneHourSummaryProps {
 	weather: WeatherCondition;

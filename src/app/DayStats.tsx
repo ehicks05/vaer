@@ -3,7 +3,6 @@ import { dateShort } from '@/constants/fmt';
 import { getMoonPhaseIcon } from '@/constants/weather_icons';
 import { useDayIndex, useOpenWeatherMap } from '@/hooks';
 import { useOpenWeatherMapFiveDay } from '@/hooks/useOpenWeatherMap';
-import { formatInTimeZone } from 'date-fns-tz';
 import { max, round } from 'lodash-es';
 import type { ReactNode } from 'react';
 import {
@@ -16,7 +15,7 @@ import {
 	WiSunrise,
 	WiSunset,
 } from 'react-icons/wi';
-import { getPressureDescription, hPaToInHg } from './utils';
+import { formatInTimeZone, getPressureDescription, hPaToInHg } from './utils';
 
 const DayStat = ({
 	label,

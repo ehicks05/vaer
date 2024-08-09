@@ -38,3 +38,21 @@ export const addDays = (date: Date, i: number) => {
 
 export const formatHours = (date: Date) =>
 	Intl.DateTimeFormat('en-US', { hour: 'numeric' }).format(date);
+
+const FORMAT_KEYS: Record<string, Intl.DateTimeFormatOptions> = {
+	'MM-dd': { month: '2-digit', day: '2-digit' },
+	'h a': { hour: 'numeric', hour12: true },
+	'h:mm a': { hour: 'numeric', minute: '2-digit', hour12: true },
+	EEE: { weekday: 'short' },
+};
+
+export const formatInTimeZone = (
+	date: Date | string | number,
+	timeZone: string,
+	format: keyof typeof FORMAT_KEYS,
+) => {
+	return Intl.DateTimeFormat('en-US', {
+		timeZone,
+		...FORMAT_KEYS[format],
+	}).format(new Date(date));
+};
