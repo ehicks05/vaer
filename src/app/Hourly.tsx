@@ -8,7 +8,7 @@ import {
 } from '@/services/openweathermap/types/oneCall';
 import { addHours, format } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
-import { round } from 'lodash';
+import { round } from 'lodash-es';
 import { WiDirectionUp } from 'react-icons/wi';
 import { getWeatherIcon } from '../constants/weather_icons';
 import { Temp } from './PreferredTemperature';

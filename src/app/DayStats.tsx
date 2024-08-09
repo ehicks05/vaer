@@ -4,7 +4,7 @@ import { getMoonPhaseIcon } from '@/constants/weather_icons';
 import { useDayIndex, useOpenWeatherMap } from '@/hooks';
 import { useOpenWeatherMapFiveDay } from '@/hooks/useOpenWeatherMap';
 import { formatInTimeZone } from 'date-fns-tz';
-import { max, round } from 'lodash';
+import { max, round } from 'lodash-es';
 import React, { ReactNode } from 'react';
 import {
 	WiBarometer,

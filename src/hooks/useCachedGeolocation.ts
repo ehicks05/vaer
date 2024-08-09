@@ -3,7 +3,7 @@ import {
 	useGeolocation,
 	useLocalStorage,
 } from '@uidotdev/usehooks';
-import { round } from 'lodash';
+import { round } from 'lodash-es';
 import { useEffect } from 'react';
 
 const PRECISION = 3;
