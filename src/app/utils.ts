@@ -52,7 +52,7 @@ export const formatInTimeZone = (
 	format: keyof typeof FORMAT_KEYS,
 ) => {
 	return Intl.DateTimeFormat('en-US', {
-		timeZone,
+		timeZone: timeZone || undefined,
 		...FORMAT_KEYS[format],
 	}).format(new Date(date));
 };
