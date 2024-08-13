@@ -1,5 +1,6 @@
 import { Home } from '@/app';
 import { useIsRestoring } from '@tanstack/react-query';
+import { Debug } from './components/Debug';
 import { Footer, Header } from './components/layout';
 
 function MyApp() {
@@ -15,6 +16,7 @@ function MyApp() {
 			<div className="flex-grow flex flex-col h-full sm:px-4">
 				<Home />
 			</div>
+			<Debug />
 			<Footer />
 		</div>
 	);
