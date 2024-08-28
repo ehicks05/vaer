@@ -1,8 +1,18 @@
-import { Card } from '@/components';
+import { Button, Card } from '@/components';
+import {
+	Dialog,
+	DialogClose,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogOverlay,
+	DialogPortal,
+	DialogTitle,
+	DialogTrigger,
+} from '@/components/ui/dialog';
 import { useActiveLocation, useSavedLocations } from '@/hooks';
 import { useSearch } from '@/services/geonames/geonames';
 import type { SearchResultGeoname } from '@/services/geonames/types';
-import * as Dialog from '@radix-ui/react-dialog';
 import { useCallback, useEffect, useState } from 'react';
 import { CgSpinnerAlt } from 'react-icons/cg';
 import {
@@ -14,7 +24,6 @@ import {
 } from 'react-icons/hi2';
 import { NAV_BAR_BUTTON_STYLES } from '../constants/classes';
 import { geonameToLabel } from './utils';
-
 const currentLocation = {
 	geonameId: -1,
 	countryCode: 'US',
@@ -197,12 +206,15 @@ const LocationButton = () => (
 export const LocationDialog = () => {
 	const [open, setOpen] = useState(false);
 
-	const handleKeyDown = useCallback((event: KeyboardEvent) => {
-		if (event.ctrlKey && event.key === 'k') {
-			event.preventDefault();
-			setOpen(true);
-		}
-	}, []);
+	const handleKeyDown = useCallback(
+		(event: KeyboardEvent) => {
+			if (event.ctrlKey && event.key === 'k') {
+				event.preventDefault();
+				setOpen(!open);
+			}
+		},
+		[open],
+	);
 
 	useEffect(() => {
 		document.addEventListener('keydown', handleKeyDown);
@@ -210,27 +222,25 @@ export const LocationDialog = () => {
 	}, [handleKeyDown]);
 
 	return (
-		<Dialog.Root open={open} onOpenChange={setOpen}>
-			<Dialog.Trigger className={NAV_BAR_BUTTON_STYLES}>
+		<Dialog open={open} onOpenChange={setOpen}>
+			<DialogTrigger className={NAV_BAR_BUTTON_STYLES}>
 				<LocationButton />
-			</Dialog.Trigger>
-			<Dialog.Portal>
-				<Dialog.Overlay className="fixed inset-0 bg-black opacity-50" />
-				<Dialog.Content className="fixed inset-0 flex items-center justify-center p-4">
-					<div className="bg-neutral-800 rounded-lg">
-						<div className="py-8 px-4 sm:px-6 lg:px-8 max-h-[90vh] overflow-auto ">
-							<Dialog.Title className="text-xl">Location</Dialog.Title>
-							<Dialog.Description className="text-neutral-400 mb-4">
-								Choose a location
-							</Dialog.Description>
-							<LocationModal />
-						</div>
-						<div className="bg-neutral-700 sm:flex sm:flex-row-reverse rounded-b-lg">
-							<Dialog.Close className="px-4 sm:px-6 py-3">Close</Dialog.Close>
-						</div>
-					</div>
-				</Dialog.Content>
-			</Dialog.Portal>
-		</Dialog.Root>
+			</DialogTrigger>
+			<DialogPortal>
+				<DialogOverlay />
+				<DialogContent className="bg-neutral-800">
+					<DialogHeader>
+						<DialogTitle>Choose a Location</DialogTitle>
+						<DialogDescription className="hidden">
+							Choose a location
+						</DialogDescription>
+					</DialogHeader>
+					<LocationModal />
+					<DialogClose asChild>
+						<Button className="place-self-start bg-neutral-700">Close</Button>
+					</DialogClose>
+				</DialogContent>
+			</DialogPortal>
+		</Dialog>
 	);
 };
