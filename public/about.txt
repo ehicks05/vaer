@@ -1,0 +1,6 @@
+This favicon was generated using the following font:
+
+- Font Title: Proza Libre
+- Font Author: Copyright (c) 2013 by Jasper de Waard. All rights reserved.
+- Font Source: https://fonts.gstatic.com/s/prozalibre/v9/LYjbdGHgj0k1DIQRyUEyyEKTUf_fcpC69i6N.ttf
+- Font License: SIL Open Font License, 1.1 (http://scripts.sil.org/OFL))

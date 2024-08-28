@@ -5,8 +5,9 @@ export const theme = {
 	fontFamily: {
 		sans: ['Fredoka', ...fontFamily.sans],
 		mono: fontFamily.mono,
+		logo: '"Proza Libre"',
 	},
-  extend: {
+	extend: {
 		colors: {
 			'caribbean-green': {
 				50: '#f3fefa',
