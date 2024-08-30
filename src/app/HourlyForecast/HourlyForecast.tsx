@@ -24,9 +24,10 @@ const HourlyDetail = ({ hourly, tz }: Props) => {
 	const time = formatInTimeZone(new Date(hourly.dt), tz, 'h a');
 
 	return (
-		<div className="flex flex-col items-center gap-4">
+		<div className="flex flex-col items-center gap-4 w-12 min-w-12">
 			<Temp temp={temp} />
 			<Weather hourly={hourly} />
+			<div className="flex-grow -mt-4" />
 			<Precip hourly={hourly} />
 			<Humidity hourly={hourly} />
 			<Wind hourly={hourly} />
