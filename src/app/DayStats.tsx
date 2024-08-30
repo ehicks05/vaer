@@ -19,12 +19,12 @@ import {
 import { formatInTimeZone, getPressureDescription, hPaToInHg } from './utils';
 
 interface DayStat {
-	label: string;
-	value?: string | number;
 	icon: ReactNode;
+	label: string;
+	value: string | number;
 }
 
-const DayStat = ({ stat: { label, value, icon } }: { stat: DayStat }) => {
+const DayStat = ({ stat: { icon, label, value } }: { stat: DayStat }) => {
 	return (
 		<div className="flex items-center gap-2 w-full p-4 bg-slate-800 rounded-lg">
 			{icon}
@@ -38,43 +38,43 @@ const DayStat = ({ stat: { label, value, icon } }: { stat: DayStat }) => {
 
 const DAY_STATS: DayStat[] = [
 	{
-		label: 'Precipitation',
 		icon: <WiRaindrop size={32} />,
+		label: 'Precipitation',
 		value: 0,
 	},
 	{
-		label: 'Sunrise',
 		icon: <WiSunrise size={32} />,
+		label: 'Sunrise',
 		value: 0,
 	},
 	{
-		label: 'Sunset',
 		icon: <WiSunset size={32} />,
+		label: 'Sunset',
 		value: 0,
 	},
 	{
-		label: 'Moonrise',
 		icon: <WiMoonrise size={32} />,
+		label: 'Moonrise',
 		value: 0,
 	},
 	{
-		label: 'Moonset',
 		icon: <WiMoonset size={32} />,
+		label: 'Moonset',
 		value: 0,
 	},
 	{
-		label: 'Moon Phase',
 		icon: <WiMoonNew size={32} />,
+		label: 'Moon Phase',
 		value: 0,
 	},
 	{
-		label: 'Pressure',
 		icon: <WiBarometer size={32} />,
+		label: 'Pressure',
 		value: 0,
 	},
 	{
-		label: 'Air Quality',
 		icon: <WiSmoke size={32} />,
+		label: 'Air Quality',
 		value: 0,
 	},
 ];
@@ -135,9 +135,9 @@ export const DayStats = () => {
 			value: formatInTimeZone(moonset, tz, 'h:mm a'),
 		},
 		{
+			icon: <MoonPhaseIcon size={32} />,
 			label: 'Moon Phase',
 			value: moonPhaseLabel,
-			icon: <MoonPhaseIcon size={32} />,
 		},
 		{
 			label: 'Pressure',
