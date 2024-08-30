@@ -1,10 +1,7 @@
 import { weekdayLong } from '@/constants/fmt';
-import {
-	useActiveLocation,
-	useDayIndex,
-	useOpenWeatherMap,
-	useWeatherGov,
-} from '@/hooks';
+import { DayIndexContext } from '@/contexts/DayIndexContext';
+import { useActiveLocation, useOpenWeatherMap, useWeatherGov } from '@/hooks';
+import { useContext } from 'react';
 import { getWeatherIcon } from '../constants/weather_icons';
 import { Temp } from './PreferredTemperature';
 import { geonameToLabel } from './utils';
@@ -17,7 +14,7 @@ const PLACEHOLDER = {
 };
 
 export const Summary = () => {
-	const [dayIndex] = useDayIndex();
+	const { dayIndex } = useContext(DayIndexContext);
 	const { oneCallQuery } = useOpenWeatherMap();
 	const { pointQuery } = useWeatherGov();
 	const [activeLocation] = useActiveLocation();

@@ -3,8 +3,8 @@ import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persist
 import { QueryClient } from '@tanstack/react-query';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { createRoot } from 'react-dom/client';
-
 import App from './MyApp';
+import { DayIndexProvider } from './contexts/DayIndexProvider';
 
 const queryClient = new QueryClient();
 
@@ -17,6 +17,8 @@ const container = document.getElementById('root');
 const root = createRoot(container as Element);
 root.render(
 	<PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
-		<App />
+		<DayIndexProvider>
+			<App />
+		</DayIndexProvider>
 	</PersistQueryClientProvider>,
 );

@@ -1,6 +1,8 @@
 import { Card } from '@/components';
-import { useDayIndex, useOpenWeatherMap } from '@/hooks';
+import { DayIndexContext } from '@/contexts/DayIndexContext';
+import { useOpenWeatherMap } from '@/hooks';
 import type { WeatherCondition } from '@/services/openweathermap/types/oneCall';
+import { useContext } from 'react';
 import { getWeatherIcon } from '../constants/weather_icons';
 import { Temp } from './PreferredTemperature';
 import { addDays, formatInTimeZone, isToday } from './utils';
@@ -65,7 +67,7 @@ const getPlaceholderData = () => ({
 });
 
 const DailyForecast = () => {
-	const [dayIndex, setDayIndex] = useDayIndex();
+	const { dayIndex, setDayIndex } = useContext(DayIndexContext);
 
 	const { oneCallQuery } = useOpenWeatherMap();
 	const { daily: dailies, timezone } = oneCallQuery.data || getPlaceholderData();

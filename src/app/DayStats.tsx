@@ -1,10 +1,11 @@
 import { AQI_DISPLAY_NAMES } from '@/constants/aqi';
 import { dateShort } from '@/constants/fmt';
 import { getMoonPhaseIcon } from '@/constants/weather_icons';
-import { useDayIndex, useOpenWeatherMap } from '@/hooks';
+import { DayIndexContext } from '@/contexts/DayIndexContext';
+import { useOpenWeatherMap } from '@/hooks';
 import { useOpenWeatherMapFiveDay } from '@/hooks/useOpenWeatherMap';
 import { max, round } from 'lodash-es';
-import type { ReactNode } from 'react';
+import { type ReactNode, useContext } from 'react';
 import {
 	WiBarometer,
 	WiMoonNew,
@@ -77,7 +78,7 @@ const DAY_STATS = [
 ];
 
 export const DayStats = () => {
-	const [dayIndex] = useDayIndex();
+	const { dayIndex } = useContext(DayIndexContext);
 	const { oneCallQuery, airPollutionQuery } = useOpenWeatherMap();
 	const { fiveDayQuery } = useOpenWeatherMapFiveDay();
 	const { data: oneCallData } = oneCallQuery;

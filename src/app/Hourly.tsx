@@ -1,5 +1,6 @@
 import { Card } from '@/components';
-import { useDayIndex, useOpenWeatherMap } from '@/hooks';
+import { DayIndexContext } from '@/contexts/DayIndexContext';
+import { useOpenWeatherMap } from '@/hooks';
 import { useOpenWeatherMapFiveDay } from '@/hooks/useOpenWeatherMap';
 import type { ThreeHourForecast } from '@/services/openweathermap/types/fiveDay';
 import type {
@@ -7,6 +8,7 @@ import type {
 	WeatherCondition,
 } from '@/services/openweathermap/types/oneCall';
 import { round } from 'lodash-es';
+import { useContext } from 'react';
 import { WiDirectionUp } from 'react-icons/wi';
 import { getWeatherIcon } from '../constants/weather_icons';
 import { Temp } from './PreferredTemperature';
@@ -85,7 +87,7 @@ const HourlyDetail = ({
 };
 
 const HourlyDetails = () => {
-	const [dayIndex] = useDayIndex();
+	const { dayIndex } = useContext(DayIndexContext);
 	const { oneCallQuery } = useOpenWeatherMap();
 	const { fiveDayQuery } = useOpenWeatherMapFiveDay();
 	if (!oneCallQuery.data) {
@@ -138,7 +140,7 @@ const getPlaceholderData = () =>
 	}));
 
 const HourlyForecast = () => {
-	const [dayIndex] = useDayIndex();
+	const { dayIndex } = useContext(DayIndexContext);
 	const { oneCallQuery } = useOpenWeatherMap();
 	const { fiveDayQuery } = useOpenWeatherMapFiveDay();
 
