@@ -21,7 +21,7 @@ import { formatInTimeZone, getPressureDescription, hPaToInHg } from './utils';
 interface DayStat {
 	icon: ReactNode;
 	label: string;
-	value: string | number;
+	value: string;
 }
 
 const DayStat = ({ stat: { icon, label, value } }: { stat: DayStat }) => {
@@ -40,42 +40,42 @@ const DAY_STATS: DayStat[] = [
 	{
 		icon: <WiRaindrop size={32} />,
 		label: 'Precipitation',
-		value: 0,
+		value: '0',
 	},
 	{
 		icon: <WiSunrise size={32} />,
 		label: 'Sunrise',
-		value: 0,
+		value: '0',
 	},
 	{
 		icon: <WiSunset size={32} />,
 		label: 'Sunset',
-		value: 0,
+		value: '0',
 	},
 	{
 		icon: <WiMoonrise size={32} />,
 		label: 'Moonrise',
-		value: 0,
+		value: '0',
 	},
 	{
 		icon: <WiMoonset size={32} />,
 		label: 'Moonset',
-		value: 0,
+		value: '0',
 	},
 	{
 		icon: <WiMoonNew size={32} />,
 		label: 'Moon Phase',
-		value: 0,
+		value: '0',
 	},
 	{
 		icon: <WiBarometer size={32} />,
 		label: 'Pressure',
-		value: 0,
+		value: '0',
 	},
 	{
 		icon: <WiSmoke size={32} />,
 		label: 'Air Quality',
-		value: 0,
+		value: '0',
 	},
 ];
 
