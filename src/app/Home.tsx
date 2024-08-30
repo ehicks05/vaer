@@ -1,7 +1,7 @@
 import { Alert } from './Alert';
 import DailyForecast from './DailyForecast';
 import { DayStats } from './DayStats';
-import { Hourly } from './Hourly';
+import { HourlyForecast } from './HourlyForecast';
 import { Summary } from './Summary';
 import WindyMap from './WindyMap';
 
@@ -13,7 +13,7 @@ export const Home = () => {
 				<Summary />
 			</div>
 			<div className="md:hidden">
-				<Hourly />
+				<HourlyForecast />
 			</div>
 			<div className="flex flex-col gap-4 h-full">
 				<DailyForecast />
@@ -24,7 +24,7 @@ export const Home = () => {
 					<Summary />
 				</div>
 				<div className="col-span-2 hidden md:block">
-					<Hourly />
+					<HourlyForecast />
 				</div>
 				<div className="col-span-2 h-full">
 					<div className="grid grid-cols-2 lg:grid-cols-2 gap-4 xl:col-span-2">
