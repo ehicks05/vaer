@@ -18,11 +18,13 @@ import {
 } from 'react-icons/wi';
 import { formatInTimeZone, getPressureDescription, hPaToInHg } from './utils';
 
-const DayStat = ({
-	label,
-	value,
-	icon,
-}: { label: string; value?: string | number; icon: ReactNode }) => {
+interface DayStat {
+	label: string;
+	value?: string | number;
+	icon: ReactNode;
+}
+
+const DayStat = ({ stat: { label, value, icon } }: { stat: DayStat }) => {
 	return (
 		<div className="flex items-center gap-2 w-full p-4 bg-slate-800 rounded-lg">
 			{icon}
@@ -34,7 +36,7 @@ const DayStat = ({
 	);
 };
 
-const DAY_STATS = [
+const DAY_STATS: DayStat[] = [
 	{
 		label: 'Precipitation',
 		icon: <WiRaindrop size={32} />,
@@ -86,14 +88,7 @@ export const DayStats = () => {
 	const { data: fiveDayData } = fiveDayQuery;
 
 	if (!oneCallData || !airPollutionData || !fiveDayData) {
-		return DAY_STATS.map((stat) => (
-			<DayStat
-				key={stat.label}
-				label={stat.label}
-				value={stat.value}
-				icon={stat.icon}
-			/>
-		));
+		return DAY_STATS.map((stat) => <DayStat key={stat.label} stat={stat} />);
 	}
 
 	const tz = oneCallData.timezone;
@@ -150,16 +145,14 @@ export const DayStats = () => {
 		},
 		{
 			label: 'Air Quality',
-			value: aqi ? `${aqi}: ${AQI_DISPLAY_NAMES[aqi]}` : 'No data',
+			value: aqi ? AQI_DISPLAY_NAMES[aqi] : 'No data',
 		},
 	];
 
 	return stats.map((stat, i) => (
 		<DayStat
 			key={stat.label}
-			label={stat.label}
-			value={stat.value}
-			icon={stat.icon || DAY_STATS[i].icon}
+			stat={{ ...stat, icon: stat.icon || DAY_STATS[i].icon }}
 		/>
 	));
 };
