@@ -6,7 +6,7 @@ export const PLACEHOLDER_DATA = [...new Array(25)].map(
 		({
 			dt: addHours(new Date(), i).getTime(),
 			time: formatHours(new Date(addHours(new Date(), i).toISOString())),
-			weather: [{ id: 800, description: 'loading data', icon: 'd', main: '' }],
+			weather: [{ id: 800, description: 'loading', icon: 'd', main: '' }],
 			temp: 0,
 			pressure: 0,
 			humidity: 0,

@@ -1,10 +1,9 @@
-import { Card } from '@/components';
 import { DayIndexContext } from '@/contexts/DayIndexContext';
 import { useOpenWeatherMap } from '@/hooks';
 import { useOpenWeatherMapFiveDay } from '@/hooks/useOpenWeatherMap';
 import type { ThreeHourForecast } from '@/services/openweathermap/types/fiveDay';
 import type { Hourly as IHourly } from '@/services/openweathermap/types/oneCall';
-import { useContext } from 'react';
+import { type ReactNode, useContext } from 'react';
 import { Temp } from '../PreferredTemperature';
 import { formatInTimeZone } from '../utils';
 import { Humidity } from './Humidity';
@@ -13,6 +12,13 @@ import { ScrollbarContainer } from './ScrollbarContainer';
 import { Weather } from './Weather';
 import { Wind } from './Wind';
 import { PLACEHOLDER_DATA } from './constants';
+
+const Container = ({ children }: { children: ReactNode }) => (
+	<div className="flex flex-col group">
+		Hourly Forecast
+		<ScrollbarContainer>{children}</ScrollbarContainer>
+	</div>
+);
 
 interface Props {
 	hourly: IHourly | ThreeHourForecast;
@@ -43,11 +49,11 @@ export const HourlyForecast = () => {
 
 	if (!oneCallQuery.data) {
 		return (
-			<ScrollbarContainer>
+			<Container>
 				{PLACEHOLDER_DATA.map((hourly) => (
 					<HourlyDetail key={hourly.dt} hourly={hourly} tz="" />
 				))}
-			</ScrollbarContainer>
+			</Container>
 		);
 	}
 
@@ -66,16 +72,11 @@ export const HourlyForecast = () => {
 				) || [];
 
 	return (
-		<div className="flex flex-col group">
-			Hourly Forecast
-			<Card>
-				<ScrollbarContainer>
-					{hourlies.map((hourly) => (
-						<HourlyDetail key={hourly.dt} hourly={hourly} tz={tz} />
-					))}
-					{hourlies.length === 0 && 'No available data'}
-				</ScrollbarContainer>
-			</Card>
-		</div>
+		<Container>
+			{hourlies.map((hourly) => (
+				<HourlyDetail key={hourly.dt} hourly={hourly} tz={tz} />
+			))}
+			{hourlies.length === 0 && 'No available data'}
+		</Container>
 	);
 };
