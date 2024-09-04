@@ -32,7 +32,10 @@ export const Alert = () => {
 							{alertFmt.format(alert.start)} to {alertFmt.format(alert.end)}
 						</div>
 						<div className="text-sm">{alert.sender_name}</div>
-						<div className="text-sm">{alert.description}</div>
+						{alert.description && <div className="text-sm">{alert.description}</div>}
+						{alert.tags.length && (
+							<div className="text-sm">{alert.tags.join(', ')}</div>
+						)}
 					</>
 				)}
 			</div>
