@@ -18,7 +18,7 @@ export const Alert = () => {
 		<Card gradient={false} className="col-span-full p-4 bg-slate-800">
 			<div className="flex flex-col gap-2">
 				<div className="flex items-center gap-2 text-2xl">
-					<HiOutlineExclamationTriangle className="text-red-500" />
+					<HiOutlineExclamationTriangle className="text-red-500 mt-1" />
 					{alert.event}
 				</div>
 				<Button
@@ -28,13 +28,15 @@ export const Alert = () => {
 				</Button>
 				{showDescription && (
 					<>
+						<div className="text-sm text-neutral-400">{alert.sender_name}</div>
 						<div className="text-sm">
 							{alertFmt.format(alert.start)} to {alertFmt.format(alert.end)}
 						</div>
-						<div className="text-sm">{alert.sender_name}</div>
-						{alert.description && <div className="text-sm">{alert.description}</div>}
+						{alert.description && <div>{alert.description}</div>}
 						{alert.tags.length && (
-							<div className="text-sm">{alert.tags.join(', ')}</div>
+							<div className="text-sm text-neutral-400">
+								Tags: {alert.tags.join(', ')}
+							</div>
 						)}
 					</>
 				)}
