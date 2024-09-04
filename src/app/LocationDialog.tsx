@@ -10,10 +10,13 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog';
+import { AllowPermissionRequestContext } from '@/contexts/AllowPermissionRequestContext';
+import { GeolocationPermissionContext } from '@/contexts/GeolocationPermissionContext';
 import { useActiveLocation, useSavedLocations } from '@/hooks';
+import { useGeolocation } from '@/hooks/useGeolocation';
 import { useSearch } from '@/services/geonames/geonames';
 import type { SearchResultGeoname } from '@/services/geonames/types';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { CgSpinnerAlt } from 'react-icons/cg';
 import {
 	HiExclamationTriangle,
@@ -24,6 +27,7 @@ import {
 } from 'react-icons/hi2';
 import { NAV_BAR_BUTTON_STYLES } from '../constants/classes';
 import { geonameToLabel } from './utils';
+
 const currentLocation = {
 	geonameId: -1,
 	countryCode: 'US',
@@ -87,7 +91,48 @@ const CityOption = ({
 	);
 };
 
-const LocationModal = () => {
+const CurrentLocation = () => {
+	const { isAllowPermissionRequests, setIsAllowPermissionRequests } = useContext(
+		AllowPermissionRequestContext,
+	);
+	const { geolocationPermission } = useContext(GeolocationPermissionContext);
+	const [activeLocation, setActiveLocation] = useActiveLocation();
+	const { latitude } = useGeolocation().coords || {};
+
+	return (
+		<>
+			<div>Current Location</div>
+			<div className="grid grid-cols-1 gap-2 w-full">
+				{geolocationPermission === 'denied' ? (
+					<Button disabled>
+						Geolocation permission is denied. Reset browser permissions to use
+						current location.
+					</Button>
+				) : geolocationPermission === 'granted' || latitude !== undefined ? (
+					<CityOption
+						city={currentLocation}
+						isSaved={true}
+						isActive={activeLocation === undefined}
+						onActivate={() => setActiveLocation(undefined)}
+					/>
+				) : geolocationPermission === 'prompt' && !isAllowPermissionRequests ? (
+					<Button
+						onClick={() => setIsAllowPermissionRequests(true)}
+						className="bg-green-700 hover:bg-green-600"
+					>
+						Allow Vær to request current location
+					</Button>
+				) : (
+					<Button className="bg-green-700" disabled>
+						Waiting for permission to be granted.
+					</Button>
+				)}
+			</div>
+		</>
+	);
+};
+
+const LocationForm = () => {
 	const [savedLocations, setSavedLocations] = useSavedLocations();
 	const [activeLocation, setActiveLocation] = useActiveLocation();
 
@@ -157,16 +202,10 @@ const LocationModal = () => {
 			</div>
 
 			<div className="flex flex-col gap-4">
-				<div className="p-2 rounded-lg">Saved Cities</div>
-				<div className="grid grid-cols-1 gap-2 w-full">
-					<CityOption
-						key={'currentLocation'}
-						city={currentLocation}
-						isSaved={true}
-						isActive={activeLocation === undefined}
-						onActivate={() => setActiveLocation(undefined)}
-					/>
+				<CurrentLocation />
 
+				<div className="mt-2">Saved Locations</div>
+				<div className="grid grid-cols-1 gap-2 w-full">
 					{savedLocations.map((location) => {
 						const onClick = () => {
 							setSavedLocations(
@@ -204,7 +243,11 @@ const LocationButton = () => (
 );
 
 export const LocationDialog = () => {
-	const [open, setOpen] = useState(false);
+	const { geolocationPermission } = useContext(GeolocationPermissionContext);
+	const [activeLocation] = useActiveLocation();
+	const [open, setOpen] = useState(
+		geolocationPermission !== 'granted' && activeLocation === undefined,
+	);
 
 	const handleKeyDown = useCallback(
 		(event: KeyboardEvent) => {
@@ -235,10 +278,12 @@ export const LocationDialog = () => {
 							Choose a location
 						</DialogDescription>
 					</DialogHeader>
-					<LocationModal />
-					<DialogClose asChild>
-						<Button className="place-self-start bg-neutral-700">Close</Button>
-					</DialogClose>
+					<LocationForm />
+					<div className="flex">
+						<DialogClose asChild>
+							<Button>Close</Button>
+						</DialogClose>
+					</div>
 				</DialogContent>
 			</DialogPortal>
 		</Dialog>

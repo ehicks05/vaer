@@ -1,10 +1,7 @@
-import {
-	type GeolocationState,
-	useGeolocation,
-	useLocalStorage,
-} from '@uidotdev/usehooks';
+import { useLocalStorage } from '@uidotdev/usehooks';
 import { round } from 'lodash-es';
 import { useEffect } from 'react';
+import { type GeolocationState, useGeolocation } from './useGeolocation';
 
 const PRECISION = 3;
 
@@ -23,17 +20,16 @@ export const useCachedGeolocation = () => {
 				console.error(geolocation.error);
 			}
 
-			const { latitude, longitude } = geolocation;
-			const lat =
-				latitude !== null && latitude !== undefined
-					? round(latitude, PRECISION)
-					: null;
-			const long =
-				longitude !== null && longitude !== undefined
-					? round(longitude, PRECISION)
-					: null;
-
-			setCachedGeolocation({ ...geolocation, latitude: lat, longitude: long });
+			if (geolocation.coords) {
+				setCachedGeolocation({
+					...geolocation,
+					coords: {
+						...geolocation.coords,
+						latitude: round(geolocation.coords.latitude, PRECISION),
+						longitude: round(geolocation.coords.longitude, PRECISION),
+					},
+				});
+			}
 		}
 	}, [setCachedGeolocation, geolocation]);
 
