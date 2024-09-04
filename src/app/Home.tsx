@@ -8,7 +8,9 @@ import { WindyMap } from './maps/WindyMap';
 export const Home = () => {
 	return (
 		<div className="p-2 max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-start justify-center gap-4">
-			<Alert />
+			<div className="col-span-full w-full md:max-w-screen-sm mx-auto">
+				<Alert />
+			</div>
 			<div className="md:hidden">
 				<Summary />
 			</div>

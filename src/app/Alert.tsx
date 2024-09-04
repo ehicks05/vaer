@@ -15,7 +15,7 @@ export const Alert = () => {
 	}
 
 	return (
-		<Card gradient={false} className="col-span-full p-4 bg-slate-800">
+		<Card gradient={false} className="p-4 bg-slate-800">
 			<div className="flex flex-col gap-2">
 				<div className="flex items-center gap-2 text-2xl">
 					<HiOutlineExclamationTriangle className="text-red-500 mt-1" />
