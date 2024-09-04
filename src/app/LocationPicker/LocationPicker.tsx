@@ -25,8 +25,8 @@ import {
 	HiOutlinePlusCircle,
 	HiOutlineXCircle,
 } from 'react-icons/hi2';
-import { NAV_BAR_BUTTON_STYLES } from '../constants/classes';
-import { geonameToLabel } from './utils';
+import { NAV_BAR_BUTTON_STYLES } from '../../constants/classes';
+import { geonameToLabel } from '../utils';
 
 interface CityOptionProps {
 	city: Partial<SearchResultGeoname>;
@@ -241,7 +241,7 @@ const LocationButton = () => (
 	</div>
 );
 
-export const LocationDialog = () => {
+export const LocationPicker = () => {
 	const { geolocationPermission } = useContext(GeolocationPermissionContext);
 	const [activeLocation] = useActiveLocation();
 	const [open, setOpen] = useState(

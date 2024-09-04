@@ -1,4 +1,4 @@
-import { LocationDialog } from '@/app/LocationDialog';
+import { LocationPicker } from '@/app/LocationPicker';
 import { PreferredTempToggle } from '@/app/PreferredTemperature';
 
 const Logo = () => (
@@ -22,7 +22,7 @@ export default function Header() {
 			<Logo />
 			<div className="flex items-center gap-4">
 				<PreferredTempToggle />
-				<LocationDialog />
+				<LocationPicker />
 			</div>
 		</div>
 	);
