@@ -28,12 +28,6 @@ import {
 import { NAV_BAR_BUTTON_STYLES } from '../constants/classes';
 import { geonameToLabel } from './utils';
 
-const currentLocation = {
-	geonameId: -1,
-	countryCode: 'US',
-	name: 'Current Location',
-};
-
 interface CityOptionProps {
 	city: Partial<SearchResultGeoname>;
 	isSaved: boolean;
@@ -53,37 +47,41 @@ const CityOption = ({
 }: CityOptionProps) => {
 	return (
 		<div>
-			<div className="w-full flex justify-between items-center gap-4 sm:gap-8 p-2 text-sm sm:text-base bg-neutral-700 rounded-lg">
-				<div>{geonameToLabel(city)}</div>
+			<div className="w-full flex justify-between items-center gap-4 md:gap-8 p-2 text-sm md:text-base bg-neutral-700 rounded-lg">
+				<div className="flex items-center gap-4">
+					{isSaved && (
+						<HiOutlineCheckCircle
+							size={28}
+							onClick={onActivate}
+							className={
+								isActive
+									? 'flex-shrink-0 cursor-pointer text-green-500 hover:text-green-400'
+									: 'flex-shrink-0 cursor-pointer text-neutral-500 hover:text-neutral-400'
+							}
+						/>
+					)}
+					<div className="text-sm">{geonameToLabel(city)}</div>
+				</div>
 				<div className="flex items-center gap-2">
 					{!isSaved && (
 						<HiOutlinePlusCircle
 							onClick={onClick}
 							size={28}
-							className={'cursor-pointer text-green-500 hover:text-green-400'}
+							className={
+								'flex-shrink-0 cursor-pointer text-green-500 hover:text-green-400'
+							}
 						/>
 					)}
 					{isSaved && (
-						<>
-							<HiOutlineCheckCircle
-								size={28}
-								onClick={onActivate}
-								className={
-									isActive
-										? 'cursor-pointer text-green-500 hover:text-green-400'
-										: 'cursor-pointer text-neutral-500 hover:text-neutral-400'
-								}
-							/>
-							<HiOutlineXCircle
-								onClick={onDelete}
-								size={28}
-								className={
-									onDelete
-										? 'cursor-pointer text-red-500 hover:text-red-400'
-										: 'text-neutral-500 opacity-0'
-								}
-							/>
-						</>
+						<HiOutlineXCircle
+							onClick={onDelete}
+							size={28}
+							className={
+								onDelete
+									? 'flex-shrink-0 cursor-pointer text-red-500 hover:text-red-400'
+									: 'invisible'
+							}
+						/>
 					)}
 				</div>
 			</div>
@@ -110,7 +108,7 @@ const CurrentLocation = () => {
 					</Button>
 				) : geolocationPermission === 'granted' || latitude !== undefined ? (
 					<CityOption
-						city={currentLocation}
+						city={{ name: 'Current Location' }}
 						isSaved={true}
 						isActive={activeLocation === undefined}
 						onActivate={() => setActiveLocation(undefined)}
@@ -145,8 +143,9 @@ const LocationForm = () => {
 	);
 
 	return (
-		<div className="flex flex-col sm:flex-row gap-4">
+		<div className="flex flex-col md:flex-row gap-4">
 			<div className="flex flex-col gap-4">
+				Search for a location
 				<input
 					className="p-2 rounded-lg"
 					value={queryString}

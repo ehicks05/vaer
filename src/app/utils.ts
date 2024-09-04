@@ -3,8 +3,8 @@ import type { SearchResultGeoname } from '@/services/geonames/types';
 
 export const geonameToLabel = (city: Partial<SearchResultGeoname>) =>
 	`${city.name}${
-		city.countryCode === 'US' && city.adminCode1 ? `, ${city.adminCode1}` : ''
-	}${city.countryCode !== 'US' ? `, ${city.countryName}` : ''}`;
+		city.adminCodes1 ? `, ${city.adminCodes1.ISO3166_2}` : ''
+	}${city.countryCode === 'US' ? `, ${city.countryCode}` : `${city.countryName ? `, ${city.countryName}` : ''}`}`;
 
 // no longer used, remove after a bit
 export const degreeToDirection = (degree: number) => {
