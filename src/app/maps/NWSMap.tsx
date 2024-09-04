@@ -9,7 +9,7 @@ const defaults = {
 		layer: 'bref_qcd',
 	},
 	animating: false,
-	base: 'standard',
+	base: 'darkcanvas',
 	artcc: false,
 	county: false,
 	cwa: false,
