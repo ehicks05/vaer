@@ -15,7 +15,12 @@ const defaults = {
 	radarRange: '-1',
 };
 
-const WindyMap = () => {
+interface Props {
+	className: string;
+	height: number;
+}
+
+export const WindyMap = ({ className, height }: Props) => {
 	const { lat, long } = useResolvedLocation();
 
 	if (lat === undefined || long === undefined) {
@@ -32,12 +37,10 @@ const WindyMap = () => {
 
 	return (
 		<iframe
-			height="400"
-			className="block w-full rounded-lg"
+			height={height}
+			className={className}
 			src={`${base}?${params}`}
 			title="weather map"
 		/>
 	);
 };
-
-export default WindyMap;

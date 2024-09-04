@@ -3,7 +3,7 @@ import DailyForecast from './DailyForecast';
 import { DayStats } from './DayStats';
 import { HourlyForecast } from './HourlyForecast';
 import { Summary } from './Summary';
-import WindyMap from './WindyMap';
+import { WindyMap } from './maps/WindyMap';
 
 export const Home = () => {
 	return (
@@ -17,7 +17,7 @@ export const Home = () => {
 			</div>
 			<div className="flex flex-col gap-4 h-full">
 				<DailyForecast />
-				<WindyMap />
+				<WindyMap className="block w-full rounded-lg" height={400} />
 			</div>
 			<div className="grid grid-cols-2 gap-4 xl:col-span-2">
 				<div className="col-span-2 hidden md:block">
