@@ -20,7 +20,7 @@ export const LocationForm = () => {
 	);
 
 	return (
-		<div className="flex flex-col justify-center md:flex-row gap-4">
+		<div className="flex flex-col md:flex-row gap-4 h-full overflow-y-auto">
 			<div className="flex flex-col gap-4">
 				Search for a location
 				<input
@@ -29,7 +29,7 @@ export const LocationForm = () => {
 					onChange={(e) => setQueryString(e.target.value)}
 					placeholder="Search..."
 				/>
-				<div className="grid grid-cols-1 gap-2 w-full">
+				<div className="flex flex-col gap-2 w-full">
 					{query.isLoading && (
 						<div className="flex justify-center">
 							<CgSpinnerAlt size={64} className="animate-spin text-neutral-500" />
@@ -81,7 +81,7 @@ export const LocationForm = () => {
 				<CurrentLocation />
 
 				<div className="mt-2">Saved Locations</div>
-				<div className="grid grid-cols-1 gap-2 w-full">
+				<div className="flex flex-col gap-2 w-full">
 					{savedLocations.map((location) => {
 						const onClick = () => {
 							setSavedLocations(
