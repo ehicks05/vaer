@@ -1,5 +1,5 @@
 import { round } from 'lodash-es';
-import { usePreferredTempUnit } from './usePreferredTempUnit';
+import { useUnitSystem } from './useUnitSystem';
 
 export const cToF = (c: number) => (9 / 5) * c + 32;
 export const fToC = (f: number) => (5 / 9) * (f - 32);
@@ -11,29 +11,37 @@ const mphToKmh = (mph: number) => 1.60934 * mph;
 const hPaToInHg = (hpa: number) => 0.02952998057228 * hpa;
 
 export const useUnits = () => {
-	const { preferredTempUnit } = usePreferredTempUnit();
+	const { unitSystem } = useUnitSystem();
+	const isMetric = unitSystem === 'metric';
 
 	return {
 		getLength: (inches: number) => {
-			const inPreferredUnit = preferredTempUnit === 'C' ? inchToMm(inches) : inches;
-			const rounded = round(inPreferredUnit, preferredTempUnit === 'C' ? 1 : 2);
-			const display = rounded ? rounded : !inches ? 0 : '< .01';
+			const inPreferredUnit = isMetric ? inchToMm(inches) : inches;
+			const precision = isMetric ? 1 : 2;
+			const rounded = round(inPreferredUnit, precision);
+			// logic: both zeroes and truthy rounded values are fine,
+			// but if our rounding turns a non-zero into zero, show a '<' sign.
+			const display = rounded
+				? rounded
+				: !inches
+					? 0
+					: `< .${'0'.repeat(precision - 1)}1`;
 
-			const unit = preferredTempUnit === 'C' ? 'mm' : 'in';
+			const unit = isMetric ? 'mm' : 'in';
 			return `${display} ${unit}`;
 		},
 		getSpeed: (mph: number) => {
-			const inPreferredUnit = preferredTempUnit === 'C' ? mphToKmh(mph) : mph;
-			const unit = preferredTempUnit === 'C' ? 'kmh' : 'mph';
+			const inPreferredUnit = isMetric ? mphToKmh(mph) : mph;
+			const unit = isMetric ? 'kmh' : 'mph';
 			return `${Math.round(inPreferredUnit)} ${unit}`;
 		},
 		getTemp: (f: number) => {
-			const inPreferredUnit = preferredTempUnit === 'C' ? fToC(f) : f;
+			const inPreferredUnit = isMetric ? fToC(f) : f;
 			return `${Math.round(inPreferredUnit)}\u00B0`;
 		},
 		getPressure: (hpa: number) => {
-			const inPreferredUnit = preferredTempUnit === 'C' ? hpa : hPaToInHg(hpa);
-			const unit = preferredTempUnit === 'C' ? 'hPa' : 'inHg';
+			const inPreferredUnit = isMetric ? hpa : hPaToInHg(hpa);
+			const unit = isMetric ? 'hPa' : 'inHg';
 			return `${round(inPreferredUnit, 2)} ${unit}`;
 		},
 	};

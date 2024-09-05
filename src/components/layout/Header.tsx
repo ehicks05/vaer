@@ -1,5 +1,5 @@
 import { LocationPicker } from '@/app/LocationPicker';
-import { PreferredTempToggle } from '@/components/PreferredTempToggle';
+import { UnitSystemToggle } from '@/components/UnitSystemToggle';
 
 const Logo = () => (
 	<div className="flex-shrink-0 flex items-center">
@@ -21,7 +21,7 @@ export default function Header() {
 		<div className="flex items-center justify-between h-16 max-w-7xl mx-auto px-2 w-full">
 			<Logo />
 			<div className="flex items-center gap-4">
-				<PreferredTempToggle />
+				<UnitSystemToggle />
 				<LocationPicker />
 			</div>
 		</div>
