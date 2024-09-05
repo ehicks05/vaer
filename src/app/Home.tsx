@@ -12,7 +12,7 @@ export const Home = () => {
 			<div className="col-span-full w-full md:max-w-screen-sm mx-auto">
 				<Alert />
 			</div>
-			<div className="md:hidden">
+			<div className="flex flex-col gap-4 md:hidden">
 				<Summary />
 				<UpcomingPrecipitation />
 			</div>
@@ -24,7 +24,7 @@ export const Home = () => {
 				<WindyMap className="block w-full rounded-lg" height={400} />
 			</div>
 			<div className="grid grid-cols-2 gap-4 xl:col-span-2">
-				<div className="col-span-2 hidden md:block">
+				<div className="col-span-2 hidden md:flex flex-col gap-4">
 					<Summary />
 					<UpcomingPrecipitation />
 				</div>
