@@ -1,8 +1,16 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { useDebounce } from '@uidotdev/usehooks';
 import { HALF_HOUR, ONE_DAY } from '../../constants/datetime';
-import { BASE, SHARED_PARAMS } from './constants';
+import { BASE } from './constants';
 import type { SearchResult } from './types';
+
+const DEFAULTS = {
+	countryBias: 'US',
+	featureClass: 'P',
+	maxRows: '7',
+	orderby: 'population',
+	username: import.meta.env.VITE_GEONAMES_USERNAME,
+};
 
 interface Params {
 	query: string;
@@ -10,12 +18,8 @@ interface Params {
 
 export const search = async ({ query }: Params): Promise<SearchResult> => {
 	const params = new URLSearchParams({
-		...SHARED_PARAMS,
+		...DEFAULTS,
 		name_startsWith: query,
-		countryBias: 'US',
-		featureClass: 'P',
-		orderby: 'population',
-		maxRows: '7',
 	});
 	const url = `${BASE}/searchJSON?${params}`;
 	const response = await fetch(url);
