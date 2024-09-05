@@ -1,9 +1,9 @@
 import { weekdayLong } from '@/constants/fmt';
 import { DayIndexContext } from '@/contexts/DayIndexContext';
 import { useActiveLocation, useOpenWeatherMap, useWeatherGov } from '@/hooks';
+import { useUnits } from '@/hooks/useUnits';
 import { useContext } from 'react';
 import { getWeatherIcon } from '../constants/weather_icons';
-import { Temp } from './PreferredTemperature';
 import { geonameToLabel } from './utils';
 
 const PLACEHOLDER = {
@@ -14,6 +14,7 @@ const PLACEHOLDER = {
 };
 
 export const Summary = () => {
+	const { getTemp } = useUnits();
 	const { dayIndex } = useContext(DayIndexContext);
 	const { oneCallQuery } = useOpenWeatherMap();
 	const { pointQuery } = useWeatherGov();
@@ -44,21 +45,17 @@ export const Summary = () => {
 				<div className="flex gap-2 items-center text-6xl text-center">
 					{typeof temp === 'object' && (
 						<div>
-							<Temp temp={temp.max} />/
-							<span className="text-neutral-400">
-								<Temp temp={temp.min} />
-							</span>
+							{getTemp(temp.max)}/
+							<span className="text-neutral-400">{getTemp(temp.min)}</span>
 						</div>
 					)}
-					{typeof temp === 'number' && <Temp temp={temp} />}
+					{typeof temp === 'number' && getTemp(temp)}
 					<div>
 						<Icon className="inline" size={64} title={description} />
 					</div>
 				</div>
 				{typeof feels_like === 'number' && (
-					<>
-						feels like <Temp temp={feels_like} /> &middot;{' '}
-					</>
+					<>feels like {getTemp(feels_like)} &middot; </>
 				)}
 				{description}
 			</div>

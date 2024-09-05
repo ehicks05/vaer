@@ -4,7 +4,8 @@ import { getMoonPhaseIcon } from '@/constants/weather_icons';
 import { DayIndexContext } from '@/contexts/DayIndexContext';
 import { useOpenWeatherMap } from '@/hooks';
 import { useOpenWeatherMapFiveDay } from '@/hooks/useOpenWeatherMap';
-import { max, round } from 'lodash-es';
+import { useUnits } from '@/hooks/useUnits';
+import { max } from 'lodash-es';
 import { type ReactNode, useContext } from 'react';
 import {
 	WiBarometer,
@@ -16,7 +17,7 @@ import {
 	WiSunrise,
 	WiSunset,
 } from 'react-icons/wi';
-import { formatInTimeZone, getPressureDescription, hPaToInHg } from './utils';
+import { formatInTimeZone } from './utils';
 
 interface DayStat {
 	icon: ReactNode;
@@ -80,6 +81,7 @@ const DAY_STATS: DayStat[] = [
 ];
 
 export const DayStats = () => {
+	const { getLength, getPressure } = useUnits();
 	const { dayIndex } = useContext(DayIndexContext);
 	const { oneCallQuery, airPollutionQuery } = useOpenWeatherMap();
 	const { fiveDayQuery } = useOpenWeatherMapFiveDay();
@@ -92,13 +94,8 @@ export const DayStats = () => {
 	}
 
 	const tz = oneCallData.timezone;
-	const { pressure, sunrise, sunset, rain, snow } = oneCallData.daily[dayIndex || 0];
-
-	const dailyPrecip = `${round(rain + snow, 2)} in`;
-	const inHg = hPaToInHg(pressure);
-	const description = getPressureDescription(inHg);
-
-	const { moonrise, moonset, moon_phase } = oneCallData.daily[dayIndex || 0];
+	const { moon_phase, moonrise, moonset, pressure, rain, snow, sunrise, sunset } =
+		oneCallData.daily[dayIndex || 0];
 	const { Icon: MoonPhaseIcon, label: moonPhaseLabel } =
 		getMoonPhaseIcon(moon_phase);
 
@@ -116,7 +113,7 @@ export const DayStats = () => {
 	const stats = [
 		{
 			label: 'Precipitation',
-			value: dailyPrecip,
+			value: getLength(rain + snow),
 		},
 		{
 			label: 'Sunrise',
@@ -141,7 +138,7 @@ export const DayStats = () => {
 		},
 		{
 			label: 'Pressure',
-			value: `${round(inHg, 1)}: ${description}`,
+			value: getPressure(pressure),
 		},
 		{
 			label: 'Air Quality',

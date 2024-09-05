@@ -1,10 +1,10 @@
 import { DayIndexContext } from '@/contexts/DayIndexContext';
 import { useOpenWeatherMap } from '@/hooks';
 import { useOpenWeatherMapFiveDay } from '@/hooks/useOpenWeatherMap';
+import { useUnits } from '@/hooks/useUnits';
 import type { ThreeHourForecast } from '@/services/openweathermap/types/fiveDay';
 import type { Hourly as IHourly } from '@/services/openweathermap/types/oneCall';
 import { type ReactNode, useContext } from 'react';
-import { Temp } from '../PreferredTemperature';
 import { formatInTimeZone } from '../utils';
 import { Humidity } from './Humidity';
 import { Precip } from './Precip';
@@ -26,12 +26,13 @@ interface Props {
 }
 
 const HourlyDetail = ({ hourly, tz }: Props) => {
+	const { getTemp } = useUnits();
 	const temp = 'main' in hourly ? hourly.main.temp : hourly.temp;
 	const time = formatInTimeZone(new Date(hourly.dt), tz, 'h a');
 
 	return (
 		<div className="flex flex-col items-center gap-4 w-12 min-w-12">
-			<Temp temp={temp} />
+			{getTemp(temp)}
 			<Weather hourly={hourly} />
 			<div className="flex-grow -mt-4" />
 			<Precip hourly={hourly} />

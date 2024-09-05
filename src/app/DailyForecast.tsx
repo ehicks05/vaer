@@ -1,10 +1,10 @@
 import { Card } from '@/components';
 import { DayIndexContext } from '@/contexts/DayIndexContext';
 import { useOpenWeatherMap } from '@/hooks';
+import { useUnits } from '@/hooks/useUnits';
 import type { WeatherCondition } from '@/services/openweathermap/types/oneCall';
 import { useContext } from 'react';
 import { getWeatherIcon } from '../constants/weather_icons';
-import { Temp } from './PreferredTemperature';
 import { addDays, formatInTimeZone, isToday } from './utils';
 
 interface OneDaySummaryProps {
@@ -24,6 +24,7 @@ const OneDaySummary = ({
 	onClick,
 	isSelected,
 }: OneDaySummaryProps) => {
+	const { getTemp } = useUnits();
 	const Icon = getWeatherIcon(weather.id, weather.icon);
 
 	return (
@@ -45,12 +46,8 @@ const OneDaySummary = ({
 					</div>
 				</div>
 				<div className="whitespace-nowrap flex flex-col text-right">
-					<span>
-						<Temp temp={max} />
-					</span>
-					<span className="opacity-75">
-						<Temp temp={min} />
-					</span>
+					<span>{getTemp(max)}</span>
+					<span className="opacity-75">{getTemp(min)}</span>
 				</div>
 			</div>
 		</div>

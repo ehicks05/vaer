@@ -1,5 +1,5 @@
 import { LocationPicker } from '@/app/LocationPicker';
-import { PreferredTempToggle } from '@/app/PreferredTemperature';
+import { PreferredTempToggle } from '@/components/PreferredTempToggle';
 
 const Logo = () => (
 	<div className="flex-shrink-0 flex items-center">
