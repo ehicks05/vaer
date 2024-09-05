@@ -1,6 +1,6 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { useDebounce } from '@uidotdev/usehooks';
-import { HALF_HOUR, ONE_DAY } from '../../constants/datetime';
+import { ONE_DAY, ONE_MINUTE } from '../../constants/datetime';
 import { BASE } from './constants';
 import type { SearchResult } from './types';
 
@@ -38,7 +38,7 @@ export const useSearch = ({ query: _query }: Params) => {
 		queryKey: ['searchGeonames', query],
 		queryFn: async () => search({ query }),
 		enabled: query.length >= 3,
-		staleTime: HALF_HOUR,
+		staleTime: ONE_MINUTE,
 		gcTime: ONE_DAY,
 		placeholderData: keepPreviousData,
 	});

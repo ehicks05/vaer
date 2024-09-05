@@ -1,6 +1,6 @@
 import type { PartialLatLong } from '@/hooks/useResolvedLocation';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import { HALF_HOUR, ONE_DAY } from '../../constants/datetime';
+import { ONE_MINUTE, ONE_DAY } from '../../constants/datetime';
 import { APP_KEY, BASE } from './constants';
 import type { AirPollutionResponse } from './types/airPollution';
 
@@ -48,7 +48,7 @@ export const useAirPollution = ({ lat, long }: PartialLatLong) => {
 		queryKey: ['airPollution', lat, long],
 		queryFn: async () => getAirPollution({ lat, long }),
 		enabled: lat !== undefined && long !== undefined,
-		staleTime: HALF_HOUR,
+		staleTime: ONE_MINUTE,
 		gcTime: ONE_DAY,
 		placeholderData: keepPreviousData,
 	});

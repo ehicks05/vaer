@@ -1,7 +1,7 @@
 import { mmToInch } from '@/app/utils';
 import type { PartialLatLong } from '@/hooks/useResolvedLocation';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import { HALF_HOUR, ONE_DAY } from '../../constants/datetime';
+import { ONE_DAY, ONE_MINUTE } from '../../constants/datetime';
 import { APP_KEY, BASE } from './constants';
 import type { OneCallResponse } from './types/oneCall';
 
@@ -69,7 +69,7 @@ export const useOneCall = ({ lat, long }: PartialLatLong) => {
 		queryKey: ['oneCall', lat, long],
 		queryFn: async () => getOneCall({ lat, long }),
 		enabled: lat !== undefined && long !== undefined,
-		staleTime: HALF_HOUR,
+		staleTime: ONE_MINUTE,
 		gcTime: ONE_DAY,
 		placeholderData: keepPreviousData,
 	});

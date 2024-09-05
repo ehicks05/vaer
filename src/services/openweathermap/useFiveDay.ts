@@ -1,7 +1,7 @@
 import { mmToInch } from '@/app/utils';
 import type { PartialLatLong } from '@/hooks/useResolvedLocation';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import { HALF_HOUR, ONE_DAY } from '../../constants/datetime';
+import { ONE_MINUTE, ONE_DAY } from '../../constants/datetime';
 import { APP_KEY, BASE } from './constants';
 import type { FiveDayResponse } from './types/fiveDay';
 
@@ -46,7 +46,7 @@ export const useFiveDay = ({ lat, long }: PartialLatLong) => {
 		queryKey: ['fiveDay', lat, long],
 		queryFn: async () => getFiveDay({ lat, long }),
 		enabled: lat !== undefined && long !== undefined,
-		staleTime: HALF_HOUR,
+		staleTime: ONE_MINUTE,
 		gcTime: ONE_DAY,
 		placeholderData: keepPreviousData,
 	});
