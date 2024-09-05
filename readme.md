@@ -23,7 +23,9 @@
 ## research
 
 * keep an eye on weather.gov 2.0 or open-meteo to get around OWM limitations. Such as 1000 requests per day, and only 48 hours worth of hourly forecasts.
-* research windy alternatives that make fewer requests
+* research map alternatives. mainly one that makes fewer requests and seems more lightweight.
+  * openweather has basic maps, but don't appear to include a base layer (land outlines, political names)
+  * NWS has maps, but menu ui takes up too much space.
 
 ## links
 
