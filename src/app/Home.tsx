@@ -3,6 +3,7 @@ import DailyForecast from './DailyForecast';
 import { DayStats } from './DayStats';
 import { HourlyForecast } from './HourlyForecast';
 import { Summary } from './Summary';
+import { UpcomingPrecipitation } from './UpcomingPrecipitation';
 import { WindyMap } from './maps/WindyMap';
 
 export const Home = () => {
@@ -13,6 +14,7 @@ export const Home = () => {
 			</div>
 			<div className="md:hidden">
 				<Summary />
+				<UpcomingPrecipitation />
 			</div>
 			<div className="md:hidden">
 				<HourlyForecast />
@@ -24,6 +26,7 @@ export const Home = () => {
 			<div className="grid grid-cols-2 gap-4 xl:col-span-2">
 				<div className="col-span-2 hidden md:block">
 					<Summary />
+					<UpcomingPrecipitation />
 				</div>
 				<div className="col-span-2 hidden md:block">
 					<HourlyForecast />
