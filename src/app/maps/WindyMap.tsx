@@ -17,10 +17,9 @@ const defaults = {
 
 interface Props {
 	className: string;
-	height: number;
 }
 
-export const WindyMap = ({ className, height }: Props) => {
+export const WindyMap = ({ className }: Props) => {
 	const { lat, long } = useResolvedLocation();
 
 	if (lat === undefined || long === undefined) {
@@ -36,11 +35,6 @@ export const WindyMap = ({ className, height }: Props) => {
 	});
 
 	return (
-		<iframe
-			height={height}
-			className={className}
-			src={`${base}?${params}`}
-			title="weather map"
-		/>
+		<iframe className={className} src={`${base}?${params}`} title="weather map" />
 	);
 };
