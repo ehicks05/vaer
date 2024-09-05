@@ -1,5 +1,5 @@
-import { NAV_BAR_BUTTON_STYLES } from '../../constants/classes';
-import { usePreferredTempUnit } from './usePreferredTempUnit';
+import { NAV_BAR_BUTTON_STYLES } from '../constants/classes';
+import { usePreferredTempUnit } from '../hooks/usePreferredTempUnit';
 
 const PreferredTempToggle = () => {
 	const { preferredTempUnit, togglePreferredTempUnit } = usePreferredTempUnit();
@@ -15,4 +15,4 @@ const PreferredTempToggle = () => {
 	);
 };
 
-export default PreferredTempToggle;
+export { PreferredTempToggle };

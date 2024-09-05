@@ -56,6 +56,11 @@ const getOneCall = async ({ lat, long }: PartialLatLong) => {
 			rain: { '1h': mmToInch(o.rain?.['1h']) },
 			snow: { '1h': mmToInch(o.snow?.['1h']) },
 		})),
+		minutely: result.minutely.map((o) => ({
+			...o,
+			dt: o.dt * 1000,
+			precipitation: mmToInch(o.precipitation),
+		})),
 	};
 };
 
