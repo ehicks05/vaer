@@ -49,9 +49,10 @@ interface Props {
 
 const Minute = ({ max, minute: { precipitation }, title }: Props) => {
 	const intensity = getIntensity(precipitation);
-	const normalized = precipitation / (max * 2);
-	const height = Math.min(precipitation ? precipitation * 256 : 1, 80);
-	const style = { height: `${height}px` };
+	// a max of 0.5 in/h will fill the chart, anything higher requires scaling down.
+	const scaleDownFactor = max > 0.5 ? 0.5 / max : 0.5;
+	const height = precipitation ? precipitation * scaleDownFactor * 160 : 1;
+	const style = { height: `${Math.min(height, 80)}px` };
 	return (
 		<div
 			title={title}
