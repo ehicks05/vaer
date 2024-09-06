@@ -10,28 +10,56 @@ const hmm = new Intl.DateTimeFormat('en-US', {
 });
 
 const INTENSITIES = [
-	{ color: 'bg-indigo-500', min: 0.0, max: 0.0 },
-	{ color: 'bg-indigo-400', min: 0.0, max: 0.1 },
-	{ color: 'bg-indigo-300', min: 0.1, max: 0.2 },
-	{ color: 'bg-indigo-200', min: 0.2, max: 0.4 },
-	{ color: 'bg-indigo-100', min: 0.4, max: 1.0 },
-	{ color: 'bg-indigo-50', min: 1.0, max: Number.POSITIVE_INFINITY },
+	{ color: 'bg-indigo-500 group-hover:bg-indigo-400', min: 0.0, max: 0.0 },
+	{ color: 'bg-indigo-400 group-hover:bg-indigo-300', min: 0.0, max: 0.1 },
+	{ color: 'bg-indigo-300 group-hover:bg-indigo-200', min: 0.1, max: 0.2 },
+	{ color: 'bg-indigo-200 group-hover:bg-indigo-100', min: 0.2, max: 0.4 },
+	{ color: 'bg-indigo-100 group-hover:bg-indigo-50', min: 0.4, max: 1.0 },
+	{
+		color: 'bg-indigo-50 hover:bg-indigo-50',
+		min: 1.0,
+		max: Number.POSITIVE_INFINITY,
+	},
 ];
 
 const getIntensity = (inPerHour: number) =>
 	INTENSITIES.find(({ min, max }) => inPerHour >= min && inPerHour <= max) ||
 	INTENSITIES[0];
 
+const getMessage = (minutely: Minutely[]) => {
+	const currentlyPrecipitating = minutely[0].precipitation !== 0;
+	const firstPrecip = minutely.find((m) => m.precipitation !== 0);
+	const firstZeroPrecip = minutely.find((m) => m.precipitation === 0);
+	const message =
+		!currentlyPrecipitating && !firstPrecip
+			? 'No precipitation in the next hour.'
+			: !currentlyPrecipitating && !!firstPrecip
+				? `Precipitation starts at ${hmm.format(new Date(firstPrecip.dt))}`
+				: currentlyPrecipitating && !!firstZeroPrecip
+					? `Precipitation ends at ${hmm.format(new Date(firstZeroPrecip.dt))}`
+					: 'Precipitation throughout the next hour.';
+	return message;
+};
+
 interface Props {
 	max: number;
 	minute: Minutely;
+	title: string;
 }
 
-const Minute = ({ max, minute: { precipitation } }: Props) => {
+const Minute = ({ max, minute: { precipitation }, title }: Props) => {
 	const intensity = getIntensity(precipitation);
-	const normalized = precipitation / max;
-	const style = { height: `${(normalized || 0.01) * 100}%` };
-	return <div className={`rounded-sm w-4 ${intensity.color}`} style={style} />;
+	const normalized = precipitation / (max * 2);
+	const height = Math.min(precipitation ? precipitation * 256 : 1, 80);
+	const style = { height: `${height}px` };
+	return (
+		<div
+			title={title}
+			className="group flex items-end rounded-sm h-full hover:bg-indigo-700 w-4"
+		>
+			<div className={`rounded-sm w-full ${intensity.color}`} style={style} />
+		</div>
+	);
 };
 
 export const UpcomingPrecipitation = () => {
@@ -49,23 +77,31 @@ export const UpcomingPrecipitation = () => {
 		(index) => hmm.format(new Date(minutely[index]?.dt || 0)),
 	);
 
-	if (max === 0) {
-		return <Container>No precipitation until at least {end}</Container>;
-	}
+	const message = getMessage(minutely);
 
 	return (
 		<Container>
-			<div className="h-36 flex flex-col gap-1">
+			<div className="flex flex-col gap-1">
 				<div className="flex justify-between gap-2 w-full text-xs">
-					<span>checked at {hmm.format(new Date(dataUpdatedAt))}</span>
-					<span>
-						range: {getRate(min)} - {getRate(max)}
+					<span className="text-neutral-300">
+						checked at {hmm.format(new Date(dataUpdatedAt))}
 					</span>
+					{max > 0 && (
+						<span className="text-neutral-300">
+							range: {getRate(min)} - {getRate(max)}
+						</span>
+					)}
 				</div>
 				<div className="flex flex-col gap-1 w-full h-full">
-					<div className="flex items-end gap-[2px] h-full">
+					{message}
+					<div className="flex gap-[2px] h-20">
 						{minutely.map((minute) => (
-							<Minute key={minute.dt} max={max} minute={minute} />
+							<Minute
+								key={minute.dt}
+								max={max}
+								minute={minute}
+								title={`${hmm.format(new Date(minute.dt))}: ${getRate(minute.precipitation)}`}
+							/>
 						))}
 					</div>
 				</div>
