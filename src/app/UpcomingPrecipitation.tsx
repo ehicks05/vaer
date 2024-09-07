@@ -118,7 +118,7 @@ export const UpcomingPrecipitation = () => {
 
 const Container = ({ children }: { children: ReactNode }) => (
 	<div className="flex flex-col">
-		Upcoming Precipitation [experimental]
+		Upcoming Precipitation
 		<Card className="p-4 flex flex-col gap-1 justify-end">{children}</Card>
 	</div>
 );
