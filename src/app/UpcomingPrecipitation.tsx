@@ -15,11 +15,7 @@ const INTENSITIES = [
 	{ color: 'bg-indigo-300 group-hover:bg-indigo-200', min: 0.1, max: 0.2 },
 	{ color: 'bg-indigo-200 group-hover:bg-indigo-100', min: 0.2, max: 0.4 },
 	{ color: 'bg-indigo-100 group-hover:bg-indigo-50', min: 0.4, max: 1.0 },
-	{
-		color: 'bg-indigo-50 hover:bg-indigo-50',
-		min: 1.0,
-		max: Number.POSITIVE_INFINITY,
-	},
+	{ color: 'bg-indigo-50 hover:bg-indigo-50', min: 1.0, max: Number.MAX_VALUE },
 ];
 
 const getIntensity = (inPerHour: number) =>
