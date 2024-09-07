@@ -83,16 +83,6 @@ export const UpcomingPrecipitation = () => {
 	return (
 		<Container>
 			<div className="flex flex-col gap-1">
-				<div className="flex justify-between gap-2 w-full text-xs">
-					<span className="text-neutral-300">
-						checked at {hmm.format(new Date(dataUpdatedAt))}
-					</span>
-					{max > 0 && (
-						<span className="text-neutral-300">
-							range: {getRate(min)} - {getRate(max)}
-						</span>
-					)}
-				</div>
 				<div className="flex flex-col gap-1 w-full h-full">
 					{message}
 					<div className="flex h-20">
@@ -111,6 +101,16 @@ export const UpcomingPrecipitation = () => {
 					<span>{mid}</span>
 					<span>{end}</span>
 				</div>
+			</div>
+			<div className="flex justify-between gap-2 w-full text-xs">
+				<span className="text-neutral-300">
+					checked at {hmm.format(new Date(dataUpdatedAt))}
+				</span>
+				{max > 0 && (
+					<span className="text-neutral-300">
+						range: {getRate(min)} - {getRate(max)}
+					</span>
+				)}
 			</div>
 		</Container>
 	);
