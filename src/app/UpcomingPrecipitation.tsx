@@ -8,6 +8,7 @@ const hmm = new Intl.DateTimeFormat('en-US', {
 	hour: 'numeric',
 	minute: '2-digit',
 });
+const INF = Number.POSITIVE_INFINITY;
 
 const INTENSITIES = [
 	{ color: 'bg-indigo-500 group-hover:bg-indigo-400', min: 0.0, max: 0.0 },
@@ -15,7 +16,7 @@ const INTENSITIES = [
 	{ color: 'bg-indigo-300 group-hover:bg-indigo-200', min: 0.1, max: 0.2 },
 	{ color: 'bg-indigo-200 group-hover:bg-indigo-100', min: 0.2, max: 0.4 },
 	{ color: 'bg-indigo-100 group-hover:bg-indigo-50', min: 0.4, max: 1.0 },
-	{ color: 'bg-indigo-50 hover:bg-indigo-50', min: 1.0, max: Number.MAX_VALUE },
+	{ color: 'bg-indigo-50 group-hover:bg-indigo-50', min: 1.0, max: INF },
 ];
 
 const getIntensity = (inPerHour: number) =>
