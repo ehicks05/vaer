@@ -56,7 +56,7 @@ const Minute = ({ max, minute: { precipitation }, title }: Props) => {
 	return (
 		<div
 			title={title}
-			className="group flex items-end rounded-sm h-full hover:bg-indigo-700 w-4"
+			className="group flex items-end px-px rounded-sm h-full hover:bg-indigo-700 w-4"
 		>
 			<div className={`rounded-sm w-full ${intensity.color}`} style={style} />
 		</div>
@@ -95,7 +95,7 @@ export const UpcomingPrecipitation = () => {
 				</div>
 				<div className="flex flex-col gap-1 w-full h-full">
 					{message}
-					<div className="flex gap-[2px] h-20">
+					<div className="flex h-20">
 						{minutely.map((minute) => (
 							<Minute
 								key={minute.dt}
