@@ -3,7 +3,7 @@ import { round } from 'lodash-es';
 import { useEffect } from 'react';
 import { type GeolocationState, useGeolocation } from './useGeolocation';
 
-const PRECISION = 3;
+const PRECISION = 2;
 
 /**
  *
