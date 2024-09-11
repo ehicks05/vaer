@@ -3,7 +3,6 @@ import { dateShort } from '@/constants/fmt';
 import { getMoonPhaseIcon } from '@/constants/weather_icons';
 import { DayIndexContext } from '@/contexts/DayIndexContext';
 import { useOpenWeatherMap } from '@/hooks';
-import { useOpenWeatherMapFiveDay } from '@/hooks/useOpenWeatherMap';
 import { useUnits } from '@/hooks/useUnits';
 import { max } from 'lodash-es';
 import { type ReactNode, useContext } from 'react';
@@ -84,12 +83,10 @@ export const DayStats = () => {
 	const { getLength, getPressure } = useUnits();
 	const { dayIndex } = useContext(DayIndexContext);
 	const { oneCallQuery, airPollutionQuery } = useOpenWeatherMap();
-	const { fiveDayQuery } = useOpenWeatherMapFiveDay();
 	const { data: oneCallData } = oneCallQuery;
 	const { data: airPollutionData } = airPollutionQuery;
-	const { data: fiveDayData } = fiveDayQuery;
 
-	if (!oneCallData || !airPollutionData || !fiveDayData) {
+	if (!oneCallData || !airPollutionData) {
 		return DAY_STATS.map((stat) => <DayStat key={stat.label} stat={stat} />);
 	}
 
