@@ -36,7 +36,7 @@ const FORMAT_KEYS: Record<string, Intl.DateTimeFormatOptions> = {
 	'h a': { hour: 'numeric', hour12: true },
 	'h:mm a': { hour: 'numeric', minute: '2-digit', hour12: true },
 	EEE: { weekday: 'short' },
-};
+} as const;
 
 export const formatInTimeZone = (
 	date: Date | string | number,

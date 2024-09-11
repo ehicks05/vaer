@@ -3,11 +3,8 @@ import { useOpenWeatherMap } from '@/hooks';
 import { useUnits } from '@/hooks/useUnits';
 import type { Minutely } from '@/services/openweathermap/types/oneCall';
 import type { ReactNode } from 'react';
+import { formatInTimeZone } from './utils';
 
-const hmm = new Intl.DateTimeFormat('en-US', {
-	hour: 'numeric',
-	minute: '2-digit',
-});
 const INF = Number.POSITIVE_INFINITY;
 
 const INTENSITIES = [
@@ -23,7 +20,7 @@ const getIntensity = (inPerHour: number) =>
 	INTENSITIES.find(({ min, max }) => inPerHour >= min && inPerHour <= max) ||
 	INTENSITIES[0];
 
-const getMessage = (minutely: Minutely[]) => {
+const getMessage = (minutely: Minutely[], tz: string) => {
 	const currentlyPrecipitating = minutely[0].precipitation !== 0;
 	const firstPrecip = minutely.find((m) => m.precipitation !== 0);
 	const firstZeroPrecip = minutely.find((m) => m.precipitation === 0);
@@ -31,9 +28,9 @@ const getMessage = (minutely: Minutely[]) => {
 		!currentlyPrecipitating && !firstPrecip
 			? 'No precipitation in the next hour.'
 			: !currentlyPrecipitating && !!firstPrecip
-				? `Precipitation starts at ${hmm.format(new Date(firstPrecip.dt))}`
+				? `Precipitation starts at ${formatInTimeZone(new Date(firstPrecip.dt), tz, 'h:mm a')}`
 				: currentlyPrecipitating && !!firstZeroPrecip
-					? `Precipitation ends at ${hmm.format(new Date(firstZeroPrecip.dt))}`
+					? `Precipitation ends at ${formatInTimeZone(new Date(firstZeroPrecip.dt), tz, 'h:mm a')}`
 					: 'Precipitation throughout the next hour.';
 	return message;
 };
@@ -67,15 +64,15 @@ export const UpcomingPrecipitation = () => {
 	if (!data) {
 		return null;
 	}
-	const { minutely } = data;
+	const { minutely, timezone: tz } = data;
 
 	const min = Math.min(...minutely.map(({ precipitation }) => precipitation));
 	const max = Math.max(...minutely.map(({ precipitation }) => precipitation));
 	const [start, mid, end] = [0, minutely.length / 2, minutely.length - 1].map(
-		(index) => hmm.format(new Date(minutely[index]?.dt || 0)),
+		(index) => formatInTimeZone(new Date(minutely[index]?.dt || 0), tz, 'h:mm a'),
 	);
 
-	const message = getMessage(minutely);
+	const message = getMessage(minutely, tz);
 
 	return (
 		<Container>
@@ -88,7 +85,7 @@ export const UpcomingPrecipitation = () => {
 								key={minute.dt}
 								max={max}
 								minute={minute}
-								title={`${hmm.format(new Date(minute.dt))}: ${getRate(minute.precipitation)}`}
+								title={`${formatInTimeZone(new Date(minute.dt), tz, 'h:mm a')}: ${getRate(minute.precipitation)}`}
 							/>
 						))}
 					</div>
@@ -101,7 +98,7 @@ export const UpcomingPrecipitation = () => {
 			</div>
 			<div className="flex justify-between gap-2 w-full text-xs">
 				<span className="text-neutral-300">
-					checked at {hmm.format(new Date(dataUpdatedAt))}
+					checked at {formatInTimeZone(new Date(dataUpdatedAt), tz, 'h:mm a')}
 				</span>
 				{max > 0 && (
 					<span className="text-neutral-300">
