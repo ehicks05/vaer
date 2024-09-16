@@ -11,8 +11,8 @@ const name = 'geolocation';
 export const GeolocationPermissionProvider = ({ children }: Props) => {
 	const permission = useQueryPermission({ name });
 
-	const { state } = permission;
-	if (!state) {
+	const { isLoading, state } = permission;
+	if (isLoading) {
 		return null;
 	}
 
