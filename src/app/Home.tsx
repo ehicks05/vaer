@@ -1,3 +1,5 @@
+import { GeolocationPermissionContext } from '@/contexts/GeolocationPermissionContext';
+import { useContext } from 'react';
 import { Alert } from './Alert';
 import DailyForecast from './DailyForecast';
 import { DayStats } from './DayStats';
@@ -7,8 +9,11 @@ import { UpcomingPrecipitation } from './UpcomingPrecipitation';
 import { WindyMap } from './maps/WindyMap';
 
 export const Home = () => {
+	const { geolocationPermission } = useContext(GeolocationPermissionContext);
+
 	return (
 		<div className="p-2 max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-3 items-start justify-center gap-4">
+			geolocation: {geolocationPermission}
 			<div className="col-span-full w-full md:max-w-screen-sm mx-auto">
 				<Alert />
 			</div>
