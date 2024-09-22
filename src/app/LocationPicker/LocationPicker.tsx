@@ -10,9 +10,9 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog';
-import { GeolocationPermissionContext } from '@/contexts/GeolocationPermissionContext';
 import { useActiveLocation } from '@/hooks';
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useGeolocation } from '@/hooks/useGeolocation';
+import { useCallback, useEffect, useState } from 'react';
 import { NAV_BAR_BUTTON_STYLES } from '../../constants/classes';
 import { LocationForm } from './LocationForm';
 
@@ -27,10 +27,10 @@ const LocationButton = () => (
 );
 
 export const LocationPicker = () => {
-	const { geolocationPermission } = useContext(GeolocationPermissionContext);
+	const geolocation = useGeolocation();
 	const [activeLocation] = useActiveLocation();
 	const [open, setOpen] = useState(
-		geolocationPermission !== 'granted' && activeLocation === undefined,
+		!geolocation.loading && !geolocation.coords && !activeLocation,
 	);
 
 	const handleKeyDown = useCallback(
