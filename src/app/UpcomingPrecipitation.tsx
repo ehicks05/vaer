@@ -57,6 +57,41 @@ const Minute = ({ max, minute: { precipitation }, title }: Props) => {
 	);
 };
 
+interface ChartProps {
+	minutely: Minutely[];
+	max: number;
+	tz: string;
+}
+
+const Chart = ({ minutely, max, tz }: ChartProps) => {
+	const { getRate } = useUnits();
+	const [start, mid, end] = [0, minutely.length / 2, minutely.length - 1].map(
+		(index) => formatInTimeZone(new Date(minutely[index]?.dt || 0), tz, 'h:mm a'),
+	);
+
+	return (
+		<>
+			<div className="flex flex-col gap-1 w-full h-full">
+				<div className="flex h-20">
+					{minutely.map((minute) => (
+						<Minute
+							key={minute.dt}
+							max={max}
+							minute={minute}
+							title={`${formatInTimeZone(new Date(minute.dt), tz, 'h:mm a')}: ${getRate(minute.precipitation)}`}
+						/>
+					))}
+				</div>
+			</div>
+			<div className="flex justify-between w-full text-sm">
+				<span>{start}</span>
+				<span>{mid}</span>
+				<span>{end}</span>
+			</div>
+		</>
+	);
+};
+
 export const UpcomingPrecipitation = () => {
 	const { getRate } = useUnits();
 	const { oneCallQuery } = useOpenWeatherMap();
@@ -68,33 +103,13 @@ export const UpcomingPrecipitation = () => {
 
 	const min = Math.min(...minutely.map(({ precipitation }) => precipitation));
 	const max = Math.max(...minutely.map(({ precipitation }) => precipitation));
-	const [start, mid, end] = [0, minutely.length / 2, minutely.length - 1].map(
-		(index) => formatInTimeZone(new Date(minutely[index]?.dt || 0), tz, 'h:mm a'),
-	);
-
 	const message = getMessage(minutely, tz);
 
 	return (
 		<Container>
 			<div className="flex flex-col gap-1">
-				<div className="flex flex-col gap-1 w-full h-full">
-					{message}
-					<div className="flex h-20">
-						{minutely.map((minute) => (
-							<Minute
-								key={minute.dt}
-								max={max}
-								minute={minute}
-								title={`${formatInTimeZone(new Date(minute.dt), tz, 'h:mm a')}: ${getRate(minute.precipitation)}`}
-							/>
-						))}
-					</div>
-				</div>
-				<div className="flex justify-between w-full text-sm">
-					<span>{start}</span>
-					<span>{mid}</span>
-					<span>{end}</span>
-				</div>
+				{message}
+				{max > 0 && <Chart minutely={minutely} max={max} tz={tz} />}
 			</div>
 			<div className="flex justify-between gap-2 w-full text-xs">
 				<span className="text-neutral-300">
