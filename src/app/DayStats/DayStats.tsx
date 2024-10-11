@@ -4,79 +4,10 @@ import { DayIndexContext } from '@/contexts/DayIndexContext';
 import { useOpenWeatherMap, useSunAndMoon } from '@/hooks';
 import { useUnits } from '@/hooks/useUnits';
 import { max } from 'lodash-es';
-import { type ReactNode, useContext } from 'react';
-import {
-	WiBarometer,
-	WiMoonNew,
-	WiMoonrise,
-	WiMoonset,
-	WiRaindrop,
-	WiSmoke,
-	WiSunrise,
-	WiSunset,
-} from 'react-icons/wi';
-import { formatInTimeZone } from './utils';
-
-interface DayStat {
-	icon: ReactNode;
-	label: string;
-	value: string;
-}
-
-const DayStat = ({ stat: { icon, label, value } }: { stat: DayStat }) => {
-	return (
-		<div className="flex items-center gap-2 w-full p-4 bg-slate-800 rounded-lg">
-			{icon}
-			<div>
-				<div className="text-xs text-neutral-400">{label}</div>
-				<div>{value}</div>
-			</div>
-		</div>
-	);
-};
-
-const DAY_STATS: DayStat[] = [
-	{
-		icon: <WiSunrise size={32} />,
-		label: 'Sunrise',
-		value: '0',
-	},
-	{
-		icon: <WiSunset size={32} />,
-		label: 'Sunset',
-		value: '0',
-	},
-	{
-		icon: <WiMoonrise size={32} />,
-		label: 'Moonrise',
-		value: '0',
-	},
-	{
-		icon: <WiMoonset size={32} />,
-		label: 'Moonset',
-		value: '0',
-	},
-	{
-		icon: <WiMoonNew size={32} />,
-		label: 'Moon Phase',
-		value: '0',
-	},
-	{
-		icon: <WiRaindrop size={32} />,
-		label: 'Precipitation',
-		value: '0',
-	},
-	{
-		icon: <WiBarometer size={32} />,
-		label: 'Pressure',
-		value: '0',
-	},
-	{
-		icon: <WiSmoke size={32} />,
-		label: 'Air Quality',
-		value: '0',
-	},
-];
+import { useContext } from 'react';
+import { formatInTimeZone } from '../utils';
+import { DayStat } from './DayStat';
+import { DEFAULT_DAY_STATS } from './constants';
 
 export const DayStats = () => {
 	const { getLength, getPressure } = useUnits();
@@ -86,7 +17,7 @@ export const DayStats = () => {
 	const { data: airPollutionData } = airPollutionQuery;
 
 	if (!oneCallData || !airPollutionData) {
-		return DAY_STATS.map((stat) => <DayStat key={stat.label} stat={stat} />);
+		return DEFAULT_DAY_STATS.map((stat) => <DayStat key={stat.label} stat={stat} />);
 	}
 
 	const tz = oneCallData.timezone;
@@ -115,7 +46,7 @@ export const DayStats = () => {
 		value: moonset ? formatInTimeZone(moonset, tz, 'h:mm a') : 'none today',
 	};
 
-	// show moonrise/moonset in the order that they occur on a given day
+	// if this day has a moonrise and moonset, show moonset first if it occurs first
 	const moonTimeStats =
 		moonrise && moonset && moonset.getTime() < moonrise.getTime()
 			? [moonsetStat, moonriseStat]
@@ -132,7 +63,7 @@ export const DayStats = () => {
 		},
 		...moonTimeStats,
 		{
-			icon: <MoonPhaseIcon size={32} />,
+			Icon: MoonPhaseIcon,
 			label: 'Moon Phase',
 			value: moonPhaseLabel,
 		},
@@ -153,7 +84,7 @@ export const DayStats = () => {
 	return stats.map((stat, i) => (
 		<DayStat
 			key={stat.label}
-			stat={{ ...stat, icon: stat.icon || DAY_STATS[i].icon }}
+			stat={{ ...stat, Icon: stat.Icon || DEFAULT_DAY_STATS[i].Icon }}
 		/>
 	));
 };
