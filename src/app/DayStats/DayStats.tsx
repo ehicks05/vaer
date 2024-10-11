@@ -16,6 +16,13 @@ export const DayStats = () => {
 	const { data: oneCallData } = oneCallQuery;
 	const { data: airPollutionData } = airPollutionQuery;
 
+	const { sunrise, sunset, moonrise, moonset, MoonPhaseIcon, moonPhaseLabel } =
+		useSunAndMoon(
+			dayIndex
+				? new Date(new Date().setDate(new Date().getDate() + dayIndex))
+				: new Date(),
+		);
+
 	if (!oneCallData || !airPollutionData) {
 		return DEFAULT_DAY_STATS.map((stat) => <DayStat key={stat.label} stat={stat} />);
 	}
@@ -33,9 +40,6 @@ export const DayStats = () => {
 					.map((o) => o.main.aqi),
 			)
 		: airPollutionData.current.list[0]?.main.aqi;
-
-	const { sunrise, sunset, moonrise, moonset, MoonPhaseIcon, moonPhaseLabel } =
-		useSunAndMoon(date ? new Date(date) : new Date());
 
 	const moonriseStat = {
 		label: 'Moonrise',
