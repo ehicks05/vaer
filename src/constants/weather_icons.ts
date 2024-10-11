@@ -267,6 +267,17 @@ export const getWeatherIcon = (weatherCode: number, icon: string) => {
 	return OWM_TO_ICON[key] || GrStatusPlaceholder;
 };
 
+const WMO_CODE_TO_ICON: Record<string, IconType> = {
+	'0-day': WiDaySunny,
+	'0-night': WiNightClear,
+};
+
+export const getWmoWeatherIcon = (weatherCode: number, isDay: boolean) => {
+	const dayNight = isDay ? 'day' : 'night';
+	const key = `${weatherCode}-${dayNight}`;
+	return WMO_CODE_TO_ICON[key] || GrStatusPlaceholder;
+};
+
 const MOON_PHASES = [
 	{ Icon: WiMoonNew, label: 'New' },
 	{ Icon: WiMoonWaxingCrescent1, label: 'Waxing Crescent' },
