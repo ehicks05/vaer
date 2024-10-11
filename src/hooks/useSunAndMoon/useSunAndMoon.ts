@@ -1,6 +1,11 @@
-import { getMoonPhaseIcon } from '@/constants/weather_icons';
 import { getMoonIllumination, getMoonTimes, getTimes } from 'suncalc';
-import { useResolvedLocation } from './useResolvedLocation';
+import { useResolvedLocation } from '../useResolvedLocation';
+import { MOON_PHASES } from './constants';
+
+export const getMoonPhase = (moon_phase: number) => {
+	const index = Math.round(moon_phase * (MOON_PHASES.length - 1));
+	return MOON_PHASES[index];
+};
 
 export const useSunAndMoon = (_date?: Date) => {
 	const date = _date ? new Date(_date) : new Date();
@@ -11,7 +16,7 @@ export const useSunAndMoon = (_date?: Date) => {
 	const { sunrise, sunset } = getTimes(date, lat, long);
 	const { rise: moonrise, set: moonset } = getMoonTimes(date, lat, long);
 	const { phase: moonPhase } = getMoonIllumination(date);
-	const { Icon: MoonPhaseIcon, label: moonPhaseLabel } = getMoonPhaseIcon(moonPhase);
+	const { Icon: MoonPhaseIcon, label: moonPhaseLabel } = getMoonPhase(moonPhase);
 
 	return {
 		sunrise,
