@@ -1,8 +1,7 @@
 import { AQI_DISPLAY_NAMES } from '@/constants/aqi';
 import { dateShort } from '@/constants/fmt';
-import { getMoonPhaseIcon } from '@/constants/weather_icons';
 import { DayIndexContext } from '@/contexts/DayIndexContext';
-import { useOpenWeatherMap } from '@/hooks';
+import { useOpenWeatherMap, useSunAndMoon } from '@/hooks';
 import { useUnits } from '@/hooks/useUnits';
 import { max } from 'lodash-es';
 import { type ReactNode, useContext } from 'react';
@@ -38,11 +37,6 @@ const DayStat = ({ stat: { icon, label, value } }: { stat: DayStat }) => {
 
 const DAY_STATS: DayStat[] = [
 	{
-		icon: <WiRaindrop size={32} />,
-		label: 'Precipitation',
-		value: '0',
-	},
-	{
 		icon: <WiSunrise size={32} />,
 		label: 'Sunrise',
 		value: '0',
@@ -65,6 +59,11 @@ const DAY_STATS: DayStat[] = [
 	{
 		icon: <WiMoonNew size={32} />,
 		label: 'Moon Phase',
+		value: '0',
+	},
+	{
+		icon: <WiRaindrop size={32} />,
+		label: 'Precipitation',
 		value: '0',
 	},
 	{
@@ -91,10 +90,7 @@ export const DayStats = () => {
 	}
 
 	const tz = oneCallData.timezone;
-	const { moon_phase, moonrise, moonset, pressure, rain, snow, sunrise, sunset } =
-		oneCallData.daily[dayIndex || 0];
-	const { Icon: MoonPhaseIcon, label: moonPhaseLabel } =
-		getMoonPhaseIcon(moon_phase);
+	const { pressure, rain, snow } = oneCallData.daily[dayIndex || 0];
 
 	const dt = dayIndex ? oneCallData.daily[dayIndex].dt : undefined;
 	const date = dt ? dateShort.format(dt) : undefined;
@@ -107,11 +103,25 @@ export const DayStats = () => {
 			)
 		: airPollutionData.current.list[0]?.main.aqi;
 
+	const { sunrise, sunset, moonrise, moonset, MoonPhaseIcon, moonPhaseLabel } =
+		useSunAndMoon(date ? new Date(date) : new Date());
+
+	const moonriseStat = {
+		label: 'Moonrise',
+		value: moonrise ? formatInTimeZone(moonrise, tz, 'h:mm a') : 'none today',
+	};
+	const moonsetStat = {
+		label: 'Moonset',
+		value: moonset ? formatInTimeZone(moonset, tz, 'h:mm a') : 'none today',
+	};
+
+	// show moonrise/moonset in the order that they occur on a given day
+	const moonTimeStats =
+		moonrise && moonset && moonset.getTime() < moonrise.getTime()
+			? [moonsetStat, moonriseStat]
+			: [moonriseStat, moonsetStat];
+
 	const stats = [
-		{
-			label: 'Precipitation',
-			value: getLength(rain + snow),
-		},
 		{
 			label: 'Sunrise',
 			value: formatInTimeZone(sunrise, tz, 'h:mm a'),
@@ -120,18 +130,15 @@ export const DayStats = () => {
 			label: 'Sunset',
 			value: formatInTimeZone(sunset, tz, 'h:mm a'),
 		},
-		{
-			label: 'Moonrise',
-			value: formatInTimeZone(moonrise, tz, 'h:mm a'),
-		},
-		{
-			label: 'Moonset',
-			value: formatInTimeZone(moonset, tz, 'h:mm a'),
-		},
+		...moonTimeStats,
 		{
 			icon: <MoonPhaseIcon size={32} />,
 			label: 'Moon Phase',
 			value: moonPhaseLabel,
+		},
+		{
+			label: 'Precipitation',
+			value: getLength(rain + snow),
 		},
 		{
 			label: 'Pressure',
