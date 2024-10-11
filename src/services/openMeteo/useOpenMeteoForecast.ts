@@ -1,4 +1,3 @@
-import { mmToInch } from '@/app/utils';
 import type { PartialLatLong } from '@/hooks/useResolvedLocation';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { ONE_DAY, ONE_MINUTE } from '../../constants/datetime';
@@ -88,17 +87,22 @@ const getForecast = async ({ lat, long }: PartialLatLong) => {
 			},
 		},
 		daily: daily.map((o) => ({
-			...o,
-			dt: o.time,
+			date: o.time,
+			temp: { max: o.temperature_2m_max, min: o.temperature_2m_min },
+			weather: {
+				id: o.weather_code,
+				description: WMO_CODE_TO_DESCRIPTION[o.weather_code],
+				icon: `${o.weather_code}-day`,
+			},
+			precipitation_sum: o.precipitation_sum,
 		})),
 		hourly: hourly.map((o) => ({
 			...o,
 			dt: o.time,
 		})),
 		minutely: minutely_15.map((o) => ({
-			...o,
 			dt: o.time,
-			precipitation: mmToInch(o.precipitation),
+			precipitation: o.precipitation,
 		})),
 	};
 };
@@ -108,7 +112,7 @@ export const useOpenMeteoForecast = ({ lat, long }: PartialLatLong) => {
 		queryKey: ['openMeteoForecast', lat, long],
 		queryFn: async () => getForecast({ lat, long }),
 		enabled: lat !== undefined && long !== undefined,
-		staleTime: ONE_DAY,
+		staleTime: ONE_MINUTE,
 		gcTime: ONE_DAY,
 		placeholderData: keepPreviousData,
 	});
