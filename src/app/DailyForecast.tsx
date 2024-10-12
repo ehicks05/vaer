@@ -1,14 +1,13 @@
 import { Card } from '@/components';
 import { DayIndexContext } from '@/contexts/DayIndexContext';
-import { useOpenWeatherMap } from '@/hooks';
+import { useOpenMeteo } from '@/hooks';
 import { useUnits } from '@/hooks/useUnits';
-import type { WeatherCondition } from '@/services/openweathermap/types/oneCall';
 import { useContext } from 'react';
-import { getWeatherIcon } from '../constants/weather_icons';
+import { getWmoWeatherIcon } from '../constants/weather_icons';
 import { addDays, formatInTimeZone, isToday } from './utils';
 
 interface OneDaySummaryProps {
-	weather: Omit<WeatherCondition, 'main'>;
+	weather: { id: number; description: string };
 	day: string;
 	min: number;
 	max: number;
@@ -25,7 +24,7 @@ const OneDaySummary = ({
 	isSelected,
 }: OneDaySummaryProps) => {
 	const { getTemp } = useUnits();
-	const Icon = getWeatherIcon(weather.id, weather.icon);
+	const Icon = getWmoWeatherIcon(weather.id, true);
 
 	return (
 		<div
@@ -56,18 +55,17 @@ const OneDaySummary = ({
 
 const getPlaceholderData = () => ({
 	daily: [...new Array(8)].map((_, i) => ({
-		dt: addDays(new Date(), i).toISOString(),
+		date: addDays(new Date(), i),
 		temp: { min: 0, max: 0 },
-		weather: [{ id: 800, description: 'loading', icon: 'd' }],
+		weather: { id: 800, description: 'loading', icon: 'd' },
 	})),
 	timezone: '',
 });
 
 const DailyForecast = () => {
 	const { dayIndex, setDayIndex } = useContext(DayIndexContext);
-
-	const { oneCallQuery } = useOpenWeatherMap();
-	const { daily: dailies, timezone } = oneCallQuery.data || getPlaceholderData();
+	const { openMeteo } = useOpenMeteo();
+	const { daily: dailies, timezone } = openMeteo.data || getPlaceholderData();
 
 	return (
 		<div className="w-full">
@@ -76,14 +74,14 @@ const DailyForecast = () => {
 				<div className="flex flex-col w-full">
 					{dailies?.map((daily, id) => {
 						const { min, max } = daily.temp;
-						const day = isToday(new Date(daily.dt))
+						const day = isToday(daily.date)
 							? 'Today'
-							: formatInTimeZone(daily.dt, timezone || '', 'EEE');
+							: formatInTimeZone(daily.date, timezone || '', 'EEE');
 
 						return (
 							<OneDaySummary
-								key={daily.dt}
-								weather={daily.weather[0]}
+								key={daily.date.getTime()}
+								weather={daily.weather}
 								day={day}
 								min={min}
 								max={max}

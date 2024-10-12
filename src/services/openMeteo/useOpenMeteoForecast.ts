@@ -8,12 +8,13 @@ const getForecast = async ({ lat, long }: PartialLatLong) => {
 	if (lat === undefined || long === undefined) {
 		throw new Error('Missing coordinates');
 	}
+	const localTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 	const params = new URLSearchParams({
 		...DEFAULT_PARAMS,
 		latitude: lat,
 		longitude: long,
-		// timezone: '',
+		timezone: localTz,
 	});
 
 	const url = `${BASE}/v1/forecast?${params}`;
@@ -87,7 +88,7 @@ const getForecast = async ({ lat, long }: PartialLatLong) => {
 			},
 		},
 		daily: daily.map((o) => ({
-			date: o.time,
+			date: ymdToDate(o.time),
 			temp: { max: o.temperature_2m_max, min: o.temperature_2m_min },
 			weather: {
 				id: o.weather_code,
@@ -105,6 +106,11 @@ const getForecast = async ({ lat, long }: PartialLatLong) => {
 			precipitation: o.precipitation,
 		})),
 	};
+};
+
+const ymdToDate = (ymd: string) => {
+	const [year, month, date] = ymd.split('-').map(Number);
+	return new Date(year, month - 1, date);
 };
 
 export const useOpenMeteoForecast = ({ lat, long }: PartialLatLong) => {
