@@ -1,4 +1,4 @@
-import type { SearchResultGeoname } from '@/services/geonames/types';
+import type { Geoname } from '@/services/geonames/types';
 import {
 	HiOutlineCheckCircle,
 	HiOutlinePlusCircle,
@@ -7,7 +7,7 @@ import {
 import { geonameToLabel } from '../utils';
 
 interface Props {
-	city: Partial<SearchResultGeoname>;
+	city: Partial<Geoname>;
 	isSaved: boolean;
 	isActive: boolean;
 	onClick?: () => void;

@@ -9,6 +9,7 @@ const DEFAULTS = {
 	featureClass: 'P',
 	maxRows: '7',
 	orderby: 'population',
+	style: 'FULL',
 	username: import.meta.env.VITE_GEONAMES_USERNAME,
 };
 

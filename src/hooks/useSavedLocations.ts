@@ -1,8 +1,8 @@
-import type { SearchResultGeoname } from '@/services/geonames/types';
+import type { Geoname } from '@/services/geonames/types';
 import { useLocalStorage } from '@uidotdev/usehooks';
 
 const key = 'vaer-saved-locations';
 
 export const useSavedLocations = () => {
-	return useLocalStorage<SearchResultGeoname[]>(key, []);
+	return useLocalStorage<Geoname[]>(key, []);
 };

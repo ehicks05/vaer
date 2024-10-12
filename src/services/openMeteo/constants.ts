@@ -38,8 +38,6 @@ export const DEFAULT_PARAMS = {
 	temperature_unit: 'fahrenheit',
 	wind_speed_unit: 'mph',
 	precipitation_unit: 'inch',
-	// forecast_days: '7', // 0-16
-	// forecast_hours: '',
 	// forecast_minutely_15: '',
 };
 
