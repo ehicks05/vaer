@@ -12,6 +12,7 @@ import { ScrollbarContainer } from './ScrollbarContainer';
 import { Weather } from './Weather';
 import { Wind } from './Wind';
 import { PLACEHOLDER_DATA } from './constants';
+import { parsePrecip } from './utils';
 
 const Container = ({ children }: { children: ReactNode }) => (
 	<div className="flex flex-col group">
@@ -26,18 +27,25 @@ interface Props {
 }
 
 const HourlyDetail = ({ hourly, tz }: Props) => {
-	const { getTemp } = useUnits();
-	const temp = 'main' in hourly ? hourly.main.temp : hourly.temp;
+	const { getTemp, getLength, getSpeed } = useUnits();
 	const time = formatInTimeZone(new Date(hourly.dt), tz, 'h a');
+	const temp = 'main' in hourly ? hourly.main.temp : hourly.temp;
+	const humidity = 'main' in hourly ? hourly.main.humidity : hourly.humidity;
+	const { totalAmount: precip } = parsePrecip(hourly);
+
+	const { wind_deg, wind_speed } =
+		'wind' in hourly
+			? { wind_deg: hourly.wind.deg, wind_speed: hourly.wind.speed }
+			: hourly;
 
 	return (
 		<div className="flex flex-col items-center gap-4 w-12 min-w-12">
 			{getTemp(temp)}
 			<Weather hourly={hourly} />
 			<div className="flex-grow -mt-4" />
-			<Precip hourly={hourly} />
-			<Humidity hourly={hourly} />
-			<Wind hourly={hourly} />
+			<Precip precip={getLength(precip)} />
+			<Humidity humidity={humidity} />
+			<Wind windDeg={wind_deg} windSpeed={getSpeed(wind_speed)} />
 			<div className="whitespace-nowrap">{time}</div>
 		</div>
 	);
