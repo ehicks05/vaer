@@ -92,6 +92,13 @@ const Chart = ({ minutely, max, tz }: ChartProps) => {
 	);
 };
 
+const Container = ({ children }: { children: ReactNode }) => (
+	<div className="flex flex-col">
+		Upcoming Precipitation
+		<Card className="p-4 flex flex-col gap-1 justify-end">{children}</Card>
+	</div>
+);
+
 export const UpcomingPrecipitation = () => {
 	const { getRate } = useUnits();
 	const { oneCallQuery } = useOpenWeatherMap();
@@ -124,10 +131,3 @@ export const UpcomingPrecipitation = () => {
 		</Container>
 	);
 };
-
-const Container = ({ children }: { children: ReactNode }) => (
-	<div className="flex flex-col">
-		Upcoming Precipitation
-		<Card className="p-4 flex flex-col gap-1 justify-end">{children}</Card>
-	</div>
-);
