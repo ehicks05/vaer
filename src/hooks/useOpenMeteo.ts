@@ -1,8 +1,8 @@
 import { useOpenMeteoForecast } from '@/services/openMeteo';
-import { useResolvedLocation } from './useResolvedLocation';
+import { useResolvedLatLong } from './useResolvedLatLong';
 
 export const useOpenMeteo = () => {
-	const { lat, long } = useResolvedLocation();
+	const { lat, long } = useResolvedLatLong();
 
 	const openMeteo = useOpenMeteoForecast({ lat, long });
 

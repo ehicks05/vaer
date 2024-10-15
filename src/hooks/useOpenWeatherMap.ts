@@ -1,5 +1,5 @@
 import { useAirPollution, useFiveDay, useOneCall } from '@/services/openweathermap';
-import { useResolvedLocation } from './useResolvedLocation';
+import { useResolvedLatLong } from './useResolvedLatLong';
 
 /**
  *
@@ -7,7 +7,7 @@ import { useResolvedLocation } from './useResolvedLocation';
  * otherwise current geolocation.
  */
 export const useOpenWeatherMap = () => {
-	const { lat, long } = useResolvedLocation();
+	const { lat, long } = useResolvedLatLong();
 
 	const oneCallQuery = useOneCall({ lat, long });
 	const airPollutionQuery = useAirPollution({ lat, long });
@@ -21,7 +21,7 @@ export const useOpenWeatherMap = () => {
  * run on page-load
  */
 export const useOpenWeatherMapFiveDay = () => {
-	const { lat, long } = useResolvedLocation();
+	const { lat, long } = useResolvedLatLong();
 
 	const fiveDayQuery = useFiveDay({ lat, long });
 

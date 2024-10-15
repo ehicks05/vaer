@@ -1,4 +1,4 @@
-import { useResolvedLocation } from '@/hooks';
+import { useResolvedLatLong } from '@/hooks';
 
 const base = 'https://embed.windy.com/embed.html';
 
@@ -20,7 +20,7 @@ interface Props {
 }
 
 export const WindyMap = ({ className }: Props) => {
-	const { lat, long } = useResolvedLocation();
+	const { lat, long } = useResolvedLatLong();
 
 	if (lat === undefined || long === undefined) {
 		return null;

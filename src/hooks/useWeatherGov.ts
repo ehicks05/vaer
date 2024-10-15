@@ -1,8 +1,8 @@
 import { useGetPoint } from '@/services/weathergov';
-import { useResolvedLocation } from './useResolvedLocation';
+import { useResolvedLatLong } from './useResolvedLatLong';
 
 export const useWeatherGov = () => {
-	const { lat, long } = useResolvedLocation();
+	const { lat, long } = useResolvedLatLong();
 
 	const pointQuery = useGetPoint({ lat, long });
 

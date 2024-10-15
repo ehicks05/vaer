@@ -1,6 +1,6 @@
-import type { PartialLatLong } from '@/hooks/useResolvedLocation';
+import type { PartialLatLong } from '@/hooks/useResolvedLatLong';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import { ONE_MINUTE, ONE_DAY } from '../../constants/datetime';
+import { ONE_DAY, ONE_MINUTE } from '../../constants/datetime';
 import { APP_KEY, BASE } from './constants';
 import type { AirPollutionResponse } from './types/airPollution';
 

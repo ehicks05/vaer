@@ -1,7 +1,7 @@
 import { useActiveLocation } from './useActiveLocation';
 import { useOpenMeteo } from './useOpenMeteo';
 import { useOpenWeatherMap } from './useOpenWeatherMap';
-import { useResolvedLocation } from './useResolvedLocation';
+import { useResolvedLatLong } from './useResolvedLatLong';
 import { useSavedLocations } from './useSavedLocations';
 import { useSunAndMoon } from './useSunAndMoon';
 import { useWeatherGov } from './useWeatherGov';
@@ -10,7 +10,7 @@ export {
 	useActiveLocation,
 	useOpenMeteo,
 	useOpenWeatherMap,
-	useResolvedLocation,
+	useResolvedLatLong,
 	useSavedLocations,
 	useSunAndMoon,
 	useWeatherGov,

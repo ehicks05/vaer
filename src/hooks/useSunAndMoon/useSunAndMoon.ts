@@ -1,5 +1,5 @@
 import { getMoonIllumination, getMoonTimes, getTimes } from 'suncalc';
-import { useResolvedLocation } from '../useResolvedLocation';
+import { useResolvedLatLong } from '../useResolvedLatLong';
 import { MOON_PHASES } from './constants';
 
 export const getMoonPhase = (moon_phase: number) => {
@@ -9,7 +9,7 @@ export const getMoonPhase = (moon_phase: number) => {
 
 export const useSunAndMoon = (_date?: Date) => {
 	const date = _date ? new Date(_date) : new Date();
-	const resolvedLocation = useResolvedLocation();
+	const resolvedLocation = useResolvedLatLong();
 	const lat = Number(resolvedLocation.lat);
 	const long = Number(resolvedLocation.long);
 

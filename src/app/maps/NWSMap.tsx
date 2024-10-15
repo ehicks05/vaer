@@ -1,4 +1,4 @@
-import { useResolvedLocation } from '@/hooks';
+import { useResolvedLatLong } from '@/hooks';
 
 const base = 'https://radar.weather.gov/';
 
@@ -26,7 +26,7 @@ interface Props {
 }
 
 export const NWSMap = ({ className, height }: Props) => {
-	const { lat, long } = useResolvedLocation();
+	const { lat, long } = useResolvedLatLong();
 
 	if (lat === undefined || long === undefined) {
 		return null;

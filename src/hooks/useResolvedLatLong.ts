@@ -7,7 +7,7 @@ export type PartialLatLong = Partial<{ lat: string; long: string }>;
  *
  * @returns The `{ lat, long }` of the `activeLocation` if present, or the system geolocation if no `activeLocation` is present
  */
-export const useResolvedLocation = (): PartialLatLong => {
+export const useResolvedLatLong = (): PartialLatLong => {
 	const { latitude: geoLat, longitude: geoLong } =
 		useCachedGeolocation().coords || {};
 	const [activeLocation] = useActiveLocation();

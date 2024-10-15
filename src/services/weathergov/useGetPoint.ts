@@ -1,4 +1,4 @@
-import type { PartialLatLong } from '@/hooks/useResolvedLocation';
+import type { PartialLatLong } from '@/hooks/useResolvedLatLong';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { ONE_DAY } from '../../constants/datetime';
 import { BASE } from './constants';

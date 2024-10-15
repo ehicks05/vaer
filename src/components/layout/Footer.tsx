@@ -1,4 +1,4 @@
-import { useResolvedLocation } from '@/hooks';
+import { useResolvedLatLong } from '@/hooks';
 import React from 'react';
 
 const owmUrl = 'https://openweathermap.org';
@@ -21,7 +21,7 @@ const Link = ({ href, children }: LinkProps) => (
 );
 
 const Footer = () => {
-	const { lat, long } = useResolvedLocation();
+	const { lat, long } = useResolvedLatLong();
 	return (
 		<footer className="flex items-center justify-end p-4 gap-4">
 			<span className="text-sm text-neutral-500">{`${lat},${long}`}</span>
