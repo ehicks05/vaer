@@ -13,7 +13,6 @@ const getForecast = async ({ lat, long }: PartialLatLong) => {
 		...DEFAULT_PARAMS,
 		latitude: lat,
 		longitude: long,
-		// timezone: '',
 	});
 
 	const url = `${BASE}/v1/forecast?${params}`;

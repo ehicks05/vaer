@@ -38,7 +38,7 @@ export const DEFAULT_PARAMS = {
 	temperature_unit: 'fahrenheit',
 	wind_speed_unit: 'mph',
 	precipitation_unit: 'inch',
-	// forecast_minutely_15: '',
+	timezone: 'auto',
 };
 
 export const WMO_CODE_TO_DESCRIPTION: Record<string, string> = {
