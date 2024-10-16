@@ -13,6 +13,8 @@ export const useSunAndMoon = (_date?: Date) => {
 	const lat = Number(resolvedLocation.lat);
 	const long = Number(resolvedLocation.long);
 
+	if (!lat && !long) return { MoonPhaseIcon: MOON_PHASES[0].Icon };
+
 	const { sunrise, sunset } = getTimes(date, lat, long);
 	const { rise: moonrise, set: moonset } = getMoonTimes(date, lat, long);
 	const { phase: moonPhase } = getMoonIllumination(date);
