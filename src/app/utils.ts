@@ -1,12 +1,5 @@
 import { dateShort } from '@/constants/fmt';
 
-// no longer used, remove after a bit
-export const degreeToDirection = (degree: number) => {
-	const DIRECTIONS = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
-	const index = Math.round(degree / 45) % DIRECTIONS.length;
-	return DIRECTIONS[index];
-};
-
 export const isToday = (date: Date) =>
 	dateShort.format(date) === dateShort.format(new Date());
 
