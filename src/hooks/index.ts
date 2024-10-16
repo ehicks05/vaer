@@ -4,6 +4,7 @@ import { useOpenWeatherMap } from './useOpenWeatherMap';
 import { useResolvedLatLong } from './useResolvedLatLong';
 import { useSavedLocations } from './useSavedLocations';
 import { useSunAndMoon } from './useSunAndMoon';
+import { useUnits } from './useUnits';
 import { useWeatherGov } from './useWeatherGov';
 
 export {
@@ -13,5 +14,6 @@ export {
 	useResolvedLatLong,
 	useSavedLocations,
 	useSunAndMoon,
+	useUnits,
 	useWeatherGov,
 };
