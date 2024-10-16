@@ -1,2 +1,2 @@
 export { useGetPoint } from './useGetPoint';
-export type { NOAACordinate } from './types';
+export { useGetAlerts } from './useGetAlerts';

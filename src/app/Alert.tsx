@@ -1,25 +1,28 @@
 import { Button, Card } from '@/components';
 import { alertFmt } from '@/constants/fmt';
-import { useOpenWeatherMap } from '@/hooks';
+import { useWeatherGov } from '@/hooks';
 import { useState } from 'react';
 import { HiOutlineExclamationTriangle } from 'react-icons/hi2';
 
 export const Alert = () => {
 	const [showDescription, setShowDescription] = useState(false);
-	const { oneCallQuery } = useOpenWeatherMap();
-	const { data } = oneCallQuery;
+	const { alertsQuery } = useWeatherGov();
+	const { data } = alertsQuery;
 
-	const alert = data?.alerts?.[0];
+	const alert = data?.features?.[0]?.properties;
 	if (!alert) {
 		return null;
 	}
+
+	const { event, description, onset, ends, senderName, severity, certainty } = alert;
+	const tags = [`severity: ${severity}`, `certainty: ${certainty}`];
 
 	return (
 		<Card gradient={false} className="p-4 bg-slate-800">
 			<div className="flex flex-col gap-2">
 				<div className="flex items-center gap-2 text-2xl">
 					<HiOutlineExclamationTriangle className="text-red-500 mt-1" />
-					{alert.event}
+					{event}
 				</div>
 				<Button
 					onClick={() => setShowDescription((showDescription) => !showDescription)}
@@ -28,14 +31,14 @@ export const Alert = () => {
 				</Button>
 				{showDescription && (
 					<>
-						<div className="text-sm text-neutral-400">{alert.sender_name}</div>
+						<div className="text-sm text-neutral-400">{senderName}</div>
 						<div className="text-sm">
-							{alertFmt.format(alert.start)} to {alertFmt.format(alert.end)}
+							{alertFmt.format(new Date(onset))} to {alertFmt.format(new Date(ends))}
 						</div>
-						{alert.description && <div>{alert.description}</div>}
-						{alert.tags.length && (
+						{description && <div>{description}</div>}
+						{tags.length && (
 							<div className="text-sm text-neutral-400">
-								Tags: {alert.tags.join(', ')}
+								Tags: {tags.join(', ').toLocaleLowerCase()}
 							</div>
 						)}
 					</>

@@ -1,32 +1,32 @@
 import type { PartialLatLong } from '@/hooks/useResolvedLatLong';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import { ONE_DAY } from '../../constants/datetime';
+import { ONE_DAY, ONE_MINUTE } from '../../constants/datetime';
 import { BASE } from './constants';
-import type { NOAACordinate } from './types/point';
+import type { AlertsResponse } from './types/alerts';
 
-const getPoint = async ({ lat, long }: PartialLatLong) => {
+const getAlerts = async ({ lat, long }: PartialLatLong) => {
 	if (lat === undefined || long === undefined) {
 		throw new Error('Missing coordinates');
 	}
 
 	const coordinates = `${lat},${long}`;
 
-	const url = `${BASE}/points/${coordinates}`;
+	const url = `${BASE}/alerts/active?point=${coordinates}`;
 	const response = await fetch(url);
 	if (!response.ok) {
 		throw new Error('Network response was not ok');
 	}
 
-	const result: NOAACordinate = await response.json();
+	const result: AlertsResponse = await response.json();
 	return result;
 };
 
-export const useGetPoint = ({ lat, long }: PartialLatLong) => {
+export const useGetAlerts = ({ lat, long }: PartialLatLong) => {
 	return useQuery({
-		queryKey: ['point', lat, long],
-		queryFn: async () => getPoint({ lat, long }),
+		queryKey: ['alerts', lat, long],
+		queryFn: async () => getAlerts({ lat, long }),
 		enabled: lat !== undefined && long !== undefined,
-		staleTime: ONE_DAY,
+		staleTime: ONE_MINUTE,
 		gcTime: ONE_DAY,
 		placeholderData: keepPreviousData,
 	});
