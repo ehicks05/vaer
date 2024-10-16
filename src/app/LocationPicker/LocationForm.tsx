@@ -24,7 +24,7 @@ export const LocationForm = () => {
 			<div className="flex flex-col gap-4">
 				Search for a location
 				<input
-					className="p-2 rounded-lg"
+					className="p-2 rounded-lg outline-none"
 					value={queryString}
 					onChange={(e) => setQueryString(e.target.value)}
 					placeholder="Search..."
