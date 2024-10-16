@@ -99,8 +99,8 @@ const getForecast = async ({ lat, long }: PartialLatLong) => {
 			...o,
 			dt: o.time,
 		})),
-		minutely: minutely_15.map((o) => ({
-			dt: o.time,
+		minutely_15: minutely_15.map((o) => ({
+			time: o.time,
 			precipitation: o.precipitation,
 		})),
 	};
