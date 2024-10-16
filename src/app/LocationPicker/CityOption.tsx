@@ -1,10 +1,9 @@
-import type { Geoname } from '@/services/geonames/types';
+import { type Geoname, geonameToLabel } from '@/services/geonames';
 import {
 	HiOutlineCheckCircle,
 	HiOutlinePlusCircle,
 	HiOutlineXCircle,
 } from 'react-icons/hi2';
-import { geonameToLabel } from '../utils';
 
 interface Props {
 	city: Partial<Geoname>;
