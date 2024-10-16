@@ -18,7 +18,7 @@ export interface HourlyUnits {
 }
 
 export interface HourlyResponse {
-	time: string[];
+	time: number[];
 	temperature_2m: number[];
 	relative_humidity_2m: number[];
 	apparent_temperature: number[];
@@ -30,7 +30,7 @@ export interface HourlyResponse {
 	is_day: number[];
 }
 export interface Hourly {
-	time: string;
+	time: number;
 	temperature_2m: number;
 	relative_humidity_2m: number;
 	apparent_temperature: number;
@@ -45,11 +45,11 @@ export interface Hourly {
 }
 
 export interface Minutely15Response {
-	time: string[];
+	time: number[];
 	precipitation: number[];
 }
 export interface Minutely15 {
-	time: string;
+	time: number;
 	precipitation: number;
 }
 export interface Minutely15Units {
@@ -57,7 +57,7 @@ export interface Minutely15Units {
 }
 
 export type DailyResponse = {
-	time: string[];
+	time: number[];
 	temperature_2m_max: number[];
 	temperature_2m_min: number[];
 	apparent_temperature_max: number[];
@@ -68,7 +68,7 @@ export type DailyResponse = {
 	sunset: string[];
 };
 export type Daily = {
-	time: string;
+	time: number;
 	temperature_2m_max: number;
 	temperature_2m_min: number;
 	apparent_temperature_max: number;
@@ -80,7 +80,7 @@ export type Daily = {
 };
 
 export interface Current {
-	time: string;
+	time: number;
 	interval: number;
 	temperature_2m: number;
 	apparent_temperature: number;

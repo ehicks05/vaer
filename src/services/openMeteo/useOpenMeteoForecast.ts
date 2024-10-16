@@ -19,7 +19,7 @@ const getForecast = async ({ lat, long }: PartialLatLong) => {
 		(agg, curr, i) => [
 			...agg,
 			{
-				time: curr,
+				time: curr * 1000,
 				precipitation: forecast.minutely_15.precipitation[i],
 			},
 		],
@@ -30,7 +30,7 @@ const getForecast = async ({ lat, long }: PartialLatLong) => {
 		(agg, curr, i) => [
 			...agg,
 			{
-				time: curr,
+				time: curr * 1000,
 				temperature_2m: forecast.hourly.temperature_2m[i],
 				relative_humidity_2m: forecast.hourly.relative_humidity_2m[i],
 				apparent_temperature: forecast.hourly.apparent_temperature[i],
@@ -50,7 +50,7 @@ const getForecast = async ({ lat, long }: PartialLatLong) => {
 		(agg, curr, i) => [
 			...agg,
 			{
-				time: curr,
+				time: curr * 1000,
 				temperature_2m_max: forecast.daily.temperature_2m_max[i],
 				temperature_2m_min: forecast.daily.temperature_2m_min[i],
 				apparent_temperature_max: forecast.daily.apparent_temperature_max[i],
@@ -64,21 +64,23 @@ const getForecast = async ({ lat, long }: PartialLatLong) => {
 		[] as Daily[],
 	);
 
+	const current = {
+		time: forecast.current.time * 1000,
+		temp: forecast.current.temperature_2m,
+		feelsLike: forecast.current.apparent_temperature,
+		isDay: !!forecast.current.is_day,
+		weather: {
+			id: forecast.current.weather_code,
+			description: WMO_CODE_TO_DESCRIPTION[forecast.current.weather_code],
+			icon: `${forecast.current.weather_code}-${forecast.current.is_day ? 'day' : 'night'}`,
+		},
+	};
+
 	return {
 		...forecast,
-		current: {
-			dt: forecast.current.time,
-			temp: forecast.current.temperature_2m,
-			feelsLike: forecast.current.apparent_temperature,
-			isDay: !!forecast.current.is_day,
-			weather: {
-				id: forecast.current.weather_code,
-				description: WMO_CODE_TO_DESCRIPTION[forecast.current.weather_code],
-				icon: `${forecast.current.weather_code}-${forecast.current.is_day ? 'day' : 'night'}`,
-			},
-		},
+		current,
 		daily: daily.map((o) => ({
-			date: o.time,
+			time: o.time,
 			temp: { max: o.temperature_2m_max, min: o.temperature_2m_min },
 			weather: {
 				id: o.weather_code,
@@ -87,14 +89,8 @@ const getForecast = async ({ lat, long }: PartialLatLong) => {
 			},
 			precipitation_sum: o.precipitation_sum,
 		})),
-		hourly: hourly.map((o) => ({
-			...o,
-			dt: o.time,
-		})),
-		minutely_15: minutely_15.map((o) => ({
-			time: o.time,
-			precipitation: o.precipitation,
-		})),
+		hourly,
+		minutely_15,
 	};
 };
 

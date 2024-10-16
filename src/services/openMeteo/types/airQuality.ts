@@ -5,12 +5,12 @@ export interface HourlyUnits {
 }
 
 export interface HourlyResponse {
-	time: string[];
+	time: number[];
 	us_aqi: number[];
 }
 
 export interface Hourly {
-	time: string;
+	time: number;
 	us_aqi: number;
 }
 

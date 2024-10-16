@@ -39,6 +39,7 @@ export const FORECAST_DEFAULT_PARAMS = {
 	temperature_unit: 'fahrenheit',
 	wind_speed_unit: 'mph',
 	precipitation_unit: 'inch',
+	timeformat: 'unixtime',
 	timezone: 'auto',
 };
 
@@ -48,6 +49,7 @@ export const AIR_QUALITY_DEFAULT_PARAMS = {
 
 	// settings
 	forecast_days: '7',
+	timeformat: 'unixtime',
 	timezone: 'auto',
 };
 

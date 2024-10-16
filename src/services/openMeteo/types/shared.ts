@@ -1,4 +1,4 @@
-export type TimeUnit = 'iso8601';
+export type TimeUnit = 'iso8601' | 'unixtime';
 export type TemperatureUnit = '°C' | '°F';
 export type PrecipitationUnit = 'mm';
 export type WindSpeedUnit = 'km/h';
