@@ -1,6 +1,7 @@
-export const BASE = 'https://api.open-meteo.com';
+export const FORECAST_BASE = 'https://api.open-meteo.com';
+export const AIR_QUALITY_BASE = 'https://air-quality-api.open-meteo.com';
 
-const FIELDS = {
+const FORECAST_FIELDS = {
 	CURRENT: ['temperature_2m', 'apparent_temperature', 'is_day', 'weather_code'],
 	HOURLY: [
 		'temperature_2m',
@@ -27,17 +28,26 @@ const FIELDS = {
 	],
 };
 
-export const DEFAULT_PARAMS = {
+export const FORECAST_DEFAULT_PARAMS = {
 	// fields we're interested in
-	current: FIELDS.CURRENT.join(','),
-	minutely_15: FIELDS.MINUTELY_15.join(','),
-	hourly: FIELDS.HOURLY.join(','),
-	daily: FIELDS.DAILY.join(','),
+	current: FORECAST_FIELDS.CURRENT.join(','),
+	minutely_15: FORECAST_FIELDS.MINUTELY_15.join(','),
+	hourly: FORECAST_FIELDS.HOURLY.join(','),
+	daily: FORECAST_FIELDS.DAILY.join(','),
 
 	// settings
 	temperature_unit: 'fahrenheit',
 	wind_speed_unit: 'mph',
 	precipitation_unit: 'inch',
+	timezone: 'auto',
+};
+
+export const AIR_QUALITY_DEFAULT_PARAMS = {
+	// fields
+	hourly: 'us_aqi',
+
+	// settings
+	forecast_days: '7',
 	timezone: 'auto',
 };
 

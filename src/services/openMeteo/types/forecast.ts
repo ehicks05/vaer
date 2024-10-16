@@ -1,12 +1,14 @@
 // INPUT PARAMS
 
-// RESPONSE SHAPE
+import type {
+	PrecipitationUnit,
+	RequestMetadata,
+	TemperatureUnit,
+	TimeUnit,
+	WindSpeedUnit,
+} from './shared';
 
-export type TimeUnit = 'iso8601';
-export type TemperatureUnit = '°C' | '°F';
-export type PrecipitationUnit = 'mm';
-export type WindSpeedUnit = 'km/h';
-export type ShortwaveRadiationUnit = 'W/m²';
+// RESPONSE SHAPE
 
 export interface HourlyUnits {
 	temperature_2m: TemperatureUnit;
@@ -38,6 +40,8 @@ export interface Hourly {
 	wind_speed_10m: number;
 	wind_direction_10m: number;
 	is_day: number;
+	// adding clientside
+	us_aqi: number;
 }
 
 export interface Minutely15Response {
@@ -84,15 +88,7 @@ export interface Current {
 	is_day: number;
 }
 
-export interface OpenMeteoForecast {
-	latitude: number;
-	longitude: number;
-	elevation: number;
-	generationtime_ms: number;
-	utc_offset_seconds: number;
-	timezone: string;
-	timezone_abbreviation: string;
-
+export interface OpenMeteoForecast extends RequestMetadata {
 	current: Current;
 	hourly: HourlyResponse;
 	hourly_units: HourlyUnits;
@@ -101,11 +97,3 @@ export interface OpenMeteoForecast {
 	minutely_15: Minutely15Response;
 	minutely_15_units: Minutely15Units;
 }
-
-/**
-daily MISSING:
-moonrise moonset
-moon phase
-pressure (for the day?)
-air quality
-*/
