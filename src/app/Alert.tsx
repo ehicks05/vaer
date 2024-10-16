@@ -1,21 +1,30 @@
 import { Button, Card } from '@/components';
 import { alertFmt } from '@/constants/fmt';
 import { useWeatherGov } from '@/hooks';
+import type { Properties } from '@/services/weathergov/types/alerts';
 import { useState } from 'react';
 import { HiOutlineExclamationTriangle } from 'react-icons/hi2';
 
-export const Alert = () => {
+type AlertProps = Partial<
+	Pick<
+		Properties,
+		| 'event'
+		| 'description'
+		| 'onset'
+		| 'ends'
+		| 'senderName'
+		| 'severity'
+		| 'certainty'
+	>
+>;
+
+export const AlertCard = ({ alert }: { alert: AlertProps }) => {
 	const [showDescription, setShowDescription] = useState(false);
-	const { alertsQuery } = useWeatherGov();
-	const { data } = alertsQuery;
-
-	const alert = data?.features?.[0]?.properties;
-	if (!alert) {
-		return null;
-	}
-
 	const { event, description, onset, ends, senderName, severity, certainty } = alert;
-	const tags = [`severity: ${severity}`, `certainty: ${certainty}`];
+	const tags =
+		severity && certainty
+			? [`severity: ${severity}`, `certainty: ${certainty}`]
+			: [];
 
 	return (
 		<Card gradient={false} className="p-4 bg-slate-800">
@@ -33,7 +42,9 @@ export const Alert = () => {
 					<>
 						<div className="text-sm text-neutral-400">{senderName}</div>
 						<div className="text-sm">
-							{alertFmt.format(new Date(onset))} to {alertFmt.format(new Date(ends))}
+							{onset &&
+								ends &&
+								`${alertFmt.format(new Date(onset))} to ${alertFmt.format(new Date(ends))}`}
 						</div>
 						{description && (
 							<div className="flex flex-col gap-2">
@@ -42,7 +53,7 @@ export const Alert = () => {
 								))}
 							</div>
 						)}
-						{tags.length && (
+						{tags.length !== 0 && (
 							<div className="text-sm text-neutral-400">
 								Tags: {tags.join(', ').toLocaleLowerCase()}
 							</div>
@@ -52,4 +63,16 @@ export const Alert = () => {
 			</div>
 		</Card>
 	);
+};
+
+export const Alert = () => {
+	const { alertsQuery } = useWeatherGov();
+	const { data } = alertsQuery;
+
+	const alert = data?.features?.[0]?.properties;
+	if (!alert) {
+		return null;
+	}
+
+	return <AlertCard alert={alert} />;
 };
