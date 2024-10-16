@@ -35,7 +35,13 @@ export const Alert = () => {
 						<div className="text-sm">
 							{alertFmt.format(new Date(onset))} to {alertFmt.format(new Date(ends))}
 						</div>
-						{description && <div>{description}</div>}
+						{description && (
+							<div className="flex flex-col gap-2">
+								{description.split('\n\n').map((p) => (
+									<p key={p}>{p}</p>
+								))}
+							</div>
+						)}
 						{tags.length && (
 							<div className="text-sm text-neutral-400">
 								Tags: {tags.join(', ').toLocaleLowerCase()}
