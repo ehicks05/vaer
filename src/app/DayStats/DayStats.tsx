@@ -12,21 +12,16 @@ export const DayStats = () => {
 		openMeteo: { data: openMeteo },
 	} = useOpenMeteo();
 
-	const { sunrise, sunset, moonrise, moonset, MoonPhaseIcon, moonPhaseLabel } =
-		useSunAndMoon(
-			dayIndex
-				? new Date(new Date().setDate(new Date().getDate() + dayIndex))
-				: new Date(),
-		);
-
 	const tz = openMeteo?.timezone || '';
 	const { precipitation_sum } = openMeteo?.daily[dayIndex || 0] || {};
 
-	const aqis =
-		openMeteo?.hourly
-			.slice((dayIndex || 0) * 24, (dayIndex || 0) * 24 + 24)
-			.map((o) => o.us_aqi) || [];
+	const hourlies =
+		openMeteo?.hourly.slice((dayIndex || 0) * 24, (dayIndex || 0) * 24 + 24) || [];
+	const aqis = hourlies.map((o) => o.us_aqi);
 	const aqiLabel = getAqiLabel(aqis);
+
+	const { sunrise, sunset, moonrise, moonset, MoonPhaseIcon, moonPhaseLabel } =
+		useSunAndMoon(new Date(hourlies[0].time), tz);
 
 	const sunTimeStats = getSunTimeStats(tz, sunrise, sunset);
 	const moonTimeStats = getMoonTimeStats(tz, moonrise, moonset);

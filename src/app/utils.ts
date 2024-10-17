@@ -1,20 +1,14 @@
-import { dateShort } from '@/constants/fmt';
-
-export const isToday = (date: Date) =>
-	dateShort.format(date) === dateShort.format(new Date());
-
-export const addHours = (date: Date, i: number) => {
+export const addHours = (_date: Date, i: number) => {
+	const date = new Date(_date.valueOf());
 	date.setHours(date.getHours() + i);
 	return date;
 };
 
-export const addDays = (date: Date, i: number) => {
+export const addDays = (_date: Date, i: number) => {
+	const date = new Date(_date.valueOf());
 	date.setDate(date.getDate() + i);
 	return date;
 };
-
-export const formatHours = (date: Date) =>
-	Intl.DateTimeFormat('en-US', { hour: 'numeric' }).format(date);
 
 const FORMAT_KEYS: Record<string, Intl.DateTimeFormatOptions> = {
 	'MM-dd': { month: '2-digit', day: '2-digit' },
