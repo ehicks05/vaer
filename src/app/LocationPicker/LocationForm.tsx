@@ -52,7 +52,6 @@ export const LocationForm = () => {
 							<CityOption
 								key={location.geonameId}
 								city={location}
-								isSaved={isSaved}
 								isActive={false}
 								onClick={onClick}
 							/>
@@ -95,9 +94,8 @@ export const LocationForm = () => {
 							<CityOption
 								key={location.geonameId}
 								city={location}
-								isSaved={true}
 								isActive={activeLocation?.geonameId === location.geonameId}
-								onActivate={() => setActiveLocation(location)}
+								onClick={() => setActiveLocation(location)}
 								onDelete={onClick}
 							/>
 						);

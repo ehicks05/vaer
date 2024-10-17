@@ -3,28 +3,19 @@ import { HiOutlineXCircle } from 'react-icons/hi2';
 
 interface Props {
 	city: Partial<Geoname>;
-	isSaved: boolean;
 	isActive: boolean;
 	onClick?: () => void;
-	onActivate?: () => void;
 	onDelete?: () => void;
 }
 
-export const CityOption = ({
-	city,
-	isSaved,
-	isActive,
-	onClick,
-	onActivate,
-	onDelete,
-}: Props) => {
+export const CityOption = ({ city, isActive, onClick, onDelete }: Props) => {
 	const classes = isActive ? 'bg-green-800' : 'bg-neutral-700 hover:bg-neutral-600';
 	return (
 		<div className="flex gap-2 text-sm">
 			<button
 				type="button"
 				disabled={isActive}
-				onClick={isSaved ? onActivate : onClick}
+				onClick={onClick}
 				className={`w-full p-2 text-left rounded-lg ${classes}`}
 			>
 				{geonameToLabel(city)}
