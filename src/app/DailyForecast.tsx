@@ -74,17 +74,14 @@ const DailyForecast = () => {
 				const formattedDay = formatInTimeZone(daily.time, timezone, 'EEE');
 				const today = formatInTimeZone(new Date(), timezone, 'EEE');
 				const day = formattedDay === today ? 'Today' : formattedDay;
-				const { min, max } = daily.temp;
-
-				console.log({ dailyDate: daily.time, formattedDay, today });
 
 				return (
 					<OneDaySummary
 						key={new Date(daily.time).getTime()}
 						weather={daily.weather}
 						day={day}
-						min={min}
-						max={max}
+						min={daily.temp.min}
+						max={daily.temp.max}
 						onClick={() => setDayIndex(id === dayIndex ? undefined : id)}
 						isSelected={id === dayIndex}
 					/>
