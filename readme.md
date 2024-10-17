@@ -35,6 +35,10 @@ The idea is:
 * windy.com provides the map. would prefer something lighter that doesn't make so many requests
     * openweather has basic maps that don't appear to include a base layer (land outlines, political names)
     * NWS has maps, but menu ui takes up too much space when you embed it as a small widget.
+ 
+## location flow
+Flow starts with either the device's geolocation, or a search term.
+<img src="https://github.com/user-attachments/assets/284c1a10-316e-4be6-82c2-6cdcded6e66b" width="800">
 
 ## links
 
