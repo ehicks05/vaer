@@ -15,7 +15,7 @@ export const CurrentLocation = () => {
 	const { latitude } = useGeolocation().coords || {};
 
 	return (
-		<div className="grid grid-cols-1 gap-2 w-full">
+		<div className="grid grid-cols-1 gap-2 w-full max-w-64">
 			{geolocationPermission === 'denied' ? (
 				<Button disabled>
 					Geolocation permission is denied. Reset browser permissions to use current
