@@ -4,7 +4,7 @@ import { useOpenMeteo } from '@/hooks';
 import { useUnits } from '@/hooks/useUnits';
 import { type ReactNode, useContext } from 'react';
 import { getWmoWeatherIcon } from '../constants/weather_icons';
-import { addDays, formatInTimeZone, isToday } from './utils';
+import { addDays, formatInTimeZone } from './utils';
 
 interface OneDaySummaryProps {
 	weather: { id: number; description: string };
