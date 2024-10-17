@@ -20,29 +20,24 @@ export const CityOption = ({
 }: Props) => {
 	const classes = isActive ? 'bg-green-800' : 'bg-neutral-700 hover:bg-neutral-600';
 	return (
-		<button
-			type="button"
-			disabled={isActive}
-			onClick={isSaved ? onActivate : onClick}
-			className={`w-full flex justify-between items-center gap-4 md:gap-8 p-2 text-sm rounded-lg ${classes}`}
-		>
-			<div className="text-left">{geonameToLabel(city)}</div>
-			<div className="flex items-center gap-2">
-				{isSaved && (
-					<HiOutlineXCircle
-						onClick={(e) => {
-							e.stopPropagation();
-							onDelete ? onDelete() : undefined;
-						}}
-						size={28}
-						className={
-							onDelete
-								? 'flex-shrink-0 cursor-pointer text-red-500 hover:text-red-400'
-								: 'invisible'
-						}
-					/>
-				)}
-			</div>
-		</button>
+		<div className="flex gap-2 text-sm">
+			<button
+				type="button"
+				disabled={isActive}
+				onClick={isSaved ? onActivate : onClick}
+				className={`w-full p-2 text-left rounded-lg ${classes}`}
+			>
+				{geonameToLabel(city)}
+			</button>
+			{onDelete && (
+				<button
+					type="button"
+					onClick={onDelete}
+					className="p-1 rounded-lg bg-neutral-700 hover:bg-neutral-600"
+				>
+					<HiOutlineXCircle size={28} className="text-red-500" />
+				</button>
+			)}
+		</div>
 	);
 };
