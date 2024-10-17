@@ -21,7 +21,7 @@ export const DayStats = () => {
 	const aqiLabel = getAqiLabel(aqis);
 
 	const { sunrise, sunset, moonrise, moonset, MoonPhaseIcon, moonPhaseLabel } =
-		useSunAndMoon(new Date(hourlies[0].time), tz);
+		useSunAndMoon(new Date(hourlies[0]?.time || new Date()), tz);
 
 	const sunTimeStats = getSunTimeStats(tz, sunrise, sunset);
 	const moonTimeStats = getMoonTimeStats(tz, moonrise, moonset);
