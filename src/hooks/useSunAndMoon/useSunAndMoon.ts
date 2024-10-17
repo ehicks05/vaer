@@ -17,7 +17,8 @@ const toLocalDate = (date: Date, timeZone: string) =>
 // localized MM/dd/yyyy matches between the input date and sun/moon time
 const findLocalTimes = (date: Date, timeZone: string, lat: number, long: number) => {
 	const localizedInputDate = toLocalDate(date, timeZone);
-	const isDateMatch = (date: Date) => {
+	const isDateMatch = (date?: Date) => {
+		if (!date) return false;
 		const localized = toLocalDate(date, timeZone);
 		return localized === localizedInputDate;
 	};
