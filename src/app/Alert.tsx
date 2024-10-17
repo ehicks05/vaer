@@ -8,23 +8,14 @@ import { HiOutlineExclamationTriangle } from 'react-icons/hi2';
 type AlertProps = Partial<
 	Pick<
 		Properties,
-		| 'event'
-		| 'description'
-		| 'onset'
-		| 'ends'
-		| 'senderName'
-		| 'severity'
-		| 'certainty'
+		'event' | 'description' | 'onset' | 'ends' | 'senderName' | 'severity'
 	>
 >;
 
 export const AlertCard = ({ alert }: { alert: AlertProps }) => {
 	const [showDescription, setShowDescription] = useState(false);
-	const { event, description, onset, ends, senderName, severity, certainty } = alert;
-	const tags =
-		severity && certainty
-			? [`severity: ${severity}`, `certainty: ${certainty}`]
-			: [];
+	const { event, description, onset, ends, senderName, severity } = alert;
+	const tags = severity ? [`severity: ${severity}`] : [];
 
 	return (
 		<Card gradient={false} className="p-4 bg-slate-800">
@@ -55,7 +46,7 @@ export const AlertCard = ({ alert }: { alert: AlertProps }) => {
 						)}
 						{tags.length !== 0 && (
 							<div className="text-sm text-neutral-400">
-								Tags: {tags.join(', ').toLocaleLowerCase()}
+								{tags.join(', ').toLocaleLowerCase()}
 							</div>
 						)}
 					</>

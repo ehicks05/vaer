@@ -1,14 +1,13 @@
 import { Card } from '@/components';
 import { DayIndexContext } from '@/contexts/DayIndexContext';
-import { useOpenWeatherMap } from '@/hooks';
+import { useOpenMeteo } from '@/hooks';
 import { useUnits } from '@/hooks/useUnits';
-import type { WeatherCondition } from '@/services/openweathermap/types/oneCall';
-import { useContext } from 'react';
-import { getWeatherIcon } from '../constants/weather_icons';
+import { type ReactNode, useContext } from 'react';
+import { getWmoWeatherIcon } from '../constants/weather_icons';
 import { addDays, formatInTimeZone, isToday } from './utils';
 
 interface OneDaySummaryProps {
-	weather: Omit<WeatherCondition, 'main'>;
+	weather: { id: number; description: string };
 	day: string;
 	min: number;
 	max: number;
@@ -25,7 +24,7 @@ const OneDaySummary = ({
 	isSelected,
 }: OneDaySummaryProps) => {
 	const { getTemp } = useUnits();
-	const Icon = getWeatherIcon(weather.id, weather.icon);
+	const Icon = getWmoWeatherIcon(weather.id, true);
 
 	return (
 		<div
@@ -56,46 +55,52 @@ const OneDaySummary = ({
 
 const getPlaceholderData = () => ({
 	daily: [...new Array(8)].map((_, i) => ({
-		dt: addDays(new Date(), i).toISOString(),
+		time: addDays(new Date(), i).getTime(),
 		temp: { min: 0, max: 0 },
-		weather: [{ id: 800, description: 'loading', icon: 'd' }],
+		weather: { id: 800, description: 'loading', icon: 'd' },
 	})),
 	timezone: '',
 });
 
 const DailyForecast = () => {
 	const { dayIndex, setDayIndex } = useContext(DayIndexContext);
+	const { openMeteo } = useOpenMeteo();
 
-	const { oneCallQuery } = useOpenWeatherMap();
-	const { daily: dailies, timezone } = oneCallQuery.data || getPlaceholderData();
+	const { daily: dailies, timezone } = openMeteo.data || getPlaceholderData();
 
 	return (
-		<div className="w-full">
-			Daily Forecast
-			<Card>
-				<div className="flex flex-col w-full">
-					{dailies?.map((daily, id) => {
-						const { min, max } = daily.temp;
-						const day = isToday(new Date(daily.dt))
-							? 'Today'
-							: formatInTimeZone(daily.dt, timezone || '', 'EEE');
+		<Container>
+			{dailies?.map((daily, id) => {
+				const formattedDay = formatInTimeZone(daily.time, timezone, 'EEE');
+				const today = formatInTimeZone(new Date(), timezone, 'EEE');
+				const day = formattedDay === today ? 'Today' : formattedDay;
+				const { min, max } = daily.temp;
 
-						return (
-							<OneDaySummary
-								key={daily.dt}
-								weather={daily.weather[0]}
-								day={day}
-								min={min}
-								max={max}
-								onClick={() => setDayIndex(id === dayIndex ? undefined : id)}
-								isSelected={id === dayIndex}
-							/>
-						);
-					})}
-				</div>
-			</Card>
-		</div>
+				console.log({ dailyDate: daily.time, formattedDay, today });
+
+				return (
+					<OneDaySummary
+						key={new Date(daily.time).getTime()}
+						weather={daily.weather}
+						day={day}
+						min={min}
+						max={max}
+						onClick={() => setDayIndex(id === dayIndex ? undefined : id)}
+						isSelected={id === dayIndex}
+					/>
+				);
+			})}
+		</Container>
 	);
 };
+
+const Container = ({ children }: { children: ReactNode }) => (
+	<div className="w-full">
+		Daily Forecast
+		<Card>
+			<div className="flex flex-col w-full">{children}</div>
+		</Card>
+	</div>
+);
 
 export default DailyForecast;

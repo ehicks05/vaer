@@ -1,11 +1,12 @@
 import { Card } from '@/components';
-import { useOpenWeatherMap } from '@/hooks';
+import { useOpenMeteo } from '@/hooks';
 import { useUnits } from '@/hooks/useUnits';
-import type { Minutely } from '@/services/openweathermap/types/oneCall';
+import type { Minutely15 } from '@/services/openMeteo/types/forecast';
 import type { ReactNode } from 'react';
 import { formatInTimeZone } from './utils';
 
 const INF = Number.POSITIVE_INFINITY;
+const HOURS = 4;
 
 const INTENSITIES = [
 	{ color: 'bg-indigo-500 group-hover:bg-indigo-400', min: 0.0, max: 0.0 },
@@ -20,24 +21,24 @@ const getIntensity = (inPerHour: number) =>
 	INTENSITIES.find(({ min, max }) => inPerHour >= min && inPerHour <= max) ||
 	INTENSITIES[0];
 
-const getMessage = (minutely: Minutely[], tz: string) => {
+const getMessage = (minutely: Minutely15[], tz: string) => {
 	const currentlyPrecipitating = minutely[0].precipitation !== 0;
 	const firstPrecip = minutely.find((m) => m.precipitation !== 0);
 	const firstZeroPrecip = minutely.find((m) => m.precipitation === 0);
 	const message =
 		!currentlyPrecipitating && !firstPrecip
-			? 'No precipitation in the next hour.'
+			? `No precipitation in the next ${HOURS} hours.`
 			: !currentlyPrecipitating && !!firstPrecip
-				? `Precipitation starts at ${formatInTimeZone(new Date(firstPrecip.dt), tz, 'h:mm a')}`
+				? `Precipitation starts at ${formatInTimeZone(new Date(firstPrecip.time), tz, 'h:mm a')}`
 				: currentlyPrecipitating && !!firstZeroPrecip
-					? `Precipitation ends at ${formatInTimeZone(new Date(firstZeroPrecip.dt), tz, 'h:mm a')}`
-					: 'Precipitation throughout the next hour.';
+					? `Precipitation ends at ${formatInTimeZone(new Date(firstZeroPrecip.time), tz, 'h:mm a')}`
+					: `Precipitation throughout the next ${HOURS} hours.`;
 	return message;
 };
 
 interface Props {
 	max: number;
-	minute: Minutely;
+	minute: Minutely15;
 	title: string;
 }
 
@@ -50,7 +51,7 @@ const Minute = ({ max, minute: { precipitation }, title }: Props) => {
 	return (
 		<div
 			title={title}
-			className="group flex items-end px-px rounded-sm h-full hover:bg-indigo-700 w-4"
+			className="group flex items-end px-px rounded-sm h-full hover:bg-indigo-700 w-16"
 		>
 			<div className={`rounded-sm w-full ${intensity.color}`} style={style} />
 		</div>
@@ -58,7 +59,7 @@ const Minute = ({ max, minute: { precipitation }, title }: Props) => {
 };
 
 interface ChartProps {
-	minutely: Minutely[];
+	minutely: Minutely15[];
 	max: number;
 	tz: string;
 }
@@ -66,22 +67,20 @@ interface ChartProps {
 const Chart = ({ minutely, max, tz }: ChartProps) => {
 	const { getRate } = useUnits();
 	const [start, mid, end] = [0, minutely.length / 2, minutely.length - 1].map(
-		(index) => formatInTimeZone(new Date(minutely[index]?.dt || 0), tz, 'h:mm a'),
+		(index) => formatInTimeZone(new Date(minutely[index]?.time || 0), tz, 'h:mm a'),
 	);
 
 	return (
 		<>
-			<div className="flex flex-col gap-1 w-full h-full">
-				<div className="flex h-20">
-					{minutely.map((minute) => (
-						<Minute
-							key={minute.dt}
-							max={max}
-							minute={minute}
-							title={`${formatInTimeZone(new Date(minute.dt), tz, 'h:mm a')}: ${getRate(minute.precipitation)}`}
-						/>
-					))}
-				</div>
+			<div className="flex h-20">
+				{minutely.map((minute) => (
+					<Minute
+						key={minute.time}
+						max={max}
+						minute={minute}
+						title={`${formatInTimeZone(new Date(minute.time), tz, 'h:mm a')}: ${getRate(minute.precipitation)}`}
+					/>
+				))}
 			</div>
 			<div className="flex justify-between w-full text-sm">
 				<span>{start}</span>
@@ -101,22 +100,25 @@ const Container = ({ children }: { children: ReactNode }) => (
 
 export const UpcomingPrecipitation = () => {
 	const { getRate } = useUnits();
-	const { oneCallQuery } = useOpenWeatherMap();
-	const { data, dataUpdatedAt } = oneCallQuery;
+	const { openMeteo } = useOpenMeteo();
+	const { data, dataUpdatedAt } = openMeteo;
 	if (!data) {
 		return null;
 	}
-	const { minutely, timezone: tz } = data;
+	const { timezone: tz } = data;
+	const minutely_15 = data.minutely_15
+		.filter((minutely) => new Date(minutely.time).getTime() >= new Date().getTime())
+		.slice(0, HOURS * 4);
 
-	const min = Math.min(...minutely.map(({ precipitation }) => precipitation));
-	const max = Math.max(...minutely.map(({ precipitation }) => precipitation));
-	const message = getMessage(minutely, tz);
+	const min = Math.min(...minutely_15.map(({ precipitation }) => precipitation));
+	const max = Math.max(...minutely_15.map(({ precipitation }) => precipitation));
+	const message = getMessage(minutely_15, tz);
 
 	return (
 		<Container>
 			<div className="flex flex-col gap-1">
 				{message}
-				{max > 0 && <Chart minutely={minutely} max={max} tz={tz} />}
+				{max > 0 && <Chart minutely={minutely_15} max={max} tz={tz} />}
 			</div>
 			<div className="flex justify-between gap-2 w-full text-xs">
 				<span className="text-neutral-300">

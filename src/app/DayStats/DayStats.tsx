@@ -1,20 +1,16 @@
-import { AQI_DISPLAY_NAMES } from '@/constants/aqi';
-import { dateShort } from '@/constants/fmt';
 import { DayIndexContext } from '@/contexts/DayIndexContext';
-import { useOpenWeatherMap, useSunAndMoon } from '@/hooks';
-import { useUnits } from '@/hooks/useUnits';
-import { max } from 'lodash-es';
+import { useOpenMeteo, useSunAndMoon, useUnits } from '@/hooks';
 import { useContext } from 'react';
-import { formatInTimeZone } from '../utils';
-import { DayStat } from './DayStat';
-import { DEFAULT_DAY_STATS } from './constants';
+import { WiRaindrop, WiSmoke } from 'react-icons/wi';
+import { DayStatCard } from './DayStatCard';
+import { getAqiLabel, getMoonTimeStats, getSunTimeStats } from './utils';
 
 export const DayStats = () => {
-	const { getLength, getPressure } = useUnits();
+	const { getLength } = useUnits();
 	const { dayIndex } = useContext(DayIndexContext);
-	const { oneCallQuery, airPollutionQuery } = useOpenWeatherMap();
-	const { data: oneCallData } = oneCallQuery;
-	const { data: airPollutionData } = airPollutionQuery;
+	const {
+		openMeteo: { data: openMeteo },
+	} = useOpenMeteo();
 
 	const { sunrise, sunset, moonrise, moonset, MoonPhaseIcon, moonPhaseLabel } =
 		useSunAndMoon(
@@ -23,72 +19,26 @@ export const DayStats = () => {
 				: new Date(),
 		);
 
-	if (!oneCallData || !airPollutionData) {
-		return DEFAULT_DAY_STATS.map((stat) => <DayStat key={stat.label} stat={stat} />);
-	}
+	const tz = openMeteo?.timezone || '';
+	const { precipitation_sum } = openMeteo?.daily[dayIndex || 0] || {};
 
-	const tz = oneCallData.timezone;
-	const { pressure, rain, snow } = oneCallData.daily[dayIndex || 0];
+	const aqis =
+		openMeteo?.hourly
+			.slice((dayIndex || 0) * 24, (dayIndex || 0) * 24 + 24)
+			.map((o) => o.us_aqi) || [];
+	const aqiLabel = getAqiLabel(aqis);
 
-	const dt = dayIndex ? oneCallData.daily[dayIndex].dt : undefined;
-	const date = dt ? dateShort.format(dt) : undefined;
-
-	const aqi = dayIndex
-		? max(
-				airPollutionData.forecast.list
-					.filter((o) => dateShort.format(o.dt) === date)
-					.map((o) => o.main.aqi),
-			)
-		: airPollutionData.current.list[0]?.main.aqi;
-
-	const moonriseStat = {
-		label: 'Moonrise',
-		value: moonrise ? formatInTimeZone(moonrise, tz, 'h:mm a') : 'none today',
-	};
-	const moonsetStat = {
-		label: 'Moonset',
-		value: moonset ? formatInTimeZone(moonset, tz, 'h:mm a') : 'none today',
-	};
-
-	// if this day has a moonrise and moonset, show moonset first if it occurs first
-	const moonTimeStats =
-		moonrise && moonset && moonset.getTime() < moonrise.getTime()
-			? [moonsetStat, moonriseStat]
-			: [moonriseStat, moonsetStat];
+	const sunTimeStats = getSunTimeStats(tz, sunrise, sunset);
+	const moonTimeStats = getMoonTimeStats(tz, moonrise, moonset);
+	const precipLabel = getLength(precipitation_sum || 0);
 
 	const stats = [
-		{
-			label: 'Sunrise',
-			value: formatInTimeZone(sunrise, tz, 'h:mm a'),
-		},
-		{
-			label: 'Sunset',
-			value: formatInTimeZone(sunset, tz, 'h:mm a'),
-		},
+		...sunTimeStats,
 		...moonTimeStats,
-		{
-			Icon: MoonPhaseIcon,
-			label: 'Moon Phase',
-			value: moonPhaseLabel,
-		},
-		{
-			label: 'Precipitation',
-			value: getLength(rain + snow),
-		},
-		{
-			label: 'Pressure',
-			value: getPressure(pressure),
-		},
-		{
-			label: 'Air Quality',
-			value: aqi ? AQI_DISPLAY_NAMES[aqi] : 'No data',
-		},
+		{ Icon: MoonPhaseIcon, label: 'Moon Phase', value: moonPhaseLabel || '0' },
+		{ Icon: WiRaindrop, label: 'Precipitation', value: precipLabel },
+		{ Icon: WiSmoke, label: 'Air Quality', value: aqiLabel || 'No data' },
 	];
 
-	return stats.map((stat, i) => (
-		<DayStat
-			key={stat.label}
-			stat={{ ...stat, Icon: stat.Icon || DEFAULT_DAY_STATS[i].Icon }}
-		/>
-	));
+	return stats.map((stat) => <DayStatCard key={stat.label} stat={stat} />);
 };

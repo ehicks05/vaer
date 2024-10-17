@@ -66,8 +66,8 @@ const getForecast = async ({ lat, long }: PartialLatLong) => {
 
 	const current = {
 		time: forecast.current.time * 1000,
-		temp: forecast.current.temperature_2m,
-		feelsLike: forecast.current.apparent_temperature,
+		temperature_2m: forecast.current.temperature_2m,
+		apparent_temperature: forecast.current.apparent_temperature,
 		isDay: !!forecast.current.is_day,
 		weather: {
 			id: forecast.current.weather_code,

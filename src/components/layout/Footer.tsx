@@ -1,9 +1,6 @@
+import { LINKS } from '@/constants/app';
 import { useResolvedLatLong } from '@/hooks';
 import React from 'react';
-
-const owmUrl = 'https://openweathermap.org';
-const repoUrl = 'https://www.github.com/ehicks05/vaer/';
-const siteUrl = 'https://ehicks.net';
 
 interface LinkProps {
 	href: string;
@@ -25,9 +22,11 @@ const Footer = () => {
 	return (
 		<footer className="flex items-center justify-end p-4 gap-4">
 			<span className="text-sm text-neutral-500">{`${lat},${long}`}</span>
-			<Link href={owmUrl}>owm</Link>
-			<Link href={repoUrl}>github</Link>
-			<Link href={siteUrl}>ehicks</Link>
+			{LINKS.map((link) => (
+				<Link key={link.url} href={link.url}>
+					{link.label}
+				</Link>
+			))}
 		</footer>
 	);
 };
