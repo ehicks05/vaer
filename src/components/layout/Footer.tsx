@@ -20,7 +20,7 @@ const Link = ({ href, children }: LinkProps) => (
 const Footer = () => {
 	const { lat, long } = useResolvedLatLong();
 	return (
-		<footer className="flex items-center justify-end p-4 gap-4">
+		<footer className="flex items-center justify-end gap-4 px-2 py-4 max-w-7xl mx-auto w-full">
 			<span className="text-sm text-neutral-500">{`${lat},${long}`}</span>
 			{LINKS.map((link) => (
 				<Link key={link.url} href={link.url}>
