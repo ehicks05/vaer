@@ -9,7 +9,7 @@ const Logo = () => (
 				src="/icon-gradient-transparent.svg"
 				alt="logo"
 			/>
-			<span className="mt-1 hidden sm:inline font-bold text-5xl font-logo text-white">
+			<span className="mt-1 hidden sm:inline font-bold text-4xl font-logo text-white">
 				Vær
 			</span>
 		</div>
