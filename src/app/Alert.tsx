@@ -1,9 +1,9 @@
 import { Button, Card } from '@/components';
-import { alertFmt } from '@/constants/fmt';
 import { useWeatherGov } from '@/hooks';
 import type { Properties } from '@/services/weathergov/types/alerts';
 import { useState } from 'react';
 import { HiOutlineExclamationTriangle } from 'react-icons/hi2';
+import { formatInTimeZone } from './utils';
 
 type AlertProps = Partial<
 	Pick<
@@ -12,7 +12,7 @@ type AlertProps = Partial<
 	>
 >;
 
-export const AlertCard = ({ alert }: { alert: AlertProps }) => {
+export const AlertCard = ({ alert, tz }: { alert: AlertProps; tz: string }) => {
 	const [showDescription, setShowDescription] = useState(false);
 	const { event, description, onset, ends, senderName, severity } = alert;
 	const tags = severity ? [`severity: ${severity}`] : [];
@@ -33,10 +33,12 @@ export const AlertCard = ({ alert }: { alert: AlertProps }) => {
 					<>
 						<div className="text-sm text-neutral-400">{senderName}</div>
 						<div className="text-sm">
-							{onset && `Onset: ${alertFmt.format(new Date(onset))}`}
+							{onset &&
+								`Onset: ${formatInTimeZone(new Date(onset), tz, 'MMM dd, yyyy, h:mm a')}`}
 						</div>
 						<div className="text-sm">
-							{ends && `Ends: ${alertFmt.format(new Date(ends))}`}
+							{ends &&
+								`Ends: ${formatInTimeZone(new Date(ends), tz, 'MMM dd, yyyy, h:mm a')}`}
 						</div>
 						{description && (
 							<div className="flex flex-col gap-2">
@@ -58,13 +60,13 @@ export const AlertCard = ({ alert }: { alert: AlertProps }) => {
 };
 
 export const Alert = () => {
-	const { alertsQuery } = useWeatherGov();
-	const { data } = alertsQuery;
+	const { alertsQuery, pointQuery } = useWeatherGov();
 
-	const alert = data?.features?.[0]?.properties;
-	if (!alert) {
+	const alert = alertsQuery?.data?.features?.[0]?.properties;
+	const point = pointQuery?.data?.properties;
+	if (!alert || !point) {
 		return null;
 	}
 
-	return <AlertCard alert={alert} />;
+	return <AlertCard alert={alert} tz={point.timeZone} />;
 };

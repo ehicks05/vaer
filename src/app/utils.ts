@@ -10,11 +10,12 @@ export const addDays = (_date: Date, i: number) => {
 	return date;
 };
 
-const FORMAT_KEYS: Record<string, Intl.DateTimeFormatOptions> = {
+const FORMAT_KEYS = {
 	'MM-dd': { month: '2-digit', day: '2-digit' },
 	'h a': { hour: 'numeric', hour12: true },
 	'h:mm a': { hour: 'numeric', minute: '2-digit', hour12: true },
 	EEE: { weekday: 'short' },
+	'MMM dd, yyyy, h:mm a': { dateStyle: 'medium', timeStyle: 'short' },
 } as const;
 
 export const formatInTimeZone = (
