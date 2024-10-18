@@ -33,9 +33,10 @@ export const AlertCard = ({ alert }: { alert: AlertProps }) => {
 					<>
 						<div className="text-sm text-neutral-400">{senderName}</div>
 						<div className="text-sm">
-							{onset &&
-								ends &&
-								`${alertFmt.format(new Date(onset))} to ${alertFmt.format(new Date(ends))}`}
+							{onset && `Onset: ${alertFmt.format(new Date(onset))}`}
+						</div>
+						<div className="text-sm">
+							{ends && `Ends: ${alertFmt.format(new Date(ends))}`}
 						</div>
 						{description && (
 							<div className="flex flex-col gap-2">
