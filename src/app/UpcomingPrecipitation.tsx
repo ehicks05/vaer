@@ -25,15 +25,20 @@ const getMessage = (minutely: Minutely15[], tz: string) => {
 	const currentlyPrecipitating = minutely[0].precipitation !== 0;
 	const firstPrecip = minutely.find((m) => m.precipitation !== 0);
 	const firstZeroPrecip = minutely.find((m) => m.precipitation === 0);
-	const message =
-		!currentlyPrecipitating && !firstPrecip
-			? `No precipitation in the next ${HOURS} hours.`
-			: !currentlyPrecipitating && !!firstPrecip
-				? `Precipitation starts at ${formatInTimeZone(new Date(firstPrecip.time), tz, 'h:mm a')}`
-				: currentlyPrecipitating && !!firstZeroPrecip
-					? `Precipitation ends at ${formatInTimeZone(new Date(firstZeroPrecip.time), tz, 'h:mm a')}`
-					: `Precipitation throughout the next ${HOURS} hours.`;
-	return message;
+
+	if (!currentlyPrecipitating && !firstPrecip) {
+		return `No precipitation in the next ${HOURS} hours.`;
+	}
+	if (!currentlyPrecipitating && !!firstPrecip) {
+		const startsAt = formatInTimeZone(new Date(firstPrecip.time), tz, 'h:mm a');
+		return `Precipitation starts at ${startsAt}`;
+	}
+	if (currentlyPrecipitating && !!firstZeroPrecip) {
+		const endsAt = formatInTimeZone(new Date(firstZeroPrecip.time), tz, 'h:mm a');
+		return `Precipitation ends at ${endsAt}`;
+	}
+
+	return `Precipitation throughout the next ${HOURS} hours.`;
 };
 
 interface Props {
