@@ -12,7 +12,7 @@ export const DayStats = () => {
 		openMeteo: { data: openMeteo },
 	} = useOpenMeteo();
 
-	const tz = openMeteo?.timezone || '';
+	const tz = openMeteo?.timezone;
 	const { precipitation_sum } = openMeteo?.daily[dayIndex || 0] || {};
 
 	const hourlies =

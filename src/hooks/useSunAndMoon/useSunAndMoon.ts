@@ -40,7 +40,7 @@ const findLocalTimes = (date: Date, timeZone: string, lat: number, long: number)
 	};
 };
 
-export const useSunAndMoon = (date: Date, tz: string) => {
+export const useSunAndMoon = (date: Date, tz = 'utc') => {
 	const resolvedLocation = useResolvedLatLong();
 	const lat = Number(resolvedLocation.lat);
 	const long = Number(resolvedLocation.long);
