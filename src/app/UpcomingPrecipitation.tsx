@@ -117,7 +117,7 @@ export const UpcomingPrecipitation = () => {
 
 	const min = Math.min(...minutely_15.map(({ precipitation }) => precipitation));
 	const max = Math.max(...minutely_15.map(({ precipitation }) => precipitation));
-	const message = getMessage(minutely_15, tz);
+	const message = minutely_15.length > 0 ? getMessage(minutely_15, tz) : '';
 
 	return (
 		<Container>
