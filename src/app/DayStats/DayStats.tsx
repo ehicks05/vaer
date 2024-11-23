@@ -12,7 +12,7 @@ export const DayStats = () => {
 		openMeteo: { data: openMeteo },
 	} = useOpenMeteo();
 
-	const tz = openMeteo?.timezone;
+	const tz = openMeteo?.timezone || 'utc';
 	const { precipitation_sum } = openMeteo?.daily[dayIndex || 0] || {};
 
 	const hourlies =
@@ -20,8 +20,10 @@ export const DayStats = () => {
 	const aqis = hourlies.map((o) => o.us_aqi);
 	const aqiLabel = getAqiLabel(aqis);
 
+	const startOfDay = hourlies[0] ? new Date(hourlies[0]?.time) : new Date();
+
 	const { sunrise, sunset, moonrise, moonset, MoonPhaseIcon, moonPhaseLabel } =
-		useSunAndMoon(new Date(hourlies[0]?.time || new Date()), tz);
+		useSunAndMoon(startOfDay, tz);
 
 	const sunTimeStats = getSunTimeStats(tz, sunrise, sunset);
 	const moonTimeStats = getMoonTimeStats(tz, moonrise, moonset);

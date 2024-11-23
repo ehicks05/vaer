@@ -59,3 +59,5 @@ export const MOON_PHASES = [
 	{ Icon: WiMoonWaningCrescent5, label: 'Waning Crescent' },
 	{ Icon: WiMoonWaningCrescent6, label: 'Waning Crescent' },
 ];
+
+export const DEFAULT_PHASE = MOON_PHASES[0];

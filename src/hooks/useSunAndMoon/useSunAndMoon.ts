@@ -1,12 +1,8 @@
 import { addDays } from '@/app/utils';
-import { getMoonIllumination, getMoonTimes, getTimes } from 'suncalc';
+import { getMoonTimes, getTimes } from 'suncalc';
 import { useResolvedLatLong } from '../useResolvedLatLong';
-import { MOON_PHASES } from './constants';
-
-export const getMoonPhase = (moon_phase: number) => {
-	const index = Math.round(moon_phase * (MOON_PHASES.length - 1));
-	return MOON_PHASES[index];
-};
+import { DEFAULT_PHASE } from './constants';
+import { getMoonPhaseDetails } from './moonPhase';
 
 const toLocalDate = (date: Date, timeZone: string) =>
 	date.toLocaleString('en-US', { timeZone }).substring(0, 10);
@@ -45,10 +41,9 @@ export const useSunAndMoon = (date: Date, tz = 'utc') => {
 	const lat = Number(resolvedLocation.lat);
 	const long = Number(resolvedLocation.long);
 
-	if (!lat && !long) return { MoonPhaseIcon: MOON_PHASES[0].Icon };
+	if (!lat && !long) return { MoonPhaseIcon: DEFAULT_PHASE.Icon };
 
-	const { phase: moonPhase } = getMoonIllumination(date);
-	const { Icon: MoonPhaseIcon, label: moonPhaseLabel } = getMoonPhase(moonPhase);
+	const { Icon: MoonPhaseIcon, label: moonPhaseLabel } = getMoonPhaseDetails(date);
 
 	const { moonrise, moonset, sunrise, sunset } = findLocalTimes(date, tz, lat, long);
 
