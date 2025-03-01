@@ -17,7 +17,7 @@ import { NAV_BAR_BUTTON_STYLES } from '../../constants/classes';
 import { LocationForm } from './LocationForm';
 
 const LocationButton = () => (
-	<div className="flex gap-16 items-baseline">
+	<div className="flex gap-2 sm:gap-16 items-baseline">
 		<div className="ml-2">Location...</div>
 		<div className="flex items-center gap-0.5 bg-neutral-800 px-2 m-0.5 rounded text-xs">
 			<span className="text-base">⌘</span>

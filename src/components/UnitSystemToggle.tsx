@@ -10,7 +10,7 @@ const UnitSystemToggle = () => {
 			className={NAV_BAR_BUTTON_STYLES}
 			onClick={toggleUnitSystem}
 		>
-			<div className="px-2">{UNIT_SYSTEM_LABELS[unitSystem]}</div>
+			<div className="px-2 py-0.5">{UNIT_SYSTEM_LABELS[unitSystem]}</div>
 		</button>
 	);
 };
