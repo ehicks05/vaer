@@ -1,4 +1,4 @@
-import { Alert } from '@/app/Alert';
+import { Alert } from '@/app/AlertDialog';
 import { LocationPicker } from '@/app/LocationPicker';
 import { UnitSystemToggle } from '@/components/UnitSystemToggle';
 

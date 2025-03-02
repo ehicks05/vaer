@@ -79,7 +79,7 @@ export const Alert = () => {
 			</DialogTrigger>
 			<DialogPortal>
 				<DialogOverlay />
-				<DialogContent className="bg-slate-800">
+				<DialogContent className="bg-slate-800 h-fit">
 					<AlertCard alert={alert} tz={point.timeZone} />
 				</DialogContent>
 			</DialogPortal>
