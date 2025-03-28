@@ -1,8 +1,10 @@
 import { addDays } from '@/app/utils';
-import { getMoonTimes, getTimes } from 'suncalc';
+import SunCalc from 'suncalc';
 import { useResolvedLatLong } from '../useResolvedLatLong';
 import { DEFAULT_PHASE } from './constants';
 import { getMoonPhaseDetails } from './moonPhase';
+
+const { getMoonTimes, getTimes } = SunCalc;
 
 const toLocalDate = (date: Date, timeZone: string) =>
 	date.toLocaleString('en-US', { timeZone }).substring(0, 10);
