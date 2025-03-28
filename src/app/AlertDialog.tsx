@@ -10,7 +10,7 @@ import {
 	DialogTrigger,
 } from '@/components/ui/dialog';
 import { NAV_BAR_BUTTON_STYLES } from '@/constants/classes';
-import { useWeatherGov } from '@/hooks';
+import { useWeatherGov } from '@/services/weathergov';
 import type { Properties } from '@/services/weathergov/types/alerts';
 import { AlertTriangle } from 'lucide-react';
 import { formatInTimeZone } from './utils';

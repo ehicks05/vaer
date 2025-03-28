@@ -1,6 +1,6 @@
+import { useWeatherGov } from '@/services/weathergov';
 import { useActiveLocation } from './useActiveLocation';
 import { useResolvedLatLong } from './useResolvedLatLong';
-import { useWeatherGov } from './useWeatherGov';
 
 interface Location {
 	lat?: string;
