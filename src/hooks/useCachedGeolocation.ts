@@ -5,6 +5,18 @@ import { type GeolocationState, useGeolocation } from './useGeolocation';
 
 const PRECISION = 2;
 
+const roundCoords = (geolocation: GeolocationState) =>
+	geolocation.coords
+		? {
+				...geolocation,
+				coords: {
+					...geolocation.coords,
+					latitude: round(geolocation.coords.latitude, PRECISION),
+					longitude: round(geolocation.coords.longitude, PRECISION),
+				},
+			}
+		: geolocation;
+
 /**
  *
  * @returns GeolocationState, with lat and long rounded to `PRECISION` places.
@@ -21,14 +33,7 @@ export const useCachedGeolocation = () => {
 			}
 
 			if (geolocation.coords) {
-				setCachedGeolocation({
-					...geolocation,
-					coords: {
-						...geolocation.coords,
-						latitude: round(geolocation.coords.latitude, PRECISION),
-						longitude: round(geolocation.coords.longitude, PRECISION),
-					},
-				});
+				setCachedGeolocation(roundCoords(geolocation));
 			}
 		}
 	}, [setCachedGeolocation, geolocation]);
