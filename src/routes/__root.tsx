@@ -1,3 +1,4 @@
+import appCss from '@/styles/app.css?url';
 import {
 	HeadContent,
 	Outlet,
@@ -25,6 +26,7 @@ export const Route = createRootRoute({
 			{ name: 'msapplication-starturl', content: '/' },
 		],
 		links: [
+			{ rel: 'stylesheet', href: appCss },
 			{ rel: 'icon', href: 'favicon.ico', type: 'image/ico' },
 			{ rel: 'apple-touch-icon', href: 'apple-touch-icon.png', type: 'image/ico' },
 			{ rel: 'preconnect', href: 'https://fonts.googleapis.com' },
