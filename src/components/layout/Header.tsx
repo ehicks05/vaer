@@ -3,7 +3,7 @@ import { LocationPicker } from '@/app/LocationPicker';
 import { UnitSystemToggle } from '@/components/UnitSystemToggle/UnitSystemToggle';
 
 const Logo = () => (
-	<div className="flex-shrink-0 flex items-center">
+	<div className="shrink-0 flex items-center">
 		<div className="flex items-center gap-1">
 			<img
 				className="inline h-8 w-auto"

@@ -6,7 +6,7 @@ interface Props {
 	gradient?: boolean;
 }
 
-const gradientStyles = 'bg-gradient-to-br from-violet-800 to-indigo-900';
+const gradientStyles = 'bg-linear-to-br from-violet-800 to-indigo-900';
 
 const Card = ({ children, className, gradient = true }: Props) => (
 	<div className={`rounded-lg ${gradient ? gradientStyles : ''} ${className}`}>

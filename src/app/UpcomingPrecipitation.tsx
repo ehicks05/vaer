@@ -56,9 +56,9 @@ const Minute = ({ max, minute: { precipitation }, title }: Props) => {
 	return (
 		<div
 			title={title}
-			className="group flex items-end px-px rounded-sm h-full hover:bg-indigo-700 w-16"
+			className="group flex items-end px-px rounded-xs h-full hover:bg-indigo-700 w-16"
 		>
-			<div className={`rounded-sm w-full ${intensity.color}`} style={style} />
+			<div className={`rounded-xs w-full ${intensity.color}`} style={style} />
 		</div>
 	);
 };

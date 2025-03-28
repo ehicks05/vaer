@@ -41,7 +41,7 @@ const HourlyDetail = ({ hourly, tz }: Props) => {
 		<div className="flex flex-col items-center gap-4 w-12 min-w-12">
 			{getTemp(temperature_2m)}
 			<Weather code={weather_code} isDay={is_day === 1} />
-			<div className="flex-grow -mt-4" />
+			<div className="grow -mt-4" />
 			<Precip precip={getLength(precipitation)} />
 			<Humidity humidity={relative_humidity_2m} />
 			<Wind windDeg={wind_direction_10m} windSpeed={getSpeed(wind_speed_10m)} />

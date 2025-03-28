@@ -7,7 +7,7 @@ import { WindyMap } from './maps/WindyMap';
 
 export const Home = () => {
 	return (
-		<div className="p-2 max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-3 items-start justify-center gap-4">
+		<div className="p-2 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 items-start justify-center gap-4">
 			<div className="flex flex-col gap-4 md:hidden">
 				<Summary />
 				<UpcomingPrecipitation />
