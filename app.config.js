@@ -1,16 +1,18 @@
 import { defineConfig } from '@tanstack/react-start/config';
-import react from '@vitejs/plugin-react';
-import svgr from 'vite-plugin-svgr';
 import tsConfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
+	server: {
+		preset: 'vercel',
+	},
+	tsr: {
+		appDirectory: 'src',
+	},
 	vite: {
 		plugins: [
 			tsConfigPaths({
 				projects: ['./tsconfig.json'],
 			}),
-			react(),
-			svgr({ svgrOptions: { icon: true } }),
 		],
 	},
 });
