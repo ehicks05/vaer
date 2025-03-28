@@ -1,7 +1,7 @@
-import { NAV_BAR_BUTTON_STYLES } from '../constants/classes';
-import { UNIT_SYSTEM_LABELS, useUnitSystem } from '../hooks/useUnitSystem';
+import { NAV_BAR_BUTTON_STYLES } from '../../constants/classes';
+import { UNIT_SYSTEM_LABELS, useUnitSystem } from './useUnitSystem';
 
-const UnitSystemToggle = () => {
+export const UnitSystemToggle = () => {
 	const { unitSystem, toggleUnitSystem } = useUnitSystem();
 
 	return (
@@ -14,5 +14,3 @@ const UnitSystemToggle = () => {
 		</button>
 	);
 };
-
-export { UnitSystemToggle };
