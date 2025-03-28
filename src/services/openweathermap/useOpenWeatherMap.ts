@@ -1,5 +1,5 @@
 import { useAirPollution, useFiveDay, useOneCall } from '@/services/openweathermap';
-import { useResolvedLatLong } from './useResolvedLatLong';
+import { useResolvedLatLong } from '../../hooks/useResolvedLatLong';
 
 /**
  *
