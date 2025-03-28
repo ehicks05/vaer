@@ -4,10 +4,9 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"start": "vite",
-		"build": "vite build",
-		"dev": "vite dev",
-		"serve": "vite preview"
+		"dev": "vinxi dev",
+		"build": "vinxi build",
+		"start": "vinxi start"
 	},
 	"dependencies": {
 		"@radix-ui/react-dialog": "^1.1.6",
@@ -49,11 +48,7 @@
 		"vite-tsconfig-paths": "^5.1.4"
 	},
 	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all"
-		],
+		"production": [">0.2%", "not dead", "not op_mini all"],
 		"development": [
 			"last 1 chrome version",
 			"last 1 firefox version",
