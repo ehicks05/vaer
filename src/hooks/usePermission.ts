@@ -18,7 +18,7 @@ export interface PermissionState {
 const useQueryPermission = ({ name }: { name: PermissionName }): PermissionState => {
 	const [permission, setPermission] = useState<PermissionState>({
 		state: 'prompt',
-		isLoading: false,
+		isLoading: true,
 		error: null,
 	});
 
