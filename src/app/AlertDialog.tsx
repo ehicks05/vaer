@@ -29,7 +29,7 @@ export const AlertCard = ({ alert, tz }: { alert: AlertProps; tz: string }) => {
 	const tags = severity ? [`severity: ${severity}`] : [];
 
 	return (
-		<Card gradient={false} className="max-w-xl">
+		<Card gradient={false} className="max-w-xl overflow-y-auto">
 			<div className="flex flex-col gap-4">
 				<DialogHeader>
 					<DialogTitle>{event}</DialogTitle>
