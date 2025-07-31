@@ -1,5 +1,5 @@
 import { useLocalStorage } from '@uidotdev/usehooks';
-import { round } from 'lodash-es';
+import { round } from 'es-toolkit';
 import { useEffect } from 'react';
 import { type GeolocationState, useGeolocation } from './useGeolocation';
 

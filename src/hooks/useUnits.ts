@@ -1,4 +1,4 @@
-import { round } from 'lodash-es';
+import { round } from 'es-toolkit';
 import { useUnitSystem } from '../components/UnitSystemToggle/useUnitSystem';
 
 export const cToF = (c: number) => (9 / 5) * c + 32;
