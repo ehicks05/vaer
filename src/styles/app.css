@@ -1,59 +1,60 @@
-@import 'tailwindcss';
+@import "tailwindcss";
+@plugin 'tailwind-scrollbar';
 
 @theme {
-  --font-sans:
-    Fredoka, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --font-mono:
-    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
-    'Courier New', monospace;
-  --font-logo: 'Proza Libre';
+	--font-sans:
+		Fredoka, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+		"Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+	--font-mono:
+		ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+		"Courier New", monospace;
+	--font-logo: "Proza Libre";
 }
 
 html {
-  height: -webkit-fill-available;
+	height: -webkit-fill-available;
 }
 
 body {
-  min-height: 100vh;
-  color: #eee;
-  background-color: #111;
+	min-height: 100vh;
+	color: #eee;
+	background-color: #111;
 }
 
 body {
-  color: #eee;
-  background-color: #111;
+	color: #eee;
+	background-color: #111;
 }
 
 input {
-  background-color: #444;
+	background-color: #444;
 }
 
 #root {
-  min-height: 100vh;
+	min-height: 100vh;
 }
 
 /* SCROLLBAR */
 body {
-  overflow-y: auto;
+	overflow-y: auto;
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
+	width: 8px;
 }
 
 ::-webkit-scrollbar {
-  height: 8px;
+	height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #555;
+	background: #555;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #777;
+	background: #777;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #aaa;
+	background: #aaa;
 }
