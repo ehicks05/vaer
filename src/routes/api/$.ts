@@ -1,10 +1,10 @@
-import { createAPIFileRoute } from '@tanstack/react-start/api';
+import { createServerFileRoute } from '@tanstack/react-start/server';
 
 const API_PROXY_URL = 'api.openweathermap.org';
 
 const OWM_API_KEY = process.env.OWM_API_KEY || 'test';
 
-export const APIRoute = createAPIFileRoute('/api/$')({
+export const ServerRoute = createServerFileRoute('/api/$').methods({
 	GET: async ({ request }) => {
 		const proxyUrl = new URL(request.url);
 		proxyUrl.protocol = 'https';
