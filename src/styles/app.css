@@ -1,6 +1,4 @@
 @import 'tailwindcss';
-@plugin 'tailwindcss-animate';
-@plugin 'tailwind-scrollbar';
 
 @theme {
   --font-sans:
