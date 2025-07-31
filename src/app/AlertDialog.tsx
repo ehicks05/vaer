@@ -1,5 +1,11 @@
 import { Card } from '@/components';
 import {
+	Accordion,
+	AccordionContent,
+	AccordionItem,
+	AccordionTrigger,
+} from '@/components/ui/accordion';
+import {
 	Dialog,
 	DialogContent,
 	DialogDescription,
@@ -24,7 +30,11 @@ type AlertProps = Partial<
 
 const df = 'MMM dd, yyyy, h:mm a';
 
-export const AlertCard = ({ alert, tz }: { alert: AlertProps; tz: string }) => {
+export const AlertCard = ({
+	alert,
+	tz,
+	showTitle = true,
+}: { alert: AlertProps; tz: string; showTitle?: boolean }) => {
 	const { event, description, onset, ends, senderName, severity } = alert;
 	const tags = severity ? [`severity: ${severity}`] : [];
 
@@ -32,7 +42,7 @@ export const AlertCard = ({ alert, tz }: { alert: AlertProps; tz: string }) => {
 		<Card gradient={false} className="max-w-xl overflow-y-auto">
 			<div className="flex flex-col gap-4">
 				<DialogHeader>
-					<DialogTitle>{event}</DialogTitle>
+					{showTitle && <DialogTitle>{event}</DialogTitle>}
 
 					<DialogDescription className="text-sm text-neutral-400">
 						{senderName}
@@ -61,9 +71,9 @@ export const AlertCard = ({ alert, tz }: { alert: AlertProps; tz: string }) => {
 export const Alert = () => {
 	const { alertsQuery, pointQuery } = useWeatherGov();
 
-	const alert = alertsQuery?.data?.features?.[0]?.properties;
+	const alerts = alertsQuery?.data?.features;
 	const point = pointQuery?.data?.properties;
-	if (!alert || !point) {
+	if (!alerts || !point) {
 		return null;
 	}
 
@@ -79,8 +89,29 @@ export const Alert = () => {
 			</DialogTrigger>
 			<DialogPortal>
 				<DialogOverlay />
-				<DialogContent className="bg-slate-800 h-fit">
-					<AlertCard alert={alert} tz={point.timeZone} />
+				<DialogContent className="bg-slate-800 max-h-fit min-w-1/2">
+					{alerts.length === 1 && (
+						<AlertCard alert={alerts[0].properties} tz={point.timeZone} />
+					)}
+
+					{alerts.length > 1 && (
+						<Accordion type="single" collapsible className="overflow-auto">
+							{alerts.map((alert) => (
+								<AccordionItem key={alert.id} value={alert.id}>
+									<AccordionTrigger className="text-lg font-semibold">
+										{alert.properties.event}
+									</AccordionTrigger>
+									<AccordionContent>
+										<AlertCard
+											alert={alert.properties}
+											tz={point.timeZone}
+											showTitle={false}
+										/>
+									</AccordionContent>
+								</AccordionItem>
+							))}
+						</Accordion>
+					)}
 				</DialogContent>
 			</DialogPortal>
 		</Dialog>
