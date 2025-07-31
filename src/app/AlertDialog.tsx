@@ -1,3 +1,4 @@
+import { AlertTriangle } from 'lucide-react';
 import { Card } from '@/components';
 import {
 	Accordion,
@@ -18,7 +19,6 @@ import {
 import { NAV_BAR_BUTTON_STYLES } from '@/constants/classes';
 import { useWeatherGov } from '@/services/weathergov';
 import type { Properties } from '@/services/weathergov/types/alerts';
-import { AlertTriangle } from 'lucide-react';
 import { formatInTimeZone } from './utils';
 
 type AlertProps = Partial<
@@ -30,11 +30,13 @@ type AlertProps = Partial<
 
 const df = 'MMM dd, yyyy, h:mm a';
 
-export const AlertCard = ({
-	alert,
-	tz,
-	showTitle = true,
-}: { alert: AlertProps; tz: string; showTitle?: boolean }) => {
+interface AlertCardProps {
+	alert: AlertProps;
+	tz: string;
+	showTitle?: boolean;
+}
+
+export const AlertCard = ({ alert, tz, showTitle = true }: AlertCardProps) => {
 	const { event, description, onset, ends, senderName, severity } = alert;
 	const tags = severity ? [`severity: ${severity}`] : [];
 
