@@ -75,7 +75,7 @@ export const Alert = () => {
 
 	const alerts = alertsQuery?.data?.features;
 	const point = pointQuery?.data?.properties;
-	if (!alerts || !point) {
+	if (!alerts || alerts?.length === 0 || !point) {
 		return null;
 	}
 
