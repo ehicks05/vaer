@@ -40,7 +40,7 @@ const OneDaySummary = ({
 					<div className="flex flex-col gap-1 items-center">
 						<Icon size={32} />
 					</div>
-					<div className="whitespace-nowrap">
+					<div className="whitespace-nowrap text-left">
 						{day}
 						<div className="text-xs opacity-75">{weather.description}</div>
 					</div>
