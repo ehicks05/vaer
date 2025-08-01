@@ -34,7 +34,7 @@ export const DayStats = () => {
 		...moonTimeStats,
 		{ Icon: MoonPhaseIcon, label: 'Moon Phase', value: moonPhaseLabel || '0' },
 		{ Icon: WiRaindrop, label: 'Precipitation', value: precipLabel },
-		{ Icon: WiSmoke, label: 'Air Quality', value: aqiLabel || 'No data' },
+		{ Icon: WiSmoke, label: 'Air Quality Range', value: aqiLabel || 'No data' },
 	];
 
 	return stats.map((stat) => <DayStatCard key={stat.label} stat={stat} />);

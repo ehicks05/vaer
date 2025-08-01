@@ -1,6 +1,5 @@
 import { WiMoonrise, WiMoonset, WiSunrise, WiSunset } from 'react-icons/wi';
 import { formatInTimeZone } from '../utils';
-import { findAqiLabel } from './constants';
 
 export const getSunTimeStats = (tz: string, sunrise?: Date, sunset?: Date) => [
 	{
@@ -35,10 +34,10 @@ export const getMoonTimeStats = (tz: string, moonrise?: Date, moonset?: Date) =>
 
 export const getAqiLabel = (aqis: number[]) => {
 	if (aqis.length === 0) return undefined;
-	const min = findAqiLabel(Math.min(...aqis));
-	const max = findAqiLabel(Math.max(...aqis));
+	const min = Math.min(...aqis);
+	const max = Math.max(...aqis);
 	if (min === max) {
-		return min;
+		return min.toString();
 	}
-	return `from ${max} to ${min}`;
+	return `${min} - ${max}`;
 };
