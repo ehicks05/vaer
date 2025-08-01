@@ -1,7 +1,7 @@
-import { DayIndexContext } from '@/contexts/DayIndexContext';
-import { useOpenMeteo, useSunAndMoon, useUnits } from '@/hooks';
 import { useContext } from 'react';
 import { WiRaindrop, WiSmoke } from 'react-icons/wi';
+import { DayIndexContext } from '@/contexts/DayIndexContext';
+import { useOpenMeteo, useSunAndMoon, useUnits } from '@/hooks';
 import { DayStatCard } from './DayStatCard';
 import { getAqiLabel, getMoonTimeStats, getSunTimeStats } from './utils';
 

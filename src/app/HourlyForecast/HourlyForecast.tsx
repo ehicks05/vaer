@@ -1,15 +1,15 @@
+import { type ReactNode, useContext } from 'react';
 import { DayIndexContext } from '@/contexts/DayIndexContext';
 import { useOpenMeteo } from '@/hooks';
 import { useUnits } from '@/hooks/useUnits';
 import type { Hourly } from '@/services/openMeteo/types/forecast';
-import { type ReactNode, useContext } from 'react';
 import { formatInTimeZone } from '../utils';
+import { PLACEHOLDER_DATA } from './constants';
 import { Humidity } from './Humidity';
 import { Precip } from './Precip';
 import { ScrollbarContainer } from './ScrollbarContainer';
 import { Weather } from './Weather';
 import { Wind } from './Wind';
-import { PLACEHOLDER_DATA } from './constants';
 
 const Container = ({ children }: { children: ReactNode }) => (
 	<div className="flex flex-col group">

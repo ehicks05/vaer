@@ -1,5 +1,5 @@
-import type { PartialLatLong } from '@/hooks/useResolvedLatLong';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import type { PartialLatLong } from '@/hooks/useResolvedLatLong';
 import { ONE_DAY, ONE_MINUTE } from '../../constants/datetime';
 import { WMO_CODE_TO_DESCRIPTION } from './constants';
 import { fetchAirQuality, fetchForecast } from './fetchers';

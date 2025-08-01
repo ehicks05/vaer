@@ -1,9 +1,9 @@
+import { useContext } from 'react';
 import { Button } from '@/components';
 import { AllowPermissionRequestContext } from '@/contexts/AllowPermissionRequestContext';
 import { GeolocationPermissionContext } from '@/contexts/GeolocationPermissionContext';
 import { useActiveLocation } from '@/hooks';
 import { useGeolocation } from '@/hooks/useGeolocation';
-import { useContext } from 'react';
 import { CityOption } from './CityOption';
 
 export const CurrentLocation = () => {

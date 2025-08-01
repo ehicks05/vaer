@@ -1,5 +1,5 @@
-import type { Geoname } from '@/services/geonames/types';
 import { useLocalStorage } from '@uidotdev/usehooks';
+import type { Geoname } from '@/services/geonames/types';
 
 const key = 'vaer-saved-locations';
 

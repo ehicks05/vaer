@@ -1,9 +1,9 @@
 import DailyForecast from './DailyForecast';
 import { DayStats } from './DayStats';
 import { HourlyForecast } from './HourlyForecast';
+import { WindyMap } from './maps/WindyMap';
 import { Summary } from './Summary';
 import { UpcomingPrecipitation } from './UpcomingPrecipitation';
-import { WindyMap } from './maps/WindyMap';
 
 export const Home = () => {
 	return (

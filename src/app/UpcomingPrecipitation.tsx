@@ -1,8 +1,8 @@
+import type { ReactNode } from 'react';
 import { Card } from '@/components';
 import { useOpenMeteo } from '@/hooks';
 import { useUnits } from '@/hooks/useUnits';
 import type { Minutely15 } from '@/services/openMeteo/types/forecast';
-import type { ReactNode } from 'react';
 import { formatInTimeZone } from './utils';
 
 const INF = Number.POSITIVE_INFINITY;

@@ -2,8 +2,9 @@
 // main changes:
 // 1. don't request permission right away, wait for `isAllowPermissionRequests`
 // 2. stick closer to web api types
-import { AllowPermissionRequestContext } from '@/contexts/AllowPermissionRequestContext';
+
 import React, { useContext } from 'react';
+import { AllowPermissionRequestContext } from '@/contexts/AllowPermissionRequestContext';
 
 export type GeolocationState = {
 	loading: boolean;
@@ -33,7 +34,10 @@ export function useGeolocation(options = {}) {
 		const onEvent = ({
 			coords,
 			timestamp,
-		}: { coords: GeolocationCoordinates; timestamp: EpochTimeStamp }) => {
+		}: {
+			coords: GeolocationCoordinates;
+			timestamp: EpochTimeStamp;
+		}) => {
 			setState((state) => ({
 				...state,
 				loading: false,

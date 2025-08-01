@@ -1,5 +1,5 @@
-import { addDays } from '@/app/utils';
 import SunCalc from 'suncalc';
+import { addDays } from '@/app/utils';
 import { useResolvedLatLong } from '../useResolvedLatLong';
 import { DEFAULT_PHASE } from './constants';
 import { getMoonPhaseDetails } from './moonPhase';

@@ -1,5 +1,5 @@
-import { useQueryPermission } from '@/hooks/usePermission';
 import type { ReactNode } from 'react';
+import { useQueryPermission } from '@/hooks/usePermission';
 import { GeolocationPermissionContext } from './GeolocationPermissionContext';
 
 interface Props {

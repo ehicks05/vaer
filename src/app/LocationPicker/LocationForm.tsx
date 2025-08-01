@@ -1,9 +1,9 @@
-import { Card } from '@/components';
-import { useActiveLocation, useSavedLocations } from '@/hooks';
-import { useSearch } from '@/services/geonames/geonames';
 import { useState } from 'react';
 import { CgSpinnerAlt } from 'react-icons/cg';
 import { HiExclamationTriangle, HiMagnifyingGlass } from 'react-icons/hi2';
+import { Card } from '@/components';
+import { useActiveLocation, useSavedLocations } from '@/hooks';
+import { useSearch } from '@/services/geonames/geonames';
 import { CityOption } from './CityOption';
 import { CurrentLocation } from './CurrentLocation';
 

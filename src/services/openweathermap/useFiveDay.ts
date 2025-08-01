@@ -1,9 +1,9 @@
-import { mmToInch } from './utils';
-import type { PartialLatLong } from '@/hooks/useResolvedLatLong';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import type { PartialLatLong } from '@/hooks/useResolvedLatLong';
 import { ONE_DAY, ONE_MINUTE } from '../../constants/datetime';
 import { APP_KEY, BASE } from './constants';
 import type { FiveDayResponse } from './types/fiveDay';
+import { mmToInch } from './utils';
 
 const getFiveDay = async ({ lat, long }: PartialLatLong) => {
 	if (lat === undefined || long === undefined) {

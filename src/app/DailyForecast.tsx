@@ -1,8 +1,8 @@
+import { type ReactNode, useContext } from 'react';
 import { Card } from '@/components';
 import { DayIndexContext } from '@/contexts/DayIndexContext';
 import { useOpenMeteo } from '@/hooks';
 import { useUnits } from '@/hooks/useUnits';
-import { type ReactNode, useContext } from 'react';
 import { getWmoWeatherIcon } from '../constants/weather_icons';
 import { addDays, formatInTimeZone } from './utils';
 
@@ -27,7 +27,8 @@ const OneDaySummary = ({
 	const Icon = getWmoWeatherIcon(weather.id, true);
 
 	return (
-		<div
+		<button
+			type="button"
 			onClick={onClick}
 			onKeyUp={onClick}
 			className={`py-2 sm:py-4 px-4 first:rounded-t-lg last:pb-4 last:rounded-b-lg cursor-pointer ${
@@ -49,7 +50,7 @@ const OneDaySummary = ({
 					<span className="opacity-75">{getTemp(min)}</span>
 				</div>
 			</div>
-		</div>
+		</button>
 	);
 };
 

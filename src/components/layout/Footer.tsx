@@ -1,6 +1,6 @@
+import React from 'react';
 import { LINKS } from '@/constants/app';
 import { useResolvedLatLong } from '@/hooks';
-import React from 'react';
 
 interface LinkProps {
 	href: string;
