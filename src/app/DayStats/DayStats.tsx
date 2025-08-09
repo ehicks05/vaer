@@ -37,5 +37,14 @@ export const DayStats = () => {
 		{ Icon: WiSmoke, label: 'Air Quality Range', value: aqiLabel || 'No data' },
 	];
 
-	return stats.map((stat) => <DayStatCard key={stat.label} stat={stat} />);
+	return (
+		<div className="flex flex-col">
+			Day Stats
+			<div className="grid grid-cols-2 gap-4">
+				{stats.map((stat) => (
+					<DayStatCard key={stat.label} stat={stat} />
+				))}
+			</div>
+		</div>
+	);
 };

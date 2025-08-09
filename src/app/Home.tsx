@@ -28,9 +28,7 @@ export const Home = () => {
 					<HourlyForecast />
 				</div>
 				<div className="col-span-2 h-full">
-					<div className="grid grid-cols-2 gap-4">
-						<DayStats />
-					</div>
+					<DayStats />
 				</div>
 			</div>
 		</div>
