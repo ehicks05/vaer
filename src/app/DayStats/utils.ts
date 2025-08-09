@@ -39,5 +39,5 @@ export const getAqiLabel = (aqis: number[]) => {
 	if (min === max) {
 		return min.toString();
 	}
-	return `${min} - ${max}`;
+	return `${min}-${max}`;
 };
