@@ -66,10 +66,7 @@ export const HourlyForecast = () => {
 
 	const tz = openMeteo.data.timezone;
 	const hourlies = openMeteo.data.hourly
-		.filter(
-			(hourly) =>
-				!!dayIndex || new Date(hourly.time).getTime() >= new Date().getTime(),
-		)
+		.filter((hourly) => !!dayIndex || new Date(hourly.time).getTime() >= Date.now())
 		.slice((dayIndex || 0) * 24, (dayIndex || 0) * 24 + 24);
 
 	return (

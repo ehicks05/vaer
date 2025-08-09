@@ -13,6 +13,10 @@ export const Summary = () => {
 		temperature_2m = 0,
 		isDay = true,
 	} = openMeteo.data?.current || {};
+	const { us_aqi } =
+		openMeteo.data?.hourly.filter(
+			(hourly) => new Date(hourly.time).getTime() >= Date.now(),
+		)[0] || {};
 
 	const { city, state } = useResolvedLocation();
 
@@ -29,7 +33,8 @@ export const Summary = () => {
 						<Icon className="inline" size={64} title={description} />
 					</div>
 				</div>
-				feels like {getTemp(apparent_temperature)} &middot; {description}
+				feels like {getTemp(apparent_temperature)} &middot; {description} &middot;{' '}
+				{us_aqi} AQI
 			</div>
 		</div>
 	);
