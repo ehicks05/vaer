@@ -91,7 +91,7 @@ export const Alert = () => {
 			</DialogTrigger>
 			<DialogPortal>
 				<DialogOverlay />
-				<DialogContent className="bg-slate-800 max-h-fit min-w-1/2">
+				<DialogContent className="bg-slate-800 max-h-fit">
 					{alerts.length === 1 && (
 						<AlertCard alert={alerts[0].properties} tz={point.timeZone} />
 					)}
