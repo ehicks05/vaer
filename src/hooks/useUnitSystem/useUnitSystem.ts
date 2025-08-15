@@ -21,7 +21,7 @@ export const useUnitSystem = () => {
 		const unit = isMetric ? 'mm' : 'in';
 		return `${display} ${unit}`;
 	};
-	
+
 	const getPressure = (hpa: number) => {
 		const inPreferredUnit = isMetric ? hpa : hPaToInHg(hpa);
 		const unit = isMetric ? 'hPa' : 'inHg';
@@ -34,7 +34,7 @@ export const useUnitSystem = () => {
 
 	const getSpeed = (mph: number) => {
 		const inPreferredUnit = isMetric ? mphToKmh(mph) : mph;
-		const unit = isMetric ? 'kmh' : 'mph';
+		const unit = isMetric ? 'kph' : 'mph';
 		return `${Math.round(inPreferredUnit)} ${unit}`;
 	};
 
