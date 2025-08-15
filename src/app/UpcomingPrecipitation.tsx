@@ -99,7 +99,12 @@ const Chart = ({ minutely, max, tz }: ChartProps) => {
 const Container = ({ children }: { children: ReactNode }) => (
 	<div className="flex flex-col">
 		Upcoming Precipitation
-		<Card className="p-4 flex flex-col gap-1 justify-end">{children}</Card>
+		<Card
+			gradient={false}
+			className="p-4 flex flex-col gap-1 justify-end bg-slate-800"
+		>
+			{children}
+		</Card>
 	</div>
 );
 
