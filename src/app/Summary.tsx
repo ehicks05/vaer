@@ -1,10 +1,10 @@
 import { useOpenMeteo } from '@/hooks';
 import { useResolvedLocation } from '@/hooks/useResolvedLocation';
-import { useUnits } from '@/hooks/useUnits';
+import { useUnitSystem } from '@/hooks/useUnitSystem';
 import { getWmoWeatherIcon } from '../constants/weather_icons';
 
 export const Summary = () => {
-	const { getTemp } = useUnits();
+	const { getTemp } = useUnitSystem();
 	const { openMeteo } = useOpenMeteo();
 
 	const {

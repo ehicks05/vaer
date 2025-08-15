@@ -1,8 +1,9 @@
 import { NAV_BAR_BUTTON_STYLES } from '../../constants/classes';
-import { UNIT_SYSTEM_LABELS, useUnitSystem } from './useUnitSystem';
+import { UNIT_SYSTEM_LABELS } from './constants';
+import { useUnitSystemToggle } from './useUnitSystemToggle';
 
 export const UnitSystemToggle = () => {
-	const { unitSystem, toggleUnitSystem } = useUnitSystem();
+	const { unitSystem, toggleUnitSystem } = useUnitSystemToggle();
 
 	return (
 		<button

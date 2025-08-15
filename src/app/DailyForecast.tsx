@@ -2,7 +2,7 @@ import { type ReactNode, useContext } from 'react';
 import { Card } from '@/components';
 import { DayIndexContext } from '@/contexts/DayIndexContext';
 import { useOpenMeteo } from '@/hooks';
-import { useUnits } from '@/hooks/useUnits';
+import { useUnitSystem } from '@/hooks/useUnitSystem';
 import { getWmoWeatherIcon } from '../constants/weather_icons';
 import { addDays, formatInTimeZone } from './utils';
 
@@ -23,7 +23,7 @@ const OneDaySummary = ({
 	onClick,
 	isSelected,
 }: OneDaySummaryProps) => {
-	const { getTemp } = useUnits();
+	const { getTemp } = useUnitSystem();
 	const Icon = getWmoWeatherIcon(weather.id, true);
 
 	return (

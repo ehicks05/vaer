@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { Card } from '@/components';
 import { useOpenMeteo } from '@/hooks';
-import { useUnits } from '@/hooks/useUnits';
+import { useUnitSystem } from '@/hooks/useUnitSystem';
 import type { Minutely15 } from '@/services/openMeteo/types/forecast';
 import { formatInTimeZone } from './utils';
 
@@ -70,7 +70,7 @@ interface ChartProps {
 }
 
 const Chart = ({ minutely, max, tz }: ChartProps) => {
-	const { getRate } = useUnits();
+	const { getRate } = useUnitSystem();
 	const [start, mid, end] = [0, minutely.length / 2, minutely.length - 1].map(
 		(index) => formatInTimeZone(new Date(minutely[index]?.time || 0), tz, 'h:mm a'),
 	);
@@ -104,7 +104,7 @@ const Container = ({ children }: { children: ReactNode }) => (
 );
 
 export const UpcomingPrecipitation = () => {
-	const { getRate } = useUnits();
+	const { getRate } = useUnitSystem();
 	const { openMeteo } = useOpenMeteo();
 	const { data, dataUpdatedAt } = openMeteo;
 	if (!data) {
@@ -112,7 +112,7 @@ export const UpcomingPrecipitation = () => {
 	}
 	const { timezone: tz } = data;
 	const minutely_15 = data.minutely_15
-		.filter((minutely) => new Date(minutely.time).getTime() >= new Date().getTime())
+		.filter((minutely) => new Date(minutely.time).getTime() >= Date.now())
 		.slice(0, HOURS * 4);
 
 	const min = Math.min(...minutely_15.map(({ precipitation }) => precipitation));

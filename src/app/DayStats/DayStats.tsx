@@ -1,12 +1,13 @@
 import { useContext } from 'react';
 import { WiRaindrop, WiSmoke } from 'react-icons/wi';
 import { DayIndexContext } from '@/contexts/DayIndexContext';
-import { useOpenMeteo, useSunAndMoon, useUnits } from '@/hooks';
+import { useOpenMeteo, useSunAndMoon } from '@/hooks';
+import { useUnitSystem } from '@/hooks/useUnitSystem';
 import { DayStatCard } from './DayStatCard';
 import { getAqiLabel, getMoonTimeStats, getSunTimeStats } from './utils';
 
 export const DayStats = () => {
-	const { getLength } = useUnits();
+	const { getLength } = useUnitSystem();
 	const { dayIndex } = useContext(DayIndexContext);
 	const {
 		openMeteo: { data: openMeteo },

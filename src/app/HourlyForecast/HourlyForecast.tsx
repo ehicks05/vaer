@@ -1,7 +1,7 @@
 import { type ReactNode, useContext } from 'react';
 import { DayIndexContext } from '@/contexts/DayIndexContext';
 import { useOpenMeteo } from '@/hooks';
-import { useUnits } from '@/hooks/useUnits';
+import { useUnitSystem } from '@/hooks/useUnitSystem';
 import type { Hourly } from '@/services/openMeteo/types/forecast';
 import { formatInTimeZone } from '../utils';
 import { PLACEHOLDER_DATA } from './constants';
@@ -24,7 +24,7 @@ interface Props {
 }
 
 const HourlyDetail = ({ hourly, tz }: Props) => {
-	const { getTemp, getLength, getSpeed } = useUnits();
+	const { getTemp, getLength, getSpeed } = useUnitSystem();
 	const time = formatInTimeZone(new Date(hourly.time), tz, 'h a');
 
 	const {
