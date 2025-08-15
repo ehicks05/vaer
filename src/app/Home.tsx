@@ -17,7 +17,7 @@ export const Home = () => {
 			</div>
 			<div className="flex flex-col gap-4 h-full">
 				<DailyForecast />
-				<WindyMap className="block h-full w-full rounded-lg" />
+				<WindyMap className="block h-96 md:h-full w-full rounded-lg" />
 			</div>
 			<div className="grid grid-cols-2 gap-4 md:col-span-2">
 				<div className="col-span-2 hidden md:flex flex-col gap-4">
