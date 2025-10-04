@@ -1,5 +1,5 @@
 import { useActiveLocation } from './useActiveLocation';
-import { useCachedGeolocation } from './useCachedGeolocation';
+import { useGeolocation } from './useGeolocation';
 
 export type PartialLatLong = Partial<{ lat: string; long: string }>;
 
@@ -9,8 +9,7 @@ export type PartialLatLong = Partial<{ lat: string; long: string }>;
  * system geolocation if no `activeLocation` is present
  */
 export const useResolvedLatLong = (): PartialLatLong => {
-	const { latitude: geoLat, longitude: geoLong } =
-		useCachedGeolocation().coords || {};
+	const { latitude: geoLat, longitude: geoLong } = useGeolocation().coords || {};
 	const [activeLocation] = useActiveLocation();
 
 	const { lat, long } = activeLocation

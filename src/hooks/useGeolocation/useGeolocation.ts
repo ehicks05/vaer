@@ -1,12 +1,13 @@
 import { useLocalStorage } from '@uidotdev/usehooks';
 import { useEffect } from 'react';
-import { type GeolocationState, useGeolocation } from './useGeolocation';
+import type { GeolocationState } from './types';
+import { useBrowserGeolocation } from './useBrowserGeolocation';
 
 /**
- * @returns Cached GeolocationState.
+ * @returns Wraps useBrowserGeolocation and caches state in localStorage.
  */
-export const useCachedGeolocation = () => {
-	const geolocation = useGeolocation();
+export const useGeolocation = () => {
+	const geolocation = useBrowserGeolocation();
 	const [cachedGeolocation, setCachedGeolocation] =
 		useLocalStorage<GeolocationState>('vaer-cachedGeolocation', geolocation);
 

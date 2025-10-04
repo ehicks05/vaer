@@ -2,25 +2,10 @@
 // main changes:
 // 1. don't request permission right away, wait for `isAllowPermissionRequests`
 // 2. stick closer to web api types
-
-import { round } from 'es-toolkit';
 import React from 'react';
-import { useOnInteraction } from './useOnInteraction';
-
-export type GeolocationOptions = {
-	maximumAge?: number;
-	timeout?: number;
-	enableHighAccuracy?: boolean;
-};
-
-const DEFAULT_OPTIONS = {};
-
-export type GeolocationState = {
-	loading: boolean;
-	timestamp: number | null;
-	coords: GeolocationCoordinates | null;
-	error: Pick<GeolocationPositionError, 'code' | 'message'> | null;
-};
+import { useOnInteraction } from '../useOnInteraction';
+import type { GeolocationState } from './types';
+import { roundCoords } from './utils';
 
 const DEFAULT_STATE: GeolocationState = {
 	loading: true,
@@ -29,22 +14,12 @@ const DEFAULT_STATE: GeolocationState = {
 	error: null,
 };
 
-const PRECISION = 2;
-
-export const roundCoords = (geolocationCoordinates: GeolocationCoordinates) => ({
-	...geolocationCoordinates,
-	latitude: round(geolocationCoordinates.latitude, PRECISION),
-	longitude: round(geolocationCoordinates.longitude, PRECISION),
-});
-
 /**
  * @returns Note: lat and long rounded to `PRECISION` places
  */
-export function useGeolocation(options: GeolocationOptions = DEFAULT_OPTIONS) {
+export function useBrowserGeolocation() {
 	const isAllowPermissionRequests = useOnInteraction();
 	const [state, setState] = React.useState<GeolocationState>(DEFAULT_STATE);
-
-	const optionsRef = React.useRef(options);
 
 	React.useEffect(() => {
 		if (!isAllowPermissionRequests) {
@@ -77,17 +52,9 @@ export function useGeolocation(options: GeolocationOptions = DEFAULT_OPTIONS) {
 			}));
 		};
 
-		navigator.geolocation.getCurrentPosition(
-			onEvent,
-			onEventError,
-			optionsRef.current,
-		);
+		navigator.geolocation.getCurrentPosition(onEvent, onEventError);
 
-		const watchId = navigator.geolocation.watchPosition(
-			onEvent,
-			onEventError,
-			optionsRef.current,
-		);
+		const watchId = navigator.geolocation.watchPosition(onEvent, onEventError);
 
 		return () => {
 			navigator.geolocation.clearWatch(watchId);

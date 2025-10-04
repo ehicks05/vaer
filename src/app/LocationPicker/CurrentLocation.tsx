@@ -1,11 +1,11 @@
 import { Button } from '@/components';
 import { useActiveLocation } from '@/hooks';
-import { useCachedGeolocation } from '@/hooks/useCachedGeolocation';
+import { useGeolocation } from '@/hooks/useGeolocation';
 import { CityOption } from './CityOption';
 
 export const CurrentLocation = () => {
 	const [activeLocation, setActiveLocation] = useActiveLocation();
-	const { coords, error } = useCachedGeolocation();
+	const { coords, error } = useGeolocation();
 
 	return (
 		<div className="grid grid-cols-1 gap-2 w-full max-w-64">
