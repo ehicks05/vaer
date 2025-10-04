@@ -3,14 +3,23 @@
 // 1. don't request permission right away, wait for `isAllowPermissionRequests`
 // 2. stick closer to web api types
 
-import React, { useContext } from 'react';
-import { AllowPermissionRequestContext } from '@/contexts/AllowPermissionRequestContext';
+import { round } from 'es-toolkit';
+import React from 'react';
+import { useOnInteraction } from './useOnInteraction';
+
+export type GeolocationOptions = {
+	maximumAge?: number;
+	timeout?: number;
+	enableHighAccuracy?: boolean;
+};
+
+const DEFAULT_OPTIONS = {};
 
 export type GeolocationState = {
 	loading: boolean;
 	timestamp: number | null;
 	coords: GeolocationCoordinates | null;
-	error: GeolocationPositionError | null;
+	error: Pick<GeolocationPositionError, 'code' | 'message'> | null;
 };
 
 const DEFAULT_STATE: GeolocationState = {
@@ -20,8 +29,19 @@ const DEFAULT_STATE: GeolocationState = {
 	error: null,
 };
 
-export function useGeolocation(options = {}) {
-	const { isAllowPermissionRequests } = useContext(AllowPermissionRequestContext);
+const PRECISION = 2;
+
+export const roundCoords = (geolocationCoordinates: GeolocationCoordinates) => ({
+	...geolocationCoordinates,
+	latitude: round(geolocationCoordinates.latitude, PRECISION),
+	longitude: round(geolocationCoordinates.longitude, PRECISION),
+});
+
+/**
+ * @returns Note: lat and long rounded to `PRECISION` places
+ */
+export function useGeolocation(options: GeolocationOptions = DEFAULT_OPTIONS) {
+	const isAllowPermissionRequests = useOnInteraction();
 	const [state, setState] = React.useState<GeolocationState>(DEFAULT_STATE);
 
 	const optionsRef = React.useRef(options);
@@ -38,19 +58,22 @@ export function useGeolocation(options = {}) {
 			coords: GeolocationCoordinates;
 			timestamp: EpochTimeStamp;
 		}) => {
-			setState((state) => ({
-				...state,
+			console.log('good');
+			setState(() => ({
 				loading: false,
 				timestamp,
-				coords,
+				coords: roundCoords(coords),
+				error: null,
 			}));
 		};
 
 		const onEventError = (error: GeolocationPositionError) => {
+			console.log({ errorObject: error });
 			setState((s) => ({
-				...s,
 				loading: false,
-				error,
+				timestamp: error.PERMISSION_DENIED ? null : s.timestamp,
+				coords: error.PERMISSION_DENIED ? null : s.coords,
+				error: { message: error.message, code: error.code },
 			}));
 		};
 

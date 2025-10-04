@@ -12,16 +12,15 @@ import {
 	DialogTrigger,
 } from '@/components/ui/dialog';
 import { useActiveLocation } from '@/hooks';
-import { useQueryPermission } from '@/hooks/usePermission';
+import { useCachedGeolocation } from '@/hooks/useCachedGeolocation';
 import { NAV_BAR_BUTTON_STYLES } from '../../constants/classes';
 import { LocationForm } from './LocationForm';
 
 const LocationButton = () => {
-	const geoPermission = useQueryPermission({ name: 'geolocation' });
+	const { coords } = useCachedGeolocation();
 	const [activeLocation] = useActiveLocation();
 
-	const shouldPickLocation =
-		!geoPermission.isLoading && geoPermission.state === 'prompt' && !activeLocation;
+	const shouldPickLocation = !coords && !activeLocation;
 
 	return (
 		<div
