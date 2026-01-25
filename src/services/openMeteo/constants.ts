@@ -9,12 +9,13 @@ const FORECAST_FIELDS = {
 		'apparent_temperature',
 		'precipitation_probability',
 		'precipitation',
+		'snowfall',
 		'weather_code',
 		'wind_speed_10m',
 		'wind_direction_10m',
 		'is_day',
 	],
-	MINUTELY_15: ['precipitation'],
+	MINUTELY_15: ['precipitation', 'snowfall'],
 	DAILY: [
 		'weather_code',
 		'temperature_2m_max',
@@ -24,6 +25,7 @@ const FORECAST_FIELDS = {
 		'sunrise',
 		'sunset',
 		'precipitation_sum',
+		'snowfall_sum',
 		'precipitation_probability_max',
 	],
 };
@@ -39,6 +41,7 @@ export const FORECAST_DEFAULT_PARAMS = {
 	temperature_unit: 'fahrenheit',
 	wind_speed_unit: 'mph',
 	precipitation_unit: 'inch',
+	snowfall_unit: 'inch',
 	timeformat: 'unixtime',
 	timezone: 'auto',
 };

@@ -47,11 +47,12 @@ interface Props {
 	title: string;
 }
 
-const Minute = ({ max, minute: { precipitation }, title }: Props) => {
-	const intensity = getIntensity(precipitation);
+const Minute = ({ max, minute: { precipitation, snowfall }, title }: Props) => {
+	const greatest = snowfall > precipitation ? snowfall : precipitation;
+	const intensity = getIntensity(greatest);
 	// a max of 0.5 in/h will fill the chart, anything higher requires scaling down.
 	const scaleDownFactor = max > 0.5 ? 0.5 / max : 1;
-	const height = precipitation ? precipitation * scaleDownFactor * 160 : 1;
+	const height = greatest ? greatest * scaleDownFactor * 160 : 1;
 	const style = { height: `${Math.min(height, 80)}px` };
 	return (
 		<div
@@ -69,6 +70,8 @@ interface ChartProps {
 	tz: string;
 }
 
+const MULTI = 4; // rate is per hour but data is per 15min
+
 const Chart = ({ minutely, max, tz }: ChartProps) => {
 	const { getRate } = useUnitSystem();
 	const [start, mid, end] = [0, minutely.length / 2, minutely.length - 1].map(
@@ -83,7 +86,7 @@ const Chart = ({ minutely, max, tz }: ChartProps) => {
 						key={minute.time}
 						max={max}
 						minute={minute}
-						title={`${formatInTimeZone(new Date(minute.time), tz, 'h:mm a')}: ${getRate(minute.precipitation)}`}
+						title={`${formatInTimeZone(new Date(minute.time), tz, 'h:mm a')}: ${getRate(MULTI * Math.max(minute.precipitation, minute.snowfall))}`}
 					/>
 				))}
 			</div>
@@ -120,8 +123,8 @@ export const UpcomingPrecipitation = () => {
 		.filter((minutely) => new Date(minutely.time).getTime() >= Date.now())
 		.slice(0, HOURS * 4);
 
-	const min = Math.min(...minutely_15.map(({ precipitation }) => precipitation));
-	const max = Math.max(...minutely_15.map(({ precipitation }) => precipitation));
+	const min = Math.min(...minutely_15.map(({ precipitation, snowfall }) => Math.max(precipitation, snowfall)));
+	const max = Math.max(...minutely_15.map(({ precipitation, snowfall }) => Math.max(precipitation, snowfall)));
 	const message = minutely_15.length > 0 ? getMessage(minutely_15, tz) : '';
 
 	return (
@@ -136,7 +139,7 @@ export const UpcomingPrecipitation = () => {
 				</span>
 				{max > 0 && (
 					<span className="text-neutral-300">
-						range: {getRate(min)} - {getRate(max)}
+						range: {getRate(min * MULTI)} - {getRate(max * MULTI)}
 					</span>
 				)}
 			</div>

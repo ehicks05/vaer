@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { WiRaindrop, WiSmoke } from 'react-icons/wi';
+import { WiRaindrop, WiSmoke, WiSnowflakeCold } from 'react-icons/wi';
 import { DayIndexContext } from '@/contexts/DayIndexContext';
 import { useOpenMeteo, useSunAndMoon } from '@/hooks';
 import { useUnitSystem } from '@/hooks/useUnitSystem';
@@ -14,7 +14,9 @@ export const DayStats = () => {
 	} = useOpenMeteo();
 
 	const tz = openMeteo?.timezone || 'utc';
-	const { precipitation_sum } = openMeteo?.daily[dayIndex || 0] || {};
+	const { precipitation_sum, snowfall_sum } = openMeteo?.daily[dayIndex || 0] || {};
+	const isSnowfallGreater = (snowfall_sum || 0) > (precipitation_sum || 0);
+	const precipIcon = isSnowfallGreater ? WiSnowflakeCold : WiRaindrop;
 
 	const hourlies =
 		openMeteo?.hourly.slice((dayIndex || 0) * 24, (dayIndex || 0) * 24 + 24) || [];
@@ -28,13 +30,13 @@ export const DayStats = () => {
 
 	const sunTimeStats = getSunTimeStats(tz, sunrise, sunset);
 	const moonTimeStats = getMoonTimeStats(tz, moonrise, moonset);
-	const precipLabel = getLength(precipitation_sum || 0);
+	const precipLabel = getLength(Math.max(precipitation_sum || 0, snowfall_sum || 0));
 
 	const stats = [
 		...sunTimeStats,
 		...moonTimeStats,
 		{ Icon: MoonPhaseIcon, label: 'Moon', value: moonPhaseLabel || '0' },
-		{ Icon: WiRaindrop, label: 'Precip', value: precipLabel },
+		{ Icon: precipIcon, label: 'Precip', value: precipLabel },
 		{ Icon: WiSmoke, label: 'AQI', value: aqiLabel || 'No data' },
 	];
 

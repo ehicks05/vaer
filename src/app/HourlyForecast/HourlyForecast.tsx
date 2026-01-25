@@ -29,7 +29,8 @@ const HourlyDetail = ({ hourly, tz }: Props) => {
 
 	const {
 		relative_humidity_2m,
-		precipitation,
+    precipitation,
+    snowfall,
 		temperature_2m,
 		wind_direction_10m,
 		wind_speed_10m,
@@ -42,7 +43,7 @@ const HourlyDetail = ({ hourly, tz }: Props) => {
 			{getTemp(temperature_2m)}
 			<Weather code={weather_code} isDay={is_day === 1} />
 			<div className="grow -mt-4" />
-			<Precip precip={getLength(precipitation)} />
+			<Precip precip={getLength(Math.max(precipitation, snowfall))} />
 			<Humidity humidity={relative_humidity_2m} />
 			<Wind windDeg={wind_direction_10m} windSpeed={getSpeed(wind_speed_10m)} />
 			<div className="whitespace-nowrap">{time}</div>
