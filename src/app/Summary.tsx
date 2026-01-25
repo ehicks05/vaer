@@ -23,9 +23,9 @@ export const Summary = () => {
 	const Icon = getWmoWeatherIcon(id, isDay);
 
 	return (
-		<div className="col-span-2">
-			Currently
-			<div className="flex flex-col items-center p-4 bg-slate-800 rounded-lg">
+		<div className="flex flex-col h-full">
+			{/*Currently*/}
+			<div className="flex flex-col items-center justify-center p-4 bg-slate-800 rounded-lg h-full">
 				{city}, {state}
 				<div className="flex gap-2 items-center text-6xl text-center">
 					{getTemp(temperature_2m)}

@@ -7,28 +7,64 @@ import { UpcomingPrecipitation } from './UpcomingPrecipitation';
 
 export const Home = () => {
 	return (
-		<div className="p-2 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 items-start justify-center gap-4">
-			<div className="flex flex-col gap-4 md:hidden">
-				<Summary />
-				<UpcomingPrecipitation />
-			</div>
-			<div className="md:hidden">
-				<HourlyForecast />
-			</div>
-			<div className="flex flex-col gap-4 h-full">
-				<DailyForecast />
-				<WindyMap className="block h-96 md:h-full w-full rounded-lg" />
-			</div>
-			<div className="grid grid-cols-2 gap-4 md:col-span-2">
-				<div className="col-span-2 hidden md:flex flex-col gap-4">
+		<div className="">
+			<div className="p-2 max-w-7xl mx-auto grid grid-cols-1 md:hidden items-start justify-center gap-4">
+				<div className="flex flex-col gap-4">
 					<Summary />
 					<UpcomingPrecipitation />
 				</div>
-				<div className="col-span-2 hidden md:block">
+				<div className="">
 					<HourlyForecast />
 				</div>
-				<div className="col-span-2 h-full">
-					<DayStats />
+				<div className="flex flex-col gap-4 h-full">
+					<DailyForecast />
+					<WindyMap className="block h-96 w-full rounded-lg" />
+				</div>
+				<div className="grid grid-cols-2 gap-4">
+					<div className="col-span-2 h-full">
+						<DayStats />
+					</div>
+				</div>
+			</div>
+
+			<div className="hidden p-2 max-w-7xl mx-auto md:grid grid-cols-3 xl:hidden items-start justify-center gap-4">
+				<div className="flex flex-col gap-4 h-full">
+					<DailyForecast />
+					<WindyMap className="block h-full w-full rounded-lg" />
+				</div>
+
+				<div className="flex flex-col gap-4 col-span-2">
+					<div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+						<Summary />
+						<UpcomingPrecipitation />
+					</div>
+					<div>
+						<HourlyForecast />
+					</div>
+					<div className="h-full">
+						<DayStats />
+					</div>
+				</div>
+			</div>
+
+			<div className="hidden p-2 max-w-7xl mx-auto xl:grid grid-cols-4 gap-4">
+				<div className="col-span- flex flex-col gap-4 h-full">
+						<Summary />
+						<UpcomingPrecipitation />
+						<WindyMap className="flex h-full w-full rounded-lg" />
+				</div>
+
+				<div className="">
+					<DailyForecast />
+				</div>
+
+				<div className="col-span-2 flex flex-col gap-4 h-full">
+					<div className="h-full">
+						<HourlyForecast />
+          </div>
+					<div className="">
+						<DayStats />
+					</div>
 				</div>
 			</div>
 		</div>

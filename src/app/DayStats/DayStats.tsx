@@ -37,19 +37,14 @@ export const DayStats = () => {
 		...moonTimeStats,
 		{ Icon: MoonPhaseIcon, label: 'Moon', value: moonPhaseLabel || '0' },
 		{ Icon: precipIcon, label: 'Precip', value: precipLabel },
-		{ Icon: WiSmoke, label: 'AQI', value: aqiLabel || 'No data' },
+		// { Icon: WiSmoke, label: 'AQI', value: aqiLabel || 'No data' },
 	];
 
 	return (
 		<div className="flex flex-col">
 			Day Stats
-			<div className="grid grid-cols-2 gap-2 lg:gap-4">
-				{stats.slice(0, 4).map((stat) => (
-					<DayStatCard key={stat.label} stat={stat} />
-				))}
-			</div>
-			<div className="grid grid-cols-3 gap-2 mt-2 lg:mt-4 lg:gap-4">
-				{stats.slice(4).map((stat) => (
+			<div className="grid grid-cols-2 gap-2">
+				{stats.map((stat) => (
 					<DayStatCard key={stat.label} stat={stat} />
 				))}
 			</div>
