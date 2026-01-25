@@ -1,4 +1,4 @@
-import { useLocalStorage } from '@uidotdev/usehooks';
+import { useLocalStorage } from 'usehooks-ts';
 import { UNIT_SYSTEMS } from './constants';
 import type { UnitSystem } from './types';
 

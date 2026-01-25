@@ -1,5 +1,5 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import { useDebounce } from '@uidotdev/usehooks';
+import { useDebounceValue } from 'usehooks-ts';
 import { ONE_DAY, ONE_MINUTE } from '../../constants/datetime';
 import { BASE } from './constants';
 import type { SearchResult } from './types';
@@ -33,7 +33,7 @@ export const search = async ({ query }: Params): Promise<SearchResult> => {
 };
 
 export const useSearch = ({ query: _query }: Params) => {
-	const query = useDebounce(_query, 500);
+	const [query] = useDebounceValue(_query, 500);
 
 	return useQuery({
 		queryKey: ['searchGeonames', query],

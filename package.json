@@ -16,7 +16,6 @@
 		"@tanstack/react-query-persist-client": "^5.83.1",
 		"@tanstack/react-router": "^1.130.9",
 		"@tanstack/react-start": "^1.130.9",
-		"@uidotdev/usehooks": "^2.4.1",
 		"clsx": "^2.1.1",
 		"es-toolkit": "^1.39.8",
 		"lucide-react": "^0.535.0",
@@ -25,7 +24,8 @@
 		"react-dom": "^19.1.1",
 		"react-icons": "^5.5.0",
 		"suncalc": "^1.9.0",
-		"tailwind-merge": "^3.3.1"
+		"tailwind-merge": "^3.3.1",
+		"usehooks-ts": "^3.1.1"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.1.3",
