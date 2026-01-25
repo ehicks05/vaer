@@ -1,5 +1,5 @@
-import { useLocalStorage } from '@uidotdev/usehooks';
 import { useEffect } from 'react';
+import { useLocalStorage } from 'usehooks-ts';
 import type { GeolocationState } from './types';
 import { useBrowserGeolocation } from './useBrowserGeolocation';
 
