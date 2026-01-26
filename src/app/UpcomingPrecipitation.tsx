@@ -104,7 +104,7 @@ const Container = ({ children }: { children: ReactNode }) => (
 		{/*Upcoming Precipitation*/}
 		<Card
 			gradient={false}
-			className="p-4 flex flex-col gap-1 justify-end bg-slate-800"
+			className="p-4 flex flex-col gap-1 justify-end h-full bg-slate-800"
 		>
 			{children}
 		</Card>
@@ -132,7 +132,8 @@ export const UpcomingPrecipitation = () => {
 			<div className="flex flex-col gap-1">
 				{message}
 				{max > 0 && <Chart minutely={minutely_15} max={max} tz={tz} />}
-			</div>
+      </div>
+			<div className='grow' />
 			<div className="flex justify-between gap-2 w-full text-xs">
 				<span className="text-neutral-300">
 					checked at {formatInTimeZone(new Date(dataUpdatedAt), tz, 'h:mm a')}
