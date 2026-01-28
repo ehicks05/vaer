@@ -23,7 +23,7 @@ export const Summary = () => {
 	const Icon = getWmoWeatherIcon(id, isDay);
 
 	return (
-		<div className="flex flex-col h-full">
+		<div className="flex flex-col h-full w-full">
 			{/*Currently*/}
 			<div className="flex flex-col items-center justify-center p-4 bg-slate-800 rounded-lg h-full">
 				{city}, {state}
