@@ -55,7 +55,7 @@ const OneDaySummary = ({
 };
 
 const getPlaceholderData = () => ({
-	daily: [...new Array(8)].map((_, i) => ({
+	daily: [...new Array(7)].map((_, i) => ({
 		time: addDays(new Date(), i).getTime(),
 		temp: { min: 0, max: 0 },
 		weather: { id: 800, description: 'loading', icon: 'd' },

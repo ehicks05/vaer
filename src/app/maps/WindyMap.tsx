@@ -1,3 +1,4 @@
+import { Card } from '@/components';
 import { useResolvedLatLong } from '@/hooks';
 
 const base = 'https://embed.windy.com/embed.html';
@@ -23,7 +24,14 @@ export const WindyMap = ({ className }: Props) => {
 	const { lat, long } = useResolvedLatLong();
 
 	if (lat === undefined || long === undefined) {
-		return null;
+		return (
+			<Card
+				className="flex items-center justify-center h-full bg-slate-800"
+				gradient={false}
+			>
+				Map
+			</Card>
+		);
 	}
 
 	const params = new URLSearchParams({

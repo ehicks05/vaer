@@ -5,12 +5,12 @@ export const getSunTimeStats = (tz: string, sunrise?: Date, sunset?: Date) => [
 	{
 		Icon: WiSunrise,
 		label: 'Sunrise',
-		value: sunrise ? formatInTimeZone(sunrise, tz, 'h:mm a') : '0',
+		value: sunrise ? formatInTimeZone(sunrise, tz, 'h:mm a') : '0:00 AM',
 	},
 	{
 		Icon: WiSunset,
 		label: 'Sunset',
-		value: sunset ? formatInTimeZone(sunset, tz, 'h:mm a') : '0',
+		value: sunset ? formatInTimeZone(sunset, tz, 'h:mm a') : '0:00 AM',
 	},
 ];
 
@@ -18,12 +18,12 @@ export const getMoonTimeStats = (tz: string, moonrise?: Date, moonset?: Date) =>
 	const moonriseStat = {
 		Icon: WiMoonrise,
 		label: 'Moonrise',
-		value: moonrise ? formatInTimeZone(moonrise, tz, 'h:mm a') : 'none today',
+		value: moonrise ? formatInTimeZone(moonrise, tz, 'h:mm a') : '0:00 AM',
 	};
 	const moonsetStat = {
 		Icon: WiMoonset,
 		label: 'Moonset',
-		value: moonset ? formatInTimeZone(moonset, tz, 'h:mm a') : 'none today',
+		value: moonset ? formatInTimeZone(moonset, tz, 'h:mm a') : '0:00 AM',
 	};
 
 	// if this day has a moonrise and moonset, show them in the order they occur

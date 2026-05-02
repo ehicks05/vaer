@@ -99,7 +99,7 @@ const Chart = ({ minutely, max, tz }: ChartProps) => {
 	);
 };
 
-const Container = ({ children }: { children: ReactNode }) => (
+const Container = ({ children }: { children?: ReactNode }) => (
 	<div className="flex flex-col">
 		{/*Upcoming Precipitation*/}
 		<Card
@@ -116,15 +116,29 @@ export const UpcomingPrecipitation = () => {
 	const { openMeteo } = useOpenMeteo();
 	const { data, dataUpdatedAt } = openMeteo;
 	if (!data) {
-		return null;
+		return (
+			<Container>
+				<div>Upcoming precipitation</div>
+				<div className="grow" />
+				<div className="text-xs text-neutral-300">checked at</div>
+			</Container>
+		);
 	}
 	const { timezone: tz } = data;
 	const minutely_15 = data.minutely_15
 		.filter((minutely) => new Date(minutely.time).getTime() >= Date.now())
 		.slice(0, HOURS * 4);
 
-	const min = Math.min(...minutely_15.map(({ precipitation, snowfall }) => Math.max(precipitation, snowfall)));
-	const max = Math.max(...minutely_15.map(({ precipitation, snowfall }) => Math.max(precipitation, snowfall)));
+	const min = Math.min(
+		...minutely_15.map(({ precipitation, snowfall }) =>
+			Math.max(precipitation, snowfall),
+		),
+	);
+	const max = Math.max(
+		...minutely_15.map(({ precipitation, snowfall }) =>
+			Math.max(precipitation, snowfall),
+		),
+	);
 	const message = minutely_15.length > 0 ? getMessage(minutely_15, tz) : '';
 
 	return (
@@ -132,8 +146,8 @@ export const UpcomingPrecipitation = () => {
 			<div className="flex flex-col gap-1">
 				{message}
 				{max > 0 && <Chart minutely={minutely_15} max={max} tz={tz} />}
-      </div>
-			<div className='grow' />
+			</div>
+			<div className="grow" />
 			<div className="flex justify-between gap-2 w-full text-xs">
 				<span className="text-neutral-300">
 					checked at {formatInTimeZone(new Date(dataUpdatedAt), tz, 'h:mm a')}

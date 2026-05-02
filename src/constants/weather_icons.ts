@@ -1,3 +1,4 @@
+import { Circle } from 'lucide-react';
 import type { IconType } from 'react-icons';
 import { GrStatusPlaceholder } from 'react-icons/gr';
 import {
@@ -10,6 +11,8 @@ import {
 	WiDaySunny,
 	WiDaySunnyOvercast,
 	WiDayThunderstorm,
+	WiMoonAltNew,
+	WiMoonNew,
 	WiNightAltCloudy,
 	WiNightAltPartlyCloudy,
 	WiNightAltRain,
@@ -96,5 +99,5 @@ const WMO_CODE_TO_ICON: Record<string, IconType> = {
 export const getWmoWeatherIcon = (weatherCode: number, isDay: boolean) => {
 	const dayNight = isDay ? 'day' : 'night';
 	const key = `${weatherCode}-${dayNight}`;
-	return WMO_CODE_TO_ICON[key] || GrStatusPlaceholder;
+	return WMO_CODE_TO_ICON[key] || WiMoonNew;
 };

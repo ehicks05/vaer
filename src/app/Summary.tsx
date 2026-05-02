@@ -9,7 +9,7 @@ export const Summary = () => {
 
 	const {
 		apparent_temperature = 0,
-		weather: { id, description } = { id: 0, description: 'loading' },
+		weather: { id, description } = { id: -1, description: 'loading' },
 		temperature_2m = 0,
 		isDay = true,
 	} = openMeteo.data?.current || {};
@@ -26,7 +26,7 @@ export const Summary = () => {
 		<div className="flex flex-col h-full w-full">
 			{/*Currently*/}
 			<div className="flex flex-col items-center justify-center p-4 bg-slate-800 rounded-lg h-full">
-				{city}, {state}
+				{city || 'city'}, {state || 'state'}
 				<div className="flex gap-2 items-center text-6xl text-center">
 					{getTemp(temperature_2m)}
 					<div>

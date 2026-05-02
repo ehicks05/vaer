@@ -35,7 +35,7 @@ export const DayStats = () => {
 	const stats = [
 		...sunTimeStats,
 		...moonTimeStats,
-		{ Icon: MoonPhaseIcon, label: 'Moon', value: moonPhaseLabel || '0' },
+		{ Icon: MoonPhaseIcon, label: 'Moon', value: moonPhaseLabel || 'phase' },
 		{ Icon: precipIcon, label: 'Precip', value: precipLabel },
 		// { Icon: WiSmoke, label: 'AQI', value: aqiLabel || 'No data' },
 	];
