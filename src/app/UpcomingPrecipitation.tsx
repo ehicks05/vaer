@@ -1,3 +1,4 @@
+import { clamp } from 'es-toolkit';
 import type { ReactNode } from 'react';
 import { Card } from '@/components';
 import { useOpenMeteo } from '@/hooks';
@@ -11,9 +12,9 @@ const HOURS = 4;
 const INTENSITIES = [
 	{ color: 'bg-indigo-500 group-hover:bg-indigo-400', min: 0.0, max: 0.0 },
 	{ color: 'bg-indigo-400 group-hover:bg-indigo-300', min: 0.0, max: 0.1 },
-	{ color: 'bg-indigo-300 group-hover:bg-indigo-200', min: 0.1, max: 0.2 },
-	{ color: 'bg-indigo-200 group-hover:bg-indigo-100', min: 0.2, max: 0.4 },
-	{ color: 'bg-indigo-100 group-hover:bg-indigo-50', min: 0.4, max: 1.0 },
+	{ color: 'bg-indigo-300 group-hover:bg-indigo-200', min: 0.1, max: 0.3 },
+	{ color: 'bg-indigo-200 group-hover:bg-indigo-100', min: 0.3, max: 0.5 },
+	{ color: 'bg-indigo-100 group-hover:bg-indigo-50', min: 0.5, max: 1.0 },
 	{ color: 'bg-indigo-50 group-hover:bg-indigo-50', min: 1.0, max: INF },
 ];
 
@@ -42,18 +43,18 @@ const getMessage = (minutely: Minutely15[], tz: string) => {
 };
 
 interface Props {
-	max: number;
 	minute: Minutely15;
 	title: string;
 }
 
-const Minute = ({ max, minute: { precipitation, snowfall }, title }: Props) => {
+const Minute = ({ minute: { precipitation, snowfall }, title }: Props) => {
 	const greatest = snowfall > precipitation ? snowfall : precipitation;
-	const intensity = getIntensity(greatest);
-	// a max of 0.5 in/h will fill the chart, anything higher requires scaling down.
-	const scaleDownFactor = max > 0.5 ? 0.5 / max : 1;
-	const height = greatest ? greatest * scaleDownFactor * 160 : 1;
-	const style = { height: `${Math.min(height, 80)}px` };
+	const inPerH = greatest * 4;
+	const intensity = getIntensity(inPerH);
+
+	const height = inPerH ? clamp(inPerH * 200, 4, 80) : 1;
+
+	const style = { height: `${height}px` };
 	return (
 		<div
 			title={title}
@@ -66,13 +67,12 @@ const Minute = ({ max, minute: { precipitation, snowfall }, title }: Props) => {
 
 interface ChartProps {
 	minutely: Minutely15[];
-	max: number;
 	tz: string;
 }
 
 const MULTI = 4; // rate is per hour but data is per 15min
 
-const Chart = ({ minutely, max, tz }: ChartProps) => {
+const Chart = ({ minutely, tz }: ChartProps) => {
 	const { getRate } = useUnitSystem();
 	const [start, mid, end] = [0, minutely.length / 2, minutely.length - 1].map(
 		(index) => formatInTimeZone(new Date(minutely[index]?.time || 0), tz, 'h:mm a'),
@@ -84,7 +84,6 @@ const Chart = ({ minutely, max, tz }: ChartProps) => {
 				{minutely.map((minute) => (
 					<Minute
 						key={minute.time}
-						max={max}
 						minute={minute}
 						title={`${formatInTimeZone(new Date(minute.time), tz, 'h:mm a')}: ${getRate(MULTI * Math.max(minute.precipitation, minute.snowfall))}`}
 					/>
@@ -145,7 +144,7 @@ export const UpcomingPrecipitation = () => {
 		<Container>
 			<div className="flex flex-col gap-1">
 				{message}
-				{max > 0 && <Chart minutely={minutely_15} max={max} tz={tz} />}
+				{max > 0 && <Chart minutely={minutely_15} tz={tz} />}
 			</div>
 			<div className="grow" />
 			<div className="flex justify-between gap-2 w-full text-xs">
