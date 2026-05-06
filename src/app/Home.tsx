@@ -1,4 +1,4 @@
-import DailyForecast from './DailyForecast';
+import { DailyForecast } from './DailyForecast';
 import { DayStats } from './DayStats';
 import { HourlyForecast } from './HourlyForecast';
 import { WindyMap } from './maps/WindyMap';

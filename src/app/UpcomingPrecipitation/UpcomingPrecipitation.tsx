@@ -1,58 +1,22 @@
-import { clamp } from 'es-toolkit';
 import type { ReactNode } from 'react';
 import { Card } from '@/components';
 import { useOpenMeteo } from '@/hooks';
 import { useUnitSystem } from '@/hooks/useUnitSystem';
 import type { Minutely15 } from '@/services/openMeteo/types/forecast';
-import { formatInTimeZone } from './utils';
-
-const INF = Number.POSITIVE_INFINITY;
-const HOURS = 4;
-
-const INTENSITIES = [
-	{ color: 'bg-indigo-500 group-hover:bg-indigo-400', min: 0.0, max: 0.0 },
-	{ color: 'bg-indigo-400 group-hover:bg-indigo-300', min: 0.0, max: 0.1 },
-	{ color: 'bg-indigo-300 group-hover:bg-indigo-200', min: 0.1, max: 0.3 },
-	{ color: 'bg-indigo-200 group-hover:bg-indigo-100', min: 0.3, max: 0.5 },
-	{ color: 'bg-indigo-100 group-hover:bg-indigo-50', min: 0.5, max: 1.0 },
-	{ color: 'bg-indigo-50 group-hover:bg-indigo-50', min: 1.0, max: INF },
-];
-
-const getIntensity = (inPerHour: number) =>
-	INTENSITIES.find(({ min, max }) => inPerHour >= min && inPerHour <= max) ||
-	INTENSITIES[0];
-
-const getMessage = (minutely: Minutely15[], tz: string) => {
-	const currentlyPrecipitating = minutely[0].precipitation !== 0;
-	const firstPrecip = minutely.find((m) => m.precipitation !== 0);
-	const firstZeroPrecip = minutely.find((m) => m.precipitation === 0);
-
-	if (!currentlyPrecipitating && !firstPrecip) {
-		return `No precipitation in the next ${HOURS} hours.`;
-	}
-	if (!currentlyPrecipitating && !!firstPrecip) {
-		const startsAt = formatInTimeZone(new Date(firstPrecip.time), tz, 'h:mm a');
-		return `Precipitation starts at ${startsAt}`;
-	}
-	if (currentlyPrecipitating && !!firstZeroPrecip) {
-		const endsAt = formatInTimeZone(new Date(firstZeroPrecip.time), tz, 'h:mm a');
-		return `Precipitation ends at ${endsAt}`;
-	}
-
-	return `Precipitation throughout the next ${HOURS} hours.`;
-};
+import { formatInTimeZone } from '../utils';
+import { HOURS_TO_SHOW } from './constants';
+import { getBarColor } from './getBarColor';
+import { getBarHeight } from './getBarHeight';
+import { getMessage } from './getMessage';
 
 interface Props {
-	minute: Minutely15;
+	inchesPerHour: number;
 	title: string;
 }
 
-const Minute = ({ minute: { precipitation, snowfall }, title }: Props) => {
-	const greatest = snowfall > precipitation ? snowfall : precipitation;
-	const inPerH = greatest * 4;
-	const intensity = getIntensity(inPerH);
-
-	const height = inPerH ? clamp(inPerH * 200, 4, 80) : 1;
+const QuarterHour = ({ inchesPerHour, title }: Props) => {
+	const color = getBarColor(inchesPerHour);
+	const height = getBarHeight(inchesPerHour);
 
 	const style = { height: `${height}px` };
 	return (
@@ -60,7 +24,7 @@ const Minute = ({ minute: { precipitation, snowfall }, title }: Props) => {
 			title={title}
 			className="group flex items-end px-px rounded-xs h-full hover:bg-indigo-700 w-16"
 		>
-			<div className={`rounded-xs w-full ${intensity.color}`} style={style} />
+			<div className={`rounded-xs w-full ${color}`} style={style} />
 		</div>
 	);
 };
@@ -70,7 +34,11 @@ interface ChartProps {
 	tz: string;
 }
 
-const MULTI = 4; // rate is per hour but data is per 15min
+// Minutely15 values are per 15 minutes
+const QUARTER_HOURS_PER_HOUR = 4;
+
+const toHourlyRate = (minute: Minutely15) =>
+	Math.max(minute.precipitation, minute.snowfall) * QUARTER_HOURS_PER_HOUR;
 
 const Chart = ({ minutely, tz }: ChartProps) => {
 	const { getRate } = useUnitSystem();
@@ -81,13 +49,17 @@ const Chart = ({ minutely, tz }: ChartProps) => {
 	return (
 		<>
 			<div className="flex h-20">
-				{minutely.map((minute) => (
-					<Minute
-						key={minute.time}
-						minute={minute}
-						title={`${formatInTimeZone(new Date(minute.time), tz, 'h:mm a')}: ${getRate(MULTI * Math.max(minute.precipitation, minute.snowfall))}`}
-					/>
-				))}
+				{minutely.map((minute) => {
+					const inchesPerHour = toHourlyRate(minute);
+
+					return (
+						<QuarterHour
+							key={minute.time}
+							inchesPerHour={inchesPerHour}
+							title={`${formatInTimeZone(new Date(minute.time), tz, 'h:mm a')}: ${getRate(inchesPerHour)}`}
+						/>
+					);
+				})}
 			</div>
 			<div className="flex justify-between w-full text-sm">
 				<span>{start}</span>
@@ -126,7 +98,7 @@ export const UpcomingPrecipitation = () => {
 	const { timezone: tz } = data;
 	const minutely_15 = data.minutely_15
 		.filter((minutely) => new Date(minutely.time).getTime() >= Date.now())
-		.slice(0, HOURS * 4);
+		.slice(0, HOURS_TO_SHOW * 4);
 
 	const min = Math.min(
 		...minutely_15.map(({ precipitation, snowfall }) =>
@@ -153,7 +125,8 @@ export const UpcomingPrecipitation = () => {
 				</span>
 				{max > 0 && (
 					<span className="text-neutral-300">
-						range: {getRate(min * MULTI)} - {getRate(max * MULTI)}
+						range: {getRate(min * QUARTER_HOURS_PER_HOUR)} -{' '}
+						{getRate(max * QUARTER_HOURS_PER_HOUR)}
 					</span>
 				)}
 			</div>

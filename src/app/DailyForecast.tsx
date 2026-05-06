@@ -63,7 +63,7 @@ const getPlaceholderData = () => ({
 	timezone: '',
 });
 
-const DailyForecast = () => {
+export const DailyForecast = () => {
 	const { dayIndex, setDayIndex } = useContext(DayIndexContext);
 	const { openMeteo } = useOpenMeteo();
 
@@ -100,5 +100,3 @@ const Container = ({ children }: { children: ReactNode }) => (
 		</Card>
 	</div>
 );
-
-export default DailyForecast;

@@ -1,0 +1,1 @@
+export const HOURS_TO_SHOW = 4;
