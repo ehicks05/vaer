@@ -3,6 +3,18 @@
 
 @plugin 'tailwind-scrollbar';
 
+@font-face {
+	font-family: "Fredoka";
+	src:
+		url("../../Fredoka-VariableFont_wdth\,wght.ttf") format("TrueType"),;
+}
+
+@font-face {
+	font-family: "Proza Libre";
+	src:
+		url("../../ProzaLibre-Bold.ttf") format("TrueType"),;
+}
+
 @theme {
 	--font-sans:
 		Fredoka, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
