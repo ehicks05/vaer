@@ -41,6 +41,23 @@ export const Route = createRootRoute({
 			// },
 			{ rel: 'manifest', href: '/manifest.json' },
 		],
+		styles: [
+			{
+				children: `
+        @font-face {
+         	font-family: "Fredoka";
+         	src:
+          		url("../../Fredoka-VariableFont_wdth\,wght.ttf") format("TrueType"),;
+        }
+
+        @font-face {
+         	font-family: "Proza Libre";
+         	src:
+          		url("../../ProzaLibre-Bold.ttf") format("TrueType"),;
+        }
+    `,
+			},
+		],
 	}),
 	component: RootComponent,
 });
