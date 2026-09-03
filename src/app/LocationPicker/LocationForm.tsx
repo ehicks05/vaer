@@ -2,14 +2,14 @@ import { useState } from 'react';
 import { CgSpinnerAlt } from 'react-icons/cg';
 import { HiExclamationTriangle, HiMagnifyingGlass } from 'react-icons/hi2';
 import { Card } from '@/components';
-import { useActiveLocation, useSavedLocations } from '@/hooks';
+import { useSavedLocations, useSpecifiedLocation } from '@/hooks';
 import { useSearch } from '@/services/geonames/geonames';
 import { CityOption } from './CityOption';
 import { CurrentLocation } from './CurrentLocation';
 
 export const LocationForm = () => {
 	const [savedLocations, setSavedLocations] = useSavedLocations();
-	const [activeLocation, setActiveLocation] = useActiveLocation();
+	const [specifiedLocation, setSpecifiedLocation] = useSpecifiedLocation();
 
 	const [queryString, setQueryString] = useState('');
 
@@ -46,7 +46,7 @@ export const LocationForm = () => {
 									)
 							: () => {
 									setSavedLocations([...savedLocations, location]);
-									setActiveLocation(location);
+									setSpecifiedLocation(location);
 								};
 						return (
 							<CityOption
@@ -85,16 +85,16 @@ export const LocationForm = () => {
 							setSavedLocations(
 								savedLocations.filter((c) => c.geonameId !== location.geonameId),
 							);
-							if (location.geonameId === activeLocation?.geonameId) {
-								setActiveLocation(undefined);
+							if (location.geonameId === specifiedLocation?.geonameId) {
+								setSpecifiedLocation(undefined);
 							}
 						};
 						return (
 							<CityOption
 								key={location.geonameId}
 								city={location}
-								isActive={activeLocation?.geonameId === location.geonameId}
-								onClick={() => setActiveLocation(location)}
+								isActive={specifiedLocation?.geonameId === location.geonameId}
+								onClick={() => setSpecifiedLocation(location)}
 								onDelete={onClick}
 							/>
 						);

@@ -5,7 +5,7 @@ import { useOneCall } from './useOneCall';
 
 /**
  *
- * @returns Various OWM queries, with lat and long set to activeLocation if present,
+ * @returns Various OWM queries, with lat and long set to specifiedLocation if present,
  * otherwise current geolocation.
  */
 export const useOpenWeatherMap = () => {

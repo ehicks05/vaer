@@ -1,13 +1,13 @@
 import { useLocalStorage } from 'usehooks-ts';
 import type { Geoname } from '@/services/geonames/types';
 
-const key = 'vaer-active-location';
+const key = 'vaer-specified-location';
 
 /**
  *
- * @returns The Geoname result of the user's active location. If the user has
+ * @returns The Geoname result of the user's specified location. If the user has
  * selected 'Current Location', this will be undefined.
  */
-export const useActiveLocation = () => {
+export const useSpecifiedLocation = () => {
 	return useLocalStorage<Geoname | undefined>(key, undefined);
 };

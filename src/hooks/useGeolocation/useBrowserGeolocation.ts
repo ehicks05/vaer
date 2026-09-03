@@ -3,8 +3,8 @@
 // 1. don't request permission right away, wait for `isAllowPermissionRequests`
 // 2. stick closer to web api types
 import React from 'react';
-import { useOnInteraction } from '../useOnInteraction';
 import type { GeolocationState } from './types';
+import { useOnInteraction } from './useOnInteraction';
 import { roundCoords } from './utils';
 
 const DEFAULT_STATE: GeolocationState = {

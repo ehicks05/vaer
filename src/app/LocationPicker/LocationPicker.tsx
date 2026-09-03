@@ -11,16 +11,16 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog';
-import { useActiveLocation } from '@/hooks';
+import { useSpecifiedLocation } from '@/hooks';
 import { useGeolocation } from '@/hooks/useGeolocation';
 import { NAV_BAR_BUTTON_STYLES } from '../../constants/classes';
 import { LocationForm } from './LocationForm';
 
 const LocationButton = () => {
 	const { coords } = useGeolocation();
-	const [activeLocation] = useActiveLocation();
+	const [specifiedLocation] = useSpecifiedLocation();
 
-	const shouldPickLocation = !coords && !activeLocation;
+	const shouldPickLocation = !coords && !specifiedLocation;
 
 	return (
 		<div

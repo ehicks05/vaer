@@ -1,10 +1,10 @@
 import { Button } from '@/components';
-import { useActiveLocation } from '@/hooks';
+import { useSpecifiedLocation } from '@/hooks';
 import { useGeolocation } from '@/hooks/useGeolocation';
 import { CityOption } from './CityOption';
 
 export const CurrentLocation = () => {
-	const [activeLocation, setActiveLocation] = useActiveLocation();
+	const [specifiedLocation, setSpecifiedLocation] = useSpecifiedLocation();
 	const { coords, error } = useGeolocation();
 
 	return (
@@ -12,8 +12,8 @@ export const CurrentLocation = () => {
 			{coords !== null ? (
 				<CityOption
 					city={{ name: 'Current Location' }}
-					isActive={activeLocation === undefined}
-					onClick={() => setActiveLocation(undefined)}
+					isActive={specifiedLocation === undefined}
+					onClick={() => setSpecifiedLocation(undefined)}
 				/>
 			) : error?.code === 1 ? (
 				<Button disabled>

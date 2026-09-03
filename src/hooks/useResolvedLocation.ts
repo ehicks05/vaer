@@ -1,6 +1,6 @@
 import { useWeatherGov } from '@/services/weathergov';
-import { useActiveLocation } from './useActiveLocation';
 import { useResolvedLatLong } from './useResolvedLatLong';
+import { useSpecifiedLocation } from './useSpecifiedLocation';
 
 interface Location {
 	lat?: string;
@@ -13,13 +13,13 @@ interface Location {
 export const useResolvedLocation = (): Location => {
 	const { lat, long } = useResolvedLatLong();
 	const { pointQuery } = useWeatherGov();
-	const [activeLocation] = useActiveLocation();
+	const [specifiedLocation] = useSpecifiedLocation();
 
-	const { tz, city, state } = activeLocation
+	const { tz, city, state } = specifiedLocation
 		? {
-				city: activeLocation.name,
-				state: activeLocation.adminCodes1.ISO3166_2,
-				tz: activeLocation.timezone.timeZoneId,
+				city: specifiedLocation.name,
+				state: specifiedLocation.adminCodes1.ISO3166_2,
+				tz: specifiedLocation.timezone.timeZoneId,
 			}
 		: {
 				city: pointQuery.data?.properties.relativeLocation.properties.city,
