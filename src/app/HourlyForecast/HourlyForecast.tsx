@@ -33,6 +33,7 @@ const HourlyDetail = ({ hourly, tz }: Props) => {
 		precipitation_probability,
 		snowfall,
 		temperature_2m,
+		apparent_temperature,
 		wind_speed_10m,
 		weather_code,
 		is_day,
@@ -41,6 +42,24 @@ const HourlyDetail = ({ hourly, tz }: Props) => {
 	return (
 		<div className="flex flex-col items-center gap-4 w-12 min-w-12">
 			{getTemp(temperature_2m)}
+			<div className="flex items-baseline gap-0.5">
+				<span
+					className={
+						apparent_temperature <= 50
+							? 'text-red-500'
+							: apparent_temperature <= 60
+								? 'text-yellow-500'
+								: apparent_temperature <= 72
+									? 'text-green-500'
+									: apparent_temperature <= 80
+										? 'text-yellow-500'
+										: 'text-red-500'
+					}
+				>
+					{getTemp(apparent_temperature)}
+				</span>
+				<span className="text-xs">FL</span>
+			</div>
 			<Weather code={weather_code} isDay={is_day === 1} />
 			<div className="grow -mt-4" />
 			<div
