@@ -1,6 +1,3 @@
-import { Card } from '@/components';
-import { useResolvedLatLong } from '@/hooks';
-
 const base = 'https://embed.windy.com/embed.html';
 
 const defaults = {
@@ -18,28 +15,16 @@ const defaults = {
 
 interface Props {
 	className: string;
+	coords: [string, string];
 }
 
-export const WindyMap = ({ className }: Props) => {
-	const { lat, long } = useResolvedLatLong();
-
-	if (lat === undefined || long === undefined) {
-		return (
-			<Card
-				className="flex items-center justify-center h-full bg-slate-800"
-				gradient={false}
-			>
-				Map
-			</Card>
-		);
-	}
-
+export const WindyMap = ({ className, coords: [lat, lon] }: Props) => {
 	const params = new URLSearchParams({
 		...defaults,
-		lat: lat,
-		lon: long,
+		lat,
+		lon,
 		detailLat: lat,
-		detailLon: long,
+		detailLon: lon,
 	});
 
 	return (
