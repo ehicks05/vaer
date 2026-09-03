@@ -1,11 +1,26 @@
+import { Card } from '@/components';
+import { useResolvedLocation } from '@/hooks/useResolvedLocation';
 import { DailyForecast } from './DailyForecast';
 import { DayStats } from './DayStats';
 import { HourlyForecast } from './HourlyForecast';
+import { LocationForm } from './LocationPicker/LocationForm';
 import { VaerMap } from './maps/VaerMap';
 import { Summary } from './Summary';
 import { UpcomingPrecipitation } from './UpcomingPrecipitation';
 
 export const Home = () => {
+	const { lat } = useResolvedLocation();
+
+	if (!lat) {
+		return (
+			<div className="grow w-full h-full flex items-center justify-center">
+				<Card gradient={false} className="p-8 bg-neutral-800">
+					<LocationForm />
+				</Card>
+			</div>
+		);
+	}
+
 	return (
 		<div className="">
 			<div className="p-2 max-w-7xl mx-auto grid grid-cols-1 md:hidden items-start justify-center gap-4">
