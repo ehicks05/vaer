@@ -1,3 +1,4 @@
+import { round } from 'es-toolkit';
 import { type ReactNode, useContext } from 'react';
 import { DayIndexContext } from '@/contexts/DayIndexContext';
 import { useOpenMeteo } from '@/hooks';
@@ -45,7 +46,7 @@ const HourlyDetail = ({ hourly, tz }: Props) => {
 			<div
 				className={`flex items-baseline gap-0.5 whitespace-nowrap ${precipitation_probability < 20 ? 'text-neutral-400' : ''}`}
 			>
-				{`${precipitation_probability}`}
+				{`${round(Math.floor(precipitation_probability / 5)) * 5}`}
 				<span className="text-xs">%P</span>
 			</div>
 			<Precip precip={getLength(Math.max(precipitation, snowfall))} />
