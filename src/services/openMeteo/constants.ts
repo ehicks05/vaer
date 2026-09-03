@@ -28,6 +28,9 @@ const FORECAST_FIELDS = {
 		'precipitation_sum',
 		'snowfall_sum',
 		'precipitation_probability_max',
+		'moonrise',
+		'moonset',
+		'moon_phase',
 	],
 };
 

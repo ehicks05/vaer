@@ -20,12 +20,12 @@ export interface HourlyUnits {
 export interface HourlyResponse {
 	time: number[];
 	temperature_2m: number[];
-  relative_humidity_2m: number[];
-  dew_point_2m: number[];
+	relative_humidity_2m: number[];
+	dew_point_2m: number[];
 	apparent_temperature: number[];
 	precipitation: number[];
-  precipitation_probability: number[];
-  snowfall: number[];
+	precipitation_probability: number[];
+	snowfall: number[];
 	weather_code: number[];
 	wind_speed_10m: number[];
 	wind_direction_10m: number[];
@@ -39,8 +39,8 @@ export interface Hourly {
 	apparent_temperature: number;
 	precipitation: number;
 	precipitation_probability: number;
-  weather_code: number;
-  snowfall: number;
+	weather_code: number;
+	snowfall: number;
 	wind_speed_10m: number;
 	wind_direction_10m: number;
 	is_day: number;
@@ -50,13 +50,13 @@ export interface Hourly {
 
 export interface Minutely15Response {
 	time: number[];
-  precipitation: number[];
-  snowfall: number[];
+	precipitation: number[];
+	snowfall: number[];
 }
 export interface Minutely15 {
 	time: number;
-  precipitation: number;
-  snowfall: number;
+	precipitation: number;
+	snowfall: number;
 }
 export interface Minutely15Units {
 	precipitation: PrecipitationUnit;
@@ -69,10 +69,13 @@ export type DailyResponse = {
 	apparent_temperature_max: number[];
 	apparent_temperature_min: number[];
 	weather_code: number[];
-  precipitation_sum: number[];
-  snowfall_sum: number[];
-	sunrise: string[];
-	sunset: string[];
+	precipitation_sum: number[];
+	snowfall_sum: number[];
+	sunrise: number[];
+	sunset: number[];
+	moonrise: number[];
+	moonset: number[];
+	moon_phase: number[];
 };
 export type Daily = {
 	time: number;
@@ -81,10 +84,13 @@ export type Daily = {
 	apparent_temperature_max: number;
 	apparent_temperature_min: number;
 	weather_code: number;
-  precipitation_sum: number;
-  snowfall_sum: number;
-	sunrise: string;
-	sunset: string;
+	precipitation_sum: number;
+	snowfall_sum: number;
+	sunrise: number;
+	sunset: number;
+	moonrise: number;
+	moonset: number;
+	moon_phase: number;
 };
 
 export interface Current {

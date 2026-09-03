@@ -2,8 +2,9 @@ import { useContext } from 'react';
 import { WiRaindrop, WiSnowflakeCold } from 'react-icons/wi';
 import { Card } from '@/components';
 import { DayIndexContext } from '@/contexts/DayIndexContext';
-import { useOpenMeteo, useSunAndMoon } from '@/hooks';
+import { useOpenMeteo } from '@/hooks';
 import { useUnitSystem } from '@/hooks/useUnitSystem';
+import { DEFAULT_PHASE, MOON_PHASES } from './constants';
 import { DayStatCard } from './DayStatCard';
 import { getMoonTimeStats, getSunTimeStats } from './utils';
 
@@ -15,27 +16,33 @@ export const DayStats = () => {
 	} = useOpenMeteo();
 
 	const tz = openMeteo?.timezone || 'utc';
-	const { precipitation_sum, snowfall_sum } = openMeteo?.daily[dayIndex || 0] || {};
+	const {
+		precipitation_sum,
+		snowfall_sum,
+		sunrise,
+		sunset,
+		moon_phase,
+		moonrise,
+		moonset,
+	} = openMeteo?.daily[dayIndex || 0] || {};
+
 	const isSnowfallGreater = (snowfall_sum || 0) > (precipitation_sum || 0);
 	const precipIcon = isSnowfallGreater ? WiSnowflakeCold : WiRaindrop;
-
-	const hourlies =
-		openMeteo?.hourly.slice((dayIndex || 0) * 24, (dayIndex || 0) * 24 + 24) || [];
-
-	const startOfDay = hourlies[0] ? new Date(hourlies[0]?.time) : new Date();
-
-	const { sunrise, sunset, moonrise, moonset, MoonPhaseIcon, moonPhaseLabel } =
-		useSunAndMoon(startOfDay, tz);
-
-	const sunTimeStats = getSunTimeStats(tz, sunrise, sunset);
-	const moonTimeStats = getMoonTimeStats(tz, moonrise, moonset);
 	const precipLabel = getLength(Math.max(precipitation_sum || 0, snowfall_sum || 0));
 
-	const stats = [
-		...sunTimeStats,
-		...moonTimeStats,
-		{ Icon: MoonPhaseIcon, label: 'Moon', value: moonPhaseLabel || 'phase' },
+	const moonPhaseIndex = Math.floor((moon_phase || 0) * MOON_PHASES.length);
+	const phase = MOON_PHASES.at(moonPhaseIndex) || DEFAULT_PHASE;
+
+	const newStats = [
+		...getSunTimeStats(tz, sunrise, sunset),
 		{ Icon: precipIcon, label: 'Precip', value: precipLabel },
+		...getMoonTimeStats(tz, moonrise, moonset),
+		{
+			Icon: phase.Icon,
+			label: 'Moon',
+			value: phase.label || 'phase',
+			title: moon_phase?.toString(),
+		},
 	];
 
 	return (
@@ -43,7 +50,7 @@ export const DayStats = () => {
 			Day Stats
 			<Card>
 				<div className="grid grid-cols-3">
-					{stats.map((stat) => (
+					{newStats.map((stat) => (
 						<DayStatCard key={stat.label} stat={stat} />
 					))}
 				</div>

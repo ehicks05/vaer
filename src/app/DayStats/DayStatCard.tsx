@@ -4,10 +4,15 @@ interface DayStat {
 	Icon: IconType;
 	label: string;
 	value: string;
+	title?: string;
 }
 
-export const DayStatCard = ({ stat: { Icon, label, value } }: { stat: DayStat }) => (
-	<div className="flex items-center gap-1 lg:gap-2 p-2">
+interface Props {
+	stat: DayStat;
+}
+
+export const DayStatCard = ({ stat: { Icon, label, value, title } }: Props) => (
+	<div className="flex items-center gap-1 lg:gap-2 p-2" title={title}>
 		<Icon size={32} className="shrink-0" />
 		<div>
 			<div className="text-xs text-neutral-400">{label}</div>
