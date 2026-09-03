@@ -5,7 +5,6 @@ import { useUnitSystem } from '@/hooks/useUnitSystem';
 import type { Hourly } from '@/services/openMeteo/types/forecast';
 import { formatInTimeZone } from '../utils';
 import { PLACEHOLDER_DATA } from './constants';
-import { Humidity } from './Humidity';
 import { Precip } from './Precip';
 import { ScrollbarContainer } from './ScrollbarContainer';
 import { Weather } from './Weather';
@@ -28,11 +27,11 @@ const HourlyDetail = ({ hourly, tz }: Props) => {
 	const time = formatInTimeZone(new Date(hourly.time), tz, 'h a');
 
 	const {
-		relative_humidity_2m,
-    precipitation,
-    snowfall,
+		dew_point_2m,
+		precipitation,
+		precipitation_probability,
+		snowfall,
 		temperature_2m,
-		wind_direction_10m,
 		wind_speed_10m,
 		weather_code,
 		is_day,
@@ -43,9 +42,26 @@ const HourlyDetail = ({ hourly, tz }: Props) => {
 			{getTemp(temperature_2m)}
 			<Weather code={weather_code} isDay={is_day === 1} />
 			<div className="grow -mt-4" />
+			<div
+				className={`flex items-baseline gap-0.5 whitespace-nowrap ${precipitation_probability < 20 ? 'text-neutral-400' : ''}`}
+			>
+				{`${precipitation_probability}`}
+				<span className="text-xs">%P</span>
+			</div>
 			<Precip precip={getLength(Math.max(precipitation, snowfall))} />
-			<Humidity humidity={relative_humidity_2m} />
-			<Wind windDeg={wind_direction_10m} windSpeed={getSpeed(wind_speed_10m)} />
+			<div className="flex items-baseline gap-0.5 whitespace-nowrap">
+				<span
+					className={
+						dew_point_2m <= 55
+							? 'text-green-500'
+							: dew_point_2m <= 60
+								? 'text-yellow-500'
+								: 'text-red-500'
+					}
+				>{`${getTemp(dew_point_2m)}`}</span>
+				<span className="text-xs">DP</span>
+			</div>
+			<Wind windSpeed={getSpeed(wind_speed_10m)} />
 			<div className="whitespace-nowrap">{time}</div>
 		</div>
 	);
