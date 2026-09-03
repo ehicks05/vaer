@@ -31,13 +31,3 @@ export const getMoonTimeStats = (tz: string, moonrise?: Date, moonset?: Date) =>
 		? [moonsetStat, moonriseStat]
 		: [moonriseStat, moonsetStat];
 };
-
-export const getAqiLabel = (aqis: number[]) => {
-	if (aqis.length === 0) return undefined;
-	const min = Math.min(...aqis);
-	const max = Math.max(...aqis);
-	if (min === max) {
-		return min.toString();
-	}
-	return `${min}-${max}`;
-};
