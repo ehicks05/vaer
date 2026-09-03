@@ -4,28 +4,18 @@ import {
 	Dialog,
 	DialogClose,
 	DialogContent,
-	DialogDescription,
 	DialogHeader,
 	DialogOverlay,
 	DialogPortal,
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog';
-import { useSpecifiedLocation } from '@/hooks';
-import { useGeolocation } from '@/hooks/useGeolocation';
 import { NAV_BAR_BUTTON_STYLES } from '../../constants/classes';
 import { LocationForm } from './LocationForm';
 
 const LocationButton = () => {
-	const { coords } = useGeolocation();
-	const [specifiedLocation] = useSpecifiedLocation();
-
-	const shouldPickLocation = !coords && !specifiedLocation;
-
 	return (
-		<div
-			className={`flex gap-2 sm:gap-16 items-baseline ${shouldPickLocation ? 'animate-pulse' : ''}`}
-		>
+		<div className="flex gap-2 sm:gap-16 items-baseline">
 			<div className="ml-2">Location...</div>
 			<div className="flex items-center gap-0.5 bg-neutral-800 px-2 m-0.5 rounded-sm text-xs">
 				<span className="text-base">⌘</span>
@@ -63,9 +53,6 @@ export const LocationPicker = () => {
 				<DialogContent className="bg-neutral-800">
 					<DialogHeader>
 						<DialogTitle>Choose a Location</DialogTitle>
-						<DialogDescription className="hidden">
-							Choose a location
-						</DialogDescription>
 					</DialogHeader>
 					<LocationForm />
 					<div className="flex">
