@@ -11,12 +11,8 @@ export const useUnitSystem = () => {
 		const precision = isMetric ? 1 : 2;
 		const rounded = round(inPreferredUnit, precision);
 		// logic: both zeroes and truthy rounded values are fine,
-		// but if a non-zero value rounds to zero, show a '<' sign.
-		const display = rounded
-			? rounded
-			: !inches
-				? 0
-				: `< .${'0'.repeat(precision - 1)}1`;
+		// but if a non-zero value rounds to zero, show a '~' sign.
+		const display = rounded ? rounded : !inches ? 0 : '~0';
 
 		const unit = isMetric ? 'mm' : 'in';
 		return `${display} ${unit}`;
@@ -42,7 +38,6 @@ export const useUnitSystem = () => {
 		const inPreferredUnit = isMetric ? fToC(f) : f;
 		return `${Math.round(inPreferredUnit)}\u00B0`;
 	};
-
 
 	return {
 		getLength,
