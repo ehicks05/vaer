@@ -94,10 +94,12 @@ export const DailyForecast = () => {
 };
 
 const Container = ({ children }: { children: ReactNode }) => (
-	<div className="w-full flex flex-col">
+	<div className="w-full md:h-full flex flex-col">
 		Daily Forecast
 		<Card className="grow">
-			<div className="flex flex-col w-full">{children}</div>
+			<div className="flex flex-col w-full md:h-full md:justify-between">
+				{children}
+			</div>
 		</Card>
 	</div>
 );
