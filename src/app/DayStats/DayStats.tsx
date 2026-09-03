@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { WiRaindrop, WiSnowflakeCold } from 'react-icons/wi';
+import { Card } from '@/components';
 import { DayIndexContext } from '@/contexts/DayIndexContext';
 import { useOpenMeteo, useSunAndMoon } from '@/hooks';
 import { useUnitSystem } from '@/hooks/useUnitSystem';
@@ -40,11 +41,13 @@ export const DayStats = () => {
 	return (
 		<div className="flex flex-col">
 			Day Stats
-			<div className="grid grid-cols-2 gap-2">
-				{stats.map((stat) => (
-					<DayStatCard key={stat.label} stat={stat} />
-				))}
-			</div>
+			<Card>
+				<div className="grid grid-cols-3">
+					{stats.map((stat) => (
+						<DayStatCard key={stat.label} stat={stat} />
+					))}
+				</div>
+			</Card>
 		</div>
 	);
 };
