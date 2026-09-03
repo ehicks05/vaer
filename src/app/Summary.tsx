@@ -33,8 +33,21 @@ export const Summary = () => {
 						<Icon className="inline" size={64} title={description} />
 					</div>
 				</div>
-				feels like {getTemp(apparent_temperature)} &middot; {description} &middot;{' '}
-				{us_aqi} AQI
+				<div className="flex items-center gap-1">
+					feels like {getTemp(apparent_temperature)} &middot; {description} &middot;{' '}
+					<span
+						className={
+							us_aqi && us_aqi <= 50
+								? 'text-green-500'
+								: us_aqi && us_aqi <= 100
+									? 'text-yellow-500'
+									: 'text-red-500'
+						}
+					>
+						{us_aqi}
+					</span>
+					AQI
+				</div>
 			</div>
 		</div>
 	);
