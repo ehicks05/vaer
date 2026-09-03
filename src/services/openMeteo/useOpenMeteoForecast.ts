@@ -34,6 +34,7 @@ const getForecast = async ({ lat, long }: PartialLatLong) => {
 				time: curr * 1000,
 				temperature_2m: forecast.hourly.temperature_2m[i],
 				relative_humidity_2m: forecast.hourly.relative_humidity_2m[i],
+				dew_point_2m: forecast.hourly.dew_point_2m[i],
 				apparent_temperature: forecast.hourly.apparent_temperature[i],
 				precipitation: forecast.hourly.precipitation[i],
 				precipitation_probability: forecast.hourly.precipitation_probability[i],

@@ -5,7 +5,8 @@ const FORECAST_FIELDS = {
 	CURRENT: ['temperature_2m', 'apparent_temperature', 'is_day', 'weather_code'],
 	HOURLY: [
 		'temperature_2m',
-		'relative_humidity_2m',
+    'relative_humidity_2m',
+		'dew_point_2m',
 		'apparent_temperature',
 		'precipitation_probability',
 		'precipitation',

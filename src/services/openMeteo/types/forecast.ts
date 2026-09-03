@@ -20,7 +20,8 @@ export interface HourlyUnits {
 export interface HourlyResponse {
 	time: number[];
 	temperature_2m: number[];
-	relative_humidity_2m: number[];
+  relative_humidity_2m: number[];
+  dew_point_2m: number[];
 	apparent_temperature: number[];
 	precipitation: number[];
   precipitation_probability: number[];
@@ -34,6 +35,7 @@ export interface Hourly {
 	time: number;
 	temperature_2m: number;
 	relative_humidity_2m: number;
+	dew_point_2m: number;
 	apparent_temperature: number;
 	precipitation: number;
 	precipitation_probability: number;
