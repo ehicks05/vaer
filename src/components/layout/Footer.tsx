@@ -20,7 +20,9 @@ const Link = ({ href, children }: LinkProps) => (
 
 const Footer = () => {
 	const { lat, long } = useResolvedLatLong();
-	const coords = `${round(Number(lat || 0), 2)},${round(Number(long || 0), 2)}`;
+	const coords = lat
+		? `${round(Number(lat || 0), 2)},${round(Number(long || 0), 2)}`
+		: null;
 
 	return (
 		<footer className="flex items-center justify-end gap-4 px-2 py-4 max-w-7xl mx-auto w-full">
