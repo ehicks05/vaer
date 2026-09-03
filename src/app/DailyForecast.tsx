@@ -31,7 +31,7 @@ const OneDaySummary = ({
 			type="button"
 			onClick={onClick}
 			onKeyUp={onClick}
-			className={`py-2 sm:py-4 px-4 first:rounded-t-lg last:pb-4 last:rounded-b-lg cursor-pointer ${
+			className={`grow px-4 first:pt-1 last:pb-1 first:rounded-t-lg last:rounded-b-lg cursor-pointer ${
 				isSelected ? 'bg-slate-800' : 'hover:brightness-110'
 			}`}
 		>
@@ -96,10 +96,8 @@ export const DailyForecast = () => {
 const Container = ({ children }: { children: ReactNode }) => (
 	<div className="w-full md:h-full flex flex-col">
 		Daily Forecast
-		<Card className="grow">
-			<div className="flex flex-col w-full md:h-full md:justify-between">
-				{children}
-			</div>
+		<Card className="grow min-h-106">
+			<div className="flex flex-col w-full h-full justify-between">{children}</div>
 		</Card>
 	</div>
 );
