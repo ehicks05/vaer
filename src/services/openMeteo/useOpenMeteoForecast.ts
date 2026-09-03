@@ -86,6 +86,10 @@ const getForecast = async ({ lat, long }: PartialLatLong) => {
 		daily: daily.map((o) => ({
 			time: o.time,
 			temp: { max: o.temperature_2m_max, min: o.temperature_2m_min },
+			apparent_temp: {
+				max: o.apparent_temperature_max,
+				min: o.apparent_temperature_min,
+			},
 			weather: {
 				id: o.weather_code,
 				description: WMO_CODE_TO_DESCRIPTION[o.weather_code],
