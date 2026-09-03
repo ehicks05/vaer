@@ -93,9 +93,9 @@ export const DailyForecast = () => {
 };
 
 const Container = ({ children }: { children: ReactNode }) => (
-	<div className="w-full">
+	<div className="w-full flex flex-col">
 		Daily Forecast
-		<Card>
+		<Card className="grow">
 			<div className="flex flex-col w-full">{children}</div>
 		</Card>
 	</div>

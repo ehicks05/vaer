@@ -5,7 +5,7 @@ const FORECAST_FIELDS = {
 	CURRENT: ['temperature_2m', 'apparent_temperature', 'is_day', 'weather_code'],
 	HOURLY: [
 		'temperature_2m',
-    'relative_humidity_2m',
+		'relative_humidity_2m',
 		'dew_point_2m',
 		'apparent_temperature',
 		'precipitation_probability',
@@ -78,9 +78,9 @@ export const WMO_CODE_TO_DESCRIPTION: Record<string, string> = {
 	73: 'moderate snow',
 	75: 'heavy snow',
 	77: 'snow grains',
-	80: 'light rain showers',
-	81: 'moderate rain showers',
-	82: 'violent rain showers',
+	80: 'light showers', // was 'light rain showers'
+	81: 'moderate showers', // was 'moderate rain showers'
+	82: 'violent showers', // was 'violent rain showers'
 	85: 'light snow showers',
 	86: 'heavy snow showers',
 	95: 'thunderstorm',
