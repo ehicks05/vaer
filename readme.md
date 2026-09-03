@@ -47,3 +47,9 @@ Flow starts with either the device's geolocation, or a search term.
  Open-meteo api [here](https://open-meteo.com/en/docs).
 
  ~~OpenWeather OneCall api [here](https://openweathermap.org/api/one-call-3).~~
+
+### maps
+https://github.com/maplibre/maplibre-gl-js/
+https://github.com/visgl/react-map-gl
+https://github.com/open-meteo/weather-map-layer
+https://cloud.maptiler.com/maps/streets-v4-dark/

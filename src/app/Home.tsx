@@ -1,7 +1,7 @@
 import { DailyForecast } from './DailyForecast';
 import { DayStats } from './DayStats';
 import { HourlyForecast } from './HourlyForecast';
-import { WindyMap } from './maps/WindyMap';
+import { VaerMap } from './maps/VaerMap';
 import { Summary } from './Summary';
 import { UpcomingPrecipitation } from './UpcomingPrecipitation';
 
@@ -18,7 +18,7 @@ export const Home = () => {
 				</div>
 				<div className="flex flex-col gap-4 h-full">
 					<DailyForecast />
-					<WindyMap className="block h-96 w-full rounded-lg" />
+					<VaerMap className="block h-96 w-full rounded-lg" />
 				</div>
 				<div className="grid grid-cols-2 gap-4">
 					<div className="col-span-2 h-full">
@@ -30,7 +30,7 @@ export const Home = () => {
 			<div className="hidden p-2 max-w-7xl mx-auto md:grid grid-cols-3 xl:hidden items-start justify-center gap-4">
 				<div className="flex flex-col gap-4 h-full">
 					<DailyForecast />
-					<WindyMap className="block h-full w-full rounded-lg" />
+					<VaerMap className="block h-full w-full rounded-lg" />
 				</div>
 
 				<div className="flex flex-col gap-4 col-span-2">
@@ -53,7 +53,7 @@ export const Home = () => {
 					<div className="lg:col-span-2 h-5" />
 					<Summary />
 					<UpcomingPrecipitation />
-					<WindyMap className="flex h-full w-full" />
+					<VaerMap className="flex h-full w-full" />
 				</div>
 
 				<div className="">
