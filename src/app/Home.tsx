@@ -53,7 +53,7 @@ export const Home = () => {
 					<div className="lg:col-span-2 h-5" />
 					<Summary />
 					<UpcomingPrecipitation />
-					<WindyMap className="flex h-full w-full rounded-lg" />
+					<WindyMap className="flex h-full w-full" />
 				</div>
 
 				<div className="">
