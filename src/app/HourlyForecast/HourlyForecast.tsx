@@ -41,6 +41,8 @@ const HourlyDetail = ({ hourly, tz }: Props) => {
 
 	return (
 		<div className="flex flex-col items-center gap-4 w-12 min-w-12">
+			<Weather code={weather_code} isDay={is_day === 1} />
+			<div className="grow -mt-4" />
 			{getTemp(temperature_2m)}
 			<div className="flex items-baseline gap-0.5">
 				<span
@@ -60,8 +62,6 @@ const HourlyDetail = ({ hourly, tz }: Props) => {
 				</span>
 				<span className="text-xs">FL</span>
 			</div>
-			<Weather code={weather_code} isDay={is_day === 1} />
-			<div className="grow -mt-4" />
 			<div
 				className={`flex items-baseline gap-0.5 whitespace-nowrap ${precipitation_probability < 20 ? 'text-neutral-400' : ''}`}
 			>
