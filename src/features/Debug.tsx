@@ -1,0 +1,81 @@
+import { Bug } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import {
+	Dialog,
+	DialogClose,
+	DialogContent,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from '@/components/ui/dialog';
+import { useSavedLocationStorage } from './LocationPicker/useSavedLocationStorage';
+
+const Content = () => {
+	const [savedLocations] = useSavedLocationStorage();
+
+	return (
+		<pre className="whitespace-pre-wrap text-xs">
+			{JSON.stringify(
+				{
+					savedLocations: savedLocations.map((o) => ({
+						...o,
+						alternateNames: undefined,
+						bbox: undefined,
+					})),
+				},
+				null,
+				2,
+			)}
+		</pre>
+	);
+};
+
+export const Debug = () => {
+	const [open, setOpen] = useState(false);
+
+	const handleKeyDown = useCallback(
+		(event: KeyboardEvent) => {
+			if (event.ctrlKey && event.key === 'k') {
+				event.preventDefault();
+				setOpen(!open);
+			}
+		},
+		[open],
+	);
+
+	useEffect(() => {
+		document.addEventListener('keydown', handleKeyDown);
+		return () => document.removeEventListener('keydown', handleKeyDown);
+	}, [handleKeyDown]);
+
+	if (import.meta.env.PROD) {
+		return null;
+	}
+
+	return (
+		<Dialog open={open} onOpenChange={setOpen}>
+			<DialogTrigger
+				render={
+					<Button variant="outline" size="icon" className="text-muted-foreground">
+						<Bug />
+					</Button>
+				}
+			/>
+			<DialogContent className="sm:max-w-4xl">
+				<DialogHeader>
+					<DialogTitle>Debug</DialogTitle>
+				</DialogHeader>
+
+				<div className="overflow-auto h-260">
+					<Content />
+				</div>
+
+				<DialogFooter>
+					<DialogClose render={<Button variant="outline">Close</Button>} />
+				</DialogFooter>
+			</DialogContent>
+		</Dialog>
+	);
+};
