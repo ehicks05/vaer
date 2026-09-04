@@ -1,8 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import { useDebounceValue } from 'usehooks-ts';
 import { ONE_DAY, ONE_MINUTE } from '../../constants/datetime';
-import { BASE } from './constants';
 import type { SearchResult } from './types';
+
+export const BASE = 'https://secure.geonames.org';
 
 const DEFAULTS = {
 	countryBias: 'US',
