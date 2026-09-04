@@ -1,10 +1,10 @@
 // adapted from @uidotdev/usehooks
 // main changes:
-// 1. don't request permission right away, wait for `isAllowPermissionRequests`
+// 1. don't request permission right away, wait for `locationPermission`
 // 2. stick closer to web api types
-import React from 'react';
+import { useEffect, useState } from 'react';
+import { useLocationPermission } from '@/features/LocationPicker/LocationPermission';
 import type { GeolocationState } from './types';
-import { useOnInteraction } from './useOnInteraction';
 import { roundCoords } from './utils';
 
 const DEFAULT_STATE: GeolocationState = {
@@ -18,11 +18,11 @@ const DEFAULT_STATE: GeolocationState = {
  * @returns Note: lat and long rounded to `PRECISION` places
  */
 export function useBrowserGeolocation() {
-	const isAllowPermissionRequests = useOnInteraction();
-	const [state, setState] = React.useState<GeolocationState>(DEFAULT_STATE);
+	const [locationPermission] = useLocationPermission();
+	const [state, setState] = useState<GeolocationState>(DEFAULT_STATE);
 
-	React.useEffect(() => {
-		if (!isAllowPermissionRequests) {
+	useEffect(() => {
+		if (!locationPermission) {
 			return;
 		}
 
@@ -59,7 +59,7 @@ export function useBrowserGeolocation() {
 		return () => {
 			navigator.geolocation.clearWatch(watchId);
 		};
-	}, [isAllowPermissionRequests]);
+	}, [locationPermission]);
 
 	return state;
 }

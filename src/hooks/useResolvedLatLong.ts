@@ -1,7 +1,8 @@
 import { useGeolocation } from './useGeolocation';
 import { useSpecifiedLocation } from './useSpecifiedLocation';
 
-export type PartialLatLong = Partial<{ lat: string; long: string }>;
+export type LatLong = { lat: string; long: string };
+export type PartialLatLong = Partial<LatLong>;
 
 /**
  *
