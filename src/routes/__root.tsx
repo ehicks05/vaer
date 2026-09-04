@@ -5,7 +5,7 @@ import {
 	Scripts,
 } from '@tanstack/react-router';
 import type { ReactNode } from 'react';
-import appCss from '@/styles/app.css?url';
+import appCss from '@/index.css?url';
 
 export const Route = createRootRoute({
 	head: () => ({
@@ -31,23 +31,6 @@ export const Route = createRootRoute({
 			{ rel: 'apple-touch-icon', href: 'apple-touch-icon.png', type: 'image/ico' },
 			{ rel: 'manifest', href: '/manifest.json' },
 		],
-		styles: [
-			{
-				children: `
-        @font-face {
-         	font-family: "Fredoka";
-         	src:
-          		url("../../Fredoka-VariableFont_wdth\,wght.ttf") format("TrueType"),;
-        }
-
-        @font-face {
-         	font-family: "Proza Libre";
-         	src:
-          		url("../../ProzaLibre-Bold.ttf") format("TrueType"),;
-        }
-    `,
-			},
-		],
 	}),
 	component: RootComponent,
 });
@@ -66,7 +49,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
 			<head>
 				<HeadContent />
 			</head>
-			<body>
+			<body className="dark">
 				{children}
 				<Scripts />
 			</body>

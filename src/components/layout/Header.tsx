@@ -6,7 +6,7 @@ const Logo = () => (
 	<div className="shrink-0 flex items-center">
 		<div className="flex items-center gap-1">
 			<img
-				className="inline h-8 w-[46px]"
+				className="inline h-8 w-11.5"
 				src="/icon-gradient-transparent.svg"
 				alt="logo"
 			/>
