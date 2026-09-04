@@ -3,72 +3,9 @@ import { Card } from '@/components';
 import { useUnitSystem } from '@/features/UnitSystem/useUnitSystem';
 import { useOpenMeteo } from '@/hooks';
 import { formatInTimeZone } from '@/lib/utils';
-import type { Minutely15 } from '@/services/openMeteo/types/forecast';
-import { HOURS_TO_SHOW } from './constants';
-import { getBarColor } from './getBarColor';
-import { getBarHeight } from './getBarHeight';
+import { Chart } from './Chart';
+import { HOURS_TO_SHOW, QUARTER_HOURS_PER_HOUR } from './constants';
 import { getMessage } from './getMessage';
-
-interface Props {
-	inchesPerHour: number;
-	title: string;
-}
-
-const QuarterHour = ({ inchesPerHour, title }: Props) => {
-	const color = getBarColor(inchesPerHour);
-	const height = getBarHeight(inchesPerHour);
-
-	const style = { height: `${height}px` };
-	return (
-		<div
-			title={title}
-			className="group flex items-end px-px rounded-xs h-full hover:bg-neutral-200 dark:hover:bg-neutral-700 w-16"
-		>
-			<div className={`rounded-xs w-full ${color}`} style={style} />
-		</div>
-	);
-};
-
-interface ChartProps {
-	minutely: Minutely15[];
-	tz: string;
-}
-
-// Minutely15 values are per 15 minutes
-const QUARTER_HOURS_PER_HOUR = 4;
-
-const toHourlyRate = (minute: Minutely15) =>
-	Math.max(minute.precipitation, minute.snowfall) * QUARTER_HOURS_PER_HOUR;
-
-const Chart = ({ minutely, tz }: ChartProps) => {
-	const { getRate } = useUnitSystem();
-	const [start, mid, end] = [0, minutely.length / 2, minutely.length - 1].map(
-		(index) => formatInTimeZone(new Date(minutely[index]?.time || 0), tz, 'h:mm a'),
-	);
-
-	return (
-		<>
-			<div className="flex h-20">
-				{minutely.map((minute) => {
-					const inchesPerHour = toHourlyRate(minute);
-
-					return (
-						<QuarterHour
-							key={minute.time}
-							inchesPerHour={inchesPerHour}
-							title={`${formatInTimeZone(new Date(minute.time), tz, 'h:mm a')}: ${getRate(inchesPerHour)}`}
-						/>
-					);
-				})}
-			</div>
-			<div className="flex justify-between w-full text-sm">
-				<span>{start}</span>
-				<span>{mid}</span>
-				<span>{end}</span>
-			</div>
-		</>
-	);
-};
 
 const Container = ({ children }: { children?: ReactNode }) => (
 	<Card gradient={false} className="p-4 flex flex-col gap-1 h-full bg-muted">
