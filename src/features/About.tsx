@@ -1,3 +1,4 @@
+import { round } from 'es-toolkit';
 import { CircleQuestionMarkIcon } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -10,6 +11,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog';
+import { useResolvedLatLong } from '@/hooks';
 
 export const LINKS = [
 	{ label: 'open-meteo', url: 'https://open-meteo.com/' },
@@ -32,6 +34,29 @@ const Link = ({ href, children }: LinkProps) => (
 	</a>
 );
 
+const AboutContents = () => {
+	const { lat, long } = useResolvedLatLong();
+	const coords = lat
+		? `${round(Number(lat || 0), 2)},${round(Number(long || 0), 2)}`
+		: null;
+
+	return (
+		<div className="flex flex-col gap-4">
+			<div className="flex flex-col">
+				Selected Coordinates: <span>{coords}</span>
+			</div>
+			<div className="flex flex-col">
+				Links:
+				{LINKS.map((link) => (
+					<Link key={link.url} href={link.url}>
+						{link.label}
+					</Link>
+				))}
+			</div>
+		</div>
+	);
+};
+
 export const About = () => {
 	const [open, setOpen] = useState(false);
 
@@ -49,11 +74,7 @@ export const About = () => {
 					<DialogTitle>About</DialogTitle>
 				</DialogHeader>
 
-				{LINKS.map((link) => (
-					<Link key={link.url} href={link.url}>
-						{link.label}
-					</Link>
-				))}
+				<AboutContents />
 
 				<DialogFooter>
 					<DialogClose render={<Button variant="outline">Close</Button>} />
