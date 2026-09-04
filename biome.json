@@ -32,6 +32,11 @@
 			"quoteStyle": "single"
 		}
 	},
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
+		}
+	},
 	"files": {
 		"includes": ["src/**", "!src/components/ui"]
 	}

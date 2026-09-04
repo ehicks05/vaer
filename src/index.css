@@ -27,26 +27,6 @@ body {
 	overflow-y: auto;
 }
 
-::-webkit-scrollbar {
-	width: 8px;
-}
-
-::-webkit-scrollbar {
-	height: 8px;
-}
-
-::-webkit-scrollbar-track {
-	background: #555;
-}
-
-::-webkit-scrollbar-thumb {
-	background: #777;
-}
-
-::-webkit-scrollbar-thumb:hover {
-	background: #aaa;
-}
-
 @theme inline {
 	--font-logo: "Proza Libre", sans-serif;
 	--font-heading: var(--font-sans);
