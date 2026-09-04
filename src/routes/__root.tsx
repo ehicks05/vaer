@@ -49,7 +49,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
 			<head>
 				<HeadContent />
 			</head>
-			<body className="dark">
+			<body>
 				{children}
 				<Scripts />
 			</body>
