@@ -21,7 +21,7 @@ export const LocationForm = () => {
 
 	return (
 		<div className="flex flex-col gap-6 h-full overflow-y-auto">
-			<div className="flex flex-col gap-4">
+			<div className="flex flex-col gap-2">
 				Search for a location
 				<input
 					className="p-2 rounded-lg outline-hidden"
