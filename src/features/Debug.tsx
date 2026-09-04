@@ -11,7 +11,6 @@ import {
 	DialogTrigger,
 } from '@/components/ui/dialog';
 import { useResolvedLatLong, useSpecifiedLocation } from '@/hooks';
-import { useCachedGeolocation } from '@/hooks/useCachedGeolocation';
 import { useGeolocation } from '@/hooks/useGeolocation';
 import { useResolvedLocation } from '@/hooks/useResolvedLocation';
 import { useSavedLocationStorage } from './LocationPicker/useSavedLocationStorage';
@@ -21,7 +20,6 @@ const Content = () => {
 	const [specifiedLocation] = useSpecifiedLocation();
 	const resolvedLocation = useResolvedLocation();
 	const resolvedLatLong = useResolvedLatLong();
-	const cachedGeolocation = useCachedGeolocation();
 	const geolocation = useGeolocation();
 
 	return (
@@ -40,7 +38,6 @@ const Content = () => {
 					},
 					resolvedLocation,
 					resolvedLatLong,
-					cachedGeolocation,
 					geolocation,
 				},
 				null,
