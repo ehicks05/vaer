@@ -42,7 +42,7 @@ export const AlertCard = ({ alert, tz, showTitle = true }: AlertCardProps) => {
 	const tags = severity ? [`severity: ${severity}`] : [];
 
 	return (
-		<Card gradient={false} className="max-w-xl overflow-y-auto">
+		<Card gradient={false} className="max-w-xl">
 			<div className="flex flex-col gap-4">
 				<DialogHeader>
 					{showTitle && <DialogTitle>{event}</DialogTitle>}
@@ -118,26 +118,29 @@ export const Alert = () => {
 				<DialogHeader>
 					<DialogTitle>Alerts</DialogTitle>
 				</DialogHeader>
-				{alerts.length === 1 && (
-					<AlertCard alert={alerts[0].properties} tz={point.timeZone} />
-				)}
 
-				{alerts.length > 1 && (
-					<Accordion className="overflow-auto">
-						{alerts.map((alert) => (
-							<AccordionItem key={alert.id} value={alert.id}>
-								<AccordionTrigger>{alert.properties.event}</AccordionTrigger>
-								<AccordionContent>
-									<AlertCard
-										alert={alert.properties}
-										tz={point.timeZone}
-										showTitle={false}
-									/>
-								</AccordionContent>
-							</AccordionItem>
-						))}
-					</Accordion>
-				)}
+				<div className="-mx-4 no-scrollbar max-h-[50vh] overflow-y-auto px-4">
+					{alerts.length === 1 && (
+						<AlertCard alert={alerts[0].properties} tz={point.timeZone} />
+					)}
+
+					{alerts.length > 1 && (
+						<Accordion className="overflow-auto">
+							{alerts.map((alert) => (
+								<AccordionItem key={alert.id} value={alert.id}>
+									<AccordionTrigger>{alert.properties.event}</AccordionTrigger>
+									<AccordionContent>
+										<AlertCard
+											alert={alert.properties}
+											tz={point.timeZone}
+											showTitle={false}
+										/>
+									</AccordionContent>
+								</AccordionItem>
+							))}
+						</Accordion>
+					)}
+				</div>
 
 				<DialogFooter>
 					<DialogClose render={<Button variant="outline">Close</Button>} />
