@@ -4,9 +4,8 @@ import {
 	Dialog,
 	DialogClose,
 	DialogContent,
+	DialogFooter,
 	DialogHeader,
-	DialogOverlay,
-	DialogPortal,
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog';
@@ -48,20 +47,17 @@ export const LocationPicker = () => {
 			<DialogTrigger className={NAV_BAR_BUTTON_STYLES}>
 				<LocationButton />
 			</DialogTrigger>
-			<DialogPortal>
-				<DialogOverlay />
-				<DialogContent className="bg-neutral-800">
-					<DialogHeader>
-						<DialogTitle>Choose a Location</DialogTitle>
-					</DialogHeader>
-					<LocationForm />
-					<div className="flex">
-						<DialogClose className={NAV_BAR_BUTTON_STYLES}>
-							<Button>Close</Button>
-						</DialogClose>
-					</div>
-				</DialogContent>
-			</DialogPortal>
+			<DialogContent className="bg-neutral-800">
+				<DialogHeader>
+					<DialogTitle>Choose a Location</DialogTitle>
+				</DialogHeader>
+				<LocationForm />
+				<DialogFooter>
+					<DialogClose className={NAV_BAR_BUTTON_STYLES}>
+						<Button>Close</Button>
+					</DialogClose>
+				</DialogFooter>
+			</DialogContent>
 		</Dialog>
 	);
 };

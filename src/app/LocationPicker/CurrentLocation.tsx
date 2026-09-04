@@ -17,8 +17,8 @@ export const CurrentLocation = () => {
 				/>
 			) : error?.code === 1 ? (
 				<Button disabled>
-					Geolocation permission is denied. Reset browser permissions to use current
-					location.
+					Geolocation permission not granted. Check browser permissions to use
+					current location.
 				</Button>
 			) : (
 				<Button className="bg-green-700" disabled>
