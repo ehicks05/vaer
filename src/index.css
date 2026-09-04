@@ -15,7 +15,7 @@ body {
 }
 
 input {
-	background-color: var(--color-muted);
+	background-color: var(--muted);
 }
 
 #root {
