@@ -17,7 +17,7 @@ export const Home = () => {
 	return (
 		<div className="">
 			<div className="p-2 max-w-7xl mx-auto grid grid-cols-1 md:hidden items-start justify-center gap-4">
-				<div className="flex flex-col sm:flex-row gap-4">
+				<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 					<Summary />
 					<UpcomingPrecipitation />
 				</div>
