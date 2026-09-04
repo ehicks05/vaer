@@ -3,6 +3,6 @@ import type { Geoname } from '@/services/geonames/types';
 
 const key = 'vaer-saved-locations';
 
-export const useSavedLocations = () => {
+export const useSavedLocationStorage = () => {
 	return useLocalStorage<Geoname[]>(key, []);
 };

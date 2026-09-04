@@ -2,13 +2,14 @@ import { useState } from 'react';
 import { CgSpinnerAlt } from 'react-icons/cg';
 import { HiExclamationTriangle, HiMagnifyingGlass } from 'react-icons/hi2';
 import { Card } from '@/components';
-import { useSavedLocations, useSpecifiedLocation } from '@/hooks';
+import { useSpecifiedLocation } from '@/hooks';
 import { useSearch } from '@/services/geonames/geonames';
 import { CityOption } from './CityOption';
 import { CurrentLocation } from './CurrentLocation';
+import { useSavedLocationStorage } from './useSavedLocationStorage';
 
 export const LocationForm = () => {
-	const [savedLocations, setSavedLocations] = useSavedLocations();
+	const [savedLocations, setSavedLocations] = useSavedLocationStorage();
 	const [specifiedLocation, setSpecifiedLocation] = useSpecifiedLocation();
 
 	const [queryString, setQueryString] = useState('');
