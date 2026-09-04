@@ -15,61 +15,52 @@ const getForecast = async ({ lat, long }: PartialLatLong) => {
 		fetchAirQuality({ lat, long }),
 	]);
 
-	const minutely_15 = forecast.minutely_15.time.reduce(
-		(agg, curr, i) => [
-			...agg,
-			{
-				time: curr * 1000,
-				precipitation: forecast.minutely_15.precipitation[i],
-				snowfall: forecast.minutely_15.snowfall[i],
-			},
-		],
-		[] as Minutely15[],
-	);
+	const minutely_15 = forecast.minutely_15.time.reduce((agg, curr, i) => {
+		agg.push({
+			time: curr * 1000,
+			precipitation: forecast.minutely_15.precipitation[i],
+			snowfall: forecast.minutely_15.snowfall[i],
+		});
+		return agg;
+	}, [] as Minutely15[]);
 
-	const hourly = forecast.hourly.time.reduce(
-		(agg, curr, i) => [
-			...agg,
-			{
-				time: curr * 1000,
-				temperature_2m: forecast.hourly.temperature_2m[i],
-				relative_humidity_2m: forecast.hourly.relative_humidity_2m[i],
-				dew_point_2m: forecast.hourly.dew_point_2m[i],
-				apparent_temperature: forecast.hourly.apparent_temperature[i],
-				precipitation: forecast.hourly.precipitation[i],
-				precipitation_probability: forecast.hourly.precipitation_probability[i],
-				snowfall: forecast.hourly.snowfall[i],
-				weather_code: forecast.hourly.weather_code[i],
-				wind_speed_10m: forecast.hourly.wind_speed_10m[i],
-				wind_direction_10m: forecast.hourly.wind_direction_10m[i],
-				is_day: forecast.hourly.is_day[i],
-				us_aqi: airQuality.hourly.us_aqi[i],
-			},
-		],
-		[] as Hourly[],
-	);
+	const hourly = forecast.hourly.time.reduce((agg, curr, i) => {
+		agg.push({
+			time: curr * 1000,
+			temperature_2m: forecast.hourly.temperature_2m[i],
+			relative_humidity_2m: forecast.hourly.relative_humidity_2m[i],
+			dew_point_2m: forecast.hourly.dew_point_2m[i],
+			apparent_temperature: forecast.hourly.apparent_temperature[i],
+			precipitation: forecast.hourly.precipitation[i],
+			precipitation_probability: forecast.hourly.precipitation_probability[i],
+			snowfall: forecast.hourly.snowfall[i],
+			weather_code: forecast.hourly.weather_code[i],
+			wind_speed_10m: forecast.hourly.wind_speed_10m[i],
+			wind_direction_10m: forecast.hourly.wind_direction_10m[i],
+			is_day: forecast.hourly.is_day[i],
+			us_aqi: airQuality.hourly.us_aqi[i],
+		});
+		return agg;
+	}, [] as Hourly[]);
 
-	const daily = forecast.daily.time.reduce(
-		(agg, curr, i) => [
-			...agg,
-			{
-				time: curr * 1000,
-				temperature_2m_max: forecast.daily.temperature_2m_max[i],
-				temperature_2m_min: forecast.daily.temperature_2m_min[i],
-				apparent_temperature_max: forecast.daily.apparent_temperature_max[i],
-				apparent_temperature_min: forecast.daily.apparent_temperature_min[i],
-				weather_code: forecast.daily.weather_code[i],
-				precipitation_sum: forecast.daily.precipitation_sum[i],
-				snowfall_sum: forecast.daily.snowfall_sum[i],
-				sunrise: forecast.daily.sunrise[i] * 1000,
-				sunset: forecast.daily.sunset[i] * 1000,
-				moonrise: forecast.daily.moonrise[i] * 1000,
-				moonset: forecast.daily.moonset[i] * 1000,
-				moon_phase: forecast.daily.moon_phase[i],
-			},
-		],
-		[] as Daily[],
-	);
+	const daily = forecast.daily.time.reduce((agg, curr, i) => {
+		agg.push({
+			time: curr * 1000,
+			temperature_2m_max: forecast.daily.temperature_2m_max[i],
+			temperature_2m_min: forecast.daily.temperature_2m_min[i],
+			apparent_temperature_max: forecast.daily.apparent_temperature_max[i],
+			apparent_temperature_min: forecast.daily.apparent_temperature_min[i],
+			weather_code: forecast.daily.weather_code[i],
+			precipitation_sum: forecast.daily.precipitation_sum[i],
+			snowfall_sum: forecast.daily.snowfall_sum[i],
+			sunrise: forecast.daily.sunrise[i] * 1000,
+			sunset: forecast.daily.sunset[i] * 1000,
+			moonrise: forecast.daily.moonrise[i] * 1000,
+			moonset: forecast.daily.moonset[i] * 1000,
+			moon_phase: forecast.daily.moon_phase[i],
+		});
+		return agg;
+	}, [] as Daily[]);
 
 	const current = {
 		time: forecast.current.time * 1000,
