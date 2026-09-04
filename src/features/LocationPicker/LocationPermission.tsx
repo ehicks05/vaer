@@ -15,6 +15,12 @@ export const useLocationPermission = () => {
 	return useLocalStorage<boolean>('vaer-location-permission', false);
 };
 
+const COLORS: Record<PermissionState, string> = {
+	denied: 'text-red-500',
+	granted: 'text-green-500',
+	prompt: 'text-yellow-500',
+};
+
 export const LocationPermissionSwitch = () => {
 	const [locationPermission, setLocationPermission] = useLocationPermission();
 	const { coords } = useGeolocation();
@@ -30,18 +36,7 @@ export const LocationPermissionSwitch = () => {
 							Allow Vaer to ask for your device's location.
 							<br />
 							Your browser permission is currently{' '}
-							<span
-								className={
-									state === 'denied'
-										? 'text-red-500'
-										: state === 'granted'
-											? 'text-green-500'
-											: 'text-yellow-500'
-								}
-							>
-								{state}
-							</span>
-							.{' '}
+							<span className={COLORS[state]}>{state}</span>.{' '}
 							{state === 'granted' && !coords && 'Please wait for location to load.'}
 						</FieldDescription>
 					</FieldContent>
