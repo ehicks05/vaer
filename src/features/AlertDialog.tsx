@@ -47,7 +47,7 @@ export const AlertCard = ({ alert, tz, showTitle = true }: AlertCardProps) => {
 				<DialogHeader>
 					{showTitle && <DialogTitle>{event}</DialogTitle>}
 
-					<DialogDescription className="text-sm text-neutral-400">
+					<DialogDescription className="text-sm text-muted-foreground">
 						{senderName}
 						{onset && <div>Onset: {formatInTimeZone(new Date(onset), tz, df)}</div>}
 						{ends && <div>Ends: {formatInTimeZone(new Date(ends), tz, df)}</div>}
@@ -62,7 +62,7 @@ export const AlertCard = ({ alert, tz, showTitle = true }: AlertCardProps) => {
 					</div>
 				)}
 				{tags.length !== 0 && (
-					<div className="text-sm text-neutral-400">
+					<div className="text-sm text-muted-foreground">
 						{tags.join(', ').toLocaleLowerCase()}
 					</div>
 				)}
