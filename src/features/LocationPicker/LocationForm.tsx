@@ -1,6 +1,5 @@
+import { Ghost, Loader2, Search, TriangleAlert } from 'lucide-react';
 import { useState } from 'react';
-import { CgSpinnerAlt } from 'react-icons/cg';
-import { HiExclamationTriangle, HiMagnifyingGlass } from 'react-icons/hi2';
 import { Card } from '@/components';
 import { useSpecifiedLocation } from '@/hooks';
 import { useSearch } from '@/services/geonames/geonames';
@@ -30,15 +29,30 @@ export const LocationSearcher = () => {
 				placeholder="Search..."
 			/>
 			<div className="flex flex-col gap-2 w-full">
-				{!query.error && locations.length === 0 && (
+				{locations.length === 0 && (
 					<Card className="bg-muted" gradient={false}>
 						<div className="flex flex-col items-center p-4 text-muted-foreground">
 							{query.isFetching ? (
-								<CgSpinnerAlt size={48} className="animate-spin" />
+								<>
+									<Loader2 size={48} className="animate-spin" />
+									Searching...
+								</>
+							) : query.isError ? (
+								<>
+									<TriangleAlert size={48} className="text-red-600" />
+									Something went wrong. Try again later.
+								</>
+							) : query.isSuccess && locations.length === 0 ? (
+								<>
+									<Ghost size={48} />
+									Nothing was found
+								</>
 							) : (
-								<HiMagnifyingGlass size={48} />
+								<>
+									<Search size={48} />
+									Search for a city
+								</>
 							)}
-							Search for a city
 						</div>
 					</Card>
 				)}
@@ -64,14 +78,6 @@ export const LocationSearcher = () => {
 						/>
 					);
 				})}
-				{query.error && !query.isLoading && locations.length === 0 && (
-					<Card className="bg-muted" gradient={false}>
-						<div className="flex flex-col gap-4 items-center text-muted-foreground">
-							<HiExclamationTriangle size={64} className="text-red-700" />
-							Something went wrong. Try again later.
-						</div>
-					</Card>
-				)}
 			</div>
 		</div>
 	);
