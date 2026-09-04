@@ -1,10 +1,10 @@
 import { type ReactNode, useContext } from 'react';
 import { Card } from '@/components';
+import { getWmoWeatherIcon } from '@/constants/weather_icons';
 import { DayIndexContext } from '@/contexts/DayIndexContext';
 import { useUnitSystem } from '@/features/UnitSystem/useUnitSystem';
 import { useOpenMeteo } from '@/hooks';
-import { getWmoWeatherIcon } from '../constants/weather_icons';
-import { addDays, formatInTimeZone } from './utils';
+import { addDays, formatInTimeZone } from '@/lib/utils';
 
 interface OneDaySummaryProps {
 	weather: { id: number; description: string };

@@ -1,5 +1,5 @@
 import { WiMoonrise, WiMoonset, WiSunrise, WiSunset } from 'react-icons/wi';
-import { formatInTimeZone } from '../utils';
+import { formatInTimeZone } from '@/lib/utils';
 
 export const getSunTimeStats = (tz: string, sunrise?: number, sunset?: number) => [
 	{

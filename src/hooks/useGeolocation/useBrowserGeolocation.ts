@@ -2,10 +2,10 @@
 // main changes:
 // 1. don't request permission right away, wait for `locationPermission`
 // 2. stick closer to web api types
+import { round } from 'es-toolkit';
 import { useEffect, useState } from 'react';
 import { useLocationPermission } from '@/features/LocationPicker/LocationPermission';
 import type { GeolocationState } from './types';
-import { roundCoords } from './utils';
 
 const DEFAULT_STATE: GeolocationState = {
 	loading: true,
@@ -13,6 +13,8 @@ const DEFAULT_STATE: GeolocationState = {
 	timestamp: null,
 	error: null,
 };
+
+const PRECISION = 2;
 
 /**
  * @returns Note: lat and long rounded to `PRECISION` places
@@ -37,7 +39,11 @@ export function useBrowserGeolocation() {
 			setState(() => ({
 				loading: false,
 				timestamp,
-				coords: roundCoords(coords),
+				coords: {
+					...coords,
+					latitude: round(coords.latitude, PRECISION),
+					longitude: round(coords.longitude, PRECISION),
+				},
 				error: null,
 			}));
 		};

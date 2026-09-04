@@ -18,9 +18,9 @@ import {
 	DialogTrigger,
 } from '@/components/ui/dialog';
 import { ONE_DAY } from '@/constants/datetime';
+import { formatInTimeZone } from '@/lib/utils';
 import { useWeatherGov } from '@/services/weathergov';
 import type { Properties } from '@/services/weathergov/types/alerts';
-import { formatInTimeZone } from './utils';
 
 type AlertProps = Partial<
 	Pick<

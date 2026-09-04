@@ -1,5 +1,5 @@
+import { addHours } from '@/lib/utils';
 import type { Hourly } from '@/services/openMeteo/types/forecast';
-import { addHours } from '../utils';
 
 export const PLACEHOLDER_DATA = [...new Array(25)].map(
 	(_, i) =>
