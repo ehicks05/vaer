@@ -1,4 +1,4 @@
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useDebounceValue } from 'usehooks-ts';
 import { ONE_DAY, ONE_MINUTE } from '../../constants/datetime';
 import { BASE } from './constants';
@@ -41,6 +41,5 @@ export const useSearch = ({ query: _query }: Params) => {
 		enabled: query.length >= 3,
 		staleTime: ONE_MINUTE,
 		gcTime: ONE_DAY,
-		placeholderData: keepPreviousData,
 	});
 };

@@ -53,7 +53,7 @@ export const LocationPicker = () => {
 				</DialogHeader>
 				<LocationForm />
 				<DialogFooter>
-					<DialogClose render={<Button>Close</Button>} />
+					<DialogClose render={<Button variant="outline">Close</Button>} />
 				</DialogFooter>
 			</DialogContent>
 		</Dialog>
