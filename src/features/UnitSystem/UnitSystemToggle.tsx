@@ -1,9 +1,9 @@
 import { Button } from '@/components/ui/button';
 import { UNIT_SYSTEM_LABELS } from './constants';
-import { useUnitSystemToggle } from './useUnitSystemToggle';
+import { useUnitSystemStorage } from './useUnitSystemStorage';
 
 export const UnitSystemToggle = () => {
-	const { unitSystem, toggleUnitSystem } = useUnitSystemToggle();
+	const { unitSystem, toggleUnitSystem } = useUnitSystemStorage();
 
 	return (
 		<Button

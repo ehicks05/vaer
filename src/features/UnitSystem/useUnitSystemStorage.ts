@@ -1,11 +1,10 @@
 import { useLocalStorage } from 'usehooks-ts';
-import { UNIT_SYSTEMS } from './constants';
-import type { UnitSystem } from './types';
+import { UNIT_SYSTEMS, type UnitSystem } from './constants';
 
 const KEY = 'vaer-unit-system';
-const DEFAULT = UNIT_SYSTEMS.IMPERIAL
+const DEFAULT = UNIT_SYSTEMS.IMPERIAL;
 
-export const useUnitSystemToggle = () => {
+export const useUnitSystemStorage = () => {
 	const [unitSystem, setUnitSystem] = useLocalStorage<UnitSystem>(KEY, DEFAULT);
 
 	return {

@@ -1,8 +1,8 @@
 import { round } from 'es-toolkit';
 import { type ReactNode, useContext } from 'react';
 import { DayIndexContext } from '@/contexts/DayIndexContext';
+import { useUnitSystem } from '@/features/UnitSystem/useUnitSystem';
 import { useOpenMeteo } from '@/hooks';
-import { useUnitSystem } from '@/hooks/useUnitSystem';
 import type { Hourly } from '@/services/openMeteo/types/forecast';
 import { formatInTimeZone } from '../utils';
 import { PLACEHOLDER_DATA } from './constants';

@@ -1,6 +1,6 @@
 import { Alert } from '@/features/AlertDialog';
 import { LocationPicker } from '@/features/LocationPicker';
-import { UnitSystemToggle } from '@/hooks/useUnitSystem';
+import { UnitSystemToggle } from '../UnitSystem';
 
 const Logo = () => (
 	<div className="shrink-0 flex items-center">

@@ -1,9 +1,9 @@
 import { round } from 'es-toolkit';
 import { fToC, hPaToInHg, inchToMm, mphToKmh } from './conversions';
-import { useUnitSystemToggle } from './useUnitSystemToggle';
+import { useUnitSystemStorage } from './useUnitSystemStorage';
 
 export const useUnitSystem = () => {
-	const { unitSystem } = useUnitSystemToggle();
+	const { unitSystem } = useUnitSystemStorage();
 	const isMetric = unitSystem === 'metric';
 
 	const getLength = (inches: number) => {

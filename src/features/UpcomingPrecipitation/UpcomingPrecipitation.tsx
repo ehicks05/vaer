@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { Card } from '@/components';
 import { useOpenMeteo } from '@/hooks';
-import { useUnitSystem } from '@/hooks/useUnitSystem';
+import { useUnitSystem } from '@/features/UnitSystem/useUnitSystem';
 import type { Minutely15 } from '@/services/openMeteo/types/forecast';
 import { formatInTimeZone } from '../utils';
 import { HOURS_TO_SHOW } from './constants';
