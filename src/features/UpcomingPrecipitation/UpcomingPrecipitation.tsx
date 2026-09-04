@@ -3,9 +3,31 @@ import { Card } from '@/components';
 import { useUnitSystem } from '@/features/UnitSystem/useUnitSystem';
 import { useOpenMeteo } from '@/hooks';
 import { formatInTimeZone } from '@/lib/utils';
+import type { Minutely15 } from '@/services/openMeteo/types/forecast';
 import { Chart } from './Chart';
-import { HOURS_TO_SHOW, QUARTER_HOURS_PER_HOUR } from './constants';
-import { getMessage } from './getMessage';
+import { QUARTER_HOURS_PER_HOUR } from './constants';
+
+export const HOURS_TO_SHOW = 4;
+
+const getMessage = (minutely: Minutely15[], tz: string) => {
+	const currentlyPrecipitating = minutely[0].precipitation !== 0;
+	const firstPrecip = minutely.find((m) => m.precipitation !== 0);
+	const firstZeroPrecip = minutely.find((m) => m.precipitation === 0);
+
+	if (!currentlyPrecipitating && !firstPrecip) {
+		return `No precipitation in the next ${HOURS_TO_SHOW} hours.`;
+	}
+	if (!currentlyPrecipitating && firstPrecip) {
+		const startsAt = formatInTimeZone(new Date(firstPrecip.time), tz, 'h:mm a');
+		return `Precipitation starts at ${startsAt}`;
+	}
+	if (currentlyPrecipitating && firstZeroPrecip) {
+		const endsAt = formatInTimeZone(new Date(firstZeroPrecip.time), tz, 'h:mm a');
+		return `Precipitation ends at ${endsAt}`;
+	}
+
+	return `Precipitation throughout the next ${HOURS_TO_SHOW} hours.`;
+};
 
 const Container = ({ children }: { children?: ReactNode }) => (
 	<Card gradient={false} className="p-4 flex flex-col gap-1 h-full bg-muted">
@@ -34,7 +56,7 @@ export const UpcomingPrecipitation = () => {
 	// find the higher of precip/snow in each of the minutely_15s
 	const higherForm = minutely_15.map((o) => Math.max(o.precipitation, o.snowfall));
 
-  // find min/max across all minutely_15s
+	// find min/max across all minutely_15s
 	const min = Math.min(...higherForm);
 	const max = Math.max(...higherForm);
 	const message = minutely_15.length > 0 ? getMessage(minutely_15, tz) : '';
