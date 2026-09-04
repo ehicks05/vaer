@@ -2,8 +2,8 @@
 
 ## Recent Updates
 
-Sep 2026 - Replaced windy maps with open meteo + maplibre + maptiler
-Oct 2024 - Migrated from OpenWeatherMap to Open-Meteo. Alerts now come from weather.gov.
+* Sep 2026 - Replaced windy maps with open meteo + maplibre + maptiler
+* Oct 2024 - Migrated from OpenWeatherMap to Open-Meteo. Alerts now come from weather.gov.
 
 ## Prereqs
 
@@ -20,9 +20,14 @@ Oct 2024 - Migrated from OpenWeatherMap to Open-Meteo. Alerts now come from weat
 
 ## data source notes
 
-- open-meteo provides weather data
-- weather.gov provides alerts and geolocation lat,long -> point data (city, state, timezone, etc...)
-- geonames provides search by city name or zip -> geoname data (city, state, timezone, etc...)
+- open-meteo 
+  - forecasts
+  - air quality
+- weather.gov 
+  - alerts 
+  - geolocation lat,long -> point data (city, state, timezone, etc...)
+- geonames 
+  - search by city name or zip -> geoname data (city, state, timezone, etc...)
 
 ## location flow
 
