@@ -11,12 +11,11 @@ import {
 	DialogContent,
 	DialogDescription,
 	DialogHeader,
-	DialogOverlay,
-	DialogPortal,
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog';
 import { NAV_BAR_BUTTON_STYLES } from '@/constants/classes';
+import { ONE_DAY } from '@/constants/datetime';
 import { useWeatherGov } from '@/services/weathergov';
 import type { Properties } from '@/services/weathergov/types/alerts';
 import { formatInTimeZone } from './utils';
@@ -70,6 +69,31 @@ export const AlertCard = ({ alert, tz, showTitle = true }: AlertCardProps) => {
 	);
 };
 
+const SAMPLE_ALERTS = [
+	{
+		id: 'tsu',
+		properties: {
+			event: 'Tsunami',
+			description: 'This is a description.',
+			onset: new Date().toISOString(),
+			ends: new Date(Date.now() + ONE_DAY).toISOString(),
+			senderName: 'EWS - Emergency Weather Services',
+			severity: 'Wumbo',
+		},
+	},
+	{
+		id: 'ast',
+		properties: {
+			event: 'Giant Asteroid',
+			description: 'This is a description.',
+			onset: new Date().toISOString(),
+			ends: new Date(Date.now() + ONE_DAY).toISOString(),
+			senderName: 'EWS - Emergency Weather Services',
+			severity: 'Wumbo',
+		},
+	},
+];
+
 export const Alert = () => {
 	const { alertsQuery, pointQuery } = useWeatherGov();
 
@@ -81,41 +105,41 @@ export const Alert = () => {
 
 	return (
 		<Dialog>
-			<DialogTrigger asChild>
-				<button
-					type="button"
-					className={`flex items-center justify-center ${NAV_BAR_BUTTON_STYLES}`}
-				>
-					<AlertTriangle size={20} className="m-1" />
-				</button>
-			</DialogTrigger>
-			<DialogPortal>
-				<DialogOverlay />
-				<DialogContent className="bg-slate-800 max-h-fit">
-					{alerts.length === 1 && (
-						<AlertCard alert={alerts[0].properties} tz={point.timeZone} />
-					)}
+			<DialogTrigger
+				render={
+					<button
+						type="button"
+						className={`flex items-center justify-center ${NAV_BAR_BUTTON_STYLES}`}
+					>
+						<AlertTriangle size={20} className="m-1" />
+					</button>
+				}
+			/>
+			<DialogContent className="bg-slate-800 max-h-fit">
+				<DialogHeader>
+					<DialogTitle>Alerts</DialogTitle>
+				</DialogHeader>
+				{alerts.length === 1 && (
+					<AlertCard alert={alerts[0].properties} tz={point.timeZone} />
+				)}
 
-					{alerts.length > 1 && (
-						<Accordion type="single" collapsible className="overflow-auto">
-							{alerts.map((alert) => (
-								<AccordionItem key={alert.id} value={alert.id}>
-									<AccordionTrigger className="text-lg font-semibold">
-										{alert.properties.event}
-									</AccordionTrigger>
-									<AccordionContent>
-										<AlertCard
-											alert={alert.properties}
-											tz={point.timeZone}
-											showTitle={false}
-										/>
-									</AccordionContent>
-								</AccordionItem>
-							))}
-						</Accordion>
-					)}
-				</DialogContent>
-			</DialogPortal>
+				{alerts.length > 1 && (
+					<Accordion className="overflow-auto">
+						{alerts.map((alert) => (
+							<AccordionItem key={alert.id} value={alert.id}>
+								<AccordionTrigger>{alert.properties.event}</AccordionTrigger>
+								<AccordionContent>
+									<AlertCard
+										alert={alert.properties}
+										tz={point.timeZone}
+										showTitle={false}
+									/>
+								</AccordionContent>
+							</AccordionItem>
+						))}
+					</Accordion>
+				)}
+			</DialogContent>
 		</Dialog>
 	);
 };
