@@ -22,6 +22,8 @@ const OM_DEFAULTS = {
 	dark: 'false',
 };
 
+const DEFAULT = { zoom: 6 };
+
 interface Props {
 	coords: [number, number];
 }
@@ -35,13 +37,13 @@ export function MapLibreMap({ coords: [latitude, longitude] }: Props) {
 	const omUrl = `${OM_BASE}?${omParams}`;
 
 	useEffect(() => {
-		mapRef.current?.flyTo({ center: [longitude, latitude] });
+		mapRef.current?.flyTo({ center: [longitude, latitude], zoom: DEFAULT.zoom });
 	}, [latitude, longitude]);
 
 	return (
 		<MapLibre
 			ref={mapRef}
-			initialViewState={{ longitude, latitude, zoom: 6 }}
+			initialViewState={{ longitude, latitude, zoom: DEFAULT.zoom }}
 			style={{ width: '100%', height: '100%', borderRadius: '8px' }}
 			mapStyle={mapStyle}
 			attributionControl={false}
