@@ -1,5 +1,5 @@
+import { Droplet, Snowflake } from 'lucide-react';
 import { useContext } from 'react';
-import { WiRaindrop, WiSnowflakeCold } from 'react-icons/wi';
 import { Card } from '@/components';
 import { DayIndexContext } from '@/contexts/DayIndexContext';
 import { useUnitSystem } from '@/features/UnitSystem/useUnitSystem';
@@ -27,7 +27,7 @@ export const DayStats = () => {
 	} = openMeteo?.daily[dayIndex || 0] || {};
 
 	const isSnowfallGreater = (snowfall_sum || 0) > (precipitation_sum || 0);
-	const precipIcon = isSnowfallGreater ? WiSnowflakeCold : WiRaindrop;
+	const precipIcon = isSnowfallGreater ? Snowflake : Droplet;
 	const precipLabel = getLength(Math.max(precipitation_sum || 0, snowfall_sum || 0));
 
 	const moonPhaseIndex = Math.floor((moon_phase || 0) * MOON_PHASES.length);
@@ -35,7 +35,7 @@ export const DayStats = () => {
 
 	const newStats = [
 		...getSunTimeStats(tz, sunrise, sunset),
-		{ Icon: precipIcon, label: 'Precip', value: precipLabel },
+		{ Icon: precipIcon, label: 'Precip', value: precipLabel, iconSize: 24 },
 		...getMoonTimeStats(tz, moonrise, moonset),
 		{
 			Icon: phase.Icon,
