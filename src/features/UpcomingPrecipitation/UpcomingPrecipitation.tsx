@@ -94,16 +94,12 @@ export const UpcomingPrecipitation = () => {
 		.filter((minutely) => new Date(minutely.time).getTime() >= Date.now())
 		.slice(0, HOURS_TO_SHOW * 4);
 
-	const min = Math.min(
-		...minutely_15.map(({ precipitation, snowfall }) =>
-			Math.max(precipitation, snowfall),
-		),
-	);
-	const max = Math.max(
-		...minutely_15.map(({ precipitation, snowfall }) =>
-			Math.max(precipitation, snowfall),
-		),
-	);
+	// find the higher of precip/snow in each of the minutely_15s
+	const higherForm = minutely_15.map((o) => Math.max(o.precipitation, o.snowfall));
+
+  // find min/max across all minutely_15s
+	const min = Math.min(...higherForm);
+	const max = Math.max(...higherForm);
 	const message = minutely_15.length > 0 ? getMessage(minutely_15, tz) : '';
 
 	return (
