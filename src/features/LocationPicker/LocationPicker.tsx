@@ -18,13 +18,6 @@ const KeyboardShortcut = () => (
 	</div>
 );
 
-const LocationButton = () => (
-	<Button variant="outline" className="gap-2 sm:gap-10 text-muted-foreground">
-		Location...
-		<KeyboardShortcut />
-	</Button>
-);
-
 export const LocationPicker = () => {
 	const [open, setOpen] = useState(false);
 
@@ -45,9 +38,17 @@ export const LocationPicker = () => {
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
-			<DialogTrigger>
-				<LocationButton />
-			</DialogTrigger>
+			<DialogTrigger
+				render={
+					<Button
+						variant="outline"
+						className="gap-2 sm:gap-10 text-muted-foreground"
+					>
+						Location...
+						<KeyboardShortcut />
+					</Button>
+				}
+			/>
 			<DialogContent>
 				<DialogHeader>
 					<DialogTitle>Choose a Location</DialogTitle>
