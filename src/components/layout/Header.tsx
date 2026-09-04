@@ -15,15 +15,13 @@ const Logo = () => (
 	</div>
 );
 
-export default function Header() {
-	return (
-		<div className="flex items-center justify-between h-16 max-w-7xl mx-auto px-2 w-full">
-			<Logo />
-			<div className="flex items-center gap-2 sm:gap-4">
-				<Alert />
-				<UnitSystemToggle />
-				<LocationPicker />
-			</div>
+export const Header = () => (
+	<div className="flex items-center justify-between h-16 max-w-7xl mx-auto px-2 w-full">
+		<Logo />
+		<div className="flex items-center gap-2 sm:gap-4">
+			<Alert />
+			<UnitSystemToggle />
+			<LocationPicker />
 		</div>
-	);
-}
+	</div>
+);

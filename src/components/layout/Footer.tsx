@@ -1,9 +1,8 @@
 import { round } from 'es-toolkit';
-import React from 'react';
 import { About } from '@/app/About';
 import { useResolvedLatLong } from '@/hooks';
 
-const Footer = () => {
+export const Footer = () => {
 	const { lat, long } = useResolvedLatLong();
 	const coords = lat
 		? `${round(Number(lat || 0), 2)},${round(Number(long || 0), 2)}`
@@ -16,5 +15,3 @@ const Footer = () => {
 		</footer>
 	);
 };
-
-export default React.memo(Footer);
