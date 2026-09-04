@@ -1,5 +1,5 @@
 import { round } from 'es-toolkit';
-import { About } from '@/app/About';
+import { About } from '@/features/About';
 import { useResolvedLatLong } from '@/hooks';
 
 export const Footer = () => {

@@ -1,5 +1,5 @@
-import { Alert } from '@/app/AlertDialog';
-import { LocationPicker } from '@/app/LocationPicker';
+import { Alert } from '@/features/AlertDialog';
+import { LocationPicker } from '@/features/LocationPicker';
 import { UnitSystemToggle } from '@/hooks/useUnitSystem';
 
 const Logo = () => (

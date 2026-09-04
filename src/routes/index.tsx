@@ -4,7 +4,7 @@ import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client
 import { createFileRoute } from '@tanstack/react-router';
 import { Footer, Header } from '@/components';
 import { AppProvider } from '@/contexts/AppProvider';
-import { Home } from '../app/Home';
+import { Home } from '@/features/Home';
 
 export const Route = createFileRoute('/')({
 	component: Index,
