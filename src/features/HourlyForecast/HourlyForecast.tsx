@@ -1,5 +1,6 @@
 import { round } from 'es-toolkit';
 import { type ReactNode, useContext } from 'react';
+import { Card } from '@/components';
 import { DayIndexContext } from '@/contexts/DayIndexContext';
 import { useUnitSystem } from '@/features/UnitSystem/useUnitSystem';
 import { useOpenMeteo } from '@/hooks';
@@ -7,14 +8,17 @@ import type { Hourly } from '@/services/openMeteo/types/forecast';
 import { formatInTimeZone } from '../utils';
 import { PLACEHOLDER_DATA } from './constants';
 import { Precip } from './Precip';
-import { ScrollbarContainer } from './ScrollbarContainer';
 import { Weather } from './Weather';
 import { Wind } from './Wind';
 
 const Container = ({ children }: { children: ReactNode }) => (
 	<div className="flex flex-col group">
 		Hourly Forecast
-		<ScrollbarContainer>{children}</ScrollbarContainer>
+		<Card>
+			<div className="flex gap-6 p-4 overflow-x-scroll scroll-fade-TODO">
+				{children}
+			</div>
+		</Card>
 	</div>
 );
 
