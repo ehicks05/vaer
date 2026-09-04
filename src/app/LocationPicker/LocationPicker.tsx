@@ -56,7 +56,7 @@ export const LocationPicker = () => {
 					</DialogHeader>
 					<LocationForm />
 					<div className="flex">
-						<DialogClose asChild>
+						<DialogClose className={NAV_BAR_BUTTON_STYLES}>
 							<Button>Close</Button>
 						</DialogClose>
 					</div>
