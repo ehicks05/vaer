@@ -8,9 +8,9 @@ import { UpcomingPrecipitation } from './UpcomingPrecipitation';
 import { VaerMap } from './VaerMap/VaerMap';
 
 export const Home = () => {
-	const { lat } = useResolvedLocation();
+	const { city } = useResolvedLocation();
 
-	if (!lat) {
+	if (!city) {
 		return <EmptyLocation />;
 	}
 

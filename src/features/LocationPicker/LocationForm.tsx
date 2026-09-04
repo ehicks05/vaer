@@ -83,9 +83,11 @@ export const SavedLocations = () => {
 
 	return (
 		<div className="flex flex-col gap-4">
+			<div>Current Location</div>
+			<CurrentLocation />
+
 			<div>Saved Locations</div>
 			<div className="flex flex-col gap-2 w-full">
-				<CurrentLocation />
 				{savedLocations.map((location) => {
 					const onClick = () => {
 						setSavedLocations(
