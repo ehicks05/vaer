@@ -19,7 +19,7 @@ const KeyboardShortcut = () => (
 );
 
 const LocationButton = () => (
-	<Button variant="outline" className="gap-2 sm:gap-16 text-muted-foreground">
+	<Button variant="outline" className="gap-2 sm:gap-10 text-muted-foreground">
 		Location...
 		<KeyboardShortcut />
 	</Button>
