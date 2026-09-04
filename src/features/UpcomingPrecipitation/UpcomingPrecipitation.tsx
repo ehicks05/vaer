@@ -22,7 +22,7 @@ const QuarterHour = ({ inchesPerHour, title }: Props) => {
 	return (
 		<div
 			title={title}
-			className="group flex items-end px-px rounded-xs h-full hover:bg-indigo-700 w-16"
+			className="group flex items-end px-px rounded-xs h-full hover:bg-indigo-100 dark:hover:bg-indigo-900 w-16"
 		>
 			<div className={`rounded-xs w-full ${color}`} style={style} />
 		</div>
@@ -91,7 +91,7 @@ export const UpcomingPrecipitation = () => {
 			<Container>
 				<div>Upcoming precipitation</div>
 				<div className="grow" />
-				<div className="text-xs text-neutral-300">checked at</div>
+				<div className="text-xs text-muted-foreground">checked at</div>
 			</Container>
 		);
 	}
