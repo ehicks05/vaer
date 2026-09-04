@@ -1,9 +1,8 @@
-import { Card } from '@/components';
 import { useResolvedLocation } from '@/hooks/useResolvedLocation';
 import { DailyForecast } from './DailyForecast';
 import { DayStats } from './DayStats';
 import { HourlyForecast } from './HourlyForecast';
-import { LocationForm } from './LocationPicker/LocationForm';
+import { EmptyLocation } from './LocationPicker/EmptyLocation';
 import { Summary } from './Summary';
 import { UpcomingPrecipitation } from './UpcomingPrecipitation';
 import { VaerMap } from './VaerMap/VaerMap';
@@ -12,13 +11,7 @@ export const Home = () => {
 	const { lat } = useResolvedLocation();
 
 	if (!lat) {
-		return (
-			<div className="grow w-full h-full flex items-center justify-center">
-				<Card gradient={false} className="p-8 bg-neutral-800">
-					<LocationForm />
-				</Card>
-			</div>
-		);
+		return <EmptyLocation />;
 	}
 
 	return (
