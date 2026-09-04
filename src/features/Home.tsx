@@ -4,9 +4,9 @@ import { DailyForecast } from './DailyForecast';
 import { DayStats } from './DayStats';
 import { HourlyForecast } from './HourlyForecast';
 import { LocationForm } from './LocationPicker/LocationForm';
-import { VaerMap } from './VaerMap/VaerMap';
 import { Summary } from './Summary';
 import { UpcomingPrecipitation } from './UpcomingPrecipitation';
+import { VaerMap } from './VaerMap/VaerMap';
 
 export const Home = () => {
 	const { lat } = useResolvedLocation();

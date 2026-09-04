@@ -1,6 +1,6 @@
+import { useUnitSystem } from '@/features/UnitSystem/useUnitSystem';
 import { useOpenMeteo } from '@/hooks';
 import { useResolvedLocation } from '@/hooks/useResolvedLocation';
-import { useUnitSystem } from '@/features/UnitSystem/useUnitSystem';
 import { getWmoWeatherIcon } from '../constants/weather_icons';
 
 export const Summary = () => {

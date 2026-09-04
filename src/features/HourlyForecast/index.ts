@@ -1,3 +1,1 @@
-import { HourlyForecast } from './HourlyForecast';
-
-export { HourlyForecast };
+export { HourlyForecast } from './HourlyForecast';

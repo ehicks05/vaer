@@ -1,8 +1,8 @@
 import { type ReactNode, useContext } from 'react';
 import { Card } from '@/components';
 import { DayIndexContext } from '@/contexts/DayIndexContext';
-import { useOpenMeteo } from '@/hooks';
 import { useUnitSystem } from '@/features/UnitSystem/useUnitSystem';
+import { useOpenMeteo } from '@/hooks';
 import { getWmoWeatherIcon } from '../constants/weather_icons';
 import { addDays, formatInTimeZone } from './utils';
 

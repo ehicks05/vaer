@@ -1,6 +1,4 @@
-import { Circle } from 'lucide-react';
 import type { IconType } from 'react-icons';
-import { GrStatusPlaceholder } from 'react-icons/gr';
 import {
 	WiDayFog,
 	WiDayRain,
@@ -11,7 +9,6 @@ import {
 	WiDaySunny,
 	WiDaySunnyOvercast,
 	WiDayThunderstorm,
-	WiMoonAltNew,
 	WiMoonNew,
 	WiNightAltCloudy,
 	WiNightAltPartlyCloudy,

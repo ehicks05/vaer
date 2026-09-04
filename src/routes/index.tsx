@@ -2,9 +2,9 @@ import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persi
 import { QueryClient } from '@tanstack/react-query';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { createFileRoute } from '@tanstack/react-router';
-import { Footer, Header } from '@/components';
 import { AppProvider } from '@/contexts/AppProvider';
 import { Home } from '@/features/Home';
+import { Footer, Header } from '@/features/layout';
 
 export const Route = createFileRoute('/')({
 	component: Index,

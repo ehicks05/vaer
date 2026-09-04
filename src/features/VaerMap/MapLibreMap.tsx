@@ -4,7 +4,7 @@ import MapLibre, { Layer, Source } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url';
 import { useState } from 'react';
-import { useInterval, useMediaQuery } from 'usehooks-ts';
+import { useInterval } from 'usehooks-ts';
 
 setWorkerUrl(workerUrl);
 
