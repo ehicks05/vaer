@@ -22,7 +22,7 @@ const QuarterHour = ({ inchesPerHour, title }: Props) => {
 	return (
 		<div
 			title={title}
-			className="group flex items-end px-px rounded-xs h-full hover:bg-indigo-100 dark:hover:bg-indigo-900 w-16"
+			className="group flex items-end px-px rounded-xs h-full hover:bg-neutral-200 dark:hover:bg-neutral-700 w-16"
 		>
 			<div className={`rounded-xs w-full ${color}`} style={style} />
 		</div>
