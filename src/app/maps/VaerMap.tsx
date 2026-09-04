@@ -12,7 +12,7 @@ export const VaerMap = ({ className }: Props) => {
 	if (lat === undefined || long === undefined) {
 		return (
 			<Card
-				className="flex items-center justify-center h-full bg-slate-800"
+				className="flex items-center justify-center h-full bg-muted"
 				gradient={false}
 			>
 				Map
@@ -21,7 +21,9 @@ export const VaerMap = ({ className }: Props) => {
 	}
 
 	return (
-		<div className={className}>
+		<div
+			className={`w-full flex overflow-hidden dark:brightness-65 rounded-lg ${className}`}
+		>
 			<MapLibreMap coords={[Number(lat), Number(long)]} />
 		</div>
 	);

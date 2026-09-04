@@ -4,14 +4,18 @@ import MapLibre, { Layer, Source } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url';
 import { useState } from 'react';
-import { useInterval } from 'usehooks-ts';
+import { useInterval, useMediaQuery } from 'usehooks-ts';
 
 setWorkerUrl(workerUrl);
 
 addProtocol('om', omProtocol);
 
 const MAP_TILER_API_KEY = 'Z0saQSNyZmNKMPbZnckK';
-const mapStyle = `https://api.maptiler.com/maps/dataviz-v4-dark/style.json?key=${MAP_TILER_API_KEY}`;
+
+const mapLight = 'dataviz-v4';
+const mapDark = 'dataviz-v4-dark';
+
+const mapStyle = `https://api.maptiler.com/maps/${mapLight}/style.json?key=${MAP_TILER_API_KEY}`;
 
 const OM_BASE =
 	'https://openmeteo.s3.amazonaws.com/data_spatial/dwd_icon/latest.json';

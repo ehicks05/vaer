@@ -63,7 +63,7 @@ const HourlyDetail = ({ hourly, tz }: Props) => {
 				<span className="text-xs">FL</span>
 			</div>
 			<div
-				className={`flex items-baseline gap-0.5 whitespace-nowrap ${precipitation_probability < 20 ? 'text-neutral-400' : ''}`}
+				className={`flex items-baseline gap-0.5 whitespace-nowrap ${precipitation_probability < 20 ? 'text-muted-foreground' : ''}`}
 			>
 				{`${round(Math.floor(precipitation_probability / 5)) * 5}`}
 				<span className="text-xs">%P</span>

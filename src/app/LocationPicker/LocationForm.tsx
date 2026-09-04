@@ -31,8 +31,8 @@ export const LocationForm = () => {
 				/>
 				<div className="flex flex-col gap-2 w-full">
 					{!query.error && locations.length === 0 && (
-						<Card className="bg-neutral-800" gradient={false}>
-							<div className="flex flex-col items-center p-4 text-neutral-500">
+						<Card className="bg-muted" gradient={false}>
+							<div className="flex flex-col items-center p-4 text-muted-foreground">
 								{query.isFetching ? (
 									<CgSpinnerAlt size={48} className="animate-spin" />
 								) : (
@@ -65,8 +65,8 @@ export const LocationForm = () => {
 						);
 					})}
 					{query.error && !query.isLoading && locations.length === 0 && (
-						<Card className="bg-neutral-800" gradient={false}>
-							<div className="flex flex-col gap-4 items-center text-neutral-500">
+						<Card className="bg-muted" gradient={false}>
+							<div className="flex flex-col gap-4 items-center text-muted-foreground">
 								<HiExclamationTriangle size={64} className="text-red-700" />
 								Something went wrong. Try again later.
 							</div>

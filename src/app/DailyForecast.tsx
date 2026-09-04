@@ -32,7 +32,7 @@ const OneDaySummary = ({
 			onClick={onClick}
 			onKeyUp={onClick}
 			className={`grow px-4 first:pt-1 last:pb-1 first:rounded-t-lg last:rounded-b-lg cursor-pointer ${
-				isSelected ? 'bg-slate-800' : 'hover:brightness-110'
+				isSelected ? 'bg-muted' : 'hover:brightness-110'
 			}`}
 		>
 			<div className="flex items-center justify-between gap-1">
@@ -42,12 +42,14 @@ const OneDaySummary = ({
 					</div>
 					<div className="whitespace-nowrap text-left">
 						{day}
-						<div className="text-xs opacity-75">{weather.description}</div>
+						<div className="text-xs text-muted-foreground">
+							{weather.description}
+						</div>
 					</div>
 				</div>
 				<div className="whitespace-nowrap flex flex-col text-right">
 					<span>{getTemp(max)}</span>
-					<span className="opacity-75">{getTemp(min)}</span>
+					<span className="text-muted-foreground">{getTemp(min)}</span>
 				</div>
 			</div>
 		</button>

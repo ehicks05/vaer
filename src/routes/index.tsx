@@ -22,7 +22,7 @@ function Index() {
 	return (
 		<PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
 			<AppProvider>
-				<div className="flex flex-col min-h-screen bg-linear-to-r from-stone-900 to-neutral-950">
+				<div className="flex flex-col min-h-screen">
 					<div className="sm:px-4">
 						<Header />
 					</div>

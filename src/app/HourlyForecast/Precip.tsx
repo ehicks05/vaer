@@ -3,7 +3,7 @@ export const Precip = ({ precip }: { precip: string }) => {
 
 	return (
 		<div
-			className={`flex gap-0.5 items-baseline whitespace-nowrap ${amount === '0' ? 'text-neutral-400' : ''}`}
+			className={`flex gap-0.5 items-baseline whitespace-nowrap ${amount === '0' ? 'text-muted-foreground' : ''}`}
 		>
 			{amount}
 			<span className="text-xs">{unit}</span>
