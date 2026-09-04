@@ -15,7 +15,7 @@ export const useGeolocation = () => {
 		if (!geolocation.loading) {
 			setCachedGeolocation(geolocation);
 		}
-	}, [setCachedGeolocation, geolocation]);
+	}, [geolocation, setCachedGeolocation]);
 
 	return cachedGeolocation;
 };
