@@ -4,7 +4,7 @@ import { DailyForecast } from './DailyForecast';
 import { DayStats } from './DayStats';
 import { HourlyForecast } from './HourlyForecast';
 import { LocationForm } from './LocationPicker/LocationForm';
-import { VaerMap } from './maps/VaerMap';
+import { VaerMap } from './VaerMap/VaerMap';
 import { Summary } from './Summary';
 import { UpcomingPrecipitation } from './UpcomingPrecipitation';
 
