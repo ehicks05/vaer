@@ -20,7 +20,7 @@ export const LocationForm = () => {
 	);
 
 	return (
-		<div className="flex flex-col md:flex-row gap-4 h-full overflow-y-auto">
+		<div className="flex flex-col gap-4 h-full overflow-y-auto">
 			<div className="flex flex-col gap-4">
 				Search for a location
 				<input
@@ -30,10 +30,17 @@ export const LocationForm = () => {
 					placeholder="Search..."
 				/>
 				<div className="flex flex-col gap-2 w-full">
-					{query.isLoading && (
-						<div className="flex justify-center">
-							<CgSpinnerAlt size={64} className="animate-spin text-neutral-500" />
-						</div>
+					{!query.error && locations.length === 0 && (
+						<Card className="bg-neutral-800" gradient={false}>
+							<div className="flex flex-col items-center p-4 text-neutral-500">
+								{query.isFetching ? (
+									<CgSpinnerAlt size={48} className="animate-spin" />
+								) : (
+									<HiMagnifyingGlass size={48} />
+								)}
+								Search for a city
+							</div>
+						</Card>
 					)}
 					{locations.map((location) => {
 						const isSaved = savedLocations.some(
@@ -57,14 +64,6 @@ export const LocationForm = () => {
 							/>
 						);
 					})}
-					{!query.error && !query.isLoading && locations.length === 0 && (
-						<Card className="bg-neutral-800" gradient={false}>
-							<div className="flex flex-col items-center p-4 text-neutral-500">
-								<HiMagnifyingGlass size={48} />
-								Search for a city
-							</div>
-						</Card>
-					)}
 					{query.error && !query.isLoading && locations.length === 0 && (
 						<Card className="bg-neutral-800" gradient={false}>
 							<div className="flex flex-col gap-4 items-center text-neutral-500">

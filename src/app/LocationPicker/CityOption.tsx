@@ -1,4 +1,5 @@
-import { HiOutlineXCircle } from 'react-icons/hi2';
+import { X } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { type Geoname, geonameToLabel } from '@/services/geonames';
 
 interface Props {
@@ -9,25 +10,16 @@ interface Props {
 }
 
 export const CityOption = ({ city, isActive, onClick, onDelete }: Props) => {
-	const classes = isActive ? 'bg-green-800' : 'bg-neutral-700 hover:bg-neutral-600';
+	const classes = isActive ? 'bg-green-600' : 'bg-neutral-500 hover:bg-neutral-400';
 	return (
 		<div className="flex gap-2 text-sm">
-			<button
-				type="button"
-				disabled={isActive}
-				onClick={onClick}
-				className={`w-full p-2 text-left rounded-lg ${classes}`}
-			>
+			<Button onClick={onClick} className={`grow ${classes}`}>
 				{geonameToLabel(city)}
-			</button>
+			</Button>
 			{onDelete && (
-				<button
-					type="button"
-					onClick={onDelete}
-					className="p-1 rounded-lg bg-neutral-700 hover:bg-neutral-600"
-				>
-					<HiOutlineXCircle size={28} className="text-red-500" />
-				</button>
+				<Button variant="destructive" size="icon" onClick={onDelete}>
+					<X />
+				</Button>
 			)}
 		</div>
 	);

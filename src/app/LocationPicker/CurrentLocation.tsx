@@ -8,7 +8,7 @@ export const CurrentLocation = () => {
 	const { coords, error } = useGeolocation();
 
 	return (
-		<div className="grid grid-cols-1 gap-2 w-full max-w-64">
+		<div className="flex flex-col gap-2">
 			{coords !== null ? (
 				<CityOption
 					city={{ name: 'Current Location' }}
