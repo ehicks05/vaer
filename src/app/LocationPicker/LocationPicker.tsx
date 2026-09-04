@@ -11,20 +11,19 @@ import {
 } from '@/components/ui/dialog';
 import { LocationForm } from './LocationForm';
 
-export const NAV_BAR_BUTTON_STYLES =
-	'px-0.5 py-0.5 rounded-lg border border-neutral-800 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 transition-all';
+const KeyboardShortcut = () => (
+	<div className="ml-4 -mr-1 flex items-center gap-0.5 bg-muted px-2 rounded-sm text-xs">
+		<span className="text-base">⌘</span>
+		<span>K</span>
+	</div>
+);
 
-const LocationButton = () => {
-	return (
-		<div className="flex gap-2 sm:gap-16 items-baseline">
-			<div className="ml-2">Location...</div>
-			<div className="flex items-center gap-0.5 bg-neutral-800 px-2 m-0.5 rounded-sm text-xs">
-				<span className="text-base">⌘</span>
-				<span>K</span>
-			</div>
-		</div>
-	);
-};
+const LocationButton = () => (
+	<Button variant="outline" className="gap-2 sm:gap-16 text-muted-foreground">
+		Location...
+		<KeyboardShortcut />
+	</Button>
+);
 
 export const LocationPicker = () => {
 	const [open, setOpen] = useState(false);
@@ -46,7 +45,7 @@ export const LocationPicker = () => {
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
-			<DialogTrigger className={NAV_BAR_BUTTON_STYLES}>
+			<DialogTrigger>
 				<LocationButton />
 			</DialogTrigger>
 			<DialogContent>
