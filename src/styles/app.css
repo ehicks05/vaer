@@ -1,8 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@plugin 'tailwind-scrollbar';
-
 @theme {
 	--font-sans:
 		Fredoka, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
