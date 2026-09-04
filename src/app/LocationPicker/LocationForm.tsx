@@ -59,8 +59,8 @@ export const LocationForm = () => {
 					})}
 					{!query.error && !query.isLoading && locations.length === 0 && (
 						<Card className="bg-neutral-800" gradient={false}>
-							<div className="flex flex-col gap-4 items-center text-neutral-500">
-								<HiMagnifyingGlass size={64} />
+							<div className="flex flex-col items-center p-4 text-neutral-500">
+								<HiMagnifyingGlass size={48} />
 								Search for a city
 							</div>
 						</Card>

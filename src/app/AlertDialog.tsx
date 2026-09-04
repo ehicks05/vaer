@@ -6,15 +6,17 @@ import {
 	AccordionItem,
 	AccordionTrigger,
 } from '@/components/ui/accordion';
+import { Button } from '@/components/ui/button';
 import {
 	Dialog,
+	DialogClose,
 	DialogContent,
 	DialogDescription,
+	DialogFooter,
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog';
-import { NAV_BAR_BUTTON_STYLES } from '@/constants/classes';
 import { ONE_DAY } from '@/constants/datetime';
 import { useWeatherGov } from '@/services/weathergov';
 import type { Properties } from '@/services/weathergov/types/alerts';
@@ -97,7 +99,7 @@ const SAMPLE_ALERTS = [
 export const Alert = () => {
 	const { alertsQuery, pointQuery } = useWeatherGov();
 
-	const alerts = alertsQuery?.data?.features;
+	const alerts = SAMPLE_ALERTS;
 	const point = pointQuery?.data?.properties;
 	if (!alerts || alerts?.length === 0 || !point) {
 		return null;
@@ -107,15 +109,12 @@ export const Alert = () => {
 		<Dialog>
 			<DialogTrigger
 				render={
-					<button
-						type="button"
-						className={`flex items-center justify-center ${NAV_BAR_BUTTON_STYLES}`}
-					>
-						<AlertTriangle size={20} className="m-1" />
-					</button>
+					<Button variant="outline" size="icon">
+						<AlertTriangle />
+					</Button>
 				}
 			/>
-			<DialogContent className="bg-slate-800 max-h-fit">
+			<DialogContent>
 				<DialogHeader>
 					<DialogTitle>Alerts</DialogTitle>
 				</DialogHeader>
@@ -139,6 +138,10 @@ export const Alert = () => {
 						))}
 					</Accordion>
 				)}
+
+				<DialogFooter>
+					<DialogClose render={<Button>Close</Button>} />
+				</DialogFooter>
 			</DialogContent>
 		</Dialog>
 	);

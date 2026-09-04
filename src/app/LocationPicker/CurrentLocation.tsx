@@ -1,4 +1,4 @@
-import { Button } from '@/components';
+import { Button } from '@/components/ui/button';
 import { useSpecifiedLocation } from '@/hooks';
 import { useGeolocation } from '@/hooks/useGeolocation';
 import { CityOption } from './CityOption';
@@ -16,14 +16,12 @@ export const CurrentLocation = () => {
 					onClick={() => setSpecifiedLocation(undefined)}
 				/>
 			) : error?.code === 1 ? (
-				<Button disabled>
+				<div>
 					Geolocation permission not granted. Check browser permissions to use
 					current location.
-				</Button>
+				</div>
 			) : (
-				<Button className="bg-green-700" disabled>
-					Waiting for permission to be granted.
-				</Button>
+				<Button disabled>Waiting for permission to be granted.</Button>
 			)}
 		</div>
 	);

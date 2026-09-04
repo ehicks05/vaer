@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Button } from '@/components';
+import { Button } from '@/components/ui/button';
 import {
 	Dialog,
 	DialogClose,
@@ -47,15 +47,13 @@ export const LocationPicker = () => {
 			<DialogTrigger className={NAV_BAR_BUTTON_STYLES}>
 				<LocationButton />
 			</DialogTrigger>
-			<DialogContent className="bg-neutral-800">
+			<DialogContent>
 				<DialogHeader>
 					<DialogTitle>Choose a Location</DialogTitle>
 				</DialogHeader>
 				<LocationForm />
 				<DialogFooter>
-					<DialogClose className={NAV_BAR_BUTTON_STYLES}>
-						<Button>Close</Button>
-					</DialogClose>
+					<DialogClose render={<Button>Close</Button>} />
 				</DialogFooter>
 			</DialogContent>
 		</Dialog>
