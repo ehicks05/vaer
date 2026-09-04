@@ -1,5 +1,5 @@
 import { Bug } from 'lucide-react';
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
 	Dialog,
@@ -52,21 +52,6 @@ const Content = () => {
 
 export const Debug = () => {
 	const [open, setOpen] = useState(false);
-
-	const handleKeyDown = useCallback(
-		(event: KeyboardEvent) => {
-			if (event.ctrlKey && event.key === 'k') {
-				event.preventDefault();
-				setOpen(!open);
-			}
-		},
-		[open],
-	);
-
-	useEffect(() => {
-		document.addEventListener('keydown', handleKeyDown);
-		return () => document.removeEventListener('keydown', handleKeyDown);
-	}, [handleKeyDown]);
 
 	if (import.meta.env.PROD) {
 		return null;

@@ -1,5 +1,5 @@
 import { CircleQuestionMarkIcon } from 'lucide-react';
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
 	Dialog,
@@ -34,21 +34,6 @@ const Link = ({ href, children }: LinkProps) => (
 
 export const About = () => {
 	const [open, setOpen] = useState(false);
-
-	const handleKeyDown = useCallback(
-		(event: KeyboardEvent) => {
-			if (event.ctrlKey && event.key === 'k') {
-				event.preventDefault();
-				setOpen(!open);
-			}
-		},
-		[open],
-	);
-
-	useEffect(() => {
-		document.addEventListener('keydown', handleKeyDown);
-		return () => document.removeEventListener('keydown', handleKeyDown);
-	}, [handleKeyDown]);
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
