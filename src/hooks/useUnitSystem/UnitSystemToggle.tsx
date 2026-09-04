@@ -1,4 +1,4 @@
-import { NAV_BAR_BUTTON_STYLES } from '../../constants/classes';
+import { Button } from '@/components/ui/button';
 import { UNIT_SYSTEM_LABELS } from './constants';
 import { useUnitSystemToggle } from './useUnitSystemToggle';
 
@@ -6,12 +6,12 @@ export const UnitSystemToggle = () => {
 	const { unitSystem, toggleUnitSystem } = useUnitSystemToggle();
 
 	return (
-		<button
-			type="button"
-			className={NAV_BAR_BUTTON_STYLES}
+		<Button
+			variant="outline"
+			className="text-muted-foreground"
 			onClick={toggleUnitSystem}
 		>
-			<div className="px-2 py-0.5">{UNIT_SYSTEM_LABELS[unitSystem]}</div>
-		</button>
+			{UNIT_SYSTEM_LABELS[unitSystem]}
+		</Button>
 	);
 };

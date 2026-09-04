@@ -9,8 +9,10 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog';
-import { NAV_BAR_BUTTON_STYLES } from '../../constants/classes';
 import { LocationForm } from './LocationForm';
+
+export const NAV_BAR_BUTTON_STYLES =
+	'px-0.5 py-0.5 rounded-lg border border-neutral-800 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 transition-all';
 
 const LocationButton = () => {
 	return (

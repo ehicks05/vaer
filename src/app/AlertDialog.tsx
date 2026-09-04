@@ -99,7 +99,7 @@ const SAMPLE_ALERTS = [
 export const Alert = () => {
 	const { alertsQuery, pointQuery } = useWeatherGov();
 
-	const alerts = SAMPLE_ALERTS;
+	const alerts = alertsQuery.data?.features;
 	const point = pointQuery?.data?.properties;
 	if (!alerts || alerts?.length === 0 || !point) {
 		return null;
@@ -109,7 +109,7 @@ export const Alert = () => {
 		<Dialog>
 			<DialogTrigger
 				render={
-					<Button variant="outline" size="icon">
+					<Button variant="outline" className="text-muted-foreground" size="icon">
 						<AlertTriangle />
 					</Button>
 				}
