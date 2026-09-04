@@ -1,17 +1,29 @@
-import { round } from 'es-toolkit';
 import { About } from '@/features/About';
-import { useResolvedLatLong } from '@/hooks';
+import { useOpenMeteo } from '@/hooks';
+import { formatInTimeZone } from '@/lib/utils';
 import { Debug } from '../Debug';
 
-export const Footer = () => {
-	const { lat, long } = useResolvedLatLong();
-	const coords = lat
-		? `${round(Number(lat || 0), 2)},${round(Number(long || 0), 2)}`
-		: null;
+export const UpdatedAt = () => {
+	const { openMeteo } = useOpenMeteo();
+	const { data, dataUpdatedAt } = openMeteo;
+	const tz = data?.timezone;
+
+	if (!tz) {
+		return null;
+	}
 
 	return (
-		<footer className="flex items-center justify-end gap-4 px-2 py-4 max-w-7xl mx-auto w-full">
-			<span className="text-sm text-muted-foreground">{coords}</span>
+		<span className="text-sm text-muted-foreground">
+			updated {formatInTimeZone(new Date(dataUpdatedAt), tz, 'h:mm a z')}
+		</span>
+	);
+};
+
+export const Footer = () => {
+	return (
+		<footer className="flex items-center justify-between gap-4 p-4 max-w-7xl w-full">
+			<UpdatedAt />
+			<div className="grow" />
 			<About />
 			<Debug />
 		</footer>
