@@ -1,6 +1,5 @@
 import { Ghost, Loader2, Search, TriangleAlert } from 'lucide-react';
 import { useState } from 'react';
-import { Card } from '@/components';
 import { useSpecifiedLocation } from '@/hooks';
 import { useSearch } from '@/services/geonames/geonames';
 import { CityOption } from './CityOption';
