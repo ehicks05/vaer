@@ -110,5 +110,6 @@ export const useOpenMeteoForecast = ({ lat, long }: PartialLatLong) => {
 		staleTime: ONE_MINUTE,
 		gcTime: ONE_DAY,
 		placeholderData: keepPreviousData,
+		refetchInterval: ONE_MINUTE * 5,
 	});
 };

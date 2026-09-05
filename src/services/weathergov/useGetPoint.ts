@@ -29,5 +29,6 @@ export const useGetPoint = ({ lat, long }: PartialLatLong) => {
 		staleTime: ONE_DAY,
 		gcTime: ONE_DAY,
 		placeholderData: keepPreviousData,
+		refetchInterval: ONE_DAY / 2,
 	});
 };
