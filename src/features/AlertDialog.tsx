@@ -119,7 +119,7 @@ export const Alert = () => {
 					<DialogTitle>Alerts</DialogTitle>
 				</DialogHeader>
 
-				<div className="-mx-4 no-scrollbar max-h-[50vh] overflow-y-auto px-4">
+				<div className="max-h-[50vh] overflow-y-auto">
 					{alerts.length === 1 && (
 						<AlertCard alert={alerts[0].properties} tz={point.timeZone} />
 					)}

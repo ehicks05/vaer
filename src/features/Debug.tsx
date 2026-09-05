@@ -68,13 +68,9 @@ export const Debug = () => {
 					<DialogTitle>Debug</DialogTitle>
 				</DialogHeader>
 
-				<div className="overflow-auto h-260">
+				<div className="overflow-y-auto max-h-[50vh]">
 					<Content />
 				</div>
-
-				<DialogFooter>
-					<DialogClose render={<Button variant="outline">Close</Button>} />
-				</DialogFooter>
 			</DialogContent>
 		</Dialog>
 	);
