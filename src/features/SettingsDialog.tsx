@@ -68,7 +68,7 @@ export const SettingsDialog = ({ ignoreKeyboard = false, altTitle }: Props) => {
 				<DialogHeader>
 					<DialogTitle>Settings</DialogTitle>
 				</DialogHeader>
-				<div className="flex flex-col gap-6 max-h-[50vh] overflow-y-auto">
+				<div className="flex flex-col gap-6 max-h-[60vh] overflow-y-auto no-scrollbar">
 					<DialogTitle className="flex items-center gap-1">
 						<MapPin />
 						Location
