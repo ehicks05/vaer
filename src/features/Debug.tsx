@@ -13,7 +13,7 @@ import {
 import { useResolvedLatLong, useSpecifiedLocation } from '@/hooks';
 import { useGeolocation } from '@/hooks/useGeolocation';
 import { useResolvedLocation } from '@/hooks/useResolvedLocation';
-import { useSavedLocationStorage } from './LocationPicker/useSavedLocationStorage';
+import { useSavedLocationStorage } from './LocationForm/useSavedLocationStorage';
 
 const Content = () => {
 	const [savedLocations] = useSavedLocationStorage();

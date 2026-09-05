@@ -1,5 +1,5 @@
 import { Alert } from '@/features/AlertDialog';
-import { LocationPicker } from '@/features/LocationPicker';
+import { SettingsDialog } from '../SettingsDialog';
 import { UpdatedAt } from '../UpdatedAt';
 
 const Logo = () => (
@@ -21,7 +21,7 @@ export const Header = () => (
 		<div className="flex items-center gap-2 sm:gap-4">
 			<Alert />
 			<UpdatedAt />
-			<LocationPicker />
+			<SettingsDialog />
 		</div>
 	</div>
 );

@@ -4,7 +4,7 @@
 // 2. stick closer to web api types
 import { round } from 'es-toolkit';
 import { useEffect, useState } from 'react';
-import { useLocationPermission } from '@/features/LocationPicker/LocationPermission';
+import { useLocationPermission } from '@/features/LocationForm/LocationPermission';
 import type { GeolocationState } from './types';
 
 const DEFAULT_STATE: GeolocationState = {

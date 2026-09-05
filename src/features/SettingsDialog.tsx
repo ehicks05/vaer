@@ -10,8 +10,8 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog';
-import { UnitSystemToggle } from '../UnitSystem';
 import { LocationForm } from './LocationForm';
+import { UnitSystemToggle } from './UnitSystem';
 
 const KeyboardShortcut = () => (
 	<div className="-mr-1.5 flex items-center gap-0.5 bg-muted px-2 rounded-sm text-xs">
@@ -20,17 +20,26 @@ const KeyboardShortcut = () => (
 	</div>
 );
 
-export const LocationPicker = () => {
+interface Props {
+	ignoreKeyboard?: boolean;
+	altTitle: string;
+}
+
+// consider splitting for each use case: Header and EmptyLocation
+export const SettingsDialog = ({ ignoreKeyboard = false, altTitle }: Props) => {
 	const [open, setOpen] = useState(false);
 
 	const handleKeyDown = useCallback(
 		(event: KeyboardEvent) => {
+			if (ignoreKeyboard) {
+				return;
+			}
 			if (event.ctrlKey && event.key === 'k') {
 				event.preventDefault();
 				setOpen(!open);
 			}
 		},
-		[open],
+		[open, ignoreKeyboard],
 	);
 
 	useEffect(() => {
@@ -43,9 +52,15 @@ export const LocationPicker = () => {
 			<DialogTrigger
 				render={
 					<Button variant="outline" className="gap-2 text-muted-foreground">
-						<Settings className="sm:hidden" />
-						<span className="hidden sm:inline">Settings</span>
-						<KeyboardShortcut />
+						{altTitle ? (
+							altTitle
+						) : (
+							<>
+								<Settings className="sm:hidden" />
+								<span className="hidden sm:inline">{altTitle || 'Settings'}</span>
+							</>
+						)}
+						{!ignoreKeyboard && <KeyboardShortcut />}
 					</Button>
 				}
 			/>
@@ -53,9 +68,10 @@ export const LocationPicker = () => {
 				<DialogHeader>
 					<DialogTitle>Settings</DialogTitle>
 				</DialogHeader>
+				<DialogTitle>General</DialogTitle>
 				Units
 				<UnitSystemToggle />
-				<DialogTitle>Choose a Location</DialogTitle>
+				<DialogTitle>Location</DialogTitle>
 				<LocationForm />
 				<DialogFooter>
 					<DialogClose render={<Button variant="outline">Close</Button>} />

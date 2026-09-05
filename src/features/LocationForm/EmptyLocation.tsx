@@ -7,7 +7,7 @@ import {
 	EmptyMedia,
 	EmptyTitle,
 } from '@/components/ui/empty';
-import { LocationPicker } from './LocationPicker';
+import { SettingsDialog } from '../SettingsDialog';
 
 export const EmptyLocation = () => {
 	return (
@@ -20,7 +20,7 @@ export const EmptyLocation = () => {
 				<EmptyDescription>No location found. Add a location below:</EmptyDescription>
 			</EmptyHeader>
 			<EmptyContent>
-				<LocationPicker />
+				<SettingsDialog ignoreKeyboard altTitle="Location" />
 			</EmptyContent>
 		</Empty>
 	);

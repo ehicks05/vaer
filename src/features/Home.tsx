@@ -2,7 +2,7 @@ import { useResolvedLocation } from '@/hooks/useResolvedLocation';
 import { DailyForecast } from './DailyForecast';
 import { DayStats } from './DayStats';
 import { HourlyForecast } from './HourlyForecast';
-import { EmptyLocation } from './LocationPicker/EmptyLocation';
+import { EmptyLocation } from './LocationForm/EmptyLocation';
 import { Summary } from './Summary';
 import { UpcomingPrecipitation } from './UpcomingPrecipitation';
 import { VaerMap } from './VaerMap/VaerMap';
@@ -10,7 +10,7 @@ import { VaerMap } from './VaerMap/VaerMap';
 export const Home = () => {
 	const { city } = useResolvedLocation();
 
-	if (!city) {
+	if (city) {
 		return <EmptyLocation />;
 	}
 
