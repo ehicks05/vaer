@@ -1,19 +1,11 @@
 import { Bug } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import {
-	Dialog,
-	DialogClose,
-	DialogContent,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-} from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { useResolvedLatLong, useSpecifiedLocation } from '@/hooks';
 import { useGeolocation } from '@/hooks/useGeolocation';
 import { useResolvedLocation } from '@/hooks/useResolvedLocation';
-import { useSavedLocationStorage } from './LocationForm/useSavedLocationStorage';
+import { useSavedLocationStorage } from '../../LocationForm/useSavedLocationStorage';
 
 const Content = () => {
 	const [savedLocations] = useSavedLocationStorage();
@@ -64,10 +56,7 @@ export const Debug = () => {
 				}
 			/>
 			<DialogContent className="sm:max-w-4xl">
-				<DialogHeader>
-					<DialogTitle>Debug</DialogTitle>
-				</DialogHeader>
-
+				Debug
 				<div className="overflow-y-auto max-h-[50vh]">
 					<Content />
 				</div>
