@@ -28,7 +28,7 @@ export const useGetAlerts = ({ lat, long }: PartialLatLong) => {
 		enabled: lat !== undefined && long !== undefined,
 		staleTime: ONE_MINUTE,
 		gcTime: ONE_DAY,
-    placeholderData: keepPreviousData,
+		placeholderData: keepPreviousData,
 		refetchInterval: ONE_MINUTE * 5,
 	});
 };
