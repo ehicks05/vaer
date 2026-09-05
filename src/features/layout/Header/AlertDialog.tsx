@@ -71,7 +71,7 @@ export const AlertCard = ({ alert, tz, showTitle = true }: AlertCardProps) => {
 	);
 };
 
-const SAMPLE_ALERTS = [
+const _SAMPLE_ALERTS = [
 	{
 		id: 'tsu',
 		properties: {

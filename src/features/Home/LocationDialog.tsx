@@ -1,4 +1,4 @@
-import { MapPin, MapPinPlus, Ruler } from 'lucide-react';
+import { MapPin, MapPinPlus } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
