@@ -14,7 +14,7 @@ import { UnitSystemToggle } from '../UnitSystem';
 import { LocationForm } from './LocationForm';
 
 const KeyboardShortcut = () => (
-	<div className="ml-4 -mr-1 flex items-center gap-0.5 bg-muted px-2 rounded-sm text-xs">
+	<div className="-mr-1.5 flex items-center gap-0.5 bg-muted px-2 rounded-sm text-xs">
 		<span className="text-base">⌘</span>
 		<span>K</span>
 	</div>
@@ -42,8 +42,9 @@ export const LocationPicker = () => {
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger
 				render={
-					<Button variant="outline" className="gap-0 sm:gap-4 text-muted-foreground">
-						<Settings />
+					<Button variant="outline" className="gap-2 text-muted-foreground">
+						<Settings className="sm:hidden" />
+						<span className="hidden sm:inline">Settings</span>
 						<KeyboardShortcut />
 					</Button>
 				}
