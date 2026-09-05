@@ -9,7 +9,9 @@ export const CurrentLocation = () => {
 
 	return (
 		<div className="flex flex-col gap-2">
-			<LocationPermissionSwitch />
+			<div>Current Location</div>
+		
+      <LocationPermissionSwitch />
 
 			{coords !== null && (
 				<CityOption

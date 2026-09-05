@@ -1,4 +1,4 @@
-import { Settings } from 'lucide-react';
+import { MapPin, Ruler, Settings } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
@@ -68,11 +68,17 @@ export const SettingsDialog = ({ ignoreKeyboard = false, altTitle }: Props) => {
 				<DialogHeader>
 					<DialogTitle>Settings</DialogTitle>
 				</DialogHeader>
-				<DialogTitle>General</DialogTitle>
-				Units
-				<UnitSystemToggle />
-				<DialogTitle>Location</DialogTitle>
+				<DialogTitle className="flex items-center gap-1">
+					<MapPin />
+					Location
+				</DialogTitle>
+
 				<LocationForm />
+				<DialogTitle className="flex items-center gap-1">
+					<Ruler />
+					Units
+				</DialogTitle>
+				<UnitSystemToggle />
 				<DialogFooter>
 					<DialogClose render={<Button variant="outline">Close</Button>} />
 				</DialogFooter>

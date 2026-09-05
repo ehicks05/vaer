@@ -30,7 +30,7 @@ export const LocationSearcher = () => {
 			/>
 			<div className="flex flex-col gap-2 w-full">
 				{locations.length === 0 && (
-					<Card className="bg-muted" gradient={false}>
+					<Card className="border border-muted" gradient={false}>
 						<div className="flex flex-col items-center p-4 text-muted-foreground">
 							{query.isFetching ? (
 								<>
@@ -88,10 +88,7 @@ export const SavedLocations = () => {
 	const [specifiedLocation, setSpecifiedLocation] = useSpecifiedLocation();
 
 	return (
-		<div className="flex flex-col gap-4">
-			<div>Current Location</div>
-			<CurrentLocation />
-
+		<div className="flex flex-col gap-2">
 			<div>Saved Locations</div>
 			<div className="flex flex-col gap-2 w-full">
 				{savedLocations.map((location) => {
@@ -123,6 +120,7 @@ export const LocationForm = () => {
 		<div className="flex flex-col gap-6 h-full overflow-y-auto">
 			<LocationSearcher />
 			<SavedLocations />
+			<CurrentLocation />
 		</div>
 	);
 };
