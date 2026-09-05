@@ -10,9 +10,7 @@ setWorkerUrl(workerUrl);
 
 addProtocol('om', omProtocol);
 
-const MAP_TILER_API_KEY = 'Z0saQSNyZmNKMPbZnckK';
-const mapLight = 'dataviz-v4';
-const mapStyle = `https://api.maptiler.com/maps/${mapLight}/style.json?key=${MAP_TILER_API_KEY}`;
+const mapStyle = 'https://tiles.openfreemap.org/styles/positron';
 
 const OM_BASE =
 	'https://openmeteo.s3.amazonaws.com/data_spatial/dwd_icon/latest.json';
