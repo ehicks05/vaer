@@ -68,17 +68,21 @@ export const SettingsDialog = ({ ignoreKeyboard = false, altTitle }: Props) => {
 				<DialogHeader>
 					<DialogTitle>Settings</DialogTitle>
 				</DialogHeader>
-				<DialogTitle className="flex items-center gap-1">
-					<MapPin />
-					Location
-				</DialogTitle>
+				<div className="flex flex-col gap-6 max-h-[50vh] overflow-y-auto">
+					<DialogTitle className="flex items-center gap-1">
+						<MapPin />
+						Location
+					</DialogTitle>
+					<LocationForm />
 
-				<LocationForm />
-				<DialogTitle className="flex items-center gap-1">
-					<Ruler />
-					Units
-				</DialogTitle>
-				<UnitSystemToggle />
+					<div className="flex flex-col gap-6">
+						<DialogTitle className="flex items-center gap-1">
+							<Ruler />
+							Units
+						</DialogTitle>
+						<UnitSystemToggle />
+					</div>
+				</div>
 				<DialogFooter>
 					<DialogClose render={<Button variant="outline">Close</Button>} />
 				</DialogFooter>

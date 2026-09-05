@@ -117,7 +117,7 @@ export const SavedLocations = () => {
 
 export const LocationForm = () => {
 	return (
-		<div className="flex flex-col gap-6 h-full overflow-y-auto">
+		<div className="flex flex-col gap-6">
 			<LocationSearcher />
 			<SavedLocations />
 			<CurrentLocation />
