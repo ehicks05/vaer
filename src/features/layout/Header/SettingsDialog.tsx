@@ -10,8 +10,8 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog';
-import { LocationForm } from './LocationForm';
-import { UnitSystemToggle } from './UnitSystem';
+import { LocationForm } from '../../LocationForm';
+import { UnitSystemToggle } from '../../UnitSystem';
 
 const KeyboardShortcut = () => (
 	<div className="-mr-1.5 flex items-center gap-0.5 bg-muted px-2 rounded-sm text-xs">
@@ -20,26 +20,17 @@ const KeyboardShortcut = () => (
 	</div>
 );
 
-interface Props {
-	ignoreKeyboard?: boolean;
-	altTitle?: string;
-}
-
-// consider splitting for each use case: Header and EmptyLocation
-export const SettingsDialog = ({ ignoreKeyboard = false, altTitle }: Props) => {
+export const SettingsDialog = () => {
 	const [open, setOpen] = useState(false);
 
 	const handleKeyDown = useCallback(
 		(event: KeyboardEvent) => {
-			if (ignoreKeyboard) {
-				return;
-			}
 			if (event.ctrlKey && event.key === 'k') {
 				event.preventDefault();
 				setOpen(!open);
 			}
 		},
-		[open, ignoreKeyboard],
+		[open],
 	);
 
 	useEffect(() => {
@@ -52,15 +43,9 @@ export const SettingsDialog = ({ ignoreKeyboard = false, altTitle }: Props) => {
 			<DialogTrigger
 				render={
 					<Button variant="outline" className="gap-2 text-muted-foreground">
-						{altTitle ? (
-							altTitle
-						) : (
-							<>
-								<Settings className="sm:hidden" />
-								<span className="hidden sm:inline">{altTitle || 'Settings'}</span>
-							</>
-						)}
-						{!ignoreKeyboard && <KeyboardShortcut />}
+						<Settings className="sm:hidden" />
+						<span className="hidden sm:inline">Settings</span>
+						<KeyboardShortcut />
 					</Button>
 				}
 			/>

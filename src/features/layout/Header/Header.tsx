@@ -1,5 +1,5 @@
-import { Alert } from '@/features/layout/Header/AlertDialog';
-import { SettingsDialog } from '../../SettingsDialog';
+import { Alert } from './AlertDialog';
+import { SettingsDialog } from './SettingsDialog';
 import { UpdatedAt } from './UpdatedAt';
 
 const Logo = () => (

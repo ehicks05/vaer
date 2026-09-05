@@ -1,4 +1,4 @@
-import { About } from '@/features/layout/Footer/About';
+import { About } from './About';
 import { Debug } from './Debug';
 
 export const Footer = () => (
