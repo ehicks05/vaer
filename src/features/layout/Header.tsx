@@ -1,6 +1,6 @@
 import { Alert } from '@/features/AlertDialog';
 import { LocationPicker } from '@/features/LocationPicker';
-import { UnitSystemToggle } from '../UnitSystem';
+import { UpdatedAt } from '../UpdatedAt';
 
 const Logo = () => (
 	<div className="shrink-0 flex items-center">
@@ -20,7 +20,7 @@ export const Header = () => (
 		<Logo />
 		<div className="flex items-center gap-2 sm:gap-4">
 			<Alert />
-			<UnitSystemToggle />
+			<UpdatedAt />
 			<LocationPicker />
 		</div>
 	</div>

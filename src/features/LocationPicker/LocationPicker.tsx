@@ -1,3 +1,4 @@
+import { Settings } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
@@ -9,6 +10,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog';
+import { UnitSystemToggle } from '../UnitSystem';
 import { LocationForm } from './LocationForm';
 
 const KeyboardShortcut = () => (
@@ -40,19 +42,19 @@ export const LocationPicker = () => {
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger
 				render={
-					<Button
-						variant="outline"
-						className="gap-2 sm:gap-10 text-muted-foreground"
-					>
-						Location...
+					<Button variant="outline" className="gap-0 sm:gap-4 text-muted-foreground">
+						<Settings />
 						<KeyboardShortcut />
 					</Button>
 				}
 			/>
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle>Choose a Location</DialogTitle>
+					<DialogTitle>Settings</DialogTitle>
 				</DialogHeader>
+				Units
+				<UnitSystemToggle />
+				<DialogTitle>Choose a Location</DialogTitle>
 				<LocationForm />
 				<DialogFooter>
 					<DialogClose render={<Button variant="outline">Close</Button>} />
