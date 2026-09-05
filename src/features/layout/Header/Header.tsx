@@ -1,6 +1,6 @@
-import { Alert } from '@/features/AlertDialog';
-import { SettingsDialog } from '../SettingsDialog';
-import { UpdatedAt } from '../UpdatedAt';
+import { Alert } from '@/features/layout/Header/AlertDialog';
+import { SettingsDialog } from '../../SettingsDialog';
+import { UpdatedAt } from './UpdatedAt';
 
 const Logo = () => (
 	<div className="shrink-0 flex items-center">

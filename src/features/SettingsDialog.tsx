@@ -22,7 +22,7 @@ const KeyboardShortcut = () => (
 
 interface Props {
 	ignoreKeyboard?: boolean;
-	altTitle: string;
+	altTitle?: string;
 }
 
 // consider splitting for each use case: Header and EmptyLocation
