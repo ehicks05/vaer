@@ -30,31 +30,29 @@ export const LocationSearcher = () => {
 			/>
 			<div className="flex flex-col gap-2 w-full">
 				{locations.length === 0 && (
-					<Card className="border border-muted" gradient={false}>
-						<div className="flex flex-col items-center p-4 text-muted-foreground">
-							{query.isFetching ? (
-								<>
-									<Loader2 size={48} className="animate-spin" />
-									Searching...
-								</>
-							) : query.isError ? (
-								<>
-									<TriangleAlert size={48} className="text-red-600" />
-									Something went wrong. Try again later.
-								</>
-							) : query.isSuccess && locations.length === 0 ? (
-								<>
-									<Ghost size={48} />
-									Nothing was found
-								</>
-							) : (
-								<>
-									<Search size={48} />
-									Search for a city
-								</>
-							)}
-						</div>
-					</Card>
+					<div className="flex flex-col items-center p-4 text-muted-foreground rounded-lg border">
+						{query.isFetching ? (
+							<>
+								<Loader2 size={48} className="animate-spin" />
+								Searching...
+							</>
+						) : query.isError ? (
+							<>
+								<TriangleAlert size={48} className="text-red-600" />
+								Something went wrong. Try again later.
+							</>
+						) : query.isSuccess && locations.length === 0 ? (
+							<>
+								<Ghost size={48} />
+								Nothing was found
+							</>
+						) : (
+							<>
+								<Search size={48} />
+								Search for a city
+							</>
+						)}
+					</div>
 				)}
 				{locations.map((location) => {
 					const isSaved = savedLocations.some(

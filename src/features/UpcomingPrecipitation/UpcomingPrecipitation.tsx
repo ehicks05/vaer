@@ -56,7 +56,13 @@ export const UpcomingPrecipitation = () => {
 
 	return (
 		<Container>
-			<div className="flex flex-col gap-1">{message}</div>
+			<div
+				className={
+					hasPrecip ? '' : 'h-full flex flex-col items-center justify-center'
+				}
+			>
+				{message}
+			</div>
 			{hasPrecip && <Chart minutely={minutely_15} tz={tz} />}
 		</Container>
 	);
