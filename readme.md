@@ -2,8 +2,8 @@
 
 ## Recent Updates
 
-* Sep 2026 - Replaced windy maps with open meteo + maplibre + maptiler
-* Oct 2024 - Migrated from OpenWeatherMap to Open-Meteo. Alerts now come from weather.gov.
+- Sep 2026 - Replaced windy maps with open meteo + maplibre + openfreemap
+- Oct 2024 - Migrated from OpenWeatherMap to Open-Meteo. Alerts now come from weather.gov.
 
 ## Prereqs
 
@@ -20,13 +20,13 @@
 
 ## data source notes
 
-- open-meteo 
+- open-meteo
   - forecasts
   - air quality
-- weather.gov 
-  - alerts 
+- weather.gov
+  - alerts
   - geolocation lat,long -> point data (city, state, timezone, etc...)
-- geonames 
+- geonames
   - search by city name or zip -> geoname data (city, state, timezone, etc...)
 
 ## location flow
@@ -36,11 +36,11 @@ Flow starts with either the device's geolocation, or a search term.
 
 ## Resources
 
-| Description                  | Link                                                                |
-| ---------------------------- | ------------------------------------------------------------------- |
-| Geonames search              | [link](https://www.geonames.org/export/geonames-search.html)        |
-| Open-meteo api               | [link](https://open-meteo.com/en/docs)                              |
-| maplibre-gl-js               | [link](https://github.com/maplibre/maplibre-gl-js/)                 |
-| react-map-gl                 | [link](https://github.com/visgl/react-map-gl)                       |
-| open-meteo/weather-map-layer | [link](https://github.com/open-meteo/weather-map-layer)             |
-| maptiler                     | [link](https://docs.maptiler.com/guides/getting-started/developer/) |
+| Description                  | Link                                                         |
+| ---------------------------- | ------------------------------------------------------------ |
+| Geonames search              | [link](https://www.geonames.org/export/geonames-search.html) |
+| Open-meteo api               | [link](https://open-meteo.com/en/docs)                       |
+| maplibre-gl-js               | [link](https://github.com/maplibre/maplibre-gl-js/)          |
+| react-map-gl                 | [link](https://github.com/visgl/react-map-gl)                |
+| open-meteo/weather-map-layer | [link](https://github.com/open-meteo/weather-map-layer)      |
+| openfreemap                  | [link](https://openfreemap.org/quick_start/)                 |
