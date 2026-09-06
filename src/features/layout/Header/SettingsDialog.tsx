@@ -10,6 +10,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog';
+import { ModeToggle } from '@/components/ui/theme-toggle';
 import { LocationForm } from '../../LocationForm';
 import { UnitSystemToggle } from '../../UnitSystem';
 
@@ -63,9 +64,13 @@ export const SettingsDialog = () => {
 					<div className="flex flex-col gap-6">
 						<DialogTitle className="flex items-center gap-1">
 							<Ruler />
-							Units
+							General
 						</DialogTitle>
-						<UnitSystemToggle />
+
+						<div className="flex flex-col gap-2">
+							<ModeToggle />
+							<UnitSystemToggle />
+						</div>
 					</div>
 				</div>
 				<DialogFooter>
