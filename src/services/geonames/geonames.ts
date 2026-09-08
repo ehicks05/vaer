@@ -8,7 +8,7 @@ export const BASE = 'https://secure.geonames.org';
 const DEFAULTS = {
 	countryBias: 'US',
 	featureClass: 'P',
-	maxRows: '7',
+	maxRows: '5',
 	orderby: 'population',
 	style: 'FULL',
 	username: import.meta.env.VITE_GEONAMES_USERNAME,
