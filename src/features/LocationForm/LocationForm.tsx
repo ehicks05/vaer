@@ -89,13 +89,19 @@ export const SavedLocations = () => {
 			<div>Saved Locations</div>
 			<div className="flex flex-col gap-2 w-full">
 				{savedLocations.map((location) => {
-					const onClick = () => {
-						setSavedLocations(
-							savedLocations.filter((c) => c.geonameId !== location.geonameId),
+					const handleDelete = () => {
+						const remainingLocations = savedLocations.filter(
+							(o) => o.geonameId !== location.geonameId,
 						);
+
+						// handle deleting the specified location
 						if (location.geonameId === specifiedLocation?.geonameId) {
-							setSpecifiedLocation(undefined);
+							setSpecifiedLocation(
+								remainingLocations.length > 0 ? remainingLocations[0] : undefined,
+							);
 						}
+
+						setSavedLocations(remainingLocations);
 					};
 					return (
 						<CityOption
@@ -103,7 +109,7 @@ export const SavedLocations = () => {
 							city={location}
 							isActive={specifiedLocation?.geonameId === location.geonameId}
 							onClick={() => setSpecifiedLocation(location)}
-							onDelete={onClick}
+							onDelete={handleDelete}
 						/>
 					);
 				})}
