@@ -1,3 +1,4 @@
+import { Card } from '@/components';
 import { useUnitSystem } from '@/features/UnitSystem/useUnitSystem';
 import { useOpenMeteo } from '@/hooks';
 import { useResolvedLocation } from '@/hooks/useResolvedLocation';
@@ -23,32 +24,32 @@ export const Summary = () => {
 	const Icon = getWmoWeatherIcon(id, isDay);
 
 	return (
-		<div className="flex flex-col h-full w-full">
-			{/*Currently*/}
-			<div className="flex flex-col items-center justify-center p-4 bg-muted rounded-lg h-full">
-				{city || 'city'}, {state || 'state'}
-				<div className="flex gap-2 items-center text-6xl text-center">
-					{getTemp(temperature_2m)}
-					<div>
-						<Icon className="inline" size={64} title={description} />
-					</div>
-				</div>
-				<div className="flex items-center gap-1">
-					feels like {getTemp(apparent_temperature)} &middot; {description} &middot;{' '}
-					<span
-						className={
-							us_aqi && us_aqi <= 50
-								? 'text-green-500'
-								: us_aqi && us_aqi <= 100
-									? 'text-yellow-600'
-									: 'text-red-500'
-						}
-					>
-						{us_aqi}
-					</span>
-					AQI
+		<Card
+			className="flex flex-col items-center justify-center p-4 h-full w-full"
+			gradient={false}
+		>
+			{city || 'city'}, {state || 'state'}
+			<div className="flex gap-2 items-center text-6xl text-center">
+				{getTemp(temperature_2m)}
+				<div>
+					<Icon className="inline" size={64} title={description} />
 				</div>
 			</div>
-		</div>
+			<div className="flex items-center gap-1">
+				feels like {getTemp(apparent_temperature)} &middot; {description} &middot;{' '}
+				<span
+					className={
+						us_aqi && us_aqi <= 50
+							? 'text-green-500'
+							: us_aqi && us_aqi <= 100
+								? 'text-yellow-600'
+								: 'text-red-500'
+					}
+				>
+					{us_aqi}
+				</span>
+				AQI
+			</div>
+		</Card>
 	);
 };
