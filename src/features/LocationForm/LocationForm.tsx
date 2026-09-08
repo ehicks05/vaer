@@ -84,6 +84,10 @@ export const SavedLocations = () => {
 	const [savedLocations, setSavedLocations] = useSavedLocationStorage();
 	const [specifiedLocation, setSpecifiedLocation] = useSpecifiedLocation();
 
+	if (savedLocations.length === 0) {
+		return null;
+	}
+
 	return (
 		<div className="flex flex-col gap-2">
 			<div>Saved Locations</div>

@@ -27,13 +27,12 @@ export const LocationDialog = () => {
 			/>
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle>Settings</DialogTitle>
-				</DialogHeader>
-				<div className="flex flex-col gap-6 max-h-[60vh] overflow-y-auto no-scrollbar">
 					<DialogTitle className="flex items-center gap-1">
 						<MapPin />
 						Location
 					</DialogTitle>
+				</DialogHeader>
+				<div className="flex flex-col gap-6 max-h-[60vh] overflow-y-auto no-scrollbar">
 					<LocationForm />
 				</div>
 				<DialogFooter>
