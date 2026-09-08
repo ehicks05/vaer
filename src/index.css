@@ -62,6 +62,7 @@ body {
 	--color-card: var(--card);
 	--color-foreground: var(--foreground);
 	--color-background: var(--background);
+	--color-body-background: var(--body-background);
 	--radius-sm: calc(var(--radius) * 0.6);
 	--radius-md: calc(var(--radius) * 0.8);
 	--radius-lg: var(--radius);
@@ -72,6 +73,7 @@ body {
 }
 
 :root {
+	--body-background: oklch(90.2% 0.2 272.314);
 	--background: oklch(1 0 0);
 	--foreground: oklch(0.145 0 0);
 	--card: oklch(1 0 0);
@@ -107,6 +109,7 @@ body {
 }
 
 .dark {
+	--body-background: oklch(0.145 0 0);
 	--background: oklch(0.145 0 0);
 	--foreground: oklch(0.985 0 0);
 	--card: oklch(0.205 0 0);

@@ -49,7 +49,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
 			<head>
 				<HeadContent />
 			</head>
-			<body>
+			<body className="bg-body-background">
 				{children}
 				<Scripts />
 			</body>
