@@ -15,7 +15,7 @@ const Container = ({ children }: { children: ReactNode }) => (
 	<div className="flex flex-col group">
 		Hourly Forecast
 		<Card>
-			<div className="flex gap-6 p-4 overflow-x-scroll scroll-fade-TODO">
+			<div className="flex gap-6 p-4 overflow-x-scroll scrollbar-thin scroll-fade-TODO">
 				{children}
 			</div>
 		</Card>
