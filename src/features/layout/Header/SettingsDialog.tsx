@@ -63,7 +63,7 @@ export const SettingsDialog = () => {
 
 					<div className="flex flex-col gap-6">
 						<DialogTitle className="flex items-center gap-1">
-							<Ruler />
+							<Settings />
 							General
 						</DialogTitle>
 

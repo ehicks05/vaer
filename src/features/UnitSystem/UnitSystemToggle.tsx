@@ -1,3 +1,4 @@
+import { Boxes } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { UNIT_SYSTEM_LABELS } from './constants';
 import { useUnitSystemStorage } from './useUnitSystemStorage';
@@ -7,7 +8,7 @@ export const UnitSystemToggle = () => {
 
 	return (
 		<Button variant="outline" onClick={toggleUnitSystem}>
-			{UNIT_SYSTEM_LABELS[unitSystem]}
+			<Boxes /> {UNIT_SYSTEM_LABELS[unitSystem]}
 		</Button>
 	);
 };
