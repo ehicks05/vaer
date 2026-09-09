@@ -1,10 +1,17 @@
 import { omProtocol } from '@openmeteo/weather-map-layer';
 import { addProtocol, setWorkerUrl } from 'maplibre-gl';
-import MapLibre, { Layer, type MapRef, Source } from 'react-map-gl/maplibre';
+import MapLibre, {
+	Layer,
+	type MapRef,
+	Source,
+	type ViewStateChangeEvent,
+} from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { Crosshair } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { round } from 'es-toolkit';
+import { Locate, LocateFixed, PauseCircle, PlayCircle } from 'lucide-react';
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useInterval } from 'usehooks-ts';
 import { Button } from '@/components/ui/button';
 
@@ -16,32 +23,60 @@ const mapStyle = 'https://tiles.openfreemap.org/styles/positron';
 
 const OM_BASE =
 	'https://openmeteo.s3.amazonaws.com/data_spatial/dwd_icon/latest.json';
-const OM_DEFAULTS = {
-	time_step: 'current_time_1M',
-	variable: 'precipitation',
-	dark: 'false',
-};
 
 const DEFAULT = { zoom: 6 };
 
 interface Props {
 	coords: [number, number];
+	tz?: string;
 }
 
-export function MapLibreMap({ coords: [latitude, longitude] }: Props) {
+export function MapLibreMap({ coords: [latitude, longitude], tz }: Props) {
 	const mapRef = useRef<MapRef>(null);
-	const [t, setT] = useState(Date.now().toString());
-	useInterval(() => setT(Date.now().toString()), 1000 * 60);
+	const meta = useQuery({
+		queryKey: ['foo2'],
+		queryFn: async () => {
+			const res = await fetch(OM_BASE);
+			const json = await res.json();
+			return json;
+		},
+		staleTime: 1000 * 60,
+	});
 
-	const omParams = new URLSearchParams({ ...OM_DEFAULTS, t }).toString();
-	const omUrl = `${OM_BASE}?${omParams}`;
+	// console.log(meta.data?.valid_times.slice(0, 12));
 
-	const handleGoToCoords = () =>
+	const handleGoToCoords = () => {
 		mapRef.current?.flyTo({ center: [longitude, latitude], zoom: DEFAULT.zoom });
+		setIsFixed(true);
+	};
 
 	useEffect(() => {
 		mapRef.current?.flyTo({ center: [longitude, latitude], zoom: DEFAULT.zoom });
 	}, [latitude, longitude]);
+
+	const timeSteps = [8, 9, 10, 11, 12];
+	const layers = timeSteps.map((timeStep) => ({
+		id: timeStep,
+		url: `om://${OM_BASE}?${new URLSearchParams({ time_step: `valid_times_${timeStep}`, variable: 'precipitation' })}`,
+	}));
+	const [activeLayerIndex, setActiveLayerIndex] = useState(0);
+
+	const [interval, setInterval] = useState<number | null>(null);
+	useInterval(() => setActiveLayerIndex((i) => (i + 1) % layers.length), interval);
+
+	const activeLayer = layers[activeLayerIndex];
+
+	const [isFixed, setIsFixed] = useState(true);
+
+	const handleMove = useCallback(
+		({ viewState }: ViewStateChangeEvent) => {
+			setIsFixed(
+				round(viewState.latitude, 2) === round(latitude, 2) &&
+					round(viewState.longitude, 2) === round(longitude, 2),
+			);
+		},
+		[latitude, longitude],
+	);
 
 	return (
 		<div className="relative w-full h-full">
@@ -51,19 +86,45 @@ export function MapLibreMap({ coords: [latitude, longitude] }: Props) {
 				style={{ width: '100%', height: '100%', borderRadius: '8px' }}
 				mapStyle={mapStyle}
 				attributionControl={false}
+				onMove={handleMove}
 			>
-				<Source url={`om://${omUrl}`} type="raster" maxzoom={12}>
-					<Layer
-						id="omFileLayer"
-						type="raster"
-						source="omFileSource"
-						paint={{ 'raster-opacity': 0.75 }}
-					/>
-				</Source>
+				{layers.map((layer) => {
+					return (
+						<Source
+							key={layer.id}
+							id={String(layer.id)}
+							url={layer.url}
+							type="raster"
+							maxzoom={12}
+						>
+							<Layer
+								id={String(layer.id)}
+								type="raster"
+								source="omFileSource"
+								paint={{ 'raster-opacity': layer.id === activeLayer.id ? 0.75 : 0 }}
+							/>
+						</Source>
+					);
+				})}
 
-				<div className="absolute bottom-2 right-2 flex gap-2 shadow-xl">
+				<div className="absolute bottom-2 left-2 flex items-center gap-2 shadow-xl rounded bg-muted opacity-75">
+					<Button
+						variant="secondary"
+						size="icon-sm"
+						onClick={() => setInterval((interval) => (interval ? null : 3000))}
+					>
+						{interval ? <PauseCircle /> : <PlayCircle />}
+					</Button>
+					<div className="pr-1">
+						{new Date(meta.data?.valid_times?.[activeLayer.id]).toLocaleTimeString(
+							'en-US',
+							{ hour: 'numeric', timeZone: tz, timeZoneName: 'short' },
+						)}
+					</div>
+				</div>
+				<div className="absolute bottom-2 right-2 flex items-center gap-2 shadow-xl rounded bg-muted opacity-75">
 					<Button variant="secondary" size="icon-sm" onClick={handleGoToCoords}>
-						<Crosshair />
+						{isFixed ? <LocateFixed /> : <Locate />}
 					</Button>
 				</div>
 			</MapLibre>

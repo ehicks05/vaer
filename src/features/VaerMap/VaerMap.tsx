@@ -1,5 +1,5 @@
 import { Card } from '@/components';
-import { useResolvedLatLong } from '@/hooks';
+import { useResolvedLocation } from '@/hooks/useResolvedLocation';
 import { MapLibreMap } from './MapLibreMap';
 
 interface Props {
@@ -7,7 +7,7 @@ interface Props {
 }
 
 export const VaerMap = ({ className }: Props) => {
-	const { lat, long } = useResolvedLatLong();
+	const { lat, long, tz } = useResolvedLocation();
 
 	if (lat === undefined || long === undefined) {
 		return (
@@ -24,7 +24,7 @@ export const VaerMap = ({ className }: Props) => {
 		<div
 			className={`w-full flex overflow-hidden dark:brightness-65 rounded-lg ${className}`}
 		>
-			<MapLibreMap coords={[Number(lat), Number(long)]} />
+			<MapLibreMap coords={[Number(lat), Number(long)]} tz={tz} />
 		</div>
 	);
 };
