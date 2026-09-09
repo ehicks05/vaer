@@ -25,7 +25,7 @@ export const Summary = () => {
 
 	return (
 		<Card
-			className="flex flex-col items-center justify-center p-4 h-full w-full"
+			className="flex flex-col items-center justify-center p-4 w-full"
 			gradient={false}
 		>
 			{city || 'city'}, {state || 'state'}
