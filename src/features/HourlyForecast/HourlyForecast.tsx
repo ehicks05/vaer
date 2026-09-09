@@ -1,6 +1,7 @@
 import { round } from 'es-toolkit';
 import { type ReactNode, useContext } from 'react';
 import { Card } from '@/components';
+import { EmbeddedTitle } from '@/components/EmbeddedTitle';
 import { DayIndexContext } from '@/contexts/DayIndexContext';
 import { useUnitSystem } from '@/features/UnitSystem/useUnitSystem';
 import { useOpenMeteo } from '@/hooks';
@@ -12,12 +13,10 @@ import { Weather } from './Weather';
 import { Wind } from './Wind';
 
 const Container = ({ children }: { children: ReactNode }) => (
-	<div className="flex flex-col group">
-		Hourly Forecast
-		<Card>
-			<div className="flex gap-6 p-4 overflow-x-scroll scrollbar-thin scroll-fade-TODO">
-				{children}
-			</div>
+	<div className="relative">
+		<EmbeddedTitle title="Hourly Forecast" />
+		<Card className="flex gap-6 p-4 mt-2 xl:mt-0 overflow-x-auto scrollbar-thin scroll-fade-TODO">
+			{children}
 		</Card>
 	</div>
 );

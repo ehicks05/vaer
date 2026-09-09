@@ -1,5 +1,6 @@
 import { type ReactNode, useContext } from 'react';
 import { Card } from '@/components';
+import { EmbeddedTitle } from '@/components/EmbeddedTitle';
 import { getWmoWeatherIcon } from '@/constants/weather_icons';
 import { DayIndexContext } from '@/contexts/DayIndexContext';
 import { useUnitSystem } from '@/features/UnitSystem/useUnitSystem';
@@ -96,10 +97,8 @@ export const DailyForecast = () => {
 };
 
 const Container = ({ children }: { children: ReactNode }) => (
-	<div className="w-full md:h-full flex flex-col">
-		Daily Forecast
-		<Card className="grow min-h-106">
-			<div className="flex flex-col w-full h-full justify-between">{children}</div>
-		</Card>
-	</div>
+	<Card className="relative w-full md:h-full flex flex-col grow min-h-106 mt-2 md:mt-0">
+		<EmbeddedTitle title="Daily Forecast" />
+		<div className="flex flex-col w-full h-full justify-between">{children}</div>
+	</Card>
 );

@@ -1,6 +1,7 @@
 import { Droplet, Snowflake } from 'lucide-react';
 import { useContext } from 'react';
 import { Card } from '@/components';
+import { EmbeddedTitle } from '@/components/EmbeddedTitle';
 import { DayIndexContext } from '@/contexts/DayIndexContext';
 import { useUnitSystem } from '@/features/UnitSystem/useUnitSystem';
 import { useOpenMeteo } from '@/hooks';
@@ -46,15 +47,13 @@ export const DayStats = () => {
 	];
 
 	return (
-		<div className="flex flex-col">
-			Day Stats
-			<Card>
-				<div className="grid grid-cols-3">
-					{newStats.map((stat) => (
-						<DayStatCard key={stat.label} stat={stat} />
-					))}
-				</div>
-			</Card>
-		</div>
+		<Card className="relative flex flex-col pt-2 mt-2">
+			<EmbeddedTitle title="Day Stats" />
+			<div className="grid grid-cols-3">
+				{newStats.map((stat) => (
+					<DayStatCard key={stat.label} stat={stat} />
+				))}
+			</div>
+		</Card>
 	);
 };
