@@ -43,27 +43,24 @@ const HourlyDetail = ({ hourly, tz }: Props) => {
 		is_day,
 	} = hourly;
 
+	const comfortRanges = [
+		{ from: -99, to: 32, color: 'text-blue-600' },
+		{ from: 32, to: 55, color: 'text-blue-400' },
+		{ from: 55, to: 72, color: 'text-green-500' },
+		{ from: 72, to: 80, color: 'text-yellow-500' },
+		{ from: 80, to: 140, color: 'text-red-500' },
+	];
+	const comfort = comfortRanges.find(
+		(o) => apparent_temperature >= o.from && apparent_temperature < o.to,
+	);
+
 	return (
 		<div className="flex flex-col items-center gap-4 w-12 min-w-12">
 			<Weather code={weather_code} isDay={is_day === 1} />
 			<div className="grow -mt-4" />
 			{getTemp(temperature_2m)}
 			<div className="flex items-baseline gap-0.5">
-				<span
-					className={
-						apparent_temperature <= 50
-							? 'text-red-500'
-							: apparent_temperature <= 60
-								? 'text-yellow-500'
-								: apparent_temperature <= 72
-									? 'text-green-500'
-									: apparent_temperature <= 80
-										? 'text-yellow-500'
-										: 'text-red-500'
-					}
-				>
-					{getTemp(apparent_temperature)}
-				</span>
+				<span className={comfort?.color}>{getTemp(apparent_temperature)}</span>
 				<span className="text-xs">FL</span>
 			</div>
 			<div
@@ -76,9 +73,9 @@ const HourlyDetail = ({ hourly, tz }: Props) => {
 			<div className="flex items-baseline gap-0.5 whitespace-nowrap">
 				<span
 					className={
-						dew_point_2m <= 55
-							? 'text-green-500'
-							: dew_point_2m <= 60
+						dew_point_2m <= 60 || apparent_temperature <= 72
+							? 'text-muted-foreground'
+							: dew_point_2m <= 64
 								? 'text-yellow-500'
 								: 'text-red-500'
 					}
