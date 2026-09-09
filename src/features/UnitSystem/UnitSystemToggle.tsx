@@ -1,7 +1,6 @@
 import { Boxes } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { UNIT_SYSTEM_LABELS } from './constants';
-import { useUnitSystemStorage } from './useUnitSystemStorage';
+import { UNIT_SYSTEM_LABELS, useUnitSystemStorage } from './useUnitSystemStorage';
 
 export const UnitSystemToggle = () => {
 	const { unitSystem, toggleUnitSystem } = useUnitSystemStorage();
