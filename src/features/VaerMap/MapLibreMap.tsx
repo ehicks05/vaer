@@ -2,9 +2,11 @@ import { omProtocol } from '@openmeteo/weather-map-layer';
 import { addProtocol, setWorkerUrl } from 'maplibre-gl';
 import MapLibre, { Layer, type MapRef, Source } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import { Crosshair } from 'lucide-react';
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url';
 import { useEffect, useRef, useState } from 'react';
 import { useInterval } from 'usehooks-ts';
+import { Button } from '@/components/ui/button';
 
 setWorkerUrl(workerUrl);
 
@@ -34,26 +36,37 @@ export function MapLibreMap({ coords: [latitude, longitude] }: Props) {
 	const omParams = new URLSearchParams({ ...OM_DEFAULTS, t }).toString();
 	const omUrl = `${OM_BASE}?${omParams}`;
 
+	const handleGoToCoords = () =>
+		mapRef.current?.flyTo({ center: [longitude, latitude], zoom: DEFAULT.zoom });
+
 	useEffect(() => {
 		mapRef.current?.flyTo({ center: [longitude, latitude], zoom: DEFAULT.zoom });
 	}, [latitude, longitude]);
 
 	return (
-		<MapLibre
-			ref={mapRef}
-			initialViewState={{ longitude, latitude, zoom: DEFAULT.zoom }}
-			style={{ width: '100%', height: '100%', borderRadius: '8px' }}
-			mapStyle={mapStyle}
-			attributionControl={false}
-		>
-			<Source url={`om://${omUrl}`} type="raster" maxzoom={12}>
-				<Layer
-					id="omFileLayer"
-					type="raster"
-					source="omFileSource"
-					paint={{ 'raster-opacity': 0.75 }}
-				/>
-			</Source>
-		</MapLibre>
+		<div className="relative w-full h-full">
+			<MapLibre
+				ref={mapRef}
+				initialViewState={{ longitude, latitude, zoom: DEFAULT.zoom }}
+				style={{ width: '100%', height: '100%', borderRadius: '8px' }}
+				mapStyle={mapStyle}
+				attributionControl={false}
+			>
+				<Source url={`om://${omUrl}`} type="raster" maxzoom={12}>
+					<Layer
+						id="omFileLayer"
+						type="raster"
+						source="omFileSource"
+						paint={{ 'raster-opacity': 0.75 }}
+					/>
+				</Source>
+
+				<div className="absolute bottom-2 right-2 flex gap-2 shadow-xl">
+					<Button variant="secondary" size="icon-sm" onClick={handleGoToCoords}>
+						<Crosshair />
+					</Button>
+				</div>
+			</MapLibre>
+		</div>
 	);
 }
