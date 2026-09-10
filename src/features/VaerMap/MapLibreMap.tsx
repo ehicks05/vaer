@@ -107,6 +107,7 @@ export function MapLibreMap({ coords: [latitude, longitude], tz }: Props) {
 				onMove={handleMove}
 			>
 				{layers.map((layer) => {
+					const isActive = layer.id === activeLayer.id;
 					return (
 						<Source
 							key={layer.id}
@@ -119,10 +120,11 @@ export function MapLibreMap({ coords: [latitude, longitude], tz }: Props) {
 								id={String(layer.id)}
 								type="raster"
 								source="omFileSource"
-								paint={{ 'raster-opacity': 0.75 }}
-								layout={{
-									visibility: layer.id === activeLayer.id ? 'visible' : 'none',
+								paint={{
+									'raster-opacity': isActive ? 0.75 : 0,
+									'raster-opacity-transition': { duration: 600 },
 								}}
+								// layout={{ visibility: isActive ? 'visible' : 'none' }}
 							/>
 						</Source>
 					);
