@@ -2,6 +2,7 @@ import { Bug } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { useTheme } from '@/components/ui/theme-provider';
 import { useResolvedLatLong, useSpecifiedLocation } from '@/hooks';
 import { useGeolocation } from '@/hooks/useGeolocation';
 import { useResolvedLocation } from '@/hooks/useResolvedLocation';
@@ -14,28 +15,42 @@ const Content = () => {
 	const resolvedLatLong = useResolvedLatLong();
 	const geolocation = useGeolocation();
 
+	const { theme } = useTheme();
+	console.log(theme);
+
 	return (
-		<pre className="whitespace-pre-wrap text-xs">
-			{JSON.stringify(
-				{
-					savedLocations: savedLocations.map((o) => ({
-						...o,
-						alternateNames: undefined,
-						bbox: undefined,
-					})),
-					specifiedLocation: {
-						...specifiedLocation,
-						alternateNames: undefined,
-						bbox: undefined,
+		<div className="grid grid-cols-2">
+			<pre className="whitespace-pre-wrap text-xs">
+				{JSON.stringify(
+					{
+						savedLocations: savedLocations.map((o) => ({
+							...o,
+							alternateNames: undefined,
+							bbox: undefined,
+						})),
+						specifiedLocation: {
+							...specifiedLocation,
+							alternateNames: undefined,
+							bbox: undefined,
+						},
+						resolvedLocation,
+						resolvedLatLong,
+						geolocation,
 					},
-					resolvedLocation,
-					resolvedLatLong,
-					geolocation,
-				},
-				null,
-				2,
-			)}
-		</pre>
+					null,
+					2,
+				)}
+			</pre>
+			<pre className="whitespace-pre-wrap text-xs">
+				{JSON.stringify(
+					{
+						theme,
+					},
+					null,
+					2,
+				)}
+			</pre>
+		</div>
 	);
 };
 
