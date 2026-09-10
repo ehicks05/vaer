@@ -16,10 +16,12 @@ const Logo = () => (
 );
 
 export const Header = () => (
-	<div className="flex items-center justify-between h-16 max-w-7xl mx-auto px-2 w-full">
-		<Logo />
-		<div className="flex items-center gap-2 sm:gap-4">
-			<UpdatedAt />
+	<div className="grid grid-cols-3 items-center justify-between h-16 max-w-7xl mx-auto px-2">
+		<UpdatedAt />
+		<div className="justify-self-center">
+			<Logo />
+		</div>
+		<div className="justify-self-end flex items-center gap-2 sm:gap-4">
 			<Alert />
 			<SettingsDialog />
 		</div>
