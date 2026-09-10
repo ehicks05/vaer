@@ -70,7 +70,12 @@ export function MapLibreMap({ coords: [latitude, longitude], tz }: Props) {
 	}));
 	const [activeLayerIndex, setActiveLayerIndex] = useState(0);
 
-	const [interval, setInterval] = useState<2000 | null>(null);
+	const [interval, setInterval] = useState<IntervalDelay>(null);
+	const toggleInterval = () => {
+		setInterval((interval) => (interval ? null : 2000));
+		setActiveLayerIndex(0);
+	};
+
 	useInterval(() => setActiveLayerIndex((i) => (i + 1) % layers.length), interval);
 
 	const activeLayer = layers[activeLayerIndex];
@@ -120,27 +125,58 @@ export function MapLibreMap({ coords: [latitude, longitude], tz }: Props) {
 					);
 				})}
 
-				<div className="absolute bottom-2 left-2 flex items-center gap-2 shadow-xl rounded bg-muted opacity-75">
-					<Button
-						variant="secondary"
-						size="icon-sm"
-						onClick={() => setInterval((interval) => (interval ? null : 2000))}
-					>
-						{interval ? <PauseCircle /> : <PlayCircle />}
-					</Button>
-					<div className="pr-1">
-						{new Date(meta.data?.valid_times?.[activeLayer.id]).toLocaleTimeString(
-							'en-US',
-							{ hour: 'numeric', timeZone: tz, timeZoneName: 'short' },
-						)}
-					</div>
-				</div>
-				<div className="absolute bottom-2 right-2 flex items-center gap-2 shadow-xl rounded bg-muted opacity-75">
-					<Button variant="secondary" size="icon-sm" onClick={handleGoToCoords}>
-						{isFixed ? <LocateFixed /> : <Locate />}
-					</Button>
-				</div>
+				<Controls
+					activeLayerId={activeLayer.id}
+					validTimes={meta.data.valid_times}
+					tz={tz}
+					interval={interval}
+					toggleInterval={toggleInterval}
+					isFixed={isFixed}
+					handleGoToCoords={handleGoToCoords}
+				/>
 			</MapLibre>
 		</div>
 	);
 }
+
+type IntervalDelay = 2000 | null;
+
+export const Controls = ({
+	activeLayerId,
+	validTimes,
+	tz,
+	interval,
+	toggleInterval,
+	isFixed,
+	handleGoToCoords,
+}: {
+	activeLayerId: number;
+	validTimes: string[];
+	tz?: string;
+	interval: IntervalDelay;
+	toggleInterval: () => void;
+	isFixed: boolean;
+	handleGoToCoords: () => void;
+}) => {
+	return (
+		<>
+			<div className="absolute bottom-2 left-2 flex items-center gap-2 shadow-xl rounded-lg bg-muted">
+				<Button variant="secondary" size="icon-sm" onClick={toggleInterval}>
+					{interval ? <PauseCircle /> : <PlayCircle />}
+				</Button>
+				<div className="pr-2">
+					{new Date(validTimes[activeLayerId]).toLocaleTimeString('en-US', {
+						hour: 'numeric',
+						timeZone: tz,
+						timeZoneName: 'short',
+					})}
+				</div>
+			</div>
+			<div className="absolute bottom-2 right-2 shadow-xl">
+				<Button variant="secondary" size="icon-sm" onClick={handleGoToCoords}>
+					{isFixed ? <LocateFixed /> : <Locate />}
+				</Button>
+			</div>
+		</>
+	);
+};
