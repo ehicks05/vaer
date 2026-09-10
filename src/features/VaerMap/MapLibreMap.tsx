@@ -119,7 +119,10 @@ export function MapLibreMap({ coords: [latitude, longitude], tz }: Props) {
 								id={String(layer.id)}
 								type="raster"
 								source="omFileSource"
-								paint={{ 'raster-opacity': layer.id === activeLayer.id ? 0.75 : 0 }}
+								paint={{ 'raster-opacity': 0.75 }}
+								layout={{
+									visibility: layer.id === activeLayer.id ? 'visible' : 'none',
+								}}
 							/>
 						</Source>
 					);
