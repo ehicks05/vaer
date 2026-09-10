@@ -8,7 +8,7 @@ import MapLibre, {
 } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useQuery } from '@tanstack/react-query';
-import { round } from 'es-toolkit';
+import { range, round } from 'es-toolkit';
 import { Locate, LocateFixed, PauseCircle, PlayCircle } from 'lucide-react';
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -24,6 +24,13 @@ const mapStyle = 'https://tiles.openfreemap.org/styles/positron';
 const OM_BASE =
 	'https://openmeteo.s3.amazonaws.com/data_spatial/dwd_icon/latest.json';
 
+interface OmJson {
+	last_modified_time: string;
+	reference_time: string;
+	valid_times: string[];
+	variables: string[];
+}
+
 const DEFAULT = { zoom: 6 };
 
 interface Props {
@@ -37,7 +44,7 @@ export function MapLibreMap({ coords: [latitude, longitude], tz }: Props) {
 		queryKey: ['foo2'],
 		queryFn: async () => {
 			const res = await fetch(OM_BASE);
-			const json = await res.json();
+			const json: OmJson = await res.json();
 			return json;
 		},
 		staleTime: 1000 * 60,
@@ -54,14 +61,16 @@ export function MapLibreMap({ coords: [latitude, longitude], tz }: Props) {
 		mapRef.current?.flyTo({ center: [longitude, latitude], zoom: DEFAULT.zoom });
 	}, [latitude, longitude]);
 
-	const timeSteps = [8, 9, 10, 11, 12];
+	const firstTimeStepIndex =
+		meta.data?.valid_times.findIndex((o) => new Date(o).getTime() > Date.now()) || 0;
+	const timeSteps = range(5).map((o) => o + firstTimeStepIndex);
 	const layers = timeSteps.map((timeStep) => ({
 		id: timeStep,
 		url: `om://${OM_BASE}?${new URLSearchParams({ time_step: `valid_times_${timeStep}`, variable: 'precipitation' })}`,
 	}));
 	const [activeLayerIndex, setActiveLayerIndex] = useState(0);
 
-	const [interval, setInterval] = useState<number | null>(null);
+	const [interval, setInterval] = useState<2000 | null>(null);
 	useInterval(() => setActiveLayerIndex((i) => (i + 1) % layers.length), interval);
 
 	const activeLayer = layers[activeLayerIndex];
@@ -77,6 +86,10 @@ export function MapLibreMap({ coords: [latitude, longitude], tz }: Props) {
 		},
 		[latitude, longitude],
 	);
+
+	if (!meta.data) {
+		return 'foo';
+	}
 
 	return (
 		<div className="relative w-full h-full">
@@ -111,7 +124,7 @@ export function MapLibreMap({ coords: [latitude, longitude], tz }: Props) {
 					<Button
 						variant="secondary"
 						size="icon-sm"
-						onClick={() => setInterval((interval) => (interval ? null : 3000))}
+						onClick={() => setInterval((interval) => (interval ? null : 2000))}
 					>
 						{interval ? <PauseCircle /> : <PlayCircle />}
 					</Button>
