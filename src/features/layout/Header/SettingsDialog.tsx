@@ -1,4 +1,4 @@
-import { MapPin, Ruler, Settings } from 'lucide-react';
+import { MapPin, Settings } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
@@ -10,6 +10,8 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog';
+import { Field, FieldDescription, FieldLabel } from '@/components/ui/field';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ModeToggle } from '@/components/ui/theme-toggle';
 import { LocationForm } from '../../LocationForm';
 import { UnitSystemToggle } from '../../UnitSystem';
@@ -53,24 +55,35 @@ export const SettingsDialog = () => {
 				<DialogHeader>
 					<DialogTitle>Settings</DialogTitle>
 				</DialogHeader>
-				<div className="flex flex-col gap-6 max-h-[60vh] overflow-y-auto scrollbar-thin">
-					<DialogTitle className="flex items-center gap-1">
-						<MapPin />
-						Location
-					</DialogTitle>
-					<LocationForm />
+				<div className="flex flex-col gap-6 min-h-[41vh] max-h-[75vh] overflow-y-auto scrollbar-thin">
+					<Tabs defaultValue="location" className="">
+						<TabsList className="w-full">
+							<TabsTrigger value="location">
+								<MapPin />
+								Location
+							</TabsTrigger>
+							<TabsTrigger value="general">
+								<Settings />
+								General
+							</TabsTrigger>
+						</TabsList>
+						<TabsContent value="location" className="flex flex-col gap-2 pt-2">
+							<DialogTitle className="flex items-center gap-1">Location</DialogTitle>
+							<LocationForm />
+						</TabsContent>
+						<TabsContent value="general" className="flex flex-col gap-2 pt-2">
+							<DialogTitle className="flex items-center gap-1">General</DialogTitle>
 
-					<div className="flex flex-col gap-6">
-						<DialogTitle className="flex items-center gap-1">
-							<Settings />
-							General
-						</DialogTitle>
-
-						<div className="flex flex-col gap-2">
-							<ModeToggle />
-							<UnitSystemToggle />
-						</div>
-					</div>
+							<Field>
+								<FieldLabel htmlFor="name">Theme</FieldLabel>
+								<ModeToggle />
+							</Field>
+							<Field>
+								<FieldLabel htmlFor="name">Unit System</FieldLabel>
+								<UnitSystemToggle />
+							</Field>
+						</TabsContent>
+					</Tabs>
 				</div>
 				<DialogFooter>
 					<DialogClose render={<Button variant="outline">Close</Button>} />

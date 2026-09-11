@@ -19,7 +19,7 @@ export function ModeToggle() {
             {theme === 'light' && <Sun />}
             {theme === 'dark' && <Moon />}
             {theme === 'system' && <Laptop />}
-            Theme
+            {`${theme[0].toUpperCase()}${theme.slice(1)}`}
 					</Button>
 				}
 			/>
