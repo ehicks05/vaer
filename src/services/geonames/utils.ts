@@ -1,13 +1,12 @@
 import type { Geoname } from './types';
 
-const toState = (city: Partial<Geoname>) =>
-	city.adminCodes1 ? `, ${city.adminCodes1.ISO3166_2}` : '';
+export const parseGeoname = (city: Partial<Geoname>) => ({
+	city: city.name,
+	state: city?.adminCodes1?.ISO3166_2 || '',
+	country: city.countryCode === 'US' ? 'US' : city.countryName || '',
+});
 
-const toCountryName = (city: Partial<Geoname>) =>
-	city.countryName ? `, ${city.countryName}` : '';
-
-const toCountry = (city: Partial<Geoname>) =>
-	`${city.countryCode === 'US' ? `, ${city.countryCode}` : toCountryName(city)}`;
-
-export const geonameToLabel = (city: Partial<Geoname>) =>
-	`${city.name}${toState(city)}${toCountry(city)}`;
+export const geonameToLabel = (geoname: Partial<Geoname>) => {
+	const { city, state, country } = parseGeoname(geoname);
+	return `${city}, ${state}, ${country}`;
+};
