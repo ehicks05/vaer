@@ -11,7 +11,7 @@ interface Props {
 
 export const CityOption = ({ city, isActive, onClick, onDelete }: Props) => {
 	return (
-		<div className="flex gap-2 text-sm">
+		<div className="flex gap-2">
 			<Button variant="outline" onClick={onClick} className="grow">
 				{isActive && <CheckCircle2Icon className="text-green-500" />}
 				{geonameToLabel(city)}

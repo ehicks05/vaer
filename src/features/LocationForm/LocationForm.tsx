@@ -53,28 +53,30 @@ export const LocationSearcher = () => {
 						)}
 					</div>
 				)}
-				{locations.map((location) => {
-					const isSaved = savedLocations.some(
-						(c) => c.geonameId === location.geonameId,
-					);
-					const onClick = isSaved
-						? () =>
-								setSavedLocations(
-									savedLocations.filter((c) => c.geonameId !== location.geonameId),
-								)
-						: () => {
-								setSavedLocations([...savedLocations, location]);
-								setSpecifiedLocation(location);
-							};
-					return (
-						<CityOption
-							key={location.geonameId}
-							city={location}
-							isActive={false}
-							onClick={onClick}
-						/>
-					);
-				})}
+				<div className="grid grid-cols-1 gap-1">
+					{locations.map((location) => {
+						const isSaved = savedLocations.some(
+							(c) => c.geonameId === location.geonameId,
+						);
+						const onClick = isSaved
+							? () =>
+									setSavedLocations(
+										savedLocations.filter((c) => c.geonameId !== location.geonameId),
+									)
+							: () => {
+									setSavedLocations([...savedLocations, location]);
+									setSpecifiedLocation(location);
+								};
+						return (
+							<CityOption
+								key={location.geonameId}
+								city={location}
+								isActive={false}
+								onClick={onClick}
+							/>
+						);
+					})}
+				</div>
 			</div>
 		</div>
 	);
