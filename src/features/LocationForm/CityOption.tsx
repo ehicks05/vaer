@@ -14,7 +14,9 @@ export const CityOption = ({ city, isActive, onClick, onDelete }: Props) => {
 		<div className="flex gap-2">
 			<Button variant="outline" onClick={onClick} className="grow">
 				{isActive && <CheckCircle2Icon className="text-green-500" />}
-				{geonameToLabel(city)}
+				{city.name === 'Current Location'
+					? 'Current Location'
+					: geonameToLabel(city)}
 			</Button>
 			{onDelete && (
 				<Button variant="destructive" size="icon" onClick={onDelete}>
