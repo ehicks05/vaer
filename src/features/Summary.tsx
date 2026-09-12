@@ -42,8 +42,14 @@ export const Summary = () => {
 						us_aqi && us_aqi <= 50
 							? 'text-green-500'
 							: us_aqi && us_aqi <= 100
-								? 'text-yellow-600'
-								: 'text-red-500'
+								? 'text-yellow-500'
+								: us_aqi && us_aqi <= 150
+									? 'text-orange-500'
+									: us_aqi && us_aqi <= 200
+										? 'text-red-500'
+										: us_aqi && us_aqi <= 300
+											? 'text-pink-700 dark:text-pink-600'
+											: 'text-purple-600 dark:text-purple-400'
 					}
 				>
 					{us_aqi}
