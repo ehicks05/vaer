@@ -18,9 +18,10 @@ import {
 	DialogTrigger,
 } from '@/components/ui/dialog';
 import { ONE_DAY } from '@/constants/datetime';
+import { useResolvedLocation } from '@/hooks';
 import { formatInTimeZone } from '@/lib/utils';
 import { useWeatherGov } from '@/services/weathergov';
-import type { Properties } from '@/services/weathergov/types/alerts';
+import type { Properties } from '@/services/weathergov/types';
 
 type AlertProps = Partial<
 	Pick<
@@ -33,11 +34,15 @@ const df = 'MMM dd, yyyy, h:mm a';
 
 interface AlertCardProps {
 	alert: AlertProps;
-	tz: string;
+	tz?: string;
 	showTitle?: boolean;
 }
 
-export const AlertCard = ({ alert, tz, showTitle = true }: AlertCardProps) => {
+export const AlertCard = ({
+	alert,
+	tz = Intl.DateTimeFormat().resolvedOptions().timeZone,
+	showTitle = true,
+}: AlertCardProps) => {
 	const { event, description, onset, ends, senderName, severity } = alert;
 	const tags = severity ? [`severity: ${severity}`] : [];
 
@@ -97,11 +102,11 @@ const _SAMPLE_ALERTS = [
 ];
 
 export const Alert = () => {
-	const { alertsQuery, pointQuery } = useWeatherGov();
+	const { alertsQuery } = useWeatherGov();
+	const { tz } = useResolvedLocation();
 
 	const alerts = alertsQuery.data?.features;
-	const point = pointQuery?.data?.properties;
-	if (!alerts || alerts?.length === 0 || !point) {
+	if (!alerts || alerts?.length === 0) {
 		return null;
 	}
 
@@ -120,9 +125,7 @@ export const Alert = () => {
 				</DialogHeader>
 
 				<div className="max-h-[50vh] overflow-y-auto">
-					{alerts.length === 1 && (
-						<AlertCard alert={alerts[0].properties} tz={point.timeZone} />
-					)}
+					{alerts.length === 1 && <AlertCard alert={alerts[0].properties} tz={tz} />}
 
 					{alerts.length > 1 && (
 						<Accordion className="overflow-auto">
@@ -130,11 +133,7 @@ export const Alert = () => {
 								<AccordionItem key={alert.id} value={alert.id}>
 									<AccordionTrigger>{alert.properties.event}</AccordionTrigger>
 									<AccordionContent>
-										<AlertCard
-											alert={alert.properties}
-											tz={point.timeZone}
-											showTitle={false}
-										/>
+										<AlertCard alert={alert.properties} tz={tz} showTitle={false} />
 									</AccordionContent>
 								</AccordionItem>
 							))}
