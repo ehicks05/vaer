@@ -6,13 +6,9 @@ export const UpdatedAt = () => {
 	const { data, dataUpdatedAt } = openMeteo;
 	const tz = data?.timezone;
 
-	if (!tz) {
-		return null;
-	}
-
 	return (
 		<span className="text-sm text-muted-foreground">
-			{formatInTimeZone(new Date(dataUpdatedAt), tz, 'h:mm a z')}
+			{tz && formatInTimeZone(new Date(dataUpdatedAt), tz, 'h:mm a z')}
 		</span>
 	);
 };
