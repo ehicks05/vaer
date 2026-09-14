@@ -1,5 +1,4 @@
 import { AlertTriangle } from 'lucide-react';
-import { Card } from '@/components';
 import {
 	Accordion,
 	AccordionContent,
@@ -47,32 +46,30 @@ export const AlertCard = ({
 	const tags = severity ? [`severity: ${severity}`] : [];
 
 	return (
-		<Card gradient={false} className="max-w-xl">
-			<div className="flex flex-col gap-4">
-				<DialogHeader>
-					{showTitle && <DialogTitle>{event}</DialogTitle>}
+		<div className="flex flex-col gap-4">
+			<DialogHeader>
+				{showTitle && <DialogTitle>{event}</DialogTitle>}
 
-					<DialogDescription className="text-sm text-muted-foreground">
-						{senderName}
-						{onset && <div>Onset: {formatInTimeZone(new Date(onset), tz, df)}</div>}
-						{ends && <div>Ends: {formatInTimeZone(new Date(ends), tz, df)}</div>}
-					</DialogDescription>
-				</DialogHeader>
+				<DialogDescription className="text-sm text-muted-foreground">
+					{senderName}
+					{onset && <div>Onset: {formatInTimeZone(new Date(onset), tz, df)}</div>}
+					{ends && <div>Ends: {formatInTimeZone(new Date(ends), tz, df)}</div>}
+				</DialogDescription>
+			</DialogHeader>
 
-				{description && (
-					<div className="flex flex-col gap-4">
-						{description.split('\n\n').map((p) => (
-							<p key={p}>{p}</p>
-						))}
-					</div>
-				)}
-				{tags.length !== 0 && (
-					<div className="text-sm text-muted-foreground">
-						{tags.join(', ').toLocaleLowerCase()}
-					</div>
-				)}
-			</div>
-		</Card>
+			{description && (
+				<div className="flex flex-col gap-4">
+					{description.split('\n\n').map((p) => (
+						<p key={p}>{p}</p>
+					))}
+				</div>
+			)}
+			{tags.length !== 0 && (
+				<div className="text-sm text-muted-foreground">
+					{tags.join(', ').toLocaleLowerCase()}
+				</div>
+			)}
+		</div>
 	);
 };
 
