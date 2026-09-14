@@ -1,7 +1,13 @@
-import { Ghost, Loader2, Search, TriangleAlert } from 'lucide-react';
+import { Ghost, Globe, Loader2, Search, TriangleAlert } from 'lucide-react';
 import { useState } from 'react';
+import { Field, FieldLabel } from '@/components/ui/field';
+import {
+	InputGroup,
+	InputGroupAddon,
+	InputGroupInput,
+} from '@/components/ui/input-group';
 import { useSpecifiedLocation } from '@/hooks';
-import { useSearch } from '@/services/geonames/geonames';
+import { useSearch } from '@/services/geonames';
 import { CityOption } from './CityOption';
 import { CurrentLocation } from './CurrentLocation';
 import { useSavedLocationStorage } from './useSavedLocationStorage';
@@ -20,13 +26,20 @@ export const LocationSearcher = () => {
 
 	return (
 		<div className="flex flex-col gap-2">
-			Search for a location
-			<input
-				className="p-2 rounded-lg outline-hidden"
-				value={queryString}
-				onChange={(e) => setQueryString(e.target.value)}
-				placeholder="Search..."
-			/>
+			<Field>
+				<FieldLabel htmlFor="search">Location Search</FieldLabel>
+				<InputGroup>
+					<InputGroupAddon align="inline-start">
+						<Search />
+					</InputGroupAddon>
+					<InputGroupInput
+						id="search"
+						value={queryString}
+						onChange={(e) => setQueryString(e.target.value)}
+						placeholder="Search..."
+					/>
+				</InputGroup>
+			</Field>
 			<div className="flex flex-col gap-2 w-full">
 				{locations.length === 0 && (
 					<div className="flex flex-col items-center p-4 text-muted-foreground rounded-lg border">
@@ -43,12 +56,12 @@ export const LocationSearcher = () => {
 						) : query.isSuccess && locations.length === 0 ? (
 							<>
 								<Ghost size={48} />
-								Nothing was found
+								No results
 							</>
 						) : (
 							<>
-								<Search size={48} />
-								Search for a city
+								<Globe size={48} />
+								Search results will appear here
 							</>
 						)}
 					</div>
