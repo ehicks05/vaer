@@ -1,12 +1,10 @@
-import { useResolvedLatLong } from '@/hooks';
+import { useResolvedLocation } from '@/hooks';
 import { useGetAlerts } from './useGetAlerts';
-import { useGetPoint } from './useGetPoint';
 
 export const useWeatherGov = () => {
-	const { lat, long } = useResolvedLatLong();
+	const { lat, long } = useResolvedLocation();
 
 	const alertsQuery = useGetAlerts({ lat, long });
-	const pointQuery = useGetPoint({ lat, long });
 
-	return { alertsQuery, pointQuery };
+	return { alertsQuery };
 };

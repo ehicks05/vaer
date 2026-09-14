@@ -1,10 +1,11 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import type { PartialLatLong } from '@/hooks/useResolvedLatLong';
+import type { LatLong } from '@/hooks/useResolvedLocation';
 import { ONE_DAY, ONE_MINUTE } from '../../constants/datetime';
-import { BASE } from './constants';
-import type { AlertsResponse } from './types/alerts';
+import type { AlertsResponse } from './types';
 
-const getAlerts = async ({ lat, long }: PartialLatLong) => {
+export const BASE = 'https://api.weather.gov';
+
+const getAlerts = async ({ lat, long }: Partial<LatLong>) => {
 	if (lat === undefined || long === undefined) {
 		throw new Error('Missing coordinates');
 	}
@@ -21,7 +22,7 @@ const getAlerts = async ({ lat, long }: PartialLatLong) => {
 	return result;
 };
 
-export const useGetAlerts = ({ lat, long }: PartialLatLong) => {
+export const useGetAlerts = ({ lat, long }: Partial<LatLong>) => {
 	return useQuery({
 		queryKey: ['alerts', lat, long],
 		queryFn: async () => getAlerts({ lat, long }),
