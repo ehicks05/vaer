@@ -17,7 +17,7 @@ export const EmptyLocation = () => {
 					<MapPinX />
 				</EmptyMedia>
 				<EmptyTitle>No location</EmptyTitle>
-				<EmptyDescription>No location found. Add a location below:</EmptyDescription>
+				<EmptyDescription>No location set. Add one below.</EmptyDescription>
 			</EmptyHeader>
 			<EmptyContent>
 				<LocationDialog />
