@@ -11,7 +11,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog';
-import { useResolvedLatLong } from '@/hooks';
+import { useResolvedLocation } from '@/hooks';
 
 export const LINKS = [
 	{ label: 'open-meteo', url: 'https://open-meteo.com/' },
@@ -35,7 +35,7 @@ const Link = ({ href, children }: LinkProps) => (
 );
 
 const AboutContents = () => {
-	const { lat, long } = useResolvedLatLong();
+	const { lat, long } = useResolvedLocation();
 	const coords = lat
 		? `${round(Number(lat || 0), 2)},${round(Number(long || 0), 2)}`
 		: null;

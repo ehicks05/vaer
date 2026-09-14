@@ -1,8 +1,9 @@
-import { useWeatherGov } from '@/services/weathergov';
-import { useResolvedLatLong } from './useResolvedLatLong';
+import { useFindNearbyPlaceName } from '@/services/geonames';
+import { parseGeoname } from '@/services/geonames/utils';
+import { useGeolocation } from './useGeolocation';
 import { useSpecifiedLocation } from './useSpecifiedLocation';
 
-interface Location {
+export interface Location {
 	lat?: string;
 	long?: string;
 	city?: string;
@@ -10,22 +11,38 @@ interface Location {
 	tz?: string;
 }
 
+export type LatLong = Required<Pick<Location, 'lat' | 'long'>>;
+
 export const useResolvedLocation = (): Location => {
-	const { lat, long } = useResolvedLatLong();
-	const { pointQuery } = useWeatherGov();
+	const { latitude, longitude } = useGeolocation().coords || {};
 	const [specifiedLocation] = useSpecifiedLocation();
 
-	const { tz, city, state } = specifiedLocation
+	const { data: nearby } = useFindNearbyPlaceName({ lat: latitude, lng: longitude });
+	const nearbyGeoname = nearby?.geonames[0];
+
+	const { lat, long, tz, city, state } = specifiedLocation
 		? {
+				lat: specifiedLocation.lat,
+				long: specifiedLocation.lng,
 				city: specifiedLocation.name,
-				state: specifiedLocation.adminCodes1.ISO3166_2,
+				state: parseGeoname(specifiedLocation).state,
 				tz: specifiedLocation.timezone.timeZoneId,
 			}
-		: {
-				city: pointQuery.data?.properties.relativeLocation.properties.city,
-				state: pointQuery.data?.properties.relativeLocation.properties.state,
-				tz: pointQuery.data?.properties.timeZone,
-			};
+		: nearbyGeoname
+			? {
+					lat: nearbyGeoname.lat,
+					long: nearbyGeoname.lng,
+					city: nearbyGeoname.name,
+					state: parseGeoname(nearbyGeoname).state,
+					tz: nearbyGeoname.timezone.timeZoneId,
+				}
+			: {};
 
-	return { lat, long, tz, city, state };
+	return {
+		lat: lat !== undefined ? String(lat) : undefined,
+		long: long !== undefined ? String(long) : undefined,
+		tz,
+		city,
+		state,
+	};
 };

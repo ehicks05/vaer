@@ -1,4 +1,4 @@
-import type { PartialLatLong } from '@/hooks/useResolvedLatLong';
+import type { LatLong } from '@/hooks/useResolvedLocation';
 import {
 	AIR_QUALITY_BASE,
 	AIR_QUALITY_DEFAULT_PARAMS,
@@ -8,7 +8,7 @@ import {
 import type { OpenMeteoAirQuality } from './types/airQuality';
 import type { OpenMeteoForecast } from './types/forecast';
 
-export const fetchForecast = async ({ lat, long }: Required<PartialLatLong>) => {
+export const fetchForecast = async ({ lat, long }: LatLong) => {
 	const params = new URLSearchParams({
 		...FORECAST_DEFAULT_PARAMS,
 		latitude: lat,
@@ -26,7 +26,7 @@ export const fetchForecast = async ({ lat, long }: Required<PartialLatLong>) => 
 	return result;
 };
 
-export const fetchAirQuality = async ({ lat, long }: Required<PartialLatLong>) => {
+export const fetchAirQuality = async ({ lat, long }: LatLong) => {
 	const params = new URLSearchParams({
 		...AIR_QUALITY_DEFAULT_PARAMS,
 		latitude: lat,

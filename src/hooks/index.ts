@@ -1,3 +1,3 @@
 export { useOpenMeteo } from './useOpenMeteo';
-export { useResolvedLatLong } from './useResolvedLatLong';
+export { useResolvedLocation } from './useResolvedLocation';
 export { useSpecifiedLocation } from './useSpecifiedLocation';

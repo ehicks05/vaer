@@ -1,11 +1,11 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import type { PartialLatLong } from '@/hooks/useResolvedLatLong';
+import type { LatLong } from '@/hooks/useResolvedLocation';
 import { ONE_DAY, ONE_MINUTE } from '../../constants/datetime';
 import { WMO_CODE_TO_DESCRIPTION } from './constants';
 import { fetchAirQuality, fetchForecast } from './fetchers';
 import type { Daily, Hourly, Minutely15 } from './types/forecast';
 
-const getForecast = async ({ lat, long }: PartialLatLong) => {
+const getForecast = async ({ lat, long }: Partial<LatLong>) => {
 	if (lat === undefined || long === undefined) {
 		throw new Error('Missing coordinates');
 	}
@@ -102,7 +102,7 @@ const getForecast = async ({ lat, long }: PartialLatLong) => {
 	};
 };
 
-export const useOpenMeteoForecast = ({ lat, long }: PartialLatLong) => {
+export const useOpenMeteoForecast = ({ lat, long }: Partial<LatLong>) => {
 	return useQuery({
 		queryKey: ['openMeteoForecast', lat, long],
 		queryFn: async () => getForecast({ lat, long }),

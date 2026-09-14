@@ -3,17 +3,17 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { useTheme } from '@/components/ui/theme-provider';
-import { useResolvedLatLong, useSpecifiedLocation } from '@/hooks';
+import { useResolvedLocation, useSpecifiedLocation } from '@/hooks';
 import { useGeolocation } from '@/hooks/useGeolocation';
-import { useResolvedLocation } from '@/hooks/useResolvedLocation';
+import { useWeatherGov } from '@/services/weathergov';
 import { useSavedLocationStorage } from '../../LocationForm/useSavedLocationStorage';
 
 const Content = () => {
 	const [savedLocations] = useSavedLocationStorage();
 	const [specifiedLocation] = useSpecifiedLocation();
 	const resolvedLocation = useResolvedLocation();
-	const resolvedLatLong = useResolvedLatLong();
 	const geolocation = useGeolocation();
+	const { alertsQuery } = useWeatherGov();
 
 	const { theme } = useTheme();
 	console.log(theme);
@@ -34,7 +34,6 @@ const Content = () => {
 							bbox: undefined,
 						},
 						resolvedLocation,
-						resolvedLatLong,
 						geolocation,
 					},
 					null,
@@ -44,6 +43,7 @@ const Content = () => {
 			<pre className="whitespace-pre-wrap text-xs">
 				{JSON.stringify(
 					{
+						alertsQuery: alertsQuery.data,
 						theme,
 					},
 					null,
