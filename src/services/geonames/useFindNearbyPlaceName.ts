@@ -1,0 +1,43 @@
+import { useQuery } from '@tanstack/react-query';
+import { ONE_DAY, ONE_MINUTE } from '../../constants/datetime';
+import type { SearchResult } from './types';
+
+export const BASE = 'https://secure.geonames.org';
+
+const DEFAULTS = {
+	maxRows: '5',
+	style: 'FULL',
+	username: import.meta.env.VITE_GEONAMES_USERNAME,
+};
+
+interface Params {
+	lat: string;
+	lng: string;
+}
+
+export const findNearbyPlaceName = async ({ lat, lng }: Params): Promise<SearchResult> => {
+	const params = new URLSearchParams({ ...DEFAULTS, lat, lng });
+	const url = `${BASE}/findNearbyPlaceNameJSON?${params}`;
+	const response = await fetch(url);
+	if (!response.ok) {
+		throw new Error('Network response was not ok');
+	}
+
+	const result: SearchResult = await response.json();
+	return result;
+};
+
+interface HookParams {
+	lat?: number;
+	lng?: number;
+}
+
+export const useFindNearbyPlaceName = ({ lat, lng }: HookParams) => {
+	return useQuery({
+		queryKey: ['findNearbyPlaceName', lat, lng],
+		queryFn: async () => findNearbyPlaceName({ lat: String(lat), lng: String(lng) }),
+		enabled: lat !== undefined && lng !== undefined,
+		staleTime: ONE_MINUTE,
+		gcTime: ONE_DAY,
+	});
+};
