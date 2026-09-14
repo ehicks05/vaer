@@ -15,7 +15,7 @@ import { Wind } from './Wind';
 const Container = ({ children }: { children: ReactNode }) => (
 	<div className="relative">
 		<EmbeddedTitle title="Hourly Forecast" />
-		<Card className="flex gap-6 p-4 mt-2 xl:mt-0 overflow-x-auto scrollbar-thin scroll-fade-TODO">
+		<Card className="flex gap-6 p-4 mt-2 xl:mt-0 overflow-x-auto scrollbar-thin scrollbar-thumb-background scroll-fade-TODO">
 			{children}
 		</Card>
 	</div>
