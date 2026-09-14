@@ -19,9 +19,9 @@ export const LocationDialog = () => {
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger
 				render={
-					<Button variant="outline" className="gap-2">
-						Location
+					<Button variant="outline" data-icon="inline-start">
 						<MapPinPlus />
+						Location
 					</Button>
 				}
 			/>
