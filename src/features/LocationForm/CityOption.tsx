@@ -1,6 +1,14 @@
-import { CheckCircle2Icon, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { type Geoname, geonameToLabel } from '@/services/geonames';
+import {
+	Item,
+	ItemActions,
+	ItemContent,
+	ItemDescription,
+	ItemTitle,
+} from '@/components/ui/item';
+import type { Geoname } from '@/services/geonames';
+import { geonameToLabel } from '@/services/geonames/utils';
 
 interface Props {
 	city: Partial<Geoname>;
@@ -11,18 +19,39 @@ interface Props {
 
 export const CityOption = ({ city, isActive, onClick, onDelete }: Props) => {
 	return (
-		<div className="flex gap-2">
-			<Button variant="outline" onClick={onClick} className="grow">
-				{isActive && <CheckCircle2Icon className="text-green-500" />}
-				{city.name === 'Current Location'
-					? 'Current Location'
-					: geonameToLabel(city)}
-			</Button>
-			{onDelete && (
-				<Button variant="destructive" size="icon" onClick={onDelete}>
-					<X />
-				</Button>
-			)}
-		</div>
+		<Item variant="outline" size="xs">
+			<ItemContent>
+				<ItemTitle>
+					{city.name}
+					{/*{isActive && <CheckCircle2Icon size={16} className="text-green-500" />}*/}
+				</ItemTitle>
+				{city.name !== 'Current Location' && (
+					<ItemDescription>{geonameToLabel(city)}</ItemDescription>
+				)}
+			</ItemContent>
+			<ItemActions>
+				{isActive && (
+					<Button
+						onClick={onClick}
+						variant="secondary"
+						size="sm"
+						className="bg-green-100 hover:bg-green-100 dark:bg-green-900 dark:hover:bg-green-900"
+					>
+						Active
+					</Button>
+				)}
+
+				{!isActive && (
+					<Button onClick={onClick} variant="secondary" size="sm">
+						{onDelete || city.name === 'Current Location' ? 'Select' : 'Add'}
+					</Button>
+				)}
+				{onDelete && (
+					<Button onClick={onDelete} variant="destructive" size="icon-sm">
+						<X />
+					</Button>
+				)}
+			</ItemActions>
+		</Item>
 	);
 };
