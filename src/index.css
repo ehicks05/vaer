@@ -14,10 +14,6 @@ body {
 	min-height: 100vh;
 }
 
-input {
-	background-color: var(--muted);
-}
-
 #root {
 	min-height: 100vh;
 }
