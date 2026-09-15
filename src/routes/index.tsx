@@ -1,8 +1,9 @@
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
-import { QueryClient } from '@tanstack/react-query';
+import { QueryClient, useIsRestoring } from '@tanstack/react-query';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { createFileRoute } from '@tanstack/react-router';
 import { ThemeProvider } from '@/components/ui/theme-provider';
+import { ONE_DAY } from '@/constants/datetime';
 import { AppProvider } from '@/contexts/AppProvider';
 import { Home } from '@/features/Home';
 import { Footer, Header } from '@/features/layout';
@@ -12,7 +13,14 @@ export const Route = createFileRoute('/')({
 	ssr: false,
 });
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			staleTime: ONE_DAY,
+			gcTime: ONE_DAY,
+		},
+	},
+});
 
 const persister = createAsyncStoragePersister({
 	storage: window.localStorage,
@@ -20,6 +28,12 @@ const persister = createAsyncStoragePersister({
 });
 
 function Index() {
+	const isRestoring = useIsRestoring();
+
+	if (isRestoring) {
+		return 'restoring...';
+	}
+
 	return (
 		<ThemeProvider storageKey="theme" defaultTheme="system">
 			<PersistQueryClientProvider
