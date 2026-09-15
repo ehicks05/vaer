@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useDebounceValue } from 'usehooks-ts';
-import { ONE_DAY, ONE_MINUTE } from '../../constants/datetime';
+import { ONE_DAY } from '../../constants/datetime';
 import type { SearchResult } from './types';
 
 export const BASE = 'https://secure.geonames.org';
@@ -40,7 +40,7 @@ export const useSearch = ({ query: _query }: Params) => {
 		queryKey: ['searchGeonames', query],
 		queryFn: async () => search({ query }),
 		enabled: query.length >= 3,
-		staleTime: ONE_MINUTE,
+		staleTime: ONE_DAY,
 		gcTime: ONE_DAY,
 	});
 };

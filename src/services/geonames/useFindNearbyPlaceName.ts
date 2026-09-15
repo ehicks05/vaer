@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { ONE_DAY, ONE_MINUTE } from '../../constants/datetime';
+import { ONE_DAY } from '../../constants/datetime';
 import type { SearchResult } from './types';
 
 export const BASE = 'https://secure.geonames.org';
@@ -37,7 +37,7 @@ export const useFindNearbyPlaceName = ({ lat, lng }: HookParams) => {
 		queryKey: ['findNearbyPlaceName', lat, lng],
 		queryFn: async () => findNearbyPlaceName({ lat: String(lat), lng: String(lng) }),
 		enabled: lat !== undefined && lng !== undefined,
-		staleTime: ONE_MINUTE,
+		staleTime: ONE_DAY,
 		gcTime: ONE_DAY,
 	});
 };
