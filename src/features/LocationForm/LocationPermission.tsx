@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/field';
 import { Switch } from '@/components/ui/switch';
 import { useGeolocation } from '@/hooks/useGeolocation';
-import { useQueryPermission } from '@/hooks/usePermission';
+import { useQueryPermission } from './usePermission';
 
 export const useLocationPermission = () => {
 	return useLocalStorage<boolean>('vaer-location-permission', false);
