@@ -121,7 +121,7 @@ export function MapLibreMap({ coords: [latitude, longitude], tz }: Props) {
 								type="raster"
 								source="omFileSource"
 								paint={{
-									'raster-opacity': isActive ? 0.75 : 0,
+									'raster-opacity': isActive ? 0.5 : 0,
 									'raster-opacity-transition': { duration: 600 },
 								}}
 								// layout={{ visibility: isActive ? 'visible' : 'none' }}
