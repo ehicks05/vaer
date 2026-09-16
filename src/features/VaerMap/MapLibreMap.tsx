@@ -9,11 +9,19 @@ import MapLibre, {
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useQuery } from '@tanstack/react-query';
 import { range, round } from 'es-toolkit';
-import { Locate, LocateFixed, PauseCircle, PlayCircle } from 'lucide-react';
+import {
+	Locate,
+	LocateFixed,
+	Minus,
+	PauseCircle,
+	PlayCircle,
+	Plus,
+} from 'lucide-react';
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { type RefObject, useCallback, useEffect, useRef, useState } from 'react';
 import { useInterval } from 'usehooks-ts';
 import { Button } from '@/components/ui/button';
+import { ButtonGroup } from '@/components/ui/button-group';
 
 setWorkerUrl(workerUrl);
 
@@ -138,6 +146,7 @@ export function MapLibreMap({ coords: [latitude, longitude], tz }: Props) {
 					toggleInterval={toggleInterval}
 					isFixed={isFixed}
 					handleGoToCoords={handleGoToCoords}
+					mapRef={mapRef}
 				/>
 			</MapLibre>
 		</div>
@@ -154,6 +163,7 @@ const Controls = ({
 	toggleInterval,
 	isFixed,
 	handleGoToCoords,
+	mapRef,
 }: {
 	activeLayerId: number;
 	validTimes: string[];
@@ -162,6 +172,7 @@ const Controls = ({
 	toggleInterval: () => void;
 	isFixed: boolean;
 	handleGoToCoords: () => void;
+	mapRef: RefObject<MapRef | null>;
 }) => {
 	return (
 		<>
@@ -177,7 +188,23 @@ const Controls = ({
 					})}
 				</div>
 			</div>
-			<div className="absolute bottom-2 right-2 shadow-xl">
+			<div className="absolute bottom-2 right-2 flex flex-col gap-1 shadow-xl">
+				<ButtonGroup orientation="vertical">
+					<Button
+						variant="secondary"
+						size="icon-sm"
+						onClick={() => mapRef.current?.zoomIn()}
+					>
+						<Plus />
+					</Button>
+					<Button
+						variant="secondary"
+						size="icon-sm"
+						onClick={() => mapRef.current?.zoomOut()}
+					>
+						<Minus />
+					</Button>
+				</ButtonGroup>
 				<Button variant="secondary" size="icon-sm" onClick={handleGoToCoords}>
 					{isFixed ? <LocateFixed /> : <Locate />}
 				</Button>
