@@ -146,7 +146,7 @@ export function MapLibreMap({ coords: [latitude, longitude], tz }: Props) {
 
 type IntervalDelay = 2000 | null;
 
-export const Controls = ({
+const Controls = ({
 	activeLayerId,
 	validTimes,
 	tz,

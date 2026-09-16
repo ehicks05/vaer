@@ -4,7 +4,7 @@ import type { Minutely15 } from '@/services/openMeteo/types/forecast';
 import { ChartBar } from './ChartBar';
 
 // Minutely15 values are per 15 minutes
-export const QUARTER_HOURS_PER_HOUR = 4;
+const QUARTER_HOURS_PER_HOUR = 4;
 
 const toHourlyRate = (minute: Minutely15) =>
 	Math.max(minute.precipitation, minute.snowfall) * QUARTER_HOURS_PER_HOUR;

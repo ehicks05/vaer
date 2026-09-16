@@ -1,6 +1,6 @@
 import { useLocalStorage } from 'usehooks-ts';
 
-export const UNIT_SYSTEMS = {
+const UNIT_SYSTEMS = {
 	IMPERIAL: 'imperial',
 	METRIC: 'metric',
 } as const;

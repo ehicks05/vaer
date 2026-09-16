@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { ONE_DAY } from '../../constants/datetime';
 import type { SearchResult } from './types';
 
-export const BASE = 'https://secure.geonames.org';
+const BASE = 'https://secure.geonames.org/findNearbyPlaceNameJSON';
 
 const DEFAULTS = {
 	maxRows: '5',
@@ -15,9 +15,9 @@ interface Params {
 	lng: string;
 }
 
-export const findNearbyPlaceName = async ({ lat, lng }: Params): Promise<SearchResult> => {
+const findNearbyPlaceName = async ({ lat, lng }: Params) => {
 	const params = new URLSearchParams({ ...DEFAULTS, lat, lng });
-	const url = `${BASE}/findNearbyPlaceNameJSON?${params}`;
+	const url = `${BASE}?${params}`;
 	const response = await fetch(url);
 	if (!response.ok) {
 		throw new Error('Network response was not ok');

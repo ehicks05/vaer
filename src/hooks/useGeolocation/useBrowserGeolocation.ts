@@ -5,7 +5,11 @@
 import { round } from 'es-toolkit';
 import { useEffect, useState } from 'react';
 import { useLocationPermission } from '@/features/LocationForm/LocationPermission';
-import type { GeolocationState } from './types';
+import type { GeolocationOptions, GeolocationState } from './types';
+
+const DEFAULT_OPTIONS: GeolocationOptions = {
+	maximumAge: 5000,
+};
 
 const DEFAULT_STATE: GeolocationState = {
 	loading: true,
@@ -58,9 +62,13 @@ export function useBrowserGeolocation() {
 			}));
 		};
 
-		navigator.geolocation.getCurrentPosition(onEvent, onEventError);
+		navigator.geolocation.getCurrentPosition(onEvent, onEventError, DEFAULT_OPTIONS);
 
-		const watchId = navigator.geolocation.watchPosition(onEvent, onEventError);
+		const watchId = navigator.geolocation.watchPosition(
+			onEvent,
+			onEventError,
+			DEFAULT_OPTIONS,
+		);
 
 		return () => {
 			navigator.geolocation.clearWatch(watchId);

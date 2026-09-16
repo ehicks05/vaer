@@ -1,7 +1,7 @@
 // adapted from https://github.com/djkepa/custom-react-hooks/blob/main/packages/use-permission/src/index.tsx
 import { useEffect, useState } from 'react';
 
-export interface PermissionState {
+interface PermissionState {
 	state: PermissionStatus['state'];
 	isLoading: boolean;
 	error: string | null;

@@ -5,7 +5,7 @@ import { formatInTimeZone } from '@/lib/utils';
 import type { Minutely15 } from '@/services/openMeteo/types/forecast';
 import { Chart } from './Chart';
 
-export const HOURS_TO_SHOW = 4;
+const HOURS_TO_SHOW = 4;
 
 const getMessage = (minutely: Minutely15[], tz: string) => {
 	const currentlyPrecipitating = minutely[0].precipitation !== 0;

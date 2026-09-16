@@ -3,7 +3,7 @@ import { useDebounceValue } from 'usehooks-ts';
 import { ONE_DAY } from '../../constants/datetime';
 import type { SearchResult } from './types';
 
-export const BASE = 'https://secure.geonames.org';
+const BASE = 'https://secure.geonames.org/searchJSON';
 
 const DEFAULTS = {
 	countryBias: 'US',
@@ -18,12 +18,12 @@ interface Params {
 	query: string;
 }
 
-export const search = async ({ query }: Params): Promise<SearchResult> => {
+const search = async ({ query }: Params) => {
 	const params = new URLSearchParams({
 		...DEFAULTS,
 		name_startsWith: query,
 	});
-	const url = `${BASE}/searchJSON?${params}`;
+	const url = `${BASE}?${params}`;
 	const response = await fetch(url);
 	if (!response.ok) {
 		throw new Error('Network response was not ok');

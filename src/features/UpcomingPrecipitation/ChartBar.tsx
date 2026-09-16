@@ -5,7 +5,7 @@ const MAX_HEIGHT = 80;
 const POWER = 0.88;
 const PIXELS_PER_INCHES_PER_HOUR = 200;
 
-export const getBarHeight = (inchesPerHour: number) => {
+const getBarHeight = (inchesPerHour: number) => {
 	const rawPixelHeight = MIN_HEIGHT + inchesPerHour * PIXELS_PER_INCHES_PER_HOUR;
 
 	const compressedPixelHeight = Math.round(rawPixelHeight ** POWER);
