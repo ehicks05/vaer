@@ -1,0 +1,22 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="128"
+  height="128"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="white"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <title>logo</title>
+	<defs>
+		<linearGradient id="_r_b_" x1="0%" y1="0%" x2="100%" y2="100%">
+			<stop offset="0%" stop-color="oklch(55.2% 0.232 292.759)" />
+			<stop offset="100%" stop-color="oklch(50.9% 0.144 278.697)" />
+		</linearGradient>
+	</defs>
+	<rect stroke="none" width="100%" height="100%" fill="url(#_r_b_)" rx="4" />
+	<path d="M6 16.326A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 .5 8.973" />
+	<path d="m13 12-3 5h4l-3 5" />
+</svg>

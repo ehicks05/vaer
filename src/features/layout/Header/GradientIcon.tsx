@@ -9,8 +9,8 @@ interface GradientIconProps extends LucideProps {
 
 export function GradientIcon({
 	children,
-	color1 = '#ec4899',
-	color2 = '#4f46e5',
+	color1 = 'oklch(55.2% 0.232 292.759)',
+	color2 = 'oklch(50.9% 0.144 278.697)',
 	size = 24,
 	...rest
 }: GradientIconProps) {
@@ -24,11 +24,16 @@ export function GradientIcon({
 					<stop offset="0%" stopColor={color1} />
 					<stop offset="100%" stopColor={color2} />
 				</linearGradient>
-      </defs>
-			
+			</defs>
+			<rect width="100%" height="100%" fill={`url(#${gradientId})`} rx="10" />
+
 			{cloneElement(children, {
-				stroke: `url(#${gradientId})`,
+				stroke: 'white',
 				size: size,
+				width: '66%',
+				height: '66%',
+				x: 6,
+				y: 6,
 			})}
 		</svg>
 	);

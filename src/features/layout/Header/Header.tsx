@@ -1,5 +1,6 @@
 import { CloudLightning } from 'lucide-react';
 import { Alert } from './AlertDialog/AlertDialog';
+import Foo from './foo.svg';
 import { GradientIcon } from './GradientIcon';
 import { SettingsDialog } from './SettingsDialog';
 import { UpdatedAt } from './UpdatedAt';
