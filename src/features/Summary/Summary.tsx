@@ -37,7 +37,13 @@ export const Summary = () => {
 				</div>
 			</div>
 			<div className="flex items-center gap-1">
-				feels like {getTemp(apparent_temperature)} &middot; {description} &middot;{' '}
+				<div className="flex items-baseline gap-0.5">
+					{getTemp(apparent_temperature)}
+					<span className="text-xs text-muted-foreground">FL</span>
+				</div>
+				&middot;
+				<div>{description}</div>
+				&middot;
 				<Aqi us_aqi={us_aqi} />
 			</div>
 		</Card>
