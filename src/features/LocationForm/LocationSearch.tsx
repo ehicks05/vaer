@@ -1,19 +1,55 @@
 import { Ghost, Globe, Loader2, Search, TriangleAlert } from 'lucide-react';
 import { useState } from 'react';
+import { Button } from '@/components/ui/button';
 import { Field, FieldLabel } from '@/components/ui/field';
 import {
 	InputGroup,
 	InputGroupAddon,
 	InputGroupInput,
 } from '@/components/ui/input-group';
+import {
+	Item,
+	ItemActions,
+	ItemContent,
+	ItemDescription,
+	ItemTitle,
+} from '@/components/ui/item';
 import { useSpecifiedLocation } from '@/hooks';
+import type { Geoname } from '@/services/geonames';
 import { useSearch } from '@/services/geonames';
-import { CityOption } from './CityOption';
+import { geonameToLabel } from '@/services/geonames/utils';
 import { useSavedLocationStorage } from './useSavedLocationStorage';
 
-export const LocationSearch = () => {
+interface Props {
+	geoname: Geoname;
+}
+
+const SearchResult = ({ geoname }: Props) => {
 	const [savedLocations, setSavedLocations] = useSavedLocationStorage();
 	const [_, setSpecifiedLocation] = useSpecifiedLocation();
+
+	const handleClick = () => {
+		setSavedLocations([...savedLocations, geoname]);
+		setSpecifiedLocation(geoname);
+	};
+
+	return (
+		<Item variant="outline" size="xs">
+			<ItemContent>
+				<ItemTitle>{geoname.name}</ItemTitle>
+				<ItemDescription>{geonameToLabel(geoname)}</ItemDescription>
+			</ItemContent>
+			<ItemActions>
+				<Button onClick={handleClick} variant="secondary" size="sm">
+					Add
+				</Button>
+			</ItemActions>
+		</Item>
+	);
+};
+
+export const LocationSearch = () => {
+	const [savedLocations] = useSavedLocationStorage();
 
 	const [queryString, setQueryString] = useState('');
 
@@ -66,28 +102,9 @@ export const LocationSearch = () => {
 					</div>
 				)}
 				<div className="grid grid-cols-1 gap-1">
-					{locations.map((location) => {
-						const isSaved = savedLocations.some(
-							(c) => c.geonameId === location.geonameId,
-						);
-						const onClick = isSaved
-							? () =>
-									setSavedLocations(
-										savedLocations.filter((c) => c.geonameId !== location.geonameId),
-									)
-							: () => {
-									setSavedLocations([...savedLocations, location]);
-									setSpecifiedLocation(location);
-								};
-						return (
-							<CityOption
-								key={location.geonameId}
-								city={location}
-								isActive={false}
-								onClick={onClick}
-							/>
-						);
-					})}
+					{locations.map((location) => (
+						<SearchResult key={location.geonameId} geoname={location} />
+					))}
 				</div>
 			</div>
 		</div>
