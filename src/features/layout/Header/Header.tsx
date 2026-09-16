@@ -1,4 +1,4 @@
-import { Alert } from './AlertDialog';
+import { Alert } from './AlertDialog/AlertDialog';
 import { SettingsDialog } from './SettingsDialog';
 import { UpdatedAt } from './UpdatedAt';
 
