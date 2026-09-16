@@ -2,7 +2,8 @@ import { Card } from '@/components';
 import { useUnitSystem } from '@/features/UnitSystem/useUnitSystem';
 import { useOpenMeteo } from '@/hooks';
 import { useResolvedLocation } from '@/hooks/useResolvedLocation';
-import { getWmoWeatherIcon } from '../constants/weather_icons';
+import { getWmoWeatherIcon } from '../../constants/weather_icons';
+import { Aqi } from './Aqi';
 
 export const Summary = () => {
 	const { getTemp } = useUnitSystem();
@@ -37,24 +38,7 @@ export const Summary = () => {
 			</div>
 			<div className="flex items-center gap-1">
 				feels like {getTemp(apparent_temperature)} &middot; {description} &middot;{' '}
-				<span
-					className={
-						us_aqi && us_aqi <= 50
-							? 'text-green-500'
-							: us_aqi && us_aqi <= 100
-								? 'text-yellow-500'
-								: us_aqi && us_aqi <= 150
-									? 'text-orange-500'
-									: us_aqi && us_aqi <= 200
-										? 'text-red-500'
-										: us_aqi && us_aqi <= 300
-											? 'text-pink-700 dark:text-pink-600'
-											: 'text-purple-600 dark:text-purple-400'
-					}
-				>
-					{us_aqi}
-				</span>
-				AQI
+				<Aqi us_aqi={us_aqi} />
 			</div>
 		</Card>
 	);

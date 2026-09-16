@@ -2,7 +2,7 @@ import { useResolvedLocation } from '@/hooks/useResolvedLocation';
 import { DailyForecast } from '../DailyForecast';
 import { DayStats } from '../DayStats';
 import { HourlyForecast } from '../HourlyForecast';
-import { Summary } from '../Summary';
+import { Summary } from '../Summary/Summary';
 import { UpcomingPrecipitation } from '../UpcomingPrecipitation';
 import { VaerMap } from '../VaerMap/VaerMap';
 import { EmptyLocation } from './EmptyLocation';
