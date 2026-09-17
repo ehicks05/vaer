@@ -1,5 +1,5 @@
 import { useResolvedLocation } from '@/hooks/useResolvedLocation';
-import { DailyForecast } from '../DailyForecast';
+import { DailyForecast } from '../DailyForecast/DailyForecast';
 import { DayStats } from '../DayStats';
 import { HourlyForecast } from '../HourlyForecast';
 import { Summary } from '../Summary/Summary';
