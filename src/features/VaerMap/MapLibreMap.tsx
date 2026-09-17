@@ -73,7 +73,7 @@ export function MapLibreMap({ coords: [latitude, longitude], tz }: Props) {
 
 	const [interval, setInterval] = useState<IntervalDelay>(null);
 	const toggleInterval = () => {
-		setInterval((interval) => (interval ? null : 2000));
+		setInterval((interval) => (interval ? null : 1600));
 		setActiveLayerIndex(0);
 	};
 
@@ -146,7 +146,7 @@ export function MapLibreMap({ coords: [latitude, longitude], tz }: Props) {
 	);
 }
 
-type IntervalDelay = 2000 | null;
+type IntervalDelay = 1600 | null;
 
 const Controls = ({
 	activeLayerId,
