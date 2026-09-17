@@ -2,7 +2,6 @@ import { Bug } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
-import { useTheme } from '@/components/ui/theme-provider';
 import { useResolvedLocation, useSpecifiedLocation } from '@/hooks';
 import { useGeolocation } from '@/hooks/useGeolocation';
 import { useWeatherGov } from '@/services/weathergov';
@@ -14,9 +13,6 @@ const Content = () => {
 	const resolvedLocation = useResolvedLocation();
 	const geolocation = useGeolocation();
 	const { alertsQuery } = useWeatherGov();
-
-	const { theme } = useTheme();
-	console.log(theme);
 
 	return (
 		<div className="grid grid-cols-2">
@@ -41,14 +37,7 @@ const Content = () => {
 				)}
 			</pre>
 			<pre className="whitespace-pre-wrap text-xs">
-				{JSON.stringify(
-					{
-						alertsQuery: alertsQuery.data,
-						theme,
-					},
-					null,
-					2,
-				)}
+				{JSON.stringify({ alertsQuery: alertsQuery.data }, null, 2)}
 			</pre>
 		</div>
 	);
