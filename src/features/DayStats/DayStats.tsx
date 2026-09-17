@@ -1,22 +1,31 @@
 import { Droplet, Snowflake } from 'lucide-react';
-import { useContext } from 'react';
+import { type ReactNode, useContext } from 'react';
 import { Card } from '@/components';
 import { EmbeddedTitle } from '@/components/EmbeddedTitle';
+import { MOON_PHASES } from '@/constants/moon_phases';
 import { DayIndexContext } from '@/contexts/DayIndexContext';
 import { useUnitSystem } from '@/features/UnitSystem/useUnitSystem';
 import { useOpenMeteo } from '@/hooks';
-import { MOON_PHASES } from './constants';
 import { DayStatCard } from './DayStatCard';
 import { getMoonTimeStats, getSunTimeStats } from './utils';
+
+const Container = ({ children }: { children?: ReactNode }) => (
+	<Card className="min-h-30 relative flex flex-col pt-2 mt-2">
+		<EmbeddedTitle title="Day Stats" />
+		{children}
+	</Card>
+);
 
 export const DayStats = () => {
 	const { getLength } = useUnitSystem();
 	const { dayIndex } = useContext(DayIndexContext);
-	const {
-		openMeteo: { data: openMeteo },
-	} = useOpenMeteo();
+	const { openMeteo } = useOpenMeteo();
 
-	const tz = openMeteo?.timezone || 'utc';
+	if (!openMeteo?.data) {
+		return <Container />;
+	}
+
+	const { daily, timezone: tz } = openMeteo.data;
 	const {
 		precipitation_sum,
 		snowfall_sum,
@@ -25,7 +34,7 @@ export const DayStats = () => {
 		moon_phase,
 		moonrise,
 		moonset,
-	} = openMeteo?.daily[dayIndex || 0] || {};
+	} = daily[dayIndex || 0];
 
 	const isSnowfallGreater = (snowfall_sum || 0) > (precipitation_sum || 0);
 	const precipIcon = isSnowfallGreater ? Snowflake : Droplet;
@@ -47,13 +56,12 @@ export const DayStats = () => {
 	];
 
 	return (
-		<Card className="relative flex flex-col pt-2 mt-2">
-			<EmbeddedTitle title="Day Stats" />
+		<Container>
 			<div className="grid grid-cols-3">
 				{newStats.map((stat) => (
 					<DayStatCard key={stat.label} stat={stat} />
 				))}
 			</div>
-		</Card>
+		</Container>
 	);
 };

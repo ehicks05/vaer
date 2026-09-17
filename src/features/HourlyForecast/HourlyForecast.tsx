@@ -73,7 +73,11 @@ const HourlyDetail = ({ hourly, tz }: Props) => {
 
 export const HourlyForecast = () => {
 	const { dayIndex } = useContext(DayIndexContext);
-	const { openMeteo } = useOpenMeteo();
+  const { openMeteo } = useOpenMeteo();
+
+  if (!openMeteo.data) {
+    return <Container />
+  }
 
 	const tz = openMeteo.data?.timezone || 'utc';
 	const hourlies =
@@ -86,7 +90,6 @@ export const HourlyForecast = () => {
 			{hourlies.map((hourly) => (
 				<HourlyDetail key={hourly.time} hourly={hourly} tz={tz} />
 			))}
-			{hourlies.length === 0 && 'No available data'}
 		</Container>
 	);
 };
