@@ -64,7 +64,7 @@ export function MapLibreMap({ coords: [latitude, longitude], tz }: Props) {
 
 	const firstTimeStepIndex =
 		meta.data?.valid_times.findIndex((o) => new Date(o).getTime() > Date.now()) || 0;
-	const timeSteps = range(5).map((o) => o + firstTimeStepIndex);
+	const timeSteps = range(3).map((o) => o + firstTimeStepIndex);
 	const layers = timeSteps.map((timeStep) => ({
 		id: timeStep,
 		url: `om://${OM_BASE}?${new URLSearchParams({ time_step: `valid_times_${timeStep}`, variable: 'precipitation' })}`,
