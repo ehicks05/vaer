@@ -6,7 +6,7 @@ import { MOON_PHASES } from '@/constants/moon_phases';
 import { DayIndexContext } from '@/contexts/DayIndexContext';
 import { useUnitSystem } from '@/features/UnitSystem/useUnitSystem';
 import { useOpenMeteo } from '@/hooks';
-import { DayStatCard } from './DayStatCard';
+import { DayStat } from './DayStat';
 import { getMoonTimeStats, getSunTimeStats } from './utils';
 
 const Container = ({ children }: { children?: ReactNode }) => (
@@ -45,7 +45,7 @@ export const DayStats = () => {
 
 	const newStats = [
 		...getSunTimeStats(tz, sunrise, sunset),
-		{ Icon: precipIcon, label: 'Precip', value: precipLabel, iconSize: 24 },
+		{ Icon: precipIcon, label: 'Precip', value: precipLabel, isLucide: true },
 		...getMoonTimeStats(tz, moonrise, moonset),
 		{
 			Icon: phase.Icon,
@@ -59,7 +59,7 @@ export const DayStats = () => {
 		<Container>
 			<div className="grid grid-cols-3">
 				{newStats.map((stat) => (
-					<DayStatCard key={stat.label} stat={stat} />
+					<DayStat key={stat.label} stat={stat} />
 				))}
 			</div>
 		</Container>
