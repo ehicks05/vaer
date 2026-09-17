@@ -1,8 +1,7 @@
-import { Card } from '@/components';
+import { Card, FeelsLike } from '@/components';
+import { getWmoWeatherIcon } from '@/constants/weather_icons';
 import { useUnitSystem } from '@/features/UnitSystem/useUnitSystem';
-import { useOpenMeteo } from '@/hooks';
-import { useResolvedLocation } from '@/hooks/useResolvedLocation';
-import { getWmoWeatherIcon } from '../../constants/weather_icons';
+import { useOpenMeteo, useResolvedLocation } from '@/hooks';
 import { Aqi } from './Aqi';
 
 export const Summary = () => {
@@ -31,10 +30,7 @@ export const Summary = () => {
 				<Icon className="inline" size={64} title={weather.description} />
 			</div>
 			<div className="flex items-center gap-1">
-				<div className="flex items-baseline gap-0.5">
-					{getTemp(apparent_temperature)}
-					<span className="text-xs text-muted-foreground">FL</span>
-				</div>
+				<FeelsLike apparent_temperature={apparent_temperature} />
 				&middot;
 				<div>{weather.description}</div>
 				&middot;

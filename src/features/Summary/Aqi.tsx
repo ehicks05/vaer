@@ -35,7 +35,7 @@ export const Aqi = ({ us_aqi = 0 }: { us_aqi?: number }) => {
 	return (
 		<div className="flex items-baseline gap-0.5" title={aqiRange.label}>
 			<span className={aqiRange.color}>{us_aqi}</span>
-			<span className="text-xs text-muted-foreground">AQI</span>
+			<span className="text-xs">AQI</span>
 		</div>
 	);
 };
