@@ -25,7 +25,7 @@ export function GradientIcon({
 					<stop offset="100%" stopColor={color2} />
 				</linearGradient>
 			</defs>
-			<rect width="100%" height="100%" fill={`url(#${gradientId})`} rx="10" />
+			<rect width="100%" height="100%" fill={`url(#${gradientId})`} rx="8" />
 
 			{cloneElement(children, {
 				stroke: 'white',

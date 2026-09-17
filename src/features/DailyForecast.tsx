@@ -5,7 +5,7 @@ import { getWmoWeatherIcon } from '@/constants/weather_icons';
 import { DayIndexContext } from '@/contexts/DayIndexContext';
 import { useUnitSystem } from '@/features/UnitSystem/useUnitSystem';
 import { useOpenMeteo } from '@/hooks';
-import { addDays, formatInTimeZone } from '@/lib/utils';
+import { formatInTimeZone } from '@/lib/utils';
 
 interface OneDaySummaryProps {
 	weather: { id: number; description: string };
@@ -57,21 +57,15 @@ const OneDaySummary = ({
 	);
 };
 
-const getPlaceholderData = () => ({
-	daily: [...new Array(7)].map((_, i) => ({
-		time: addDays(new Date(), i).getTime(),
-		temp: { min: 0, max: 0 },
-		apparent_temp: { min: 0, max: 0 },
-		weather: { id: 800, description: 'loading', icon: 'd' },
-	})),
-	timezone: '',
-});
-
 export const DailyForecast = () => {
 	const { dayIndex, setDayIndex } = useContext(DayIndexContext);
 	const { openMeteo } = useOpenMeteo();
 
-	const { daily: dailies, timezone } = openMeteo.data || getPlaceholderData();
+	if (!openMeteo.data) {
+		return <Container />;
+	}
+
+	const { daily: dailies, timezone } = openMeteo.data;
 
 	return (
 		<Container>
@@ -82,7 +76,7 @@ export const DailyForecast = () => {
 
 				return (
 					<OneDaySummary
-						key={new Date(daily.time).getTime()}
+						key={daily.time}
 						weather={daily.weather}
 						day={day}
 						min={daily.temp.min}
@@ -96,7 +90,7 @@ export const DailyForecast = () => {
 	);
 };
 
-const Container = ({ children }: { children: ReactNode }) => (
+const Container = ({ children }: { children?: ReactNode }) => (
 	<Card className="relative w-full md:h-full flex flex-col grow min-h-106 mt-2 md:mt-0">
 		<EmbeddedTitle title="Daily Forecast" />
 		<div className="flex flex-col w-full h-full justify-between">{children}</div>

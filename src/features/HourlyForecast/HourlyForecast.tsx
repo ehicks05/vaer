@@ -7,15 +7,14 @@ import { useUnitSystem } from '@/features/UnitSystem/useUnitSystem';
 import { useOpenMeteo } from '@/hooks';
 import { formatInTimeZone } from '@/lib/utils';
 import type { Hourly } from '@/services/openMeteo/types/forecast';
-import { PLACEHOLDER_DATA } from './constants';
 import { Precip } from './Precip';
 import { Weather } from './Weather';
 import { Wind } from './Wind';
 
-const Container = ({ children }: { children: ReactNode }) => (
+const Container = ({ children }: { children?: ReactNode }) => (
 	<div className="relative">
 		<EmbeddedTitle title="Hourly Forecast" />
-		<Card className="flex gap-6 p-4 mt-2 xl:mt-0 overflow-x-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-muted-foreground scroll-fade-TODO">
+		<Card className="min-h-94 flex gap-6 p-4 mt-2 xl:mt-0 overflow-x-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-muted-foreground scroll-fade-TODO">
 			{children}
 		</Card>
 	</div>
@@ -91,20 +90,11 @@ export const HourlyForecast = () => {
 	const { dayIndex } = useContext(DayIndexContext);
 	const { openMeteo } = useOpenMeteo();
 
-	if (!openMeteo.data) {
-		return (
-			<Container>
-				{PLACEHOLDER_DATA.map((hourly) => (
-					<HourlyDetail key={hourly.time} hourly={hourly} tz="" />
-				))}
-			</Container>
-		);
-	}
-
-	const tz = openMeteo.data.timezone;
-	const hourlies = openMeteo.data.hourly
-		.filter((hourly) => !!dayIndex || new Date(hourly.time).getTime() >= Date.now())
-		.slice((dayIndex || 0) * 24, (dayIndex || 0) * 24 + 24);
+	const tz = openMeteo.data?.timezone || 'utc';
+	const hourlies =
+		openMeteo.data?.hourly
+			.filter((hourly) => !!dayIndex || hourly.time >= Date.now())
+			.slice((dayIndex || 0) * 24, (dayIndex || 0) * 24 + 24) || [];
 
 	return (
 		<Container>

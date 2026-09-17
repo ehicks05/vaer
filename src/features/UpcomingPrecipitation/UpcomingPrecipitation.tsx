@@ -28,7 +28,7 @@ const getMessage = (minutely: Minutely15[], tz: string) => {
 };
 
 const Container = ({ children }: { children?: ReactNode }) => (
-	<Card gradient={false} className="p-4 flex flex-col gap-1 bg-muted">
+	<Card gradient={false} className="min-h-12 p-4 flex flex-col gap-1 bg-muted">
 		{children}
 	</Card>
 );
@@ -37,17 +37,11 @@ export const UpcomingPrecipitation = () => {
 	const { openMeteo } = useOpenMeteo();
 	const { data } = openMeteo;
 	if (!data) {
-		return (
-			<Container>
-				<div>Upcoming precipitation</div>
-				<div className="grow" />
-				<div className="text-xs text-muted-foreground">checked at</div>
-			</Container>
-		);
+		return <Container />;
 	}
 	const { timezone: tz } = data;
 	const minutely_15 = data.minutely_15
-		.filter((minutely) => new Date(minutely.time).getTime() >= Date.now())
+		.filter((minutely) => minutely.time >= Date.now())
 		.slice(0, HOURS_TO_SHOW * 4);
 
 	const hasPrecip = minutely_15.some((o) => o.precipitation !== 0);

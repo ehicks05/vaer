@@ -6,23 +6,19 @@ import { getWmoWeatherIcon } from '../../constants/weather_icons';
 import { Aqi } from './Aqi';
 
 export const Summary = () => {
+	const { city, state } = useResolvedLocation();
 	const { getTemp } = useUnitSystem();
 	const { openMeteo } = useOpenMeteo();
 
-	const {
-		apparent_temperature = 0,
-		weather: { id, description } = { id: -1, description: 'loading' },
-		temperature_2m = 0,
-		isDay = true,
-	} = openMeteo.data?.current || {};
-	const { us_aqi } =
-		openMeteo.data?.hourly.filter(
-			(hourly) => new Date(hourly.time).getTime() >= Date.now(),
-		)[0] || {};
+	if (!openMeteo.data) {
+		return <Card className="min-h-36" gradient={false} />;
+	}
 
-	const { city, state } = useResolvedLocation();
+	const { current, hourly } = openMeteo.data;
+	const { apparent_temperature, weather, temperature_2m, isDay } = current;
+	const { us_aqi } = hourly.find((hourly) => hourly.time >= Date.now()) || {};
 
-	const Icon = getWmoWeatherIcon(id, isDay);
+	const Icon = getWmoWeatherIcon(weather.id, isDay);
 
 	return (
 		<Card
@@ -32,9 +28,7 @@ export const Summary = () => {
 			{city || 'city'}, {state || 'state'}
 			<div className="flex gap-2 items-center text-6xl text-center">
 				{getTemp(temperature_2m)}
-				<div>
-					<Icon className="inline" size={64} title={description} />
-				</div>
+				<Icon className="inline" size={64} title={weather.description} />
 			</div>
 			<div className="flex items-center gap-1">
 				<div className="flex items-baseline gap-0.5">
@@ -42,7 +36,7 @@ export const Summary = () => {
 					<span className="text-xs text-muted-foreground">FL</span>
 				</div>
 				&middot;
-				<div>{description}</div>
+				<div>{weather.description}</div>
 				&middot;
 				<Aqi us_aqi={us_aqi} />
 			</div>

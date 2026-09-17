@@ -5,7 +5,7 @@ import { EmbeddedTitle } from '@/components/EmbeddedTitle';
 import { DayIndexContext } from '@/contexts/DayIndexContext';
 import { useUnitSystem } from '@/features/UnitSystem/useUnitSystem';
 import { useOpenMeteo } from '@/hooks';
-import { DEFAULT_PHASE, MOON_PHASES } from './constants';
+import { MOON_PHASES } from './constants';
 import { DayStatCard } from './DayStatCard';
 import { getMoonTimeStats, getSunTimeStats } from './utils';
 
@@ -32,7 +32,7 @@ export const DayStats = () => {
 	const precipLabel = getLength(Math.max(precipitation_sum || 0, snowfall_sum || 0));
 
 	const moonPhaseIndex = Math.floor((moon_phase || 0) * MOON_PHASES.length);
-	const phase = MOON_PHASES.at(moonPhaseIndex) || DEFAULT_PHASE;
+	const phase = MOON_PHASES.at(moonPhaseIndex) || MOON_PHASES[0];
 
 	const newStats = [
 		...getSunTimeStats(tz, sunrise, sunset),

@@ -1,15 +1,3 @@
-export const addHours = (_date: Date, i: number) => {
-	const date = new Date(_date.valueOf());
-	date.setHours(date.getHours() + i);
-	return date;
-};
-
-export const addDays = (_date: Date, i: number) => {
-	const date = new Date(_date.valueOf());
-	date.setDate(date.getDate() + i);
-	return date;
-};
-
 const FORMAT_KEYS = {
 	'MM-dd': { month: '2-digit', day: '2-digit' },
 	'h a': { hour: 'numeric', hour12: true },
