@@ -36,16 +36,17 @@ export const DayStats = () => {
 		moonset,
 	} = daily[dayIndex || 0];
 
-	const isSnowfallGreater = snowfall_sum > precipitation_sum;
-	const precipIcon = isSnowfallGreater ? Snowflake : Droplet;
-	const precipLabel = getLength(Math.max(precipitation_sum, snowfall_sum));
-
 	const moonPhaseIndex = Math.floor(moon_phase * MOON_PHASES.length);
 	const phase = MOON_PHASES.at(moonPhaseIndex) || MOON_PHASES[0];
 
 	const newStats = [
 		...getSunTimeStats(tz, sunrise, sunset),
-		{ Icon: precipIcon, label: 'Precip', value: precipLabel, isLucide: true },
+		{
+			Icon: snowfall_sum > precipitation_sum ? Snowflake : Droplet,
+			label: 'Precip',
+			value: getLength(Math.max(precipitation_sum, snowfall_sum)),
+			isLucide: true,
+		},
 		...getMoonTimeStats(tz, moonrise, moonset),
 		{
 			Icon: phase.Icon,
