@@ -10,7 +10,7 @@ interface Props {
 export const Card = ({ children, className, gradient = true }: Props) => (
 	<div
 		className={cn(
-			'rounded-lg',
+			'rounded-lg shadow',
 			`${gradient ? 'bg-white dark:bg-linear-to-br dark:from-violet-800 dark:to-indigo-900' : 'bg-muted'}`,
 			className,
 		)}

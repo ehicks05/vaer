@@ -11,7 +11,7 @@ import { getMoonTimeStats, getSunTimeStats } from './utils';
 
 const Container = ({ children }: { children?: ReactNode }) => (
 	<Card className="min-h-30 relative flex flex-col pt-2 mt-2">
-		<EmbeddedTitle title="Day Stats" />
+		<EmbeddedTitle title="Daily Stats" />
 		{children}
 	</Card>
 );
