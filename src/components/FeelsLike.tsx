@@ -1,11 +1,14 @@
 import { useUnitSystem } from '../features/UnitSystem';
 
 const FEELS_LIKE_RANGES = [
-	{ from: -99, to: 32, color: 'text-blue-600' },
-	{ from: 32, to: 55, color: 'text-blue-400' },
-	{ from: 55, to: 72, color: 'text-green-500' },
-	{ from: 72, to: 80, color: 'text-yellow-500' },
-	{ from: 80, to: 140, color: 'text-red-500' },
+	{ from: -120, to: 32, color: 'text-sky-400' },
+	{ from: 32, to: 47, color: 'text-cyan-400' },
+	{ from: 47, to: 55, color: 'text-teal-400' },
+	{ from: 55, to: 72, color: 'text-green-400' },
+	{ from: 72, to: 78, color: 'text-lime-400' },
+	{ from: 78, to: 87, color: 'text-amber-500' },
+	{ from: 87, to: 94, color: 'text-orange-500' },
+	{ from: 94, to: 200, color: 'text-red-500' },
 ];
 
 interface Props {
