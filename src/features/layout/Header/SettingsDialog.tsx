@@ -10,11 +10,12 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog';
-import { Field, FieldDescription, FieldLabel } from '@/components/ui/field';
+import { Field, FieldLabel } from '@/components/ui/field';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ModeToggle } from '@/components/ui/theme-toggle';
 import { LocationForm } from '../../LocationForm';
 import { UnitSystemToggle } from '../../UnitSystem';
+import { About } from './About';
 
 const KeyboardShortcut = () => (
 	<div className="-mr-1.5 hidden sm:flex items-center gap-0.5 bg-muted px-2 rounded-sm text-xs">
@@ -55,7 +56,7 @@ export const SettingsDialog = () => {
 				<DialogHeader>
 					<DialogTitle>Settings</DialogTitle>
 				</DialogHeader>
-				<div className="flex flex-col gap-6 min-h-[41vh] max-h-[75vh] overflow-y-auto scrollbar-thin">
+				<div className="flex flex-col gap-6 min-h-[50vh] max-h-[75vh] overflow-y-auto scrollbar-thin">
 					<Tabs defaultValue="location" className="">
 						<TabsList className="w-full">
 							<TabsTrigger value="location">
@@ -82,6 +83,11 @@ export const SettingsDialog = () => {
 								<FieldLabel htmlFor="name">Unit System</FieldLabel>
 								<UnitSystemToggle />
 							</Field>
+
+							<div className="h-6" />
+							<DialogTitle className="flex items-center gap-1">About</DialogTitle>
+
+							<About />
 						</TabsContent>
 					</Tabs>
 				</div>

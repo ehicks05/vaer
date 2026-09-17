@@ -1,16 +1,5 @@
 import { round } from 'es-toolkit';
-import { CircleQuestionMarkIcon } from 'lucide-react';
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import {
-	Dialog,
-	DialogClose,
-	DialogContent,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-} from '@/components/ui/dialog';
+import { FieldLabel } from '@/components/ui/field';
 import { useResolvedLocation } from '@/hooks';
 
 const LINKS = [
@@ -34,7 +23,7 @@ const Link = ({ href, children }: LinkProps) => (
 	</a>
 );
 
-const AboutContents = () => {
+export const About = () => {
 	const { lat, long } = useResolvedLocation();
 	const coords = lat
 		? `${round(Number(lat || 0), 2)},${round(Number(long || 0), 2)}`
@@ -43,10 +32,11 @@ const AboutContents = () => {
 	return (
 		<div className="flex flex-col gap-4">
 			<div className="flex flex-col">
-				Selected Coordinates: <span>{coords}</span>
+				<FieldLabel>Selected Coordinates</FieldLabel>
+				<span>{coords}</span>
 			</div>
 			<div className="flex flex-col">
-				Links:
+				<FieldLabel>Links</FieldLabel>
 				{LINKS.map((link) => (
 					<Link key={link.url} href={link.url}>
 						{link.label}
@@ -54,32 +44,5 @@ const AboutContents = () => {
 				))}
 			</div>
 		</div>
-	);
-};
-
-export const About = () => {
-	const [open, setOpen] = useState(false);
-
-	return (
-		<Dialog open={open} onOpenChange={setOpen}>
-			<DialogTrigger
-				render={
-					<Button variant="outline" size="icon" className="text-muted-foreground">
-						<CircleQuestionMarkIcon />
-					</Button>
-				}
-			/>
-			<DialogContent>
-				<DialogHeader>
-					<DialogTitle>About</DialogTitle>
-				</DialogHeader>
-
-				<AboutContents />
-
-				<DialogFooter>
-					<DialogClose render={<Button variant="outline">Close</Button>} />
-				</DialogFooter>
-			</DialogContent>
-		</Dialog>
 	);
 };
