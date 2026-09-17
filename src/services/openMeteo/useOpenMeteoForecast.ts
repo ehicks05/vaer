@@ -77,26 +77,7 @@ const getForecast = async ({ lat, long }: Partial<LatLong>) => {
 	return {
 		...forecast,
 		current,
-		daily: daily.map((o) => ({
-			time: o.time,
-			temp: { max: o.temperature_2m_max, min: o.temperature_2m_min },
-			apparent_temp: {
-				max: o.apparent_temperature_max,
-				min: o.apparent_temperature_min,
-			},
-			weather: {
-				id: o.weather_code,
-				description: WMO_CODE_TO_DESCRIPTION[o.weather_code],
-				icon: `${o.weather_code}-day`,
-			},
-			precipitation_sum: o.precipitation_sum,
-			snowfall_sum: o.snowfall_sum,
-			sunrise: o.sunrise,
-			sunset: o.sunset,
-			moonrise: o.moonrise,
-			moonset: o.moonset,
-			moon_phase: o.moon_phase,
-		})),
+		daily,
 		hourly,
 		minutely_15,
 	};

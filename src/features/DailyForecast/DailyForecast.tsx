@@ -6,32 +6,33 @@ import { DayIndexContext } from '@/contexts/DayIndexContext';
 import { useUnitSystem } from '@/features/UnitSystem/useUnitSystem';
 import { useOpenMeteo } from '@/hooks';
 import { formatInTimeZone } from '@/lib/utils';
+import { WMO_CODE_TO_DESCRIPTION } from '@/services/openMeteo/constants';
+import type { Daily } from '@/services/openMeteo/types/forecast';
 
-interface OneDaySummaryProps {
-	weather: { id: number; description: string };
-	day: string;
-	min: number;
-	max: number;
-	onClick?: () => void;
-	isSelected?: boolean;
+interface Props {
+	daily: Daily;
+	tz: string;
+	index: number;
 }
 
-const OneDaySummary = ({
-	weather,
-	day,
-	min,
-	max,
-	onClick,
-	isSelected,
-}: OneDaySummaryProps) => {
+const OneDaySummary = ({ daily, tz, index }: Props) => {
+	const { dayIndex, setDayIndex } = useContext(DayIndexContext);
 	const { getTemp } = useUnitSystem();
-	const Icon = getWmoWeatherIcon(weather.id, true);
+
+	const formattedDay = formatInTimeZone(daily.time, tz, 'EEE');
+	const today = formatInTimeZone(new Date(), tz, 'EEE');
+	const dayTitle = formattedDay === today ? 'Today' : formattedDay;
+
+	const Icon = getWmoWeatherIcon(daily.weather_code, true);
+
+	const handleClick = () => setDayIndex(index === dayIndex ? undefined : index);
+	const isSelected = index === dayIndex;
 
 	return (
 		<button
 			type="button"
-			onClick={onClick}
-			onKeyUp={onClick}
+			onClick={handleClick}
+			onKeyUp={handleClick}
 			className={`grow px-4 first:pt-1 last:pb-1 first:rounded-t-lg last:rounded-b-lg cursor-pointer ${
 				isSelected ? 'bg-muted' : 'hover:brightness-110'
 			}`}
@@ -42,15 +43,17 @@ const OneDaySummary = ({
 						<Icon size={32} />
 					</div>
 					<div className="whitespace-nowrap text-left">
-						{day}
+						{dayTitle}
 						<div className="text-xs text-muted-foreground">
-							{weather.description}
+							{WMO_CODE_TO_DESCRIPTION[daily.weather_code]}
 						</div>
 					</div>
 				</div>
 				<div className="whitespace-nowrap flex flex-col text-right">
-					<span>{getTemp(max)}</span>
-					<span className="text-muted-foreground">{getTemp(min)}</span>
+					<span>{getTemp(daily.temperature_2m_max)}</span>
+					<span className="text-muted-foreground">
+						{getTemp(daily.temperature_2m_min)}
+					</span>
 				</div>
 			</div>
 		</button>
@@ -58,34 +61,19 @@ const OneDaySummary = ({
 };
 
 export const DailyForecast = () => {
-	const { dayIndex, setDayIndex } = useContext(DayIndexContext);
 	const { openMeteo } = useOpenMeteo();
 
 	if (!openMeteo.data) {
 		return <Container />;
 	}
 
-	const { daily: dailies, timezone } = openMeteo.data;
+	const { daily: dailies, timezone: tz } = openMeteo.data;
 
 	return (
 		<Container>
-			{dailies?.map((daily, id) => {
-				const formattedDay = formatInTimeZone(daily.time, timezone, 'EEE');
-				const today = formatInTimeZone(new Date(), timezone, 'EEE');
-				const day = formattedDay === today ? 'Today' : formattedDay;
-
-				return (
-					<OneDaySummary
-						key={daily.time}
-						weather={daily.weather}
-						day={day}
-						min={daily.temp.min}
-						max={daily.temp.max}
-						onClick={() => setDayIndex(id === dayIndex ? undefined : id)}
-						isSelected={id === dayIndex}
-					/>
-				);
-			})}
+			{dailies?.map((daily, i) => (
+				<OneDaySummary key={daily.time} daily={daily} tz={tz} index={i} />
+			))}
 		</Container>
 	);
 };
