@@ -170,7 +170,7 @@ const Controls = ({
 	return (
 		<>
 			<div className="absolute bottom-2 left-2 flex items-center gap-2 shadow-xl rounded-lg bg-muted">
-				<Button variant="outline" size="icon-sm" onClick={toggleInterval}>
+				<Button variant="secondary" size="icon-sm" onClick={toggleInterval}>
 					{interval ? <Pause /> : <Play />}
 				</Button>
 				<div className="pr-2">
@@ -185,7 +185,7 @@ const Controls = ({
 				<ButtonGroup orientation="vertical">
 					<Button
 						className="shadow-xl"
-						variant="outline"
+						variant="secondary"
 						size="icon-sm"
 						onClick={() => mapRef.current?.zoomIn()}
 					>
@@ -193,7 +193,7 @@ const Controls = ({
 					</Button>
 					<Button
 						className="shadow-xl"
-						variant="outline"
+						variant="secondary"
 						size="icon-sm"
 						onClick={() => mapRef.current?.zoomOut()}
 					>
@@ -202,7 +202,7 @@ const Controls = ({
 				</ButtonGroup>
 				<Button
 					className="shadow-xl"
-					variant="outline"
+					variant="secondary"
 					size="icon-sm"
 					onClick={handleGoToCoords}
 				>
