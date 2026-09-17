@@ -34,7 +34,7 @@ const OneDaySummary = ({ daily, tz, index }: Props) => {
 			onClick={handleClick}
 			onKeyUp={handleClick}
 			className={`grow px-4 first:pt-1 last:pb-1 first:rounded-t-lg last:rounded-b-lg cursor-pointer ${
-				isSelected ? 'bg-muted' : 'hover:brightness-110'
+				isSelected ? 'bg-muted' : 'hover:bg-sidebar'
 			}`}
 		>
 			<div className="flex items-center justify-between gap-1">
