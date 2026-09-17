@@ -9,14 +9,7 @@ import MapLibre, {
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useQuery } from '@tanstack/react-query';
 import { range, round } from 'es-toolkit';
-import {
-	Locate,
-	LocateFixed,
-	Minus,
-	PauseCircle,
-	PlayCircle,
-	Plus,
-} from 'lucide-react';
+import { Locate, LocateFixed, Minus, Pause, Play, Plus } from 'lucide-react';
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url';
 import { type RefObject, useCallback, useEffect, useRef, useState } from 'react';
 import { useInterval } from 'usehooks-ts';
@@ -178,7 +171,7 @@ const Controls = ({
 		<>
 			<div className="absolute bottom-2 left-2 flex items-center gap-2 shadow-xl rounded-lg bg-muted">
 				<Button variant="secondary" size="icon-sm" onClick={toggleInterval}>
-					{interval ? <PauseCircle /> : <PlayCircle />}
+					{interval ? <Pause /> : <Play />}
 				</Button>
 				<div className="pr-2">
 					{new Date(validTimes[activeLayerId]).toLocaleTimeString('en-US', {
