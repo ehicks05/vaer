@@ -181,9 +181,10 @@ const Controls = ({
 					})}
 				</div>
 			</div>
-			<div className="absolute bottom-2 right-2 flex flex-col gap-1 shadow-">
+			<div className="absolute bottom-2 right-2 flex flex-col gap-1">
 				<ButtonGroup orientation="vertical">
 					<Button
+						className="shadow-xl"
 						variant="outline"
 						size="icon-sm"
 						onClick={() => mapRef.current?.zoomIn()}
@@ -191,6 +192,7 @@ const Controls = ({
 						<Plus />
 					</Button>
 					<Button
+						className="shadow-xl"
 						variant="outline"
 						size="icon-sm"
 						onClick={() => mapRef.current?.zoomOut()}
@@ -198,7 +200,12 @@ const Controls = ({
 						<Minus />
 					</Button>
 				</ButtonGroup>
-				<Button variant="outline" size="icon-sm" onClick={handleGoToCoords}>
+				<Button
+					className="shadow-xl"
+					variant="outline"
+					size="icon-sm"
+					onClick={handleGoToCoords}
+				>
 					{isFixed ? <LocateFixed /> : <Locate />}
 				</Button>
 			</div>
