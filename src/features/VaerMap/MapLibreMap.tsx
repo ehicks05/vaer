@@ -73,7 +73,7 @@ export function MapLibreMap({ coords: [latitude, longitude], tz }: Props) {
 
 	const [interval, setInterval] = useState<IntervalDelay>(null);
 	const toggleInterval = () => {
-		setInterval((interval) => (interval ? null : 1600));
+		setInterval((interval) => (interval ? null : 1500));
 		setActiveLayerIndex(0);
 	};
 
@@ -146,7 +146,7 @@ export function MapLibreMap({ coords: [latitude, longitude], tz }: Props) {
 	);
 }
 
-type IntervalDelay = 1600 | null;
+type IntervalDelay = 1500 | null;
 
 const Controls = ({
 	activeLayerId,
@@ -170,7 +170,7 @@ const Controls = ({
 	return (
 		<>
 			<div className="absolute bottom-2 left-2 flex items-center gap-2 shadow-xl rounded-lg bg-muted">
-				<Button variant="secondary" size="icon-sm" onClick={toggleInterval}>
+				<Button variant="outline" size="icon-sm" onClick={toggleInterval}>
 					{interval ? <Pause /> : <Play />}
 				</Button>
 				<div className="pr-2">
@@ -181,24 +181,24 @@ const Controls = ({
 					})}
 				</div>
 			</div>
-			<div className="absolute bottom-2 right-2 flex flex-col gap-1 shadow-xl">
+			<div className="absolute bottom-2 right-2 flex flex-col gap-1 shadow-">
 				<ButtonGroup orientation="vertical">
 					<Button
-						variant="secondary"
+						variant="outline"
 						size="icon-sm"
 						onClick={() => mapRef.current?.zoomIn()}
 					>
 						<Plus />
 					</Button>
 					<Button
-						variant="secondary"
+						variant="outline"
 						size="icon-sm"
 						onClick={() => mapRef.current?.zoomOut()}
 					>
 						<Minus />
 					</Button>
 				</ButtonGroup>
-				<Button variant="secondary" size="icon-sm" onClick={handleGoToCoords}>
+				<Button variant="outline" size="icon-sm" onClick={handleGoToCoords}>
 					{isFixed ? <LocateFixed /> : <Locate />}
 				</Button>
 			</div>
