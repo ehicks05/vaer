@@ -8,7 +8,7 @@ export const UpdatedAt = () => {
 
 	return (
 		<span className="text-sm text-muted-foreground">
-			{tz && formatInTimeZone(new Date(dataUpdatedAt), tz, 'h:mm a z')}
+			{tz && formatInTimeZone(dataUpdatedAt, tz, 'h:mm a z')}
 		</span>
 	);
 };

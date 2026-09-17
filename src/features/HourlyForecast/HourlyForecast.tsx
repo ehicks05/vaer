@@ -26,7 +26,7 @@ interface Props {
 
 const HourlyDetail = ({ hourly, tz }: Props) => {
 	const { getTemp, getLength, getSpeed } = useUnitSystem();
-	const time = formatInTimeZone(new Date(hourly.time), tz, 'h a');
+	const time = formatInTimeZone(hourly.time, tz, 'h a');
 
 	const {
 		dew_point_2m,
@@ -73,11 +73,11 @@ const HourlyDetail = ({ hourly, tz }: Props) => {
 
 export const HourlyForecast = () => {
 	const { dayIndex } = useContext(DayIndexContext);
-  const { openMeteo } = useOpenMeteo();
+	const { openMeteo } = useOpenMeteo();
 
-  if (!openMeteo.data) {
-    return <Container />
-  }
+	if (!openMeteo.data) {
+		return <Container />;
+	}
 
 	const tz = openMeteo.data?.timezone || 'utc';
 	const hourlies =

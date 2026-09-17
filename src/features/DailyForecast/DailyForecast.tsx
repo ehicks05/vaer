@@ -20,7 +20,7 @@ const OneDaySummary = ({ daily, tz, index }: Props) => {
 	const { getTemp } = useUnitSystem();
 
 	const formattedDay = formatInTimeZone(daily.time, tz, 'EEE');
-	const today = formatInTimeZone(new Date(), tz, 'EEE');
+	const today = formatInTimeZone(Date.now(), tz, 'EEE');
 	const dayTitle = formattedDay === today ? 'Today' : formattedDay;
 
 	const Icon = getWmoWeatherIcon(daily.weather_code, true);

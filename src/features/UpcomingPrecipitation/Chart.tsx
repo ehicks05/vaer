@@ -17,7 +17,7 @@ interface Props {
 export const Chart = ({ minutely, tz }: Props) => {
 	const { getRate } = useUnitSystem();
 	const [start, mid, end] = [0, minutely.length / 2, minutely.length - 1].map(
-		(index) => formatInTimeZone(new Date(minutely[index]?.time || 0), tz, 'h:mm a'),
+		(index) => formatInTimeZone(minutely[index]?.time || 0, tz, 'h:mm a'),
 	);
 
 	// find the higher of precip/snow in each of the minutely_15s
@@ -37,7 +37,7 @@ export const Chart = ({ minutely, tz }: Props) => {
 						<ChartBar
 							key={minute.time}
 							inchesPerHour={inchesPerHour}
-							title={`${formatInTimeZone(new Date(minute.time), tz, 'h:mm a')}: ${getRate(inchesPerHour)}`}
+							title={`${formatInTimeZone(minute.time, tz, 'h:mm a')}: ${getRate(inchesPerHour)}`}
 						/>
 					);
 				})}

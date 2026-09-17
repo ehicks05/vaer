@@ -16,11 +16,11 @@ const getMessage = (minutely: Minutely15[], tz: string) => {
 		return `No precipitation in the next ${HOURS_TO_SHOW} hours.`;
 	}
 	if (!currentlyPrecipitating && firstPrecip) {
-		const startsAt = formatInTimeZone(new Date(firstPrecip.time), tz, 'h:mm a');
+		const startsAt = formatInTimeZone(firstPrecip.time, tz, 'h:mm a');
 		return `Precipitation starts at ${startsAt}`;
 	}
 	if (currentlyPrecipitating && firstZeroPrecip) {
-		const endsAt = formatInTimeZone(new Date(firstZeroPrecip.time), tz, 'h:mm a');
+		const endsAt = formatInTimeZone(firstZeroPrecip.time, tz, 'h:mm a');
 		return `Precipitation ends at ${endsAt}`;
 	}
 

@@ -1,4 +1,4 @@
-const FORMAT_KEYS = {
+const FORMATS = {
 	'MM-dd': { month: '2-digit', day: '2-digit' },
 	'h a': { hour: 'numeric', hour12: true },
 	'h:mm a': { hour: 'numeric', minute: '2-digit', hour12: true },
@@ -15,10 +15,8 @@ const FORMAT_KEYS = {
 export const formatInTimeZone = (
 	date: Date | string | number,
 	timeZone: string,
-	format: keyof typeof FORMAT_KEYS,
-) => {
-	return Intl.DateTimeFormat('en-US', {
-		timeZone: timeZone || undefined,
-		...FORMAT_KEYS[format],
-	}).format(new Date(date));
-};
+	format: keyof typeof FORMATS,
+) =>
+	new Intl.DateTimeFormat(undefined, { timeZone, ...FORMATS[format] }).format(
+		new Date(date),
+	);
