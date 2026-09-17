@@ -36,11 +36,11 @@ export const DayStats = () => {
 		moonset,
 	} = daily[dayIndex || 0];
 
-	const isSnowfallGreater = (snowfall_sum || 0) > (precipitation_sum || 0);
+	const isSnowfallGreater = snowfall_sum > precipitation_sum;
 	const precipIcon = isSnowfallGreater ? Snowflake : Droplet;
-	const precipLabel = getLength(Math.max(precipitation_sum || 0, snowfall_sum || 0));
+	const precipLabel = getLength(Math.max(precipitation_sum, snowfall_sum));
 
-	const moonPhaseIndex = Math.floor((moon_phase || 0) * MOON_PHASES.length);
+	const moonPhaseIndex = Math.floor(moon_phase * MOON_PHASES.length);
 	const phase = MOON_PHASES.at(moonPhaseIndex) || MOON_PHASES[0];
 
 	const newStats = [
