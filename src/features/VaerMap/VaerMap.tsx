@@ -22,7 +22,7 @@ export const VaerMap = ({ className }: Props) => {
 
 	return (
 		<div
-			className={`w-full flex overflow-hidden dark:brightness-75 rounded-lg bg-muted dark:bg-neutral-100 shadow ${className}`}
+			className={`w-full flex overflow-hidden dark:brightness-70 rounded-lg bg-muted dark:bg-neutral-100 shadow ${className}`}
 		>
 			<MapLibreMap coords={[Number(lat), Number(long)]} tz={tz} />
 		</div>
