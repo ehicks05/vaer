@@ -29,9 +29,11 @@ const Logo2 = () => (
 
 export const Header = () => (
 	<div className="grid grid-cols-3 items-center justify-between h-16 max-w-7xl mx-auto px-2">
-		<UpdatedAt />
-		<div className="justify-self-center">
+		<div>
 			<Logo2 />
+		</div>
+		<div className="justify-self-center">
+			<UpdatedAt />
 		</div>
 		<div className="justify-self-end flex items-center gap-2 sm:gap-4">
 			<Alert />
