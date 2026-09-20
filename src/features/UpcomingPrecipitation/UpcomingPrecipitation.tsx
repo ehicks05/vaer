@@ -28,7 +28,7 @@ const getMessage = (minutely: Minutely15[], tz: string) => {
 };
 
 const Container = ({ children }: { children?: ReactNode }) => (
-	<Card gradient={false} className="min-h-12 p-4 flex flex-col gap-1 bg-muted">
+	<Card gradient={false} className="min-h-12 h-full p-4 flex flex-col gap-1 bg-muted">
 		{children}
 	</Card>
 );
