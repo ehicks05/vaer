@@ -1,3 +1,4 @@
+import { cn } from 'cn';
 import type { ReactNode } from 'react';
 import { Card } from '@/components';
 import { useOpenMeteo } from '@/hooks';
@@ -27,8 +28,17 @@ const getMessage = (minutely: Minutely15[], tz: string) => {
 	return `Precipitation through next ${HOURS_TO_SHOW} hours.`;
 };
 
-const Container = ({ children }: { children?: ReactNode }) => (
-	<Card gradient={false} className="min-h-12 h-full p-4 flex flex-col gap-1 bg-muted">
+const Container = ({
+	children,
+	className,
+}: {
+	children?: ReactNode;
+	className?: string;
+}) => (
+	<Card
+		gradient={false}
+		className={cn('p-4 flex flex-col gap-1 bg-muted', className)}
+	>
 		{children}
 	</Card>
 );
@@ -37,7 +47,7 @@ export const UpcomingPrecipitation = () => {
 	const { openMeteo } = useOpenMeteo();
 	const { data } = openMeteo;
 	if (!data) {
-		return <Container />;
+		return <Container className="min-h-12" />;
 	}
 	const { timezone: tz } = data;
 	const minutely_15 = data.minutely_15
