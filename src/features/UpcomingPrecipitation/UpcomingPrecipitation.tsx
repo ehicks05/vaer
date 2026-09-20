@@ -17,14 +17,14 @@ const getMessage = (minutely: Minutely15[], tz: string) => {
 	}
 	if (!currentlyPrecipitating && firstPrecip) {
 		const startsAt = formatInTimeZone(firstPrecip.time, tz, 'h:mm a');
-		return `Precipitation starts at ${startsAt}`;
+		return `Precipitation starts ${startsAt}`;
 	}
 	if (currentlyPrecipitating && firstZeroPrecip) {
 		const endsAt = formatInTimeZone(firstZeroPrecip.time, tz, 'h:mm a');
-		return `Precipitation ends at ${endsAt}`;
+		return `Precipitation ends ${endsAt}`;
 	}
 
-	return `Precipitation throughout the next ${HOURS_TO_SHOW} hours.`;
+	return `Precipitation through next ${HOURS_TO_SHOW} hours.`;
 };
 
 const Container = ({ children }: { children?: ReactNode }) => (
