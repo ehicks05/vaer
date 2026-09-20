@@ -21,7 +21,7 @@ export const Summary = () => {
 
 	return (
 		<Card
-			className="flex flex-col items-center justify-center p-4 w-full"
+			className="flex flex-col items-center justify-between p-4 w-full"
 			gradient={false}
 		>
 			{city || 'city'}, {state || 'state'}
@@ -29,7 +29,7 @@ export const Summary = () => {
 				{getTemp(temperature_2m)}
 				<Icon className="inline" size={64} title={weather.description} />
 			</div>
-			<div className="flex items-center gap-1">
+			<div className="flex items-center text-center gap-1">
 				<FeelsLike apparent_temperature={apparent_temperature} />
 				&middot;
 				<div>{weather.description}</div>
