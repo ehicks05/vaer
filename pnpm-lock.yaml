@@ -11,7 +11,7 @@ importers:
       '@base-ui/react':
         specifier: ^1.8.0
         version: 1.8.0(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
-      '@fontsource-variable/fredoka':
+      '@fontsource-variable/outfit':
         specifier: ^5.3.0
         version: 5.3.0
       '@fontsource/proza-libre':
@@ -344,8 +344,8 @@ packages:
   '@floating-ui/utils@0.2.12':
     resolution: {integrity: sha512-HpCo8tmWzLVad5s2d19EhAz5zqrrQ6s69qd6moPMQvkOuSwDT1YgRfWSVuc4ennqrgv3OHppiOGMQ7oC13yIww==}
 
-  '@fontsource-variable/fredoka@5.3.0':
-    resolution: {integrity: sha512-13w98iw2RcmYfZQRZPLSu+0YJK3HHm5A2XrpU26moFIAePmfiKfvkmEJUgkc8r5GNR+pbDijOueS1KdGAMAWmQ==}
+  '@fontsource-variable/outfit@5.3.0':
+    resolution: {integrity: sha512-fPb5XnYK0k7SbR++HEmm4+ZqDszmLKQ+sPRUr8oQ/KNC0vy6r6hazJFe8iYozv4cqlHbvJ/JECkJWrfDodUMVQ==}
 
   '@fontsource/proza-libre@5.3.0':
     resolution: {integrity: sha512-LcZ1qUZ5DLfLJv0by/nUEeAy6png6lHA4asAufhIRgAZn6TK+8S8snMUbbTGP9wgaJb7J4M9Z0IHt/FgQF4tkQ==}
@@ -2977,7 +2977,7 @@ snapshots:
 
   '@floating-ui/utils@0.2.12': {}
 
-  '@fontsource-variable/fredoka@5.3.0': {}
+  '@fontsource-variable/outfit@5.3.0': {}
 
   '@fontsource/proza-libre@5.3.0': {}
 
