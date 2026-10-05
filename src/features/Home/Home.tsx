@@ -15,14 +15,14 @@ export const Home = () => {
 	}
 
 	return (
-		<div className="">
+		<div>
 			{/* ONE COL */}
 			<div className="p-2 max-w-7xl mx-auto grid grid-cols-1 md:hidden items-start justify-center gap-4">
 				<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 					<Summary />
 					<UpcomingPrecipitation />
 				</div>
-				<div className="">
+				<div>
 					<HourlyForecast />
 				</div>
 				<div className="flex flex-col gap-4 h-full">
@@ -65,7 +65,7 @@ export const Home = () => {
 					<VaerMap className="h-full" />
 				</div>
 
-				<div className="">
+				<div>
 					<DailyForecast />
 				</div>
 
@@ -73,7 +73,7 @@ export const Home = () => {
 					<div className="h-full">
 						<HourlyForecast />
 					</div>
-					<div className="">
+					<div>
 						<DayStats />
 					</div>
 				</div>
