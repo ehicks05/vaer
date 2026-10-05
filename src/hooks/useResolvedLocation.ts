@@ -9,6 +9,7 @@ export interface Location {
 	city?: string;
 	state?: string;
 	tz?: string;
+	isPending: boolean;
 }
 
 export type LatLong = Required<Pick<Location, 'lat' | 'long'>>;
@@ -17,8 +18,11 @@ export const useResolvedLocation = (): Location => {
 	const { latitude, longitude } = useGeolocation().coords || {};
 	const [specifiedLocation] = useSpecifiedLocation();
 
-	const { data: nearby } = useFindNearbyPlaceName({ lat: latitude, lng: longitude });
-	const nearbyGeoname = nearby?.geonames[0];
+	const { data, isPending } = useFindNearbyPlaceName({
+		lat: latitude,
+		lng: longitude,
+	});
+	const nearbyGeoname = data?.geonames[0];
 
 	const { lat, long, tz, city, state } = specifiedLocation
 		? {
@@ -44,5 +48,6 @@ export const useResolvedLocation = (): Location => {
 		tz,
 		city,
 		state,
+		isPending: isPending && !(latitude === undefined && longitude === undefined),
 	};
 };

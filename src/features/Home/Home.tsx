@@ -8,7 +8,11 @@ import { VaerMap } from '../VaerMap/VaerMap';
 import { EmptyLocation } from './EmptyLocation';
 
 export const Home = () => {
-	const { city } = useResolvedLocation();
+	const { city, isPending } = useResolvedLocation();
+
+	if (isPending) {
+		return null;
+	}
 
 	if (!city) {
 		return <EmptyLocation />;
