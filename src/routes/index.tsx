@@ -2,7 +2,6 @@ import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persi
 import { QueryClient, useIsRestoring } from '@tanstack/react-query';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { createFileRoute } from '@tanstack/react-router';
-import { ThemeProvider } from '@/components/ui/theme-provider';
 import { ONE_DAY } from '@/constants/datetime';
 import { AppProvider } from '@/contexts/AppProvider';
 import { Home } from '@/features/Home';
@@ -35,23 +34,18 @@ function Index() {
 	}
 
 	return (
-		<ThemeProvider storageKey="theme" defaultTheme="system">
-			<PersistQueryClientProvider
-				client={queryClient}
-				persistOptions={{ persister }}
-			>
-				<AppProvider>
-					<div className="flex flex-col min-h-screen">
-						<div className="sm:px-4">
-							<Header />
-						</div>
-						<div className="grow flex flex-col h-full sm:px-4">
-							<Home />
-						</div>
-						<Footer />
+		<PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
+			<AppProvider>
+				<div className="flex flex-col min-h-screen">
+					<div className="sm:px-4">
+						<Header />
 					</div>
-				</AppProvider>
-			</PersistQueryClientProvider>
-		</ThemeProvider>
+					<div className="grow flex flex-col h-full sm:px-4">
+						<Home />
+					</div>
+					<Footer />
+				</div>
+			</AppProvider>
+		</PersistQueryClientProvider>
 	);
 }

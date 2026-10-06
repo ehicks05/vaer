@@ -5,6 +5,7 @@ import {
 	Scripts,
 } from '@tanstack/react-router';
 import type { ReactNode } from 'react';
+import { ThemeProvider } from '@/components/ui/theme-provider';
 import appCss from '@/index.css?url';
 
 export const Route = createRootRoute({
@@ -49,13 +50,15 @@ function RootComponent() {
 
 function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
 	return (
-		<html lang="en" suppressHydrationWarning className="dark">
+		<html lang="en" suppressHydrationWarning>
 			<head>
 				<HeadContent />
 			</head>
 			<body className="bg-body-background">
-				{children}
-				<Scripts />
+				<ThemeProvider storageKey="theme" defaultTheme="system">
+					{children}
+					<Scripts />
+				</ThemeProvider>
 			</body>
 		</html>
 	);
